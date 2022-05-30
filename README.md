@@ -1,10 +1,30 @@
-# Time's Up
+# Time's Up 🚼
 
 
 >Time's Up is a mobile application developed using flutter to monitor the time kids spend on screen.
 So far the app is only available on Android. The app can't run on iOS devices.The application has for sole purpose to
 track and record the data from the child's device and send it to parents. The application does not violate the privacy policies
 settled for user, and doesn't collect data for third parties companies.
+
+
+### The first version doesn't contain all the features. Some features have been hardcoded on purpose. In order to have the code, please approach the author.🔥
+This version includes 
+-  Location Tracking
+- App Usage
+- Notification
+
+ **Premium** ✅
+
+- App Icons 📱
+- App Usage Metrics 📈
+- Setting page (Update Profile) 🚹
+- Contact Us page📩
+- Dark Mode 🌘
+- Customize Notification 📳
+- Battery Level 📶
+- Marker image (Child's Picture) on Map 🗺
+- Email follow up for weekly report 📨
+
 
 ## Onboarding Screen
 <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897259-af5ed4b4-8bdc-4460-80c7-1b83d797d079.png"> <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897294-e71daa79-343b-4c39-b8c4-0181449ada27.png"> <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897320-73528e2d-26f8-41f7-ab42-1b7e73cc7d06.png">
@@ -113,6 +133,5 @@ To achieve this a FloatingActionButton (+) is available on the Home page. This a
 
 
 
-**Note**: to use the API you'll need to register an account and obtain your own API key. This can be set via `--dart-define` or inside `lib/src/api/api_keys.dart`.
 
 ### [LICENSE: MIT](LICENSE.md)
