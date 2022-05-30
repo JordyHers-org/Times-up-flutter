@@ -79,13 +79,12 @@ This allows to map the data from the layer above to `AsyncValue` objects that ca
 To explain in a few details, the first step of the application is the Splash screen.
 A splash screen will present a landing page. In this case, suppose the login is a parent. J
 ust touch the Parent DEVICE button for the parent. After that, you will be redirected to a login page.
-There are currently 4 possible input options. See Figure (4.2).
+There are currently 3 possible input options. See Figure (4.2).
 
 ``` dart
 - SIGN IN WITH EMAIL
 - LOGIN WITH FACEBOOK 
 -  SIGN IN WITH GOOGLE
-- SIGN IN ANONYMOUS
 ```
 
 <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897672-26bdf5a3-d2e4-475e-8966-ef5216bd9f5a.png"> <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897692-5c884f1b-7452-49ed-9705-41d6702d5514.png"> 
