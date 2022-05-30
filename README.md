@@ -6,8 +6,6 @@ So far the app is only available on Android. The app can't run on iOS devices.Th
 track and record the data from the child's device and send it to parents. The application does not violate the privacy policies
 settled for user, and doesn't collect data for third parties companies.
 
-<img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897989-fc598995-c215-4292-91ef-3a242348dc1b.png"> <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170898002-2951e3cc-ef13-415c-ac40-9f12f001cb5c.png">
-
 ## Onboarding Screen
 <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897259-af5ed4b4-8bdc-4460-80c7-1b83d797d079.png"> <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897294-e71daa79-343b-4c39-b8c4-0181449ada27.png"> <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897320-73528e2d-26f8-41f7-ab42-1b7e73cc7d06.png">
 
@@ -72,6 +70,10 @@ There are currently 4 possible input options. See Figure (4.2).
 
 <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897672-26bdf5a3-d2e4-475e-8966-ef5216bd9f5a.png"> <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897692-5c884f1b-7452-49ed-9705-41d6702d5514.png"> 
 
+## Child's details page
+
+><img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897989-fc598995-c215-4292-91ef-3a242348dc1b.png"> <img width="315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170898002-2951e3cc-ef13-415c-ac40-9f12f001cb5c.png">
+
 
 ## Registering the new child's device
 
@@ -82,19 +84,20 @@ To achieve this a FloatingActionButton (+) is available on the Home page. This a
 
 
 ### Database State at this step
-<img width="950" alt="Screen Shot 2022-01-15 at 16 01 24" src="https://user-images.githubusercontent.com/49708438/149622671-7d480b2a-ba64-4149-a394-636666fd5637.png">
-
+<img width="1309" alt="Screen Shot 2022-05-30 at 03 55 19" src="https://user-images.githubusercontent.com/49708438/170899554-a6dcd93b-3db6-4c35-a7cf-c6d4e90e04b1.png">
 
 
 ## Child's side
 
 >The parent must then log into the child's device with their credentials (email and password). Then the parent would have to enter the child’s unique key displayed in red (see fig.4.4-4). As soon as the child is verified, the device's location, TokenID and App List will be retrieved and added to Firebase.
-<img width="796" alt="Screen Shot 2022-01-15 at 16 04 41" src="https://user-images.githubusercontent.com/49708438/149622800-7990694f-6826-4cea-9a5c-4b42ef5d401b.png">
+
+<img width="315" alt="Screen Shot 2022-01-15 at 16 04 41" src="https://user-images.githubusercontent.com/49708438/170900224-4432f103-4719-4653-8d48-9be54b58aeb5.jpeg"><img width="315" alt="Screen Shot 2022-01-15 at 16 04 41" src="https://user-images.githubusercontent.com/49708438/170900229-a3728616-195b-4690-9f54-3bbf1e7d0901.jpeg"><img width="315" alt="Screen Shot 2022-01-15 at 16 04 41" src="https://user-images.githubusercontent.com/49708438/170900455-4160e63a-3952-4d78-a2d1-ccd401ef698c.jpeg">
+
+
 
 
 >Database State at this step
-<img width="945" alt="Screen Shot 2022-01-15 at 16 05 59" src="https://user-images.githubusercontent.com/49708438/149622860-eead5d9d-2764-45d2-bd59-abb6e5f9dc06.png">
-
+<img width="1305" alt="Screen Shot 2022-05-30 at 04 02 59" src="https://user-images.githubusercontent.com/49708438/170900031-8be98721-25db-4165-9c6c-7a04ce653b0c.png">
 
 ### Notification Page
 
