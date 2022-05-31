@@ -50,7 +50,7 @@ class _GeoFullState extends State<GeoFull> {
   }
 
   Future<Uint8List> getChildMarkerImage(Map<String, dynamic> data) async {
-    Uint8List bytes =
+    var bytes =
         (await NetworkAssetBundle(Uri.parse(data['image'])).load(data['image']))
             .buffer
             .asUint8List();
