@@ -7,6 +7,13 @@ track and record the data from the child's device and send it to parents. The ap
 settled for user, and doesn't collect data for third parties companies. 
 
 
+
+<h6> Live App Demo </h6>
+
+https://user-images.githubusercontent.com/49708438/171131514-2da559c6-53b8-468a-b447-db69eb233d59.mov
+
+
+
 ### The first version doesn't contain all the features. Some features have been hardcoded on purpose. In order to have the code, please approach the author.🔥
 This version includes 
 -  Location Tracking
@@ -143,9 +150,9 @@ Just touch the Parent DEVICE button for the parent.After that, you will be redir
 input options.See Figure (4.2).
 
 ``` dart
-- SIGN IN WITH EMAIL
-- LOGIN WITH FACEBOOK 
-- SIGN IN WITH GOOGLE
+- Sign in with email
+- Sign in with facebook
+- Sign in with google
 ```
 
 <img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897672-26bdf5a3-d2e4-475e-8966-ef5216bd9f5a.png"> <img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897692-5c884f1b-7452-49ed-9705-41d6702d5514.png"> 
