@@ -126,7 +126,7 @@ this use case as BLoC allows to emit states using Specific ENUMS cases.
 - [geo_locator](https://pub.dev/packages/geo_locator) for Lat and long values
 - [cached_network_image](https://pub.dev/packages/cached_network_image) for caching images
 - [app_usage](https://pub.dev/packages/app_usage) for app usage data
-- [Shared_preferences](https://pub.dev/packages/shared_preferences) for String and bool caching
+- [shared_preferences](https://pub.dev/packages/shared_preferences) for String and bool caching
 
 
 
