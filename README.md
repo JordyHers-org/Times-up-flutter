@@ -110,10 +110,11 @@ This layer holds all the widgets, along with their controllers.
 
 Widgets do not communicate directly with the repository.
 
-Instead, they watch some controllers that extend the `StateNotifier` class (using Riverpod).
+Instead, they watch some controllers that extend the `StateNotifier`. The busineess Logic 
 
-This allows to map the data from the layer above to `AsyncValue` objects that can be mapped to the appropriate UI states (data, loading, error).
+used to control pages is [BLoC](https://bloclibrary.dev/#/). It is the perfect tool in 
 
+this use case as BLoC allows to emit states using Specific ENUMS cases.
 
 
 ## Packages in use
@@ -168,13 +169,13 @@ input options.See Figure (4.2).
 
 ## Registering the new child's device
 
-Now the next step is to add a new sub device. Each user can only add a child device to the database as a sub- collection therefore does
+Now the next step is to add a new sub device. Each user can only add a child device to the database as a sub- collection 
 
-not have access to all stored child devices. Moreover each parent will be able to show only their child. To achieve this a FloatingActionButton 
+therefore does not have access to all stored child devices. Moreover each parent will be able to show only their child.
 
-(+) is available on the Home page. This action will then open a page where you can add the child's picture, name, and email. 
+To achieve this a FloatingActionButton (+) is available on the Home page. This action will then open a page where you can 
 
-Although email remains optional, it's always a good idea to keep an email.
+add the child's picture, name, and email. Although email remains optional, it's always a good idea to keep an email.
 
 <img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170898921-b4045131-62f8-4df9-a34d-767aa99e18a9.jpeg"> <img width="215" height= "450" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170898969-ee2ac8eb-990f-4cdc-b936-c41a7cd4a5f3.jpeg"> <img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170899020-42aaa9cb-cf06-4580-b47a-efc767d747eb.jpeg"><img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170899070-ca7abdef-accb-4f81-a470-f07b17133f1c.jpeg">
 
