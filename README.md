@@ -142,13 +142,15 @@ The first step is to log in the parent. Then Location permission we be asked and
 
 ## Parent side 👨‍👩‍👦
 
-First the parent downloads the app on his android device.To explain in a few details, the first step 
+First the parent downloads the app on his android device.To explain in a few details,
 
-of the application is the Splash screen. A splash screen will present a landing page. In this case, suppose the login is a parent. 
+the first step of the application is the Splash screen. A splash screen will present a 
 
-Just touch the Parent DEVICE button for the parent.After that, you will be redirected to a login page. There are currently 3 possible 
+landing page. In this case, suppose the login is a parent. Just touch the Parent DEVICE
 
-input options.See Figure (4.2).
+button for the parent.After that, you will be redirected to a login page. 
+
+There are currently 3 possible input options.See Figure (4.2).
 
 ``` dart
 - Sign in with email
@@ -169,26 +171,41 @@ input options.See Figure (4.2).
 
 ## Registering the new child's device
 
-Now the next step is to add a new sub device. Each user can only add a child device to the database as a sub- collection 
+Now the next step is to add a new sub device. Each user can only add a child device 
 
-therefore does not have access to all stored child devices. Moreover each parent will be able to show only their child.
+to the database as a sub- collection therefore does not have access to all stored 
 
-To achieve this a FloatingActionButton (+) is available on the Home page. This action will then open a page where you can 
+child devices. Moreover each parent will be able to show only their child. To achieve 
 
-add the child's picture, name, and email. Although email remains optional, it's always a good idea to keep an email.
+this a FloatingActionButton (+) is available on the Home page. This action will then 
+
+open a page where you can add the child's picture, name, and email. Although email 
+
+remains optional, it's always a good idea to keep an email.
 
 <img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170898921-b4045131-62f8-4df9-a34d-767aa99e18a9.jpeg"> <img width="215" height= "450" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170898969-ee2ac8eb-990f-4cdc-b936-c41a7cd4a5f3.jpeg"> <img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170899020-42aaa9cb-cf06-4580-b47a-efc767d747eb.jpeg"><img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170899070-ca7abdef-accb-4f81-a470-f07b17133f1c.jpeg">
 
 
 ### Database State at this step 🗂 
+
+At this step the database contains null parameters. The location-(GeoPoint) along with
+
+The list of app used with all the data. More than that, The device Token got from
+
+[Firebase Messaging](https://medium.com/@jun.chenying/flutter-tutorial-part3-push-notification-with-firebase-cloud-messaging-fcm-2fbdd84d3a5e) they are 
+
+All set to NuLL and will remain null until the child's device is registered.
+
 <img width="1009" alt="Screen Shot 2022-05-30 at 03 55 19" src="https://user-images.githubusercontent.com/49708438/170899554-a6dcd93b-3db6-4c35-a7cf-c6d4e90e04b1.png">
 
 
 ## Child's side
 
-The parent must then log into the child's device with their credentials (email and password). 
+The parent must then log into the child's device with their credentials
 
-Then the parent would have to enter the child’s unique key displayed in red (see fig.4.4-4). As soon as the child is verified,
+(email and password). Then the parent would have to enter the child’s unique
+
+key displayed in red (see fig.4.4-4). As soon as the child is verified,
 
 the device's location, TokenID and App List will be retrieved and added to Firebase.
 
@@ -196,19 +213,32 @@ the device's location, TokenID and App List will be retrieved and added to Fireb
 
 
 <h3> Database State at this step 🗂 </h3>
+
+The missing parameters have been successfully updated. As you can see
+
+All the data are taken from the child device and update the the database via 
+
+StreamSubsubscription
+
 <img width="1005" alt="Screen Shot 2022-05-30 at 04 02 59" src="https://user-images.githubusercontent.com/49708438/170900031-8be98721-25db-4165-9c6c-7a04ce653b0c.png">
 
 ### Notification Page
 
-The notification page will essentially allow the parent to send messages to the child's device. There are currently only two 
+The notification page will essentially allow the parent to send messages to the 
 
-pre-written messages.**HOMEWORK TIME** and **GO TO BED**. Of course, it will be possible to customize these messages shortly. As soon
+child's device. There are currently only two pre-written messages.**HOMEWORK TIME** and
 
-as the parent taps the button a new message is written to the Firebase database. Therefore, it triggers a cloud function that will send
+**GO TO BED**. Of course, it will be possible to customize these messages shortly. As soon
 
-the text message to the Token ID corresponding to the device. The system working behind as the backend is entirely handled by
+as the parent taps the button a new message is written to the Firebase database. 
 
-CloudFunction of the Firebase database. To achieve this a single javascript function was written and deployed.
+Therefore, it triggers a cloud function that will send the text message to the Token ID 
+
+corresponding to the device. The system working behind as the backend is entirely handled by
+
+CloudFunction of the Firebase database. To achieve this a single javascript function was
+
+written and deployed.
 
 <img width="315" alt="Screen Shot 2022-01-15 at 16 08 38" src="https://user-images.githubusercontent.com/49708438/149622900-03ea5412-43b6-4b17-a5d0-838b9b027042.png">
 
