@@ -164,7 +164,7 @@ There are currently 3 possible input options.See Figure (4.2).
 
 ## Child's details page 🚸
 
-><img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897989-fc598995-c215-4292-91ef-3a242348dc1b.png"> <img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170898002-2951e3cc-ef13-415c-ac40-9f12f001cb5c.png">
+<img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170897989-fc598995-c215-4292-91ef-3a242348dc1b.png"> <img width="215" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/170898002-2951e3cc-ef13-415c-ac40-9f12f001cb5c.png">
 
 
 
