@@ -1,11 +1,13 @@
 # Time's Up 🚼
 
 
-Time's Up is a mobile application developed using flutter to monitor the time kids spend on screen.
+Time's Up is a mobile application developed using flutter to monitor the time kids 
 
-So far the app is only available on Android. The app can't run on iOS devices.The application has for sole purpose to
+spend on screen.So far the app is only available on Android. The app can't run on iOS devices.
 
-track and record the data from the child's device and send it to parents. The application does not violate the privacy policies
+The application has for sole purpose totrack and record the data from the child's
+
+device and send it to parents. The application does not violate the privacy policies
 
 settled for user, and doesn't collect data for third parties companies. 
 
