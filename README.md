@@ -19,7 +19,10 @@ https://user-images.githubusercontent.com/49708438/171131514-2da559c6-53b8-468a-
 
 
 
-### The first version doesn't contain all the features. Some features have been hardcoded on purpose. In order to have the code, please approach the author.🔥
+# The first version doesn't contain all the features. Some features have been hardcoded on purpose. In order to have the source code, please approach the author.🔥
+
+
+
 This version includes 
 -  Location Tracking
 - App Usage
