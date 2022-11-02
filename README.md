@@ -43,14 +43,12 @@ This version includes
 | Onboarding Page  | Guided tour | Consent Page |
 | ------------- | ------------- |------------- |
 | <img width="215" alt="Onboarding Screen" src="https://user-images.githubusercontent.com/49708438/170897259-af5ed4b4-8bdc-4460-80c7-1b83d797d079.png">  | <img width="215" alt="OnboardingScreen2" src="https://user-images.githubusercontent.com/49708438/170897294-e71daa79-343b-4c39-b8c4-0181449ada27.png"> |<img width="215" alt="OnboardingScreen3" src="https://user-images.githubusercontent.com/49708438/170897320-73528e2d-26f8-41f7-ab42-1b7e73cc7d06.png">
- |
 
- 
 
 ## Quickstart Android 💡
 
 ### Step_1
-```shell
+```zsh
 $ flutter create parental_control
 ```
 
@@ -140,11 +138,7 @@ The first step is to log in the parent. Then Location permission we be asked and
 
 | Allow Location  | Login Social | Google Access |
 | ------------- | ------------- |------------- |
-| <img width="200" alt="LoginParent1" src="https://user-images.githubusercontent.com/49708438/170897543-4d48ee61-503f-4415-bf30-fe8321143df9.png"> | <img width="200" alt="LoginParent2" src="https://user-images.githubusercontent.com/49708438/170897485-86a199b6-e8d7-4111-98e1-f9a56fa91a7c.png">| <img width="200" alt="LoginParent3" src="https://user-images.githubusercontent.com/49708438/170897562-f0aa6264-6d71-441f-b732-4336d19539ca.png">|
-
-
-
-
+| <img width="200" alt="LoginParent1" src="https://user-images.githubusercontent.com/49708438/170897543-4d48ee61-503f-4415-bf30-fe8321143df9.png"> | <img width="200" alt="LoginParent2" src="https://user-images.githubusercontent.com/49708438/170897485-86a199b6-e8d7-4111-98e1-f9a56fa91a7c.png">| <img width="200" alt="LoginParent3" src="https://user-images.githubusercontent.com/49708438/170897562-f0aa6264-6d71-441f-b732-4336d19539ca.png">
 
 
 ## 1- Parent side 👨‍👩‍👦
