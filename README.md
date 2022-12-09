@@ -219,6 +219,6 @@ Note that some of the settings have not been implemented in the public version o
 <img width="215" alt="SettigPage" src="https://user-images.githubusercontent.com/49708438/170898009-c18ee423-e47d-4d41-8f60-ae82ad97150a.png"> 
 
 
-❌❌❌❌❌❌❌. ***NOTE THAT THE PROJECT HAS NOT BEEN MOVE TO NULLL SAFETY YET*** ❌❌❌❌❌❌
+❌❌❌❌❌❌❌. ***NOTE THAT THE PROJECT HAS NOT BEEN MOVE TO NULL SAFETY YET*** ❌❌❌❌❌❌
 
 ### [LICENSE: MIT](LICENSE.md)
