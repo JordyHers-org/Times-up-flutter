@@ -198,7 +198,7 @@ location, TokenID and App List will be retrieved and added to Firebase.
 <h3> Database State at this step 🗂 </h3>
 
 The missing parameters have been successfully updated. As you can see All the data are taken from the child device and<br>
-update the the database via StreamSubsubscription.
+updated in the database via StreamSubsubscription.
 
 <img width="1005" alt="Screen Shot 2022-05-30 at 04 02 59" src="https://user-images.githubusercontent.com/49708438/170900031-8be98721-25db-4165-9c6c-7a04ce653b0c.png">
 
