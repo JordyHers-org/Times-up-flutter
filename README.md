@@ -91,8 +91,33 @@ $ git clone project and copy files to new projects
 Create a new firebase project and add your credentials and SHA-1 and SHA-256 Keys <br>
 Then Add google.json file to android / app folder  [Add Firebase to your flutter app](https://firebase.google.com/docs/flutter/setup?platform=android)
 
+### Step_5
 
+Set up Firebase for 2 projects. Times-up-flutter-admin / Times-up-flutter-child
+Set up Firestore rules.
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+ match /users/{uid}/child/{documment=**}{
+   allow read,write: if request.auth.uid == uid;
 
+  }
+   match /users/{uid}/notifications/{documment=**}{
+   allow read,write: if request.auth.uid == uid;
+
+  }
+   match /Notifications/{documment=**}{
+   allow read,write
+
+  }
+   match /DeviceTokens/{documment=**}{
+   allow read,write
+
+  }
+  }
+}
+```
 
 ## Supported Features 🚧
 
