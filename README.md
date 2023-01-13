@@ -1,4 +1,15 @@
-# Time's Up 🚼
+<h1 align="center">
+   Time's Up 🚼
+</h1>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/49708438/212309693-b4c22e07-fb0d-41e6-9108-2925b1f8bc15.png" />
+</p>
+
+<h1 align="center">
+ 
+</h1>
+
+
 
 
 Time's Up is a mobile application developed using `flutter` to monitor the time kids 
