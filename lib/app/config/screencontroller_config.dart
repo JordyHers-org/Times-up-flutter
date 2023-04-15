@@ -11,12 +11,12 @@ class ScreensController extends StatefulWidget {
 }
 
 class _ScreensControllerState extends State<ScreensController> {
-  bool _isVisited;
+  bool? _isVisited;
 
   ///_setFlagValue for the user when he entered the app
   ///To Display a Splash Screen
   Future<void> _setFlagValue() async {
-    bool isVisited = await SharedPreference().getVisitingFlag();
+    var isVisited = await SharedPreference().getVisitingFlag();
     setState(() {
       _isVisited = isVisited;
     });

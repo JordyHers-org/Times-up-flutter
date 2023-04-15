@@ -12,11 +12,13 @@ import 'package:uuid/uuid.dart';
 
 enum AppState { loading, complete }
 
+//TODO: Fix the onComplete Function line 91
+//TODO: Submit data to Firestore line 146
 class EditChildPage extends StatefulWidget {
-  final Database database;
-  final ChildModel model;
+  final Database? database;
+  final ChildModel? model;
 
-  const EditChildPage({Key key, @required this.database, this.model})
+  const EditChildPage({Key? key, required this.database, this.model})
       : assert(database != null),
         super(key: key);
 
@@ -24,7 +26,7 @@ class EditChildPage extends StatefulWidget {
   ///
   /// as the result we can get the provider of Database
   static Future<void> show(BuildContext context,
-      {Database database, ChildModel model}) async {
+      {Database? database, ChildModel? model}) async {
     await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => EditChildPage(database: database, model: model),
       fullscreenDialog: true,
@@ -38,28 +40,29 @@ class EditChildPage extends StatefulWidget {
 class _EditChildPageState extends State<EditChildPage> {
   final _formkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-  String _name;
-  String _email;
-  String _imageURL;
-  String id;
-  XFile _imageFile;
+  String? _name;
+  String? _email;
+  String? _imageURL;
+  late String id;
+  XFile? _imageFile;
   var uuid = Uuid();
   AppState appState = AppState.complete;
   bool isSavedPressed = false;
 
   @override
   void initState() {
-    super.initState();
     if (widget.model != null) {
-      _name = widget.model.name;
-      _email = widget.model.email;
-      _imageURL = widget.model.image;
+      _name = widget.model!.name;
+      _email = widget.model!.email;
+      _imageURL = widget.model!.image!;
     }
+
+    super.initState();
   }
 
   bool _validateAndSaveForm() {
     final form = _formkey.currentState;
-    if (form.validate()) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -87,8 +90,8 @@ class _EditChildPageState extends State<EditChildPage> {
           .ref()
           .child('Child/"${id}"/$id$fileExtension');
 
-      //TODO: Fix the onComplete Function
-      await firebaseStorageRef.putFile(File(localFile.path))
+      await firebaseStorageRef
+          .putFile(File(localFile.path))
           //.onComplete
           .catchError((onError) {
         print(onError);
@@ -110,10 +113,10 @@ class _EditChildPageState extends State<EditChildPage> {
         /// in the stream
         /// Stream.first is a getter that get the most up-to-date value
 
-        final children = await widget.database.childrenStream().first;
+        final children = await widget.database!.childrenStream().first;
         final allNames = children.map((child) => child.name).toList();
         if (widget.model != null) {
-          allNames.remove(widget.model.name);
+          allNames.remove(widget.model!.name);
         }
         if (allNames.contains(_name)) {
           await showAlertDialog(context,
@@ -123,12 +126,12 @@ class _EditChildPageState extends State<EditChildPage> {
         } else {
           final child = ChildModel(
             id: id,
-            name: _name,
-            email: _email,
+            name: _name ?? 'No name',
+            email: _email ?? 'No email',
             image: _imageURL,
           );
 
-          await widget.database.setChild(child).whenComplete(() => {
+          await widget.database!.setChild(child).whenComplete(() => {
                 setState(() {
                   print('form Saved : $_name and email : $_email');
                   appState = AppState.complete;
@@ -140,7 +143,6 @@ class _EditChildPageState extends State<EditChildPage> {
         await showExceptionAlertDialog(context,
             title: 'Operation failed', exception: e);
       }
-      //TODO: Submit data to Firestore
     }
   }
 
@@ -153,8 +155,8 @@ class _EditChildPageState extends State<EditChildPage> {
         title: Text(widget.model == null ? 'New Child' : 'Edit Child'),
         centerTitle: true,
         actions: [
-          TextButton(
-            onPressed: () => _submit(_imageFile),
+          OutlinedButton(
+            onPressed: () => _submit(_imageFile!),
             child: Text(
               'Save',
               style: TextStyle(fontSize: 18, color: Colors.white),
@@ -229,15 +231,15 @@ class _EditChildPageState extends State<EditChildPage> {
       TextFormField(
         decoration: InputDecoration(labelText: 'child name'),
         initialValue: _name,
-        validator: (value) => value.isNotEmpty ? null : "Name can't be empty",
-        onSaved: (value) => _name = value,
+        validator: (value) => value!.isNotEmpty ? null : "Name can't be empty",
+        onSaved: (value) => _name = value!,
         enabled: appState == AppState.complete ? true : false,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'email'),
         initialValue: _email,
-        validator: (value) => value.isNotEmpty ? null : "email can't be empty",
-        onSaved: (value) => _email = value,
+        validator: (value) => value!.isNotEmpty ? null : "email can't be empty",
+        onSaved: (value) => _email = value!,
         enabled: appState == AppState.complete ? true : false,
       ),
     ];
@@ -255,7 +257,7 @@ class _EditChildPageState extends State<EditChildPage> {
       return InkWell(
         onTap: _getLocalImage,
         child: Image.file(
-          File(_imageFile.path),
+          File(_imageFile!.path),
           fit: BoxFit.contain,
         ),
       );

@@ -1,5 +1,3 @@
-
-
 import 'package:parental_control/sign_in/validators.dart';
 
 /// This enum takes care of the different states of the sign in form
@@ -48,12 +46,14 @@ class EmailSignInModel with EmailAndPasswordValidators {
   bool get showErrorTextSurname {
     return submitted && !surnameValidator.isValid(surname) && !isLoading;
   }
+
   bool get showErrorTextEmail {
     return submitted && !emailValidator.isValid(email);
   }
 
   bool get showErrorTexPassword {
-    return submitted && !passwordValidator.isValid(password);;
+    return submitted && !passwordValidator.isValid(password);
+    ;
   }
 
   final String name;
@@ -65,13 +65,13 @@ class EmailSignInModel with EmailAndPasswordValidators {
   final bool submitted;
 
   EmailSignInModel copyWith({
-    String name,
-    String surname,
-    String email,
-    String password,
-    EmailSignInFormType formType,
-    bool isLoading,
-    bool submitted,
+    String? name,
+    String? surname,
+    String? email,
+    String? password,
+    EmailSignInFormType? formType,
+    bool? isLoading,
+    bool? submitted,
   }) {
     return EmailSignInModel(
       email: email ?? this.email,

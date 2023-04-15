@@ -1,7 +1,7 @@
 import 'package:parental_control/services/app_usage_local_service.dart';
 
 abstract class AppService {
-  void getAppUsageService();
+  Future<void> getAppUsageService();
 }
 
 class AppUsageService implements AppService {
@@ -10,7 +10,7 @@ class AppUsageService implements AppService {
   List<AppUsageInfo> get info => _info;
 
   @override
-  Future<List<AppUsageInfo>> getAppUsageService() async {
+  Future<void> getAppUsageService() async {
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));

@@ -1,21 +1,20 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/bar_chart.dart';
 import 'package:parental_control/common_widgets/custom_raised_button.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/models/child_model.dart';
+import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/notification_model.dart';
-
 class ChildDetailsPage extends StatefulWidget {
-  const ChildDetailsPage({@required this.database, @required this.childModel});
+  const ChildDetailsPage({required this.database, required this.childModel});
 
   final Database database;
   final ChildModel childModel;
@@ -52,7 +51,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ChildModel>(
+    return StreamBuilder<ChildModel?>(
         stream: widget.database.childStream(childId: widget.childModel.id),
         builder: (context, snapshot) {
           final child = snapshot.data;
@@ -62,15 +61,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               elevation: 2.0,
               title: Text(childName),
               actions: <Widget>[
-                //TODO: Reset The edit button if wanted
-                // TextButton(
-                //   child: Text(
-                //     'Edit',
-                //     style: TextStyle(fontSize: 18.0, color: Colors.white),
-                //   ),
-                //   onPressed: () => EditChildPage.show(context,
-                //       database: widget.database, model: child),
-                // ),
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () => _confirmDelete(context, widget.childModel),
@@ -85,48 +75,44 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     isPushed = !isPushed;
                   });
                   print('more is pushed');
-                }
-                ),
+                }),
           );
         });
   }
 
-  Widget _buildContentTemporary(BuildContext context, ChildModel model) {
+  Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
     if (model != null) {
       return SingleChildScrollView(
         physics: ScrollPhysics(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 8),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.max,
               children: [
                 _buildProfile(model),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Enter this code on the child\'s device',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black.withOpacity(0.35)),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        model.id,
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepOrangeAccent),
-                      ),
-                    ],
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      'Enter this code on the child\'s device',
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black.withOpacity(0.35)),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      model.id,
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepOrangeAccent),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -134,12 +120,19 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 18),
-                    height: 205,
-                    width: double.infinity,
-                    child: model.appsUsageModel.isNotEmpty
-                        ? AppUsageChart(isEmpty: false, name: model.name)
-                        : AppUsageChart(isEmpty: true, name: model.name)),
+                  margin: const EdgeInsets.symmetric(horizontal: 18),
+                  height: 205,
+                  width: double.infinity,
+                  child: model.appsUsageModel.isNotEmpty
+                      ? AppUsageChart(
+                          isEmpty: false,
+                          name: model.name,
+                        )
+                      : AppUsageChart(
+                          isEmpty: true,
+                          name: model.name,
+                        ),
+                ),
                 SizedBox(height: 6),
               ],
             ),
@@ -155,9 +148,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               height: 8,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+              padding: const EdgeInsets.only(left: 50.0),
               child: RichText(
-                textAlign: TextAlign.start,
                 text: TextSpan(
                     text: "Send notifications to your Child's device",
                     style: TextStyle(color: Colors.indigo, fontSize: 14)),
@@ -165,9 +157,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             ),
             SizedBox(height: 2),
             Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+              padding: const EdgeInsets.only(left: 50.0),
               child: RichText(
-                textAlign: TextAlign.start,
                 text: TextSpan(
                     text: 'Push the button ',
                     style: TextStyle(color: Colors.grey, fontSize: 11)),
@@ -210,7 +201,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           await showExceptionAlertDialog(context,
                               title: 'An error occurred', exception: e);
                         }
-
                       },
                     ),
                   ),
@@ -270,8 +260,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                                     fontSize: 15, fontWeight: FontWeight.bold),
                               ),
                               trailing: Text(
-                                parseResult(
-                                    model.appsUsageModel[index]['usage']),
+                                model.appsUsageModel[index]['usage']
+                                    .toString()
+                                    .t(),
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -319,7 +310,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   borderRadius: const BorderRadius.all(Radius.circular(16)),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(model.image),
+                    image: NetworkImage(model.image!),
                   ),
                 ),
               ),
@@ -338,23 +329,5 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       Navigator.of(context).pop();
     }
     return;
-  }
-
-  String parseResult(String value) {
-    var removeColon = value.replaceAll(':', ' ');
-    var result = removeColon.replaceAll('.', '');
-
-    result = result.replaceRange(1, 1, ' day ');
-    result = result.replaceRange(9, 9, ' hour ');
-    result = result.replaceRange(18, null, ' minutes');
-
-    if (result.contains('00 hour')) {
-      result = result.replaceRange(0, 14, '');
-      return result;
-    } else if (result.contains('0 day')) {
-      result = result.replaceRange(0, 5, '');
-      return result;
-    }
-    return result;
   }
 }

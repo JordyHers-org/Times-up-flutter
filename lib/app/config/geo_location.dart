@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,7 +25,7 @@ class Geo extends StatefulWidget {
 class _GeoState extends State<Geo> {
   final Completer<GoogleMapController> _controller = Completer();
 
-  User _currentUser;
+  late User _currentUser;
   var imageData;
   List<Marker> allMarkers = [];
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -36,28 +35,21 @@ class _GeoState extends State<Geo> {
   void initState() {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
-    _currentUser = auth.currentUser;
+    _currentUser = auth.currentUser!;
     geoService.getCurrentLocation.listen((position) {
       centerScreen(position);
     });
     getAllChildLocations();
-    print('--------------------GEO LOCATION DART---------------');
-    print(' LONGITUDE : ${widget.initialPosition.longitude}');
-    print('LATITUDE : ${widget.initialPosition.latitude}');
     super.initState();
   }
 
   Future<Uint8List> getChildMarkerImage(Map<String, dynamic> data) async {
-    Uint8List bytes =
+    var bytes =
         (await NetworkAssetBundle(Uri.parse(data['image'])).load(data['image']))
             .buffer
             .asUint8List();
 
     return bytes;
-    // var imageAsset = CustomMarker(markerUrl: data['image']);
-    // var byteData = await DefaultAssetBundle.of(context).load(imageAsset.markerUrl);
-    // print(byteData);
-    // return byteData.buffer.asUint8List();
   }
 
   void getAllChildLocations() async {
@@ -79,32 +71,29 @@ class _GeoState extends State<Geo> {
 
   //TODO:Make function async
   Future<List<Marker>> initMarker(Map<String, dynamic> data) async {
-    if (data != null) {
-      print('--------------- data -------------');
-      print(data['id']);
-      print(data['position']?.latitude);
-      print(data['position']?.longitude);
-      allMarkers.add(Marker(
-        infoWindow: InfoWindow(
-            title: data['id'],
-            snippet: data['name'],
-            onTap: () {
-              print('Tapped');
-            }),
-        markerId: MarkerId(data['id']),
-        //TODO:Implement child image as marker
-        //icon: BitmapDescriptor.fromBytes(imageData),
-        icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
-        draggable: false,
-        onTap: () {
-          print('Marker Tapped');
-        },
-        position: LatLng(data['position'].latitude, data['position'].longitude),
-      ));
-      print(allMarkers);
-      return allMarkers;
-    }
+    print('--------------- data -------------');
+    print(data['id']);
+    print(data['position']?.latitude);
+    print(data['position']?.longitude);
+    allMarkers.add(Marker(
+      infoWindow: InfoWindow(
+          title: data['id'],
+          snippet: data['name'],
+          onTap: () {
+            print('Tapped');
+          }),
+      markerId: MarkerId(data['id']),
+      //TODO:Implement child image as marker
+      //icon: BitmapDescriptor.fromBytes(imageData),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+      draggable: false,
+      onTap: () {
+        print('Marker Tapped');
+      },
+      position: LatLng(data['position'].latitude, data['position'].longitude),
+    ));
+    print(allMarkers);
+    return allMarkers;
   }
 
   @override

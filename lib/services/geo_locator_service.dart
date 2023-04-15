@@ -8,7 +8,7 @@ final LocationSettings locationSettings = LocationSettings(
 );
 
 class GeoLocatorService {
-  LocationPermission permission;
+  late LocationPermission permission;
 
   Stream<Position> getCurrentLocation =
       Geolocator.getPositionStream(locationSettings: locationSettings);

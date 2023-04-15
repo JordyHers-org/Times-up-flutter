@@ -16,22 +16,22 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  bool _isParent;
-  GeoLocatorService geoService;
+  late bool _isParent;
+  late GeoLocatorService geoService;
 
   ///In order to pass this value auth declared in the [STATE] for Stateful classes
   ///to the actual LandingPage widget
   ///we need to use the key word [widget.auth]
   @override
   void initState() {
-    _setFlagParentOrChild();
+    setFlagParentOrChild();
     geoService = Provider.of<GeoLocatorService>(context, listen: false);
     super.initState();
   }
 
   ///Function to set sharedPreference On [Parent or Child] devices
-  Future<void> _setFlagParentOrChild() async {
-    bool isParent = await SharedPreference().getParentOrChild();
+  Future<void> setFlagParentOrChild() async {
+    var isParent = await SharedPreference().getParentOrChild();
     setState(() {
       _isParent = isParent;
     });
@@ -40,38 +40,37 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    return StreamBuilder<User>(
+    return StreamBuilder<User?>(
+
         ///auth.authStateChanges is the stream  declared in the [auth.dart] class
         stream: auth.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             final user = snapshot.data;
             if (user == null) {
-              //return SplashScreen.create(context);
               return SignInPage.create(context);
             }
 
             /// Here we have added a provider [Database] as a parent of the Parent
             /// Page
             switch (_isParent) {
-
-            /// THIS CASE SET THE APP AS A PARENT APP
+              /// THIS CASE SET THE APP AS A PARENT APP
               case true:
                 return Provider<Database>(
                     create: (_) => FirestoreDatabase(uid: user.uid),
+
                     ///Here the ShowCaseWidget triggers the Showcase view and passes the context
                     child: FutureProvider(
-                      create: (context) => geoService
-                          .getInitialLocation()
-                          .whenComplete(
-                              () => print('DEBUG: LANDING PAGE GEO SERVICE')),
+                      initialData: null,
+                      create: (context) => geoService.getInitialLocation(),
                       child: ShowCaseWidget(
                         builder: Builder(
                             builder: (context) =>
                                 ParentPage.create(context, auth)),
                         autoPlay: false,
+
                         //autoPlayDelay: Duration(seconds: 3),
-                        autoPlayLockEnable: true,
+                        // autoPlayLockEnable: true,
                       ),
                     ));
               case false:
@@ -84,10 +83,7 @@ class _LandingPageState extends State<LandingPage> {
                           FirestoreDatabase(auth: auth, uid: user.uid),
                       child: FutureProvider(
                         initialData: geoService.getCurrentLocation,
-                        create: (context) => geoService
-                            .getInitialLocation()
-                            .whenComplete(
-                                () => print('DEBUG: LANDING PAGE GEO SERVICE')),
+                        create: (context) => geoService.getInitialLocation(),
                         child: SetChildPage.create(context),
                       )),
                 );

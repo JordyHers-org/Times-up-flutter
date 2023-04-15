@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Kids extends StatelessWidget {
-  final String image_location;
-  final String image_caption;
-  final Function onPressed;
+  final String? image_location;
+  final String? image_caption;
+  final VoidCallback? onPressed;
 
   Kids({this.image_location, this.image_caption, this.onPressed});
 
@@ -24,7 +24,7 @@ class Kids extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.14),
                       image: DecorationImage(
-                          image: NetworkImage(image_location),
+                          image: NetworkImage(image_location!),
                           fit: BoxFit.cover),
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
                     ),
@@ -32,7 +32,7 @@ class Kids extends StatelessWidget {
                   Container(
                     alignment: Alignment.topCenter,
                     child: Text(
-                      image_caption,
+                      image_caption!,
                       style: TextStyle(
                           color: Colors.black45,
                           fontSize: 16,
@@ -76,4 +76,3 @@ class Kids extends StatelessWidget {
     );
   }
 }
-

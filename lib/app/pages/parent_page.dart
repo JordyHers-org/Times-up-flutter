@@ -21,11 +21,12 @@ import '../config/geo_location.dart';
 
 enum MapScreenState { Full, Small }
 
+//TODO:Display different commands Focus mode Cards etc
+
 class ParentPage extends StatefulWidget {
-  final AuthBase auth;
+  const ParentPage({Key? key, this.auth}) : super(key: key);
 
-  const ParentPage({Key key, @required this.auth}) : super(key: key);
-
+  final AuthBase? auth;
   static Widget create(BuildContext context, AuthBase auth) {
     return ParentPage(auth: auth);
   }
@@ -36,12 +37,12 @@ class ParentPage extends StatefulWidget {
 
 class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
-  Geo geo;
+  late Geo geo;
 
   ///  Variables
-  TabController _tabController;
-  bool _isShowCaseActivated;
-  GeoLocatorService geoService;
+  late TabController _tabController;
+  late bool _isShowCaseActivated;
+  late GeoLocatorService geoService;
   MapScreenState mapScreenState = MapScreenState.Small;
 
   /// Here we declare the GlobalKeys to enable Showcase
@@ -64,20 +65,17 @@ class _ParentPageState extends State<ParentPage>
   }
 
   /// This function takes care of the ShowCase logic
-  /// __________________________________________________________________________
   Future<void> _setShowCaseView() async {
-    bool isVisited = await SharedPreference().getDisplayShowCase();
+    var isVisited = await SharedPreference().getDisplayShowCase();
     setState(() {
       _isShowCaseActivated = isVisited;
-
-      ///Set that the app has been visited
       SharedPreference().setDisplayShowCase();
     });
 
     _isShowCaseActivated == false
         ? WidgetsBinding.instance.addPostFrameCallback((_) =>
-        ShowCaseWidget.of(context)
-            .startShowCase([_settingsKey, _childListKey, _addKey]))
+            ShowCaseWidget.of(context)
+                .startShowCase([_settingsKey, _childListKey, _addKey]))
         : null;
   }
 
@@ -91,8 +89,7 @@ class _ParentPageState extends State<ParentPage>
             body: _buildParentPageContent(context, auth),
             floatingActionButton: Showcase(
               key: _addKey,
-              textColor: Colors.white,
-              showcaseBackgroundColor: Colors.indigo,
+              textColor: Colors.indigo,
               description: 'Add a new child here ',
               child: FloatingActionButton(
                 onPressed: () => EditChildPage.show(context,
@@ -124,7 +121,8 @@ class _ParentPageState extends State<ParentPage>
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -135,12 +133,11 @@ class _ParentPageState extends State<ParentPage>
                           color: Colors.white38,
                           fontSize: 22),
                     ),
-                    TextButton(
+                    OutlinedButton(
                       onPressed: () => SettingsPage.show(context, auth),
                       child: Showcase(
                         key: _settingsKey,
-                        textColor: Colors.white,
-                        showcaseBackgroundColor: Colors.indigo,
+                        textColor: Colors.indigo,
                         description: 'change the settings here',
                         showArrow: true,
                         child: Icon(
@@ -165,6 +162,7 @@ class _ParentPageState extends State<ParentPage>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: TabBar(
+                    physics: BouncingScrollPhysics(),
                     controller: _tabController,
                     // give the indicator a decoration (color and border radius)
                     indicator: BoxDecoration(
@@ -197,10 +195,12 @@ class _ParentPageState extends State<ParentPage>
         /// Tab bar view here
         Expanded(
           child: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: [
               // first tab bar view widget
               CustomScrollView(
+                physics: BouncingScrollPhysics(),
                 slivers: <Widget>[
                   SliverList(
                     delegate: SliverChildListDelegate(
@@ -236,7 +236,8 @@ class _ParentPageState extends State<ParentPage>
                               mapScreenState = MapScreenState.Full;
                             });
                           },
-                          child: Consumer<Position>(builder: (_, position, __) {
+                          child:
+                              Consumer<Position?>(builder: (_, position, __) {
                             return (position != null)
                                 ? Geo(position, database)
                                 : Container(
@@ -265,9 +266,8 @@ class _ParentPageState extends State<ParentPage>
               Provider<NotificationService>(
                 create: (_) => NotificationService(),
                 builder: (context, __) =>
-                    NotificationPage.create(context, widget.auth),
+                    NotificationPage.create(context, widget.auth!),
               ),
-              //TODO:Display different commands Focus mode Cards etc
             ],
           ),
         ),
@@ -277,8 +277,7 @@ class _ParentPageState extends State<ParentPage>
 
   Widget _buildChildrenList(Database database) {
     return Showcase(
-      showcaseBackgroundColor: Colors.indigo,
-      textColor: Colors.white,
+      textColor: Colors.indigo,
       description: 'Tap on the child to display infos',
       key: _childListKey,
       child: Container(
@@ -287,27 +286,28 @@ class _ParentPageState extends State<ParentPage>
               color: Colors.white),
           //color: Colors.grey,
           height: 160.0,
-          child: StreamBuilder<List<ChildModel>>(
+          child: StreamBuilder<List<ChildModel?>>(
             stream: database.childrenStream(),
-            builder: (context, snapshot) {
+            builder: (context, AsyncSnapshot snapshot) {
               final data = snapshot.data;
               if (snapshot.hasData) {
-                if (data.isNotEmpty) {
+                if (data != null && data.isNotEmpty) {
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       return Kids(
-                          image_location: data[index].image,
-                          image_caption: data[index].name,
+                          image_location: data[index]?.image,
+                          image_caption: data[index]?.name,
                           onPressed: () =>
-                              ChildDetailsPage.show(context, data[index]));
+                              ChildDetailsPage.show(context, data[index]!));
                     },
                   );
                 } else {
                   return EmptyContent();
                 }
               } else if (snapshot.hasError) {
+                print(snapshot.error);
                 return EmptyContent(
                   title: 'Something went wrong ',
                   message: 'Can\'t load items right now',
@@ -320,8 +320,7 @@ class _ParentPageState extends State<ParentPage>
                   return Kids(
                       image_location: null,
                       image_caption: null,
-                      onPressed: () =>
-                          print('DEBUG: Loading children images...'));
+                      onPressed: null);
                 },
               );
             },
@@ -349,7 +348,6 @@ class _ParentPageState extends State<ParentPage>
   }
 
   Widget _buildMapFullScreen(database) {
-    print('trying to build full screen');
     return Scaffold(
       body: Consumer<Position>(builder: (_, position, __) {
         return (position != null)
