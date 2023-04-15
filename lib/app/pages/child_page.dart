@@ -12,10 +12,10 @@ import 'package:parental_control/services/database.dart';
 import 'package:provider/provider.dart';
 
 class ChildPage extends StatefulWidget {
-  final Database database;
-  final ChildModel child;
+  final Database? database;
+  final ChildModel? child;
 
-  const ChildPage({Key key, this.database, this.child}) : super(key: key);
+  const ChildPage({Key? key, this.database, this.child}) : super(key: key);
 
   static Widget create(BuildContext context, database, ChildModel child) {
     final appUsage = Provider.of<AppUsageService>(context, listen: false);
@@ -34,7 +34,6 @@ class ChildPage extends StatefulWidget {
 }
 
 class _ChildPageState extends State<ChildPage> {
-
   ///Methods To send to Bloc => Local User
   void sendLocalToBloCNotification(BuildContext context) {
     var childSideBloc = context.read<ChildSideBloc>();
@@ -53,7 +52,7 @@ class _ChildPageState extends State<ChildPage> {
   void initState() {
     /// This method updates the location on the map every 35 minutes
     Timer.periodic(const Duration(minutes: 35), (timer) {
-      widget.database.liveUpdateChild(widget.child, timer.tick);
+      widget.database?.liveUpdateChild(widget.child!, timer.tick);
     });
     super.initState();
   }
@@ -64,45 +63,45 @@ class _ChildPageState extends State<ChildPage> {
     return Scaffold(
         drawer: Drawer(
           child:
-          Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             widget.child != null
                 ? Container(
-              height: 250,
-              color: Colors.indigo,
-              child: DrawerHeader(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 6),
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(widget.child.image),
-                          radius: 45,
-                        ),
-                        SizedBox(height: 6),
-                        Text(
-                          '${widget.child.name} ',
-                          style: TextStyle(
-                              fontSize: 19, fontWeight: FontWeight.w800),
-                        ),
-                        SizedBox(height: 12),
-                        Text(
-                          '${widget.child.email} ',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w800),
-                        ),
-                        SizedBox(height: 6),
-                        Text(
-                          '${widget.child.id} ',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w800),
-                        ),
-                        SizedBox(height: 6),
-                      ],
-                    ),
-                  )),
-            )
+                    height: 250,
+                    color: Colors.indigo,
+                    child: DrawerHeader(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 6),
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(widget.child!.image!),
+                            radius: 45,
+                          ),
+                          SizedBox(height: 6),
+                          Text(
+                            '${widget.child!.name} ',
+                            style: TextStyle(
+                                fontSize: 19, fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            '${widget.child!.email} ',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(height: 6),
+                          Text(
+                            '${widget.child!.id} ',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(height: 6),
+                        ],
+                      ),
+                    )),
+                  )
                 : Container(),
             Divider(
               height: 0.5,
@@ -148,29 +147,29 @@ class _ChildPageState extends State<ChildPage> {
         ),
         body: appUsage.info == null
             ? EmptyContent(
-          title: 'This is the child page',
-          message: 'Nothing to show at the moment',
-        )
+                title: 'This is the child page',
+                message: 'Nothing to show at the moment',
+              )
             : Container(
-          child: Center(
-            child: BlocConsumer<ChildSideBloc, ChildSideState>(
+                child: Center(
+                  child: BlocConsumer<ChildSideBloc, ChildSideState>(
                     listener: (context, state) {},
-              builder: (context, state) {
-                if (state is ChildSideInitial) {
-                  return buildInitialInput(context);
-                } else if (state is ChildSideFetching) {
-                  return buildLoading();
-                } else if (state is ChildSideNotification) {
-                  return buildNotification();
-                } else if (state is ChildSideAppList) {
-                  return buildAppList(appUsage);
-                } else {
-                  return buildInitialInput(context);
-                }
-              },
-            ),
-          ),
-        ));
+                    builder: (context, state) {
+                      if (state is ChildSideInitial) {
+                        return buildInitialInput(context);
+                      } else if (state is ChildSideFetching) {
+                        return buildLoading();
+                      } else if (state is ChildSideNotification) {
+                        return buildNotification();
+                      } else if (state is ChildSideAppList) {
+                        return buildAppList(appUsage);
+                      } else {
+                        return buildInitialInput(context);
+                      }
+                    },
+                  ),
+                ),
+              ));
   }
 
   Widget buildInitialInput(BuildContext context) {
@@ -193,12 +192,12 @@ class _ChildPageState extends State<ChildPage> {
 
   Widget buildNotification() {
     return StreamBuilder<List<NotificationModel>>(
-        stream: widget.database.notificationStream(),
+        stream: widget.database!.notificationStream(childId: ''),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.data;
             return ListView.builder(
-              itemCount: data.length,
+              itemCount: data!.length,
               itemBuilder: (context, index) {
                 return Card(
                   color: Colors.indigo,
@@ -219,11 +218,11 @@ class _ChildPageState extends State<ChildPage> {
               },
             );
           } else if (snapshot.hasData) {
-            return ErrorWidget(snapshot.error);
+            return ErrorWidget(snapshot.error!);
           }
           return EmptyContent(
             message:
-            'This side of the app will display the list of Notifications',
+                'This side of the app will display the list of Notifications',
             title: 'Notification page',
             fontSizeMessage: 13,
             fontSizeTitle: 23,

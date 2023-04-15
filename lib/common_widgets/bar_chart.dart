@@ -16,7 +16,8 @@ class AppUsageChart extends StatefulWidget {
   final bool isEmpty;
   final String name;
 
-  const AppUsageChart({Key key, this.isEmpty, this.name}) : super(key: key);
+  const AppUsageChart({Key? key, required this.isEmpty, required this.name})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AppUsageChartState();
@@ -223,7 +224,7 @@ class AppUsageChartState extends State<AppUsageChart> {
               touchedIndex = -1;
               return;
             }
-            touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
+            touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
           });
         },
       ),

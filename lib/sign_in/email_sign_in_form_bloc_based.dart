@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/form_submit_button.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
@@ -10,11 +9,10 @@ import 'email_sign_in_bloc.dart';
 import 'email_sign_in_model.dart';
 
 class EmailSignInFormBlocBased extends StatefulWidget {
-  EmailSignInFormBlocBased({Key key, @required this.bloc}) : super(key: key);
+  EmailSignInFormBlocBased({Key? key, required this.bloc}) : super(key: key);
   final EmailSignInBloc bloc;
 
-
-/// this is the 'create' logic [Consumer ] and [Provider]
+  /// this is the 'create' logic [Consumer ] and [Provider]
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
     return Provider<EmailSignInBloc>(
@@ -25,7 +23,8 @@ class EmailSignInFormBlocBased extends StatefulWidget {
       dispose: (_, bloc) => bloc.dispose(),
     );
   }
-///_____________________________________________________________________________________
+
+  ///_____________________________________________________________________________________
   @override
   _EmailSignInFormBlocBasedState createState() =>
       _EmailSignInFormBlocBasedState();
@@ -59,7 +58,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   }
 
   /// Submit function is called when the button is pressed
-  Future<void> _submit( EmailSignInModel model) async {
+  Future<void>? _submit(EmailSignInModel model) async {
     try {
       await widget.bloc.submit();
       Navigator.of(context).pop();
@@ -93,7 +92,6 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   }
 
   List<Widget> _buildChildren(EmailSignInModel model) {
-
     return [
       model.formType == EmailSignInFormType.register
           ? TextField(
@@ -137,13 +135,14 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       _buildPasswordTextField(model),
       SizedBox(height: 8.0),
       FormSubmitButton(
-        onPressed:
-             model.canSubmitRegister || model.canSubmitSignIn ? () =>_submit(model) : null,
+        onPressed: () => model.canSubmitRegister || model.canSubmitSignIn
+            ? _submit(model)
+            : null,
         text: model.primaryButtonText,
       ),
       SizedBox(height: 8.0),
-      FlatButton(
-        onPressed: !model.isLoading ? () => _toggleFormType(model) : null,
+      OutlinedButton(
+        onPressed: () => !model.isLoading ? _toggleFormType(model) : null,
         child: Text(model.secondaryButtonText),
       ),
     ];
@@ -158,29 +157,30 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       decoration: InputDecoration(
           labelText: 'Email',
           hintText: 'test@test.com',
-          errorText: model.showErrorTextEmail ? model.inValidEmailErrorText : null,
+          errorText:
+              model.showErrorTextEmail ? model.inValidEmailErrorText : null,
           enabled: model.isLoading == false),
       autocorrect: false,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       onEditingComplete: () => _emailEditingComplete(model),
-      onChanged: (email) => widget.bloc.updateEmail( email),
+      onChanged: (email) => widget.bloc.updateEmail(email),
     );
   }
 
   Widget _buildPasswordTextField(EmailSignInModel model) {
-
     return TextField(
       focusNode: _passwordFocusNode,
       controller: _passwordController,
       decoration: InputDecoration(
           labelText: 'Password',
-          errorText:
-              model.showErrorTexPassword? model.inValidPasswordErrorText : null,
+          errorText: model.showErrorTexPassword
+              ? model.inValidPasswordErrorText
+              : null,
           enabled: model.isLoading == false),
       obscureText: true,
       textInputAction: TextInputAction.done,
-      onEditingComplete:()=> _submit (model),
+      onEditingComplete: () => _submit(model),
       onChanged: (password) => widget.bloc.updatePassword(password),
     );
   }
@@ -199,7 +199,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
-                children: _buildChildren(model),
+                children: _buildChildren(model!),
               ),
             );
           }),

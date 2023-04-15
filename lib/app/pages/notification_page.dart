@@ -13,12 +13,12 @@ enum AppState { Loaded, Empty }
 
 class NotificationPage extends StatefulWidget {
   final AuthBase auth;
-  final NotificationService notification;
-  final Database database;
+  final NotificationService? notification;
+  final Database? database;
 
   const NotificationPage({
-    Key key,
-    @required this.auth,
+    Key? key,
+    required this.auth,
     this.notification,
     this.database,
   }) : super(key: key);
@@ -43,7 +43,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Future<void> _delete(BuildContext context, NotificationModel model) async {
     try {
-      await widget.database.deleteNotification(model.id);
+      await widget.database?.deleteNotification(model.id!);
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,
@@ -57,7 +57,7 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     super.initState();
     widget.auth.setToken();
-    widget.notification.configureFirebaseMessaging();
+    widget.notification?.configureFirebaseMessaging();
   }
 
   @override
@@ -67,12 +67,12 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Widget buildStreamNotification(BuildContext context) {
     return StreamBuilder<List<NotificationModel>>(
-        stream: widget.database.notificationStream(),
+        stream: widget.database?.notificationStream(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.data;
 
-            return data.isNotEmpty
+            return data!.isNotEmpty
                 ? ListView.builder(
                     itemCount: data.length,
                     itemBuilder: (context, index) {
@@ -131,7 +131,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     fontSizeTitle: 23,
                   );
           } else if (snapshot.hasData) {
-            return ErrorWidget(snapshot.error);
+            return ErrorWidget(snapshot.error!);
           } else {
             return Center(
               child: CircularProgressIndicator(),

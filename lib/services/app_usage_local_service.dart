@@ -7,19 +7,19 @@ import 'package:flutter/services.dart';
 /// Custom Exception for the plugin,
 /// thrown whenever the plugin is used on platforms other than Android
 class AppUsageException implements Exception {
-  String _cause;
+  final String _cause;
 
   AppUsageException(this._cause);
 
   @override
   String toString() {
-    return _cause;
+    return 'ERROR : _$_cause';
   }
 }
 
 class AppUsageInfo {
-  String _packageName, _appName;
-  Duration _usage;
+  late String _packageName, _appName;
+  late Duration _usage;
   DateTime _startDate, _endDate;
 
   AppUsageInfo(
@@ -68,29 +68,28 @@ class AppUsageInfo {
 
 class AppUsage {
   static const MethodChannel _methodChannel =
-      const MethodChannel("app_usage.methodChannel");
+      MethodChannel('app_usage.methodChannel');
 
   static Future<List<AppUsageInfo>> getAppUsage(
       DateTime startDate, DateTime endDate) async {
     if (Platform.isAndroid) {
       /// Convert dates to ms since epoch
-      int end = endDate.millisecondsSinceEpoch;
-      int start = startDate.millisecondsSinceEpoch;
+      var end = endDate.millisecondsSinceEpoch;
+      var start = startDate.millisecondsSinceEpoch;
 
       /// Set parameters
-      Map<String, int> interval = {'start': start, 'end': end};
+      var interval = <String, int>{'start': start, 'end': end};
 
       /// Get result and parse it as a Map of <String, double>
-      Map usage = await _methodChannel.invokeMethod('getUsage', interval);
-      Map<String, double> _map = Map<String, double>.from(usage);
+      var usage = await _methodChannel.invokeMethod('getUsage', interval);
+      var _map = Map<String, double>.from(usage);
 
       /// Convert each entry in the map to an Application object
       return _map.keys
-          .map((k) => AppUsageInfo(k, _map[k], startDate, endDate))
+          .map((k) => AppUsageInfo(k, _map[k]!, startDate, endDate))
           .where((a) => a.usage > Duration(seconds: 0))
           .toList();
     }
-    throw new AppUsageException(
-        'AppUsage API exclusively available on Android!');
+    throw AppUsageException('AppUsage API exclusively available on Android!');
   }
 }

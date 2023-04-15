@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
@@ -7,18 +6,18 @@ import 'package:parental_control/theme/theme.dart';
 
 class SettingsPage extends StatelessWidget {
   SettingsPage(
-      {Key key,
+      {Key? key,
       this.title,
       this.name,
       this.email,
       this.context,
-      @required this.auth})
+      required this.auth})
       : super(key: key);
-  final BuildContext context;
+  final BuildContext? context;
   final AuthBase auth;
-  final String title;
-  final String name;
-  final String email;
+  final String? title;
+  final String? name;
+  final String? email;
 
   static Future<void> show(BuildContext context, AuthBase auth) async {
     await Navigator.of(context).push(
@@ -52,14 +51,13 @@ class SettingsPage extends StatelessWidget {
   Widget buildItems(BuildContext context) {
     return Expanded(
       child: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
-
           ProfileListItem(
             icon: LineAwesomeIcons.history,
             onPressed: () {},
             text: 'Update profile',
           ),
-
           ProfileListItem(
             icon: LineAwesomeIcons.language,
             onPressed: () {
@@ -67,18 +65,10 @@ class SettingsPage extends StatelessWidget {
             },
             text: 'Change language',
           ),
-
           ProfileListItem(
             icon: LineAwesomeIcons.moon,
             onPressed: () {},
             text: 'Dark mode',
-          ),
-
-          ProfileListItem(
-            icon: LineAwesomeIcons.alternate_sign_out,
-            onPressed: () => confirmSignOut(context, auth),
-            text: 'Log out',
-            hasNavigation: false,
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.user_shield,
@@ -97,6 +87,11 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
+        actions: [
+          IconButton(
+              onPressed: () => confirmSignOut(context, auth),
+              icon: Icon(Icons.logout))
+        ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Stack(
@@ -106,9 +101,6 @@ class SettingsPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                SizedBox(
-                  height: 50,
-                ),
                 buildItems(context),
                 ListTile(
                   leading: IconButton(
@@ -129,27 +121,24 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-
-
-
 class ProfileListItem extends StatelessWidget {
-  final IconData icon;
-  final String text;
+  final IconData? icon;
+  final String? text;
   final bool hasNavigation;
   final Function onPressed;
 
   const ProfileListItem({
-    Key key,
+    Key? key,
     this.icon,
     this.text,
-    this.onPressed,
+    required this.onPressed,
     this.hasNavigation = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed,
+      onTap: () => onPressed,
       child: Container(
         height: 55,
         margin: EdgeInsets.symmetric(
@@ -172,7 +161,7 @@ class ProfileListItem extends StatelessWidget {
             ),
             SizedBox(width: 15),
             Text(
-              text,
+              text ?? '',
               style: TextStyles.body,
             ),
             Spacer(),

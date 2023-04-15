@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CustomRaisedButton extends StatelessWidget {
-  CustomRaisedButton(
-      {this.child,
-      this.onPressed,
-      this.borderRadius = 4.0,
-      this.color,
-      this.height = 55.0,
-      this.width})
-      : assert(borderRadius != null);
+  CustomRaisedButton({
+    required this.child,
+    required this.onPressed,
+    required this.color,
+    this.width,
+    this.borderRadius = 4.0,
+    this.height = 55.0,
+  });
 
   final Widget child;
   final Color color;
-  final double width;
+  final double? width;
   final double height;
   final double borderRadius;
   final VoidCallback onPressed;
@@ -22,12 +22,15 @@ class CustomRaisedButton extends StatelessWidget {
     return SizedBox(
       height: height,
       width: width,
-      child: RaisedButton(
+      child: ElevatedButton(
         child: child,
-        color: color,
-        disabledColor: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.indigo,
+          backgroundColor: color,
+          disabledBackgroundColor: color,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          ),
         ),
         onPressed: onPressed,
       ),

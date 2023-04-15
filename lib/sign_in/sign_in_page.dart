@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
+import 'package:parental_control/constants.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/sign_in/sign_in_button.dart';
 import 'package:parental_control/sign_in/sign_in_manager.dart';
@@ -12,9 +12,9 @@ import 'email_sign_in_page.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({
-    Key key,
-    @required this.manager,
-    @required this.isLoading,
+    Key? key,
+    required this.manager,
+    required this.isLoading,
   }) : super(key: key);
   final SignInManager manager;
   final bool isLoading;
@@ -38,7 +38,6 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  ///----------------------------------------------------------------------
   void _showSignInError(BuildContext context, Exception exception) {
     if (exception is FirebaseAuthException &&
         exception.code == 'ERROR_ABORTED_BY_USER') {
@@ -75,14 +74,18 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-
   ///Future void Function called to Sign In with Email and password
   ///
   ///[fullscreenDialog] gives the orientation that the page will have while created
   ///from bottom to to if false or slide on the side (ONLY FOR IOS)
-  Future<void> _signInWithEmail(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute<void>(
-        fullscreenDialog: true, builder: (context) => EmailSignInPage()));
+  Future<void> _signInWithEmail(BuildContext context) async {
+    print("SIGNIN WITH EMAIL =>");
+    try {
+      await Navigator.of(context).push(MaterialPageRoute<void>(
+          fullscreenDialog: true, builder: (context) => EmailSignInPage()));
+    } on Exception catch (e) {
+      print('ERROR THROWN $e');
+    }
   }
 
   @override
@@ -109,7 +112,7 @@ class SignInPage extends StatelessWidget {
               text: 'Sign in With Google',
               textColor: Colors.black87,
               color: Colors.white,
-              onPressed: isLoading ? null : () => _signInWithGoogle(context),
+              onPressed: () => isLoading ? null : _signInWithGoogle(context),
             ),
             SizedBox(height: 8.0),
             SocialSignInButton(
@@ -117,14 +120,15 @@ class SignInPage extends StatelessWidget {
               text: 'Sign in With Facebook',
               textColor: Colors.white,
               color: Color(0xFF334D92),
-              onPressed: isLoading ? null : () => _signInWithFacebook(context),
+              onPressed: () => isLoading ? null : _signInWithFacebook(context),
             ),
             SizedBox(height: 8.0),
             SignInButton(
+              key: Keys.emailKeys,
               text: 'Sign in With email',
               textColor: Colors.white,
               color: Colors.teal[700],
-              onPressed: isLoading ? null : () => _signInWithEmail(context),
+              onPressed: () => isLoading ? null : _signInWithEmail(context),
             ),
             SizedBox(height: 8.0),
             SizedBox(height: 8.0),

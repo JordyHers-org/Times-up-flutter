@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mockito/mockito.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
+import 'package:parental_control/services/geo_locator_service.dart';
 
 ///we don't want to use the real firebase authentication multiple times
 ///so we create a mock sign-in class. Mock is taken from the Mokito package
@@ -10,6 +11,8 @@ import 'package:parental_control/services/database.dart';
 class MockAuth extends Mock implements AuthBase {}
 
 class MockDatabase extends Mock implements Database {}
+
+class MockGeoLocatorService extends Mock implements GeoLocatorService {}
 
 class MockUser extends Mock implements User {
   MockUser();

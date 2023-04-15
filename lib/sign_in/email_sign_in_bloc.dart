@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
+
 import 'package:parental_control/services/auth.dart';
 
 import 'email_sign_in_model.dart';
 
-
 class EmailSignInBloc {
-  EmailSignInBloc({@required this.auth});
+  EmailSignInBloc({required this.auth});
 
   final AuthBase auth;
 
@@ -66,23 +65,23 @@ class EmailSignInBloc {
   void updateSurname(String surname) => updateWith(surname: surname);
 
   void updateWith({
-    String email,
-    String password,
-    String name,
-    String surname,
-    EmailSignInFormType formType,
-    bool isLoading,
-    bool submitted,
+    String? email,
+    String? password,
+    String? name,
+    String? surname,
+    EmailSignInFormType? formType,
+    bool? isLoading,
+    bool? submitted,
   }) {
     // update model
     _model = _model.copyWith(
-        name: name,
-        surname: surname,
-        email: email,
-        password: password,
-        formType: formType,
-        isLoading: isLoading,
-        submitted: submitted);
+        name: name ?? _model.name,
+        surname: surname ?? _model.surname,
+        email: email ?? _model.email,
+        password: password ?? _model.password,
+        formType: formType ?? _model.formType,
+        isLoading: isLoading ?? _model.isLoading,
+        submitted: submitted ?? _model.submitted);
 
     //add updated model to _modelController
     _modelController.add(_model);

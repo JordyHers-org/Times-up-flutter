@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/custom_raised_button.dart';
-
 
 class SocialSignInButton extends CustomRaisedButton {
   SocialSignInButton(
-      {@required String assetName,
-      @required String text,
-       Color color,
-       Color textColor,
-       VoidCallback onPressed})
-      : assert (text!= null),
-        assert  (assetName!=null),
+      {required String assetName,
+      required String text,
+      Color? color,
+      Color? textColor,
+      VoidCallback? onPressed})
+      : assert(text != null),
+        assert(assetName != null),
         super(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -26,6 +25,6 @@ class SocialSignInButton extends CustomRaisedButton {
                 ),
               ],
             ),
-            color: color,
-            onPressed: onPressed);
+            color: color ?? Colors.indigo,
+            onPressed: onPressed ?? () {});
 }

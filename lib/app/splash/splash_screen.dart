@@ -7,9 +7,9 @@ import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
 
 class SplashScreen extends StatefulWidget {
-  final BuildContext context;
+  final BuildContext? context;
 
-  const SplashScreen({Key key, this.context}) : super(key: key);
+  const SplashScreen({Key? key, this.context}) : super(key: key);
 
   static Widget create(BuildContext context) {
     return SplashScreen(context: context);
@@ -64,11 +64,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     });
                   },
                   itemCount: splashData.length,
-                  itemBuilder: (context, index) =>
-                      SplashContent(
-                        image: splashData[index]['image'],
-                        text: splashData[index]['text'],
-                      ),
+                  itemBuilder: (context, index) => SplashContent(
+                    image: splashData[index]['image']!,
+                    text: splashData[index]['text']!,
+                  ),
                 ),
               ),
               Expanded(
@@ -142,7 +141,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
                           splashData.length,
-                              (index) => buildDot(index: index),
+                          (index) => buildDot(index: index),
                         ),
                       ),
                       Spacer(),
@@ -157,7 +156,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  AnimatedContainer buildDot({int index}) {
+  AnimatedContainer buildDot({required int index}) {
     return AnimatedContainer(
       duration: kAnimationDuration,
       margin: EdgeInsets.only(right: 5),

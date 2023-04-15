@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class EmptyContent extends StatelessWidget {
   const EmptyContent(
-      {Key key,
+      {Key? key,
       this.title = 'Nothing here ',
       this.fontSizeMessage = 18.0,
       this.fontSizeTitle = 32.0,
@@ -26,8 +26,9 @@ class EmptyContent extends StatelessWidget {
               fontSize: fontSizeTitle,
               color: Colors.black54,
             ),
-          ), Text(
-           message,
+          ),
+          Text(
+            message,
             style: TextStyle(
               fontSize: fontSizeMessage,
               color: Colors.black54,

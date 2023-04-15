@@ -1,2 +1,5 @@
+import 'package:flutter/material.dart';
 
-// const kchildImageLoaction =
+class Keys {
+  static const emailKeys = Key('emailLoginKey');
+}

@@ -19,9 +19,9 @@ class MockValueNotifier<T> extends ValueNotifier<T> {
 }
 
 void main() {
-  MockAuth mockAuth;
-  MockValueNotifier<bool> isLoading;
-  SignInManager manager;
+  late MockAuth mockAuth;
+  late MockValueNotifier<bool> isLoading;
+  late SignInManager manager;
   setUp(() {
     mockAuth = MockAuth();
     isLoading = MockValueNotifier<bool>(false);

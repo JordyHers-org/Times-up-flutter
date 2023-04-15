@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/api_path.dart';
@@ -26,9 +23,9 @@ abstract class Database {
   Future<void> setNotification(
       NotificationModel notification, ChildModel model);
 
-  Stream<List<NotificationModel>> notificationStream();
+  Stream<List<NotificationModel>> notificationStream({String childId});
 
-  Stream<ChildModel> childStream({@required String childId});
+  Stream<ChildModel> childStream({required String childId});
 
   Future<ChildModel> getUserCurrentChild(
       String name, String key, GeoPoint latLong);
@@ -38,16 +35,16 @@ abstract class Database {
 
 class FirestoreDatabase implements Database {
   FirestoreDatabase({
-    @required this.uid,
+    required this.uid,
     this.auth,
   }) : assert(uid != null);
 
   final String uid;
-  final AuthBase auth;
-  ChildModel _child;
+  final AuthBase? auth;
+  ChildModel? _child;
 
   @override
-  ChildModel get currentChild => _child;
+  ChildModel get currentChild => _child!;
 
   final _service = FirestoreService.instance;
   AppUsageService apps = AppUsageService();
@@ -56,10 +53,10 @@ class FirestoreDatabase implements Database {
   @override
   Future<ChildModel> getUserCurrentChild(
       String name, String key, GeoPoint latLong) async {
-    final user = auth.currentUser.uid;
-    final token = await auth.setToken();
+    final user = auth?.currentUser?.uid;
+    final token = await auth?.setToken();
     await apps.getAppUsageService();
-    await setTokenOnFirestore({'childId': '$key', 'device_token': '$token'});
+    await setTokenOnFireStore({'childId': '$key', 'device_token': '$token'});
 
     String _currentChild;
     String _email;
@@ -72,9 +69,9 @@ class FirestoreDatabase implements Database {
         .get()
         .then((doc) async {
       if (doc.exists) {
-        _email = doc.data()['email'];
-        _currentChild = doc.data()['name'];
-        _image = doc.data()['image'];
+        _email = doc.data()!['email'];
+        _currentChild = doc.data()!['name'];
+        _image = doc.data()!['image'];
         print('------------------------------------------------------');
         print(' User : $user \n');
         print(' ---------------- We found this as a match --------');
@@ -93,19 +90,19 @@ class FirestoreDatabase implements Database {
             appsUsageModel: apps.info,
             token: token);
 
-        await setChild(_child);
+        await setChild(_child!);
         return _child;
       } else {
         print(' NO SUCH FILE ON DATABASE ');
       }
     });
     print(_child);
-    return _child;
+    return _child!;
   }
 
   @override
   Future<void> liveUpdateChild(ChildModel model, value) async {
-    final user = auth.currentUser.uid;
+    final user = auth?.currentUser?.uid;
     await apps.getAppUsageService();
     var point = await geo.getInitialLocation();
     var currentLocation = GeoPoint(point.latitude, point.longitude);
@@ -115,8 +112,7 @@ class FirestoreDatabase implements Database {
         ' DEBUG: FROM DATABASE ===> Last location taken is longitude : ${point.longitude} , latitude :${point.latitude}');
     print(' DEBUG: APP USAGE ==> ${apps.info}');
 
-
-    if(model.id == 'D9FBAB88'){
+    if (model.id == 'D9FBAB88') {
       print('Choosing random Position for ${model.id}');
       // generates a new Random object
       var positions = <GeoPoint>[
@@ -138,7 +134,7 @@ class FirestoreDatabase implements Database {
         appsUsageModel: apps.info,
         image: model.image,
       );
-    }else {
+    } else {
       _child = ChildModel(
         id: model.id,
         name: model.name,
@@ -150,7 +146,7 @@ class FirestoreDatabase implements Database {
       );
     }
 
-    await updateChild(_child);
+    await updateChild(_child!);
   }
 
   @override
@@ -173,7 +169,7 @@ class FirestoreDatabase implements Database {
         data: notification.toMap());
   }
 
-  Future<void> setTokenOnFirestore(Map<String, dynamic> token) async {
+  Future<void> setTokenOnFireStore(Map<String, dynamic> token) async {
     await _service.setNotificationFunction(
         path: APIPath.deviceToken(), data: token);
   }
@@ -189,17 +185,16 @@ class FirestoreDatabase implements Database {
   }
 
   @override
-  Stream<ChildModel> childStream({@required String childId}) =>
+  Stream<ChildModel> childStream({required String childId}) =>
       _service.documentStream(
         path: APIPath.child(uid, childId),
         builder: (data, documentId) => ChildModel.fromMap(data, documentId),
       );
 
   @override
-  Stream<List<NotificationModel>> notificationStream(
-      {@required String childId}) {
+  Stream<List<NotificationModel>> notificationStream({String? childId}) {
     return _service.notificationStream(
-      path: APIPath.notificationsStream(uid, childId),
+      path: APIPath.notificationsStream(uid, childId ?? ''),
       builder: (data, documentId) =>
           NotificationModel.fromMap(data, documentId),
     );
@@ -210,6 +205,4 @@ class FirestoreDatabase implements Database {
         path: APIPath.children(uid),
         builder: (data, documentId) => ChildModel.fromMap(data, documentId),
       );
-
-
 }

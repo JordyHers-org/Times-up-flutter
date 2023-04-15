@@ -68,9 +68,7 @@ class _SetChildPageState extends State<SetChildPage> {
     }
   }
 
-
-
-  List<Widget> _buildChildren(BuildContext context, {SetChildModel model}) {
+  List<Widget> _buildChildren(BuildContext context, {SetChildModel? model}) {
     return [
       TextField(
           enabled: appState == AppState.loading ? false : true,
@@ -78,7 +76,7 @@ class _SetChildPageState extends State<SetChildPage> {
           controller: _nameController,
           textInputAction: TextInputAction.next,
           onEditingComplete: () {
-            if (model.nameValidator.isValid(model.name) == true) {
+            if (model?.nameValidator.isValid(model.name) == true) {
               FocusScope.of(context).requestFocus(_keyFocusNode);
             }
           },

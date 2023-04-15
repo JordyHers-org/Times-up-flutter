@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 
 class NotificationModel with ChangeNotifier {
-  String title;
-  String body;
-  String message;
-  String id;
+  String? title;
+  String? body;
+  String? message;
+  String? id;
 
   NotificationModel({title, body, message, id}) {
     this.id = id;
@@ -14,9 +14,6 @@ class NotificationModel with ChangeNotifier {
   }
 
   factory NotificationModel.fromMap(Map<dynamic, dynamic> data, documentId) {
-    if (data == null) {
-      return null;
-    }
     final String id = data['id'];
     final String title = data['title'];
     final String message = data['message'];
@@ -31,7 +28,6 @@ class NotificationModel with ChangeNotifier {
       'title': title,
       'body': body,
       'message': message,
-      //'appsUsageModel': null,
     };
   }
 
