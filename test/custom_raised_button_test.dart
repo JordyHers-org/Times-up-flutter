@@ -16,16 +16,17 @@ void main() {
         home: CustomRaisedButton(
       child: Text('tap me'),
       onPressed: () => pressed = true,
+      color: Colors.black,
     )));
 
     ///This code tries to find if in CustomRaisedButton there is a RaisedButton
-    final button = find.byType(RaisedButton);
+    final button = find.byType(ElevatedButton);
 
     ///we use it a finder which finds fromType
     expect(button, findsOneWidget);
 
     ///findsNothing is used to check if no widget are found
-    expect(find.byType(FlatButton), findsNothing);
+    expect(find.byType(OutlinedButton), findsNothing);
 
     ///here we try to find if a widget text holds tap me as value
     expect(find.text('tap me'), findsOneWidget);

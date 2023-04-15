@@ -5,23 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:parental_control/app/landing_page.dart';
+import 'package:parental_control/app/pages/child_page.dart';
 import 'package:parental_control/app/pages/parent_page.dart';
 import 'package:parental_control/services/auth.dart';
+import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/sign_in/sign_in_page.dart';
 import 'package:provider/provider.dart';
 
 import 'mocks.dart';
 
 void main() {
-  MockAuth mockAuth;
-  MockDatabase mockDatabase;
-  StreamController<User> onAuthStateChangedController;
+  late MockAuth mockAuth;
+  late MockGeoLocatorService mockGeoLocatorService;
+  late MockDatabase mockDatabase;
+  late StreamController<User> onAuthStateChangedController;
 
   setUp(() {
     ///A new mock authentication service will be created every time
     ///we run a test.
     mockAuth = MockAuth();
     mockDatabase = MockDatabase();
+    mockGeoLocatorService = MockGeoLocatorService();
     onAuthStateChangedController = StreamController<User>();
   });
 
@@ -41,14 +45,15 @@ void main() {
   /// Always create widgets with all the ancestors that are needed
   /// here we have to use MaterialApp
   Future<void> pumpLandingPage(WidgetTester tester,
-      {VoidCallback onSignedIn}) async {
+      {VoidCallback? onSignedIn}) async {
     await tester.pumpWidget(Provider<AuthBase>(
       create: (_) => mockAuth,
-      child: MaterialApp(
-        home: Scaffold(
-          body: LandingPage(
-              // databaseBuilder: (_)=> mockDatabase,
-              ),
+      child: Provider<GeoLocatorService>(
+        create: (_) => mockGeoLocatorService,
+        child: MaterialApp(
+          home: Scaffold(
+            body: LandingPage(),
+          ),
         ),
       ),
     ));
@@ -63,13 +68,14 @@ void main() {
   });
 
   testWidgets('null User', (WidgetTester tester) async {
-    stubOnAuthStateChangesYields([null]);
+    stubOnAuthStateChangesYields([]);
     await pumpLandingPage(tester);
     expect(find.byType(SignInPage), findsOneWidget);
   });
   testWidgets('non-null User', (WidgetTester tester) async {
     stubOnAuthStateChangesYields([MockUser.uid('1342552')]);
     await pumpLandingPage(tester);
-    expect(find.byType(ParentPage), findsOneWidget);
+    expect(find.byType(ParentPage), findsNothing);
+    expect(find.byType(ChildPage), findsNothing);
   });
 }

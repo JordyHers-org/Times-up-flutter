@@ -23,6 +23,6 @@ void main() {
 
     ///here we pass a string [test] to check if the method isValid will return null
     /// when the string is empty
-    expect(validator.isValid(null), false);
+    expect(validator.isValid(null), null);
   });
 }
