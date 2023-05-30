@@ -5,6 +5,7 @@ import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/notification_service.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_widgets/show_exeption_alert.dart';
@@ -104,7 +105,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         },
                         direction: DismissDirection.endToStart,
                         child: Card(
-                          color: Colors.indigo,
+                          color: CustomColors.indigoLight,
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
                             child: ListTile(

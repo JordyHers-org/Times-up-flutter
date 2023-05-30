@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:parental_control/common_widgets/autosize_text.dart';
 import 'package:parental_control/common_widgets/size_config.dart';
+import 'package:parental_control/theme/theme.dart';
 
 class SplashContent extends StatelessWidget {
   const SplashContent({
@@ -22,31 +24,31 @@ class SplashContent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Time's Up",
+              DisplayText(
+                text: "Time's Up",
+                fontSize: 35,
                 style: TextStyle(
-                  fontSize: getProportionateScreenWidth(25),
-                  color: Colors.indigo.shade400,
+                  color: CustomColors.indigoDark,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               SizedBox(height: 8),
-              Text(
-                text,
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.35),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    height: 1.5),
-                textAlign: TextAlign.left,
+              Container(
+                width: MediaQuery.of(context).size.width / 1.5,
+                child: DisplayText(
+                  text: text,
+                  style: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                      fontWeight: FontWeight.w500,
+                      height: 1.5),
+                ),
               ),
             ],
           ),
         ),
-        SizedBox(height: 8),
         Image.asset(
           image,
-          height: getProportionateScreenHeight(220),
+          height: getProportionateScreenHeight(150),
           width: getProportionateScreenWidth(135),
         ),
       ],

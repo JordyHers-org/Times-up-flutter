@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parental_control/theme/theme.dart';
 
 class Kids extends StatelessWidget {
   final String? image_location;
@@ -13,9 +14,10 @@ class Kids extends StatelessWidget {
       onTap: onPressed,
       child: image_location != null || image_caption != null
           ? Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              height: 200,
-              width: 150.0,
+              margin: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              height: 130,
+              width: 130.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -34,8 +36,8 @@ class Kids extends StatelessWidget {
                     child: Text(
                       image_caption!,
                       style: TextStyle(
-                          color: Colors.black45,
-                          fontSize: 16,
+                          color: CustomColors.indigoLight,
+                          fontSize: 17,
                           fontWeight: FontWeight.w700),
                     ),
                   ),

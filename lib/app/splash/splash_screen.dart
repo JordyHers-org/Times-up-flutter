@@ -58,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Expanded(
                 flex: 3,
                 child: PageView.builder(
+                  physics: BouncingScrollPhysics(),
                   onPageChanged: (value) {
                     setState(() {
                       currentPage = value;
@@ -114,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
+                                          CustomColors.greenPrimary)),
                               onPressed: () {
                                 SharedPreference().setVisitingFlag();
                                 SharedPreference().setChildDevice();

@@ -6,6 +6,7 @@ import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/sign_in/sign_in_button.dart';
 import 'package:parental_control/sign_in/sign_in_manager.dart';
 import 'package:parental_control/sign_in/social_sign_in_button.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 import 'email_sign_in_page.dart';
@@ -98,7 +99,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+      decoration: BoxDecoration(color: CustomColors.indigoLight),
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

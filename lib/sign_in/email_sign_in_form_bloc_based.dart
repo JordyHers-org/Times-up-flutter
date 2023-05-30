@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/form_submit_button.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/services/auth.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 import 'email_sign_in_bloc.dart';
@@ -24,7 +25,6 @@ class EmailSignInFormBlocBased extends StatefulWidget {
     );
   }
 
-  ///_____________________________________________________________________________________
   @override
   _EmailSignInFormBlocBasedState createState() =>
       _EmailSignInFormBlocBasedState();
@@ -138,6 +138,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         onPressed: () => model.canSubmitRegister || model.canSubmitSignIn
             ? _submit(model)
             : null,
+        color: CustomColors.greenPrimary,
         text: model.primaryButtonText,
       ),
       SizedBox(height: 8.0),
@@ -147,8 +148,6 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       ),
     ];
   }
-
-  ///------------------------------ Widgets -------------------------------------------------
 
   Widget _buildEmailTextField(EmailSignInModel model) {
     return TextField(
