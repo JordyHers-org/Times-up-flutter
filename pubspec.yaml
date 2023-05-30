@@ -48,6 +48,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   mockito: ^5.0.0
   flutter_local_notifications: ^14.0.0-dev.2
+  auto_size_text: ^3.0.0
 
   test: any
 
