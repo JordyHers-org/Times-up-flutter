@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:parental_control/app/config/geo_full.dart';
+import 'package:parental_control/app/config/geo_location.dart';
 import 'package:parental_control/app/pages/child_details_page.dart';
 import 'package:parental_control/app/pages/edit_child_page.dart';
 import 'package:parental_control/app/pages/notification_page.dart';
 import 'package:parental_control/app/pages/setting_page.dart';
 import 'package:parental_control/common_widgets/child_horizontal_view.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
+import 'package:parental_control/common_widgets/feature_widget.dart';
+import 'package:parental_control/common_widgets/loading_map.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
@@ -16,12 +20,7 @@ import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-import '../config/geo_full.dart';
-import '../config/geo_location.dart';
-
 enum MapScreenState { Full, Small }
-
-//TODO:Display different commands Focus mode Cards etc
 
 class ParentPage extends StatefulWidget {
   const ParentPage({Key? key, this.auth}) : super(key: key);
@@ -35,8 +34,7 @@ class ParentPage extends StatefulWidget {
   _ParentPageState createState() => _ParentPageState();
 }
 
-class _ParentPageState extends State<ParentPage>
-    with SingleTickerProviderStateMixin {
+class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateMixin {
   late Geo geo;
 
   ///  Variables
@@ -73,9 +71,8 @@ class _ParentPageState extends State<ParentPage>
     });
 
     _isShowCaseActivated == false
-        ? WidgetsBinding.instance.addPostFrameCallback((_) =>
-            ShowCaseWidget.of(context)
-                .startShowCase([_settingsKey, _childListKey, _addKey]))
+        ? WidgetsBinding.instance.addPostFrameCallback(
+            (_) => ShowCaseWidget.of(context).startShowCase([_settingsKey, _childListKey, _addKey]))
         : null;
   }
 
@@ -86,14 +83,13 @@ class _ParentPageState extends State<ParentPage>
 
     return mapScreenState == MapScreenState.Small
         ? Scaffold(
-            body: _buildParentPageContent(context, auth),
+            body: _buildParentPageContent(context, auth, database),
             floatingActionButton: Showcase(
               key: _addKey,
               textColor: Colors.indigo,
               description: 'Add a new child here ',
               child: FloatingActionButton(
-                onPressed: () => EditChildPage.show(context,
-                    database: Provider.of<Database>(context, listen: false)),
+                onPressed: () => EditChildPage.show(context, database: Provider.of<Database>(context, listen: false)),
                 child: const Icon(Icons.add),
               ),
             ),
@@ -101,177 +97,137 @@ class _ParentPageState extends State<ParentPage>
         : _buildMapFullScreen(database);
   }
 
-  Widget _buildParentPageContent(BuildContext context, AuthBase auth) {
-    final database = Provider.of<Database>(context, listen: false);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.20,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              color: Colors.indigo,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20))),
-          padding: const EdgeInsets.only(top: 25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Time's Up",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white38,
-                          fontSize: 22),
-                    ),
-                    OutlinedButton(
-                      onPressed: () => SettingsPage.show(context, auth),
-                      child: Showcase(
-                        key: _settingsKey,
-                        textColor: Colors.indigo,
-                        description: 'change the settings here',
-                        showArrow: true,
-                        child: Icon(
-                          Icons.settings,
-                          color: Colors.white,
-                        ),
-                      ),
-                    )
-                  ],
+  Widget _buildParentPageContent(BuildContext context, AuthBase auth, Database database) {
+    return NestedScrollView(
+      headerSliverBuilder: (context, value) {
+        return [
+          SliverAppBar(
+            backgroundColor: CustomColors.indigoDark,
+            expandedHeight: MediaQuery.of(context).size.height * 0.12,
+            shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Time's Up",
+                  style: TextStyle(fontWeight: FontWeight.w800, color: CustomColors.indigoLight, fontSize: 22),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(
-                    10.0,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: TabBar(
-                    physics: BouncingScrollPhysics(),
-                    controller: _tabController,
-                    // give the indicator a decoration (color and border radius)
-                    indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        10.0,
-                      ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(side: BorderSide.none),
+                  onPressed: () => SettingsPage.show(context, auth),
+                  child: Showcase(
+                    key: _settingsKey,
+                    textColor: Colors.indigo,
+                    description: 'change the settings here',
+                    showArrow: true,
+                    child: Icon(
+                      Icons.settings,
                       color: Colors.white,
                     ),
-
-                    labelColor: Colors.indigo,
-                    unselectedLabelColor: Colors.white,
-                    tabs: [
-                      // first tab [you can add an icon using the icon property]
-                      Tab(
-                        text: 'Control',
-                      ),
-
-                      // second tab [you can add an icon using the icon property]
-                      Tab(
-                        text: 'Notifications',
-                      ),
-                    ],
                   ),
+                )
+              ],
+            ),
+            pinned: true,
+            floating: true,
+            bottom: TabBar(
+              indicatorPadding: EdgeInsets.all(4.0),
+              physics: BouncingScrollPhysics(),
+              controller: _tabController,
+              // give the indicator a decoration (color and border radius)
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+              ),
+
+              labelColor: Colors.indigo,
+              unselectedLabelColor: Colors.white,
+              tabs: [
+                // first tab [you can add an icon using the icon property]
+                Tab(
+                  text: 'Control',
                 ),
-              ),
-            ],
-          ),
-        ),
 
-        /// Tab bar view here
-        Expanded(
-          child: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _tabController,
-            children: [
-              // first tab bar view widget
-              CustomScrollView(
-                physics: BouncingScrollPhysics(),
-                slivers: <Widget>[
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        ListTile(
-                          title: Text(
-                            'My Children',
-                            style: TextStyle(color: Colors.indigo),
+                // second tab [you can add an icon using the icon property]
+                Tab(
+                  text: 'Notifications',
+                ),
+              ],
+            ),
+          ),
+        ];
+      },
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          /// Tab bar view here
+          Expanded(
+            child: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              children: [
+                // first tab bar view widget
+                CustomScrollView(
+                  physics: BouncingScrollPhysics(),
+                  slivers: <Widget>[
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          ListTile(
+                            title: Text(
+                              'My Children',
+                              style: TextStyle(color: Colors.indigo),
+                            ),
+                            subtitle: Text(
+                              'Choose child to get more infos - scroll right ',
+                              style: TextStyle(color: Colors.grey.shade400),
+                            ),
+                            trailing: Icon(
+                              Icons.info_outline_rounded,
+                              color: Colors.deepOrangeAccent.shade100,
+                            ),
+                          ).p8,
+                          SizedBox(height: 3),
+                          _buildChildrenList(database),
+                          _header(),
+                          Container(
+                            margin: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              color: Colors.black.withOpacity(0.14),
+                            ),
+                            child: GestureDetector(
+                              onLongPress: () => setState(() {
+                                mapScreenState = MapScreenState.Full;
+                              }),
+                              child: Consumer<Position?>(builder: (_, position, __) {
+                                return (position != null) ? Geo(position, database) : LoadingMap();
+                              }),
+                            ),
                           ),
-                          subtitle: Text(
-                            'Choose child to get more infos ',
-                            style: TextStyle(color: Colors.grey.shade400),
+                          const SizedBox(height: 8),
+                          FeatureWidget(
+                            title: '-- 00 h:00 min --',
+                            icon: Icons.access_alarm,
                           ),
-                          trailing: Icon(
-                            Icons.info_outline_rounded,
-                            color: Colors.deepOrangeAccent.shade100,
-                          ),
-                        ).p8,
-                        Divider(
-                            height: 5,
-                            color: Colors.grey.withOpacity(0.1),
-                            thickness: 3),
-                        SizedBox(height: 3),
-                        _buildChildrenList(database),
-                        Divider(
-                            height: 5,
-                            color: Colors.grey.withOpacity(0.1),
-                            thickness: 3),
-                        _header(),
-                        GestureDetector(
-                          onLongPress: () {
-                            setState(() {
-                              mapScreenState = MapScreenState.Full;
-                            });
-                          },
-                          child:
-                              Consumer<Position?>(builder: (_, position, __) {
-                            return (position != null)
-                                ? Geo(position, database)
-                                : Container(
-                                    height: 250,
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(16)),
-                                        color: Colors.black.withOpacity(0.14)),
-                                  );
-                          }),
-                        ),
-                        const SizedBox(height: 8),
-                        const Padding(
-                          padding: EdgeInsets.all(45.0),
-                          child: EmptyContent(),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
 
-              /// Second tab bar view widget
-              ///
-              ///
-              Provider<NotificationService>(
-                create: (_) => NotificationService(),
-                builder: (context, __) =>
-                    NotificationPage.create(context, widget.auth!),
-              ),
-            ],
+                Provider<NotificationService>(
+                  create: (_) => NotificationService(),
+                  builder: (context, __) => NotificationPage.create(context, widget.auth!),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -281,50 +237,44 @@ class _ParentPageState extends State<ParentPage>
       description: 'Tap on the child to display infos',
       key: _childListKey,
       child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: Colors.white),
-          //color: Colors.grey,
-          height: 160.0,
-          child: StreamBuilder<List<ChildModel?>>(
-            stream: database.childrenStream(),
-            builder: (context, AsyncSnapshot snapshot) {
-              final data = snapshot.data;
-              if (snapshot.hasData) {
-                if (data != null && data.isNotEmpty) {
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return Kids(
-                          image_location: data[index]?.image,
-                          image_caption: data[index]?.name,
-                          onPressed: () =>
-                              ChildDetailsPage.show(context, data[index]!));
-                    },
-                  );
-                } else {
-                  return EmptyContent();
-                }
-              } else if (snapshot.hasError) {
-                print(snapshot.error);
-                return EmptyContent(
-                  title: 'Something went wrong ',
-                  message: 'Can\'t load items right now',
+        decoration: CustomDecoration.withShadowDecoration,
+        height: 160.0,
+        child: StreamBuilder<List<ChildModel?>>(
+          stream: database.childrenStream(),
+          builder: (context, AsyncSnapshot snapshot) {
+            final data = snapshot.data;
+            if (snapshot.hasData) {
+              if (data != null && data.isNotEmpty) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return Kids(
+                        image_location: data[index]?.image,
+                        image_caption: data[index]?.name,
+                        onPressed: () => ChildDetailsPage.show(context, data[index]!));
+                  },
                 );
+              } else {
+                return EmptyContent();
               }
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Kids(
-                      image_location: null,
-                      image_caption: null,
-                      onPressed: null);
-                },
+            } else if (snapshot.hasError) {
+              print(snapshot.error);
+              return EmptyContent(
+                title: 'Something went wrong ',
+                message: 'Can\'t load items right now',
               );
-            },
-          )),
+            }
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return Kids(image_location: null, image_caption: null, onPressed: null);
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -336,12 +286,12 @@ class _ParentPageState extends State<ParentPage>
           padding: EdgeInsets.only(top: 20.0),
           child: Text(
             "Follow your child's location ",
-            style: TextStyle(color: Colors.indigo),
+            style: TextStyle(color: CustomColors.indigoLight),
           ),
         ),
         Text(
           'Long Press the map to open the full screen mode',
-          style: TextStyle(color: Colors.grey.shade400),
+          style: TextStyle(color: CustomColors.greenPrimary),
         ),
       ],
     ).p16;
@@ -350,9 +300,7 @@ class _ParentPageState extends State<ParentPage>
   Widget _buildMapFullScreen(database) {
     return Scaffold(
       body: Consumer<Position>(builder: (_, position, __) {
-        return (position != null)
-            ? GeoFull(position, database)
-            : Center(child: CircularProgressIndicator());
+        return (position != null) ? GeoFull(position, database) : Center(child: CircularProgressIndicator());
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: FloatingActionButton(

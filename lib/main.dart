@@ -45,8 +45,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Parental Control',
       theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.DarkTheme,
-      themeMode: ThemeMode.system,
+      darkTheme: AppTheme.darkTheme,
       home: FutureBuilder(
           future: Future.wait([
             geoService.getInitialLocation(),

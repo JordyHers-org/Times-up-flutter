@@ -99,24 +99,24 @@ class _GeoState extends State<Geo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
-      child: Center(
-        child: GoogleMap(
-          initialCameraPosition: CameraPosition(
-              target: LatLng(widget.initialPosition.latitude,
-                  widget.initialPosition.longitude),
-              zoom: 15),
-          mapType: MapType.normal,
-          myLocationEnabled: true,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-            setState(() {
-              markers[MarkerId(allMarkers.first.markerId.value)] =
-                  allMarkers.first;
-            });
-          },
-          markers: Set<Marker>.of(allMarkers),
-        ),
+      height: 300,
+      margin: EdgeInsets.all(10),
+      child: GoogleMap(
+        padding: EdgeInsets.all(10),
+        mapType: MapType.normal,
+        myLocationEnabled: true,
+        markers: Set<Marker>.of(allMarkers),
+        initialCameraPosition: CameraPosition(
+            target: LatLng(widget.initialPosition.latitude,
+                widget.initialPosition.longitude),
+            zoom: 15),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+          setState(() {
+            markers[MarkerId(allMarkers.first.markerId.value)] =
+                allMarkers.first;
+          });
+        },
       ),
     );
   }

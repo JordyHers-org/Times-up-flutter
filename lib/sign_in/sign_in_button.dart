@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/custom_raised_button.dart';
+import 'package:parental_control/theme/theme.dart';
 
 class SignInButton extends CustomRaisedButton {
   SignInButton(
@@ -13,6 +14,6 @@ class SignInButton extends CustomRaisedButton {
               text,
               style: TextStyle(color: textColor, fontSize: 15.0),
             ),
-            color: color ?? Colors.indigo,
+            color: color ?? CustomColors.indigoLight,
             onPressed: onPressed ?? () {});
 }
