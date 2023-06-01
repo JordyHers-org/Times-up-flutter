@@ -1,0 +1,7 @@
+# This file is used to define the code owners for the repository
+# For more information on CODEOWNERS, see: https://docs.github.com/en/repositories/code-reviewing/about-code-reviewing
+
+# Assign ownership of the entire repository to jordyhers & mateen
+* @jordyhers
+* @muhammadmateen027
+
