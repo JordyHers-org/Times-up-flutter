@@ -63,8 +63,11 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       await widget.bloc.submit();
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
-      await showExceptionAlertDialog(context,
-          title: model.signInFailedText, exception: e);
+      await showExceptionAlertDialog(
+        context,
+        title: model.signInFailedText,
+        exception: e,
+      );
     }
   }
 
@@ -109,7 +112,8 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
                 errorText:
                     model.showErrorTextName ? model.inValidNameErrorText : null,
                 enabled: model.isLoading == false,
-              ))
+              ),
+            )
           : Opacity(opacity: 0),
       model.formType == EmailSignInFormType.register
           ? TextField(
@@ -128,7 +132,8 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
                     ? model.inValidSurnameErrorText
                     : null,
                 enabled: model.isLoading == false,
-              ))
+              ),
+            )
           : Opacity(opacity: 0),
       _buildEmailTextField(model),
       SizedBox(height: 8.0),
@@ -154,11 +159,12 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       focusNode: _emailFocusNode,
       controller: _emailController,
       decoration: InputDecoration(
-          labelText: 'Email',
-          hintText: 'test@test.com',
-          errorText:
-              model.showErrorTextEmail ? model.inValidEmailErrorText : null,
-          enabled: model.isLoading == false),
+        labelText: 'Email',
+        hintText: 'test@test.com',
+        errorText:
+            model.showErrorTextEmail ? model.inValidEmailErrorText : null,
+        enabled: model.isLoading == false,
+      ),
       autocorrect: false,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
@@ -172,11 +178,11 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       focusNode: _passwordFocusNode,
       controller: _passwordController,
       decoration: InputDecoration(
-          labelText: 'Password',
-          errorText: model.showErrorTexPassword
-              ? model.inValidPasswordErrorText
-              : null,
-          enabled: model.isLoading == false),
+        labelText: 'Password',
+        errorText:
+            model.showErrorTexPassword ? model.inValidPasswordErrorText : null,
+        enabled: model.isLoading == false,
+      ),
       obscureText: true,
       textInputAction: TextInputAction.done,
       onEditingComplete: () => _submit(model),
@@ -188,20 +194,21 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: StreamBuilder<EmailSignInModel>(
-          stream: widget.bloc.modelStream,
-          initialData: EmailSignInModel(),
-          builder: (context, snapshot) {
-            final model = snapshot.data;
+        stream: widget.bloc.modelStream,
+        initialData: EmailSignInModel(),
+        builder: (context, snapshot) {
+          final model = snapshot.data;
 
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: _buildChildren(model!),
-              ),
-            );
-          }),
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: _buildChildren(model!),
+            ),
+          );
+        },
+      ),
     );
   }
 }

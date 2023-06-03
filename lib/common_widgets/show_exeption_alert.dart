@@ -7,7 +7,7 @@ Future<void> showExceptionAlertDialog(
   required String title,
   required Exception exception,
 }) async {
-  showAlertDialog(
+  await showAlertDialog(
     context,
     title: title,
     content: _message(exception),

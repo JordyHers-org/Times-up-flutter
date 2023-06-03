@@ -5,7 +5,14 @@ import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/theme/theme.dart';
 
 class SettingsPage extends StatelessWidget {
-  SettingsPage({Key? key, this.title, this.name, this.email, this.context, required this.auth}) : super(key: key);
+  SettingsPage({
+    Key? key,
+    this.title,
+    this.name,
+    this.email,
+    this.context,
+    required this.auth,
+  }) : super(key: key);
   final BuildContext? context;
   final AuthBase auth;
   final String? title;
@@ -30,11 +37,13 @@ class SettingsPage extends StatelessWidget {
   }
 
   Future<void> confirmSignOut(BuildContext context, AuthBase auth) async {
-    final didRequestSignOut = await showAlertDialog(context,
-        title: 'Logout',
-        content: 'Are you sure you want to log out?',
-        defaultActionText: 'Logout',
-        cancelActionText: 'Cancel');
+    final didRequestSignOut = await showAlertDialog(
+      context,
+      title: 'Logout',
+      content: 'Are you sure you want to log out?',
+      defaultActionText: 'Logout',
+      cancelActionText: 'Cancel',
+    );
     if (didRequestSignOut == true) {
       await _signOut(context, auth);
       Navigator.of(context).pop();
@@ -80,7 +89,12 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
-        actions: [IconButton(onPressed: () => confirmSignOut(context, auth), icon: Icon(Icons.logout))],
+        actions: [
+          IconButton(
+            onPressed: () => confirmSignOut(context, auth),
+            icon: Icon(Icons.logout),
+          )
+        ],
       ),
       body: Stack(
         children: <Widget>[

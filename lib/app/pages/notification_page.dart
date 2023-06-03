@@ -32,7 +32,10 @@ class NotificationPage extends StatefulWidget {
     final notification =
         Provider.of<NotificationService>(context, listen: false);
     return NotificationPage(
-        auth: auth, notification: notification, database: database);
+      auth: auth,
+      notification: notification,
+      database: database,
+    );
   }
 
   @override
@@ -68,76 +71,81 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Widget buildStreamNotification(BuildContext context) {
     return StreamBuilder<List<NotificationModel>>(
-        stream: widget.database?.notificationStream(),
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData) {
-            final data = snapshot.data;
+      stream: widget.database?.notificationStream(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data;
 
-            return data!.isNotEmpty
-                ? ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return Dismissible(
-                        background: Card(
-                          color: Colors.red,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Icon(Icons.delete_forever,
-                                    color: Colors.white, size: 25)
-                              ],
-                            ),
+          return data!.isNotEmpty
+              ? ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                      background: Card(
+                        color: Colors.red,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                Icons.delete_forever,
+                                color: Colors.white,
+                                size: 25,
+                              )
+                            ],
                           ),
                         ),
-                        key: ValueKey<int>(index),
-                        onDismissed: (DismissDirection direction) async {
-                          print('DATA TO BE DELETED IS ${data[index].id}');
-                          await _delete(context, data[index]);
-                          setState(() {
-                            print(' Notification deleted');
-                            data.removeAt(index);
-                            appState = AppState.Empty;
-                            print(appState);
-                          });
-                        },
-                        direction: DismissDirection.endToStart,
-                        child: Card(
-                          color: CustomColors.indigoLight,
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: ListTile(
-                              title: Text(
-                                  data[index].title ?? 'No title available'),
-                              trailing: Text(
-                                data[index].message ?? 'No message available',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                    fontSize: 16),
+                      ),
+                      key: ValueKey<int>(index),
+                      onDismissed: (DismissDirection direction) async {
+                        print('DATA TO BE DELETED IS ${data[index].id}');
+                        await _delete(context, data[index]);
+                        setState(() {
+                          print(' Notification deleted');
+                          data.removeAt(index);
+                          appState = AppState.Empty;
+                          print(appState);
+                        });
+                      },
+                      direction: DismissDirection.endToStart,
+                      child: Card(
+                        color: CustomColors.indigoLight,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text(
+                              data[index].title ?? 'No title available',
+                            ),
+                            trailing: Text(
+                              data[index].message ?? 'No message available',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 16,
                               ),
                             ),
                           ),
                         ),
-                      );
-                    },
-                  )
-                : EmptyContent(
-                    message:
-                        'This side of the app will display the list of Notifications',
-                    title: 'Notification page',
-                    fontSizeMessage: 13,
-                    fontSizeTitle: 23,
-                  );
-          } else if (snapshot.hasData) {
-            return ErrorWidget(snapshot.error!);
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+                      ),
+                    );
+                  },
+                )
+              : EmptyContent(
+                  message:
+                      'This side of the app will display the list of Notifications',
+                  title: 'Notification page',
+                  fontSizeMessage: 13,
+                  fontSizeTitle: 23,
+                );
+        } else if (snapshot.hasData) {
+          return ErrorWidget(snapshot.error!);
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
   }
 }

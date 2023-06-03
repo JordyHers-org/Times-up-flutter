@@ -42,25 +42,33 @@ class _SetChildPageState extends State<SetChildPage> {
   void _submit(String name, String key) async {
     final position = await geo.getInitialLocation();
     print(
-        'Method latitude :${position.latitude} , Longitude : ${position.longitude}');
+      'Method latitude :${position.latitude} , Longitude : ${position.longitude}',
+    );
     final database = Provider.of<Database>(context, listen: false);
     try {
       final response = await database.getUserCurrentChild(
-          name, key, GeoPoint(position.latitude, position.longitude));
+        name,
+        key,
+        GeoPoint(position.latitude, position.longitude),
+      );
       print('RESPONSE : ${response}');
       if (response != null) {
-        await Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
+        await Navigator.of(context).pushReplacement(
+          MaterialPageRoute<void>(
             fullscreenDialog: true,
-            builder: (context) =>
-                ChildPage.create(context, database, response)));
+            builder: (context) => ChildPage.create(context, database, response),
+          ),
+        );
       } else {
         setState(() {
           appState = AppState.complete;
         });
-        await showAlertDialog(context,
-            title: 'No Such file in Database',
-            content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
-            defaultActionText: 'OK');
+        await showAlertDialog(
+          context,
+          title: 'No Such file in Database',
+          content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
+          defaultActionText: 'OK',
+        );
         print('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {
@@ -71,36 +79,39 @@ class _SetChildPageState extends State<SetChildPage> {
   List<Widget> _buildChildren(BuildContext context, {SetChildModel? model}) {
     return [
       TextField(
-          enabled: appState == AppState.loading ? false : true,
-          focusNode: _nameFocusNode,
-          controller: _nameController,
-          textInputAction: TextInputAction.next,
-          onEditingComplete: () {
-            if (model?.nameValidator.isValid(model.name) == true) {
-              FocusScope.of(context).requestFocus(_keyFocusNode);
-            }
-          },
-          decoration: InputDecoration(
-            labelText: 'Name',
-          )),
+        enabled: appState == AppState.loading ? false : true,
+        focusNode: _nameFocusNode,
+        controller: _nameController,
+        textInputAction: TextInputAction.next,
+        onEditingComplete: () {
+          if (model?.nameValidator.isValid(model.name) == true) {
+            FocusScope.of(context).requestFocus(_keyFocusNode);
+          }
+        },
+        decoration: InputDecoration(
+          labelText: 'Name',
+        ),
+      ),
       TextField(
-          enabled: appState == AppState.loading ? false : true,
-          focusNode: _keyFocusNode,
-          controller: _key,
-          textInputAction: TextInputAction.next,
-          decoration: InputDecoration(
-            labelText: 'Unique Key',
-          )),
+        enabled: appState == AppState.loading ? false : true,
+        focusNode: _keyFocusNode,
+        controller: _key,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          labelText: 'Unique Key',
+        ),
+      ),
       SizedBox(height: 8.0),
       SizedBox(height: 8.0),
       FormSubmitButton(
-          text: appState == AppState.complete ? 'Submit' : 'Loading ...',
-          onPressed: () {
-            setState(() {
-              appState = AppState.loading;
-            });
-            _submit(_nameController.text, _key.text);
-          }),
+        text: appState == AppState.complete ? 'Submit' : 'Loading ...',
+        onPressed: () {
+          setState(() {
+            appState = AppState.loading;
+          });
+          _submit(_nameController.text, _key.text);
+        },
+      ),
       SizedBox(height: 8.0),
     ];
   }

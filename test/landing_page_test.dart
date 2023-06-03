@@ -44,19 +44,23 @@ void main() {
 
   /// Always create widgets with all the ancestors that are needed
   /// here we have to use MaterialApp
-  Future<void> pumpLandingPage(WidgetTester tester,
-      {VoidCallback? onSignedIn}) async {
-    await tester.pumpWidget(Provider<AuthBase>(
-      create: (_) => mockAuth,
-      child: Provider<GeoLocatorService>(
-        create: (_) => mockGeoLocatorService,
-        child: MaterialApp(
-          home: Scaffold(
-            body: LandingPage(),
+  Future<void> pumpLandingPage(
+    WidgetTester tester, {
+    VoidCallback? onSignedIn,
+  }) async {
+    await tester.pumpWidget(
+      Provider<AuthBase>(
+        create: (_) => mockAuth,
+        child: Provider<GeoLocatorService>(
+          create: (_) => mockGeoLocatorService,
+          child: MaterialApp(
+            home: Scaffold(
+              body: LandingPage(),
+            ),
           ),
         ),
       ),
-    ));
+    );
 
     await tester.pump();
   }

@@ -19,7 +19,11 @@ class NotificationModel with ChangeNotifier {
     final String message = data['message'];
 
     return NotificationModel(
-        title: title, body: 'body', message: message, id: documentId);
+      title: title,
+      body: 'body',
+      message: message,
+      id: documentId,
+    );
   }
 
   Map<String, dynamic> toMap() {

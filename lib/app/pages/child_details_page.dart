@@ -52,32 +52,34 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ChildModel?>(
-        stream: widget.database.childStream(childId: widget.childModel.id),
-        builder: (context, snapshot) {
-          final child = snapshot.data;
-          final childName = child?.name ?? '';
-          return Scaffold(
-            appBar: AppBar(
-              elevation: 2.0,
-              title: Text(childName),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () => _confirmDelete(context, widget.childModel),
-                ),
-              ],
-            ),
-            body: _buildContentTemporary(context, child),
-            floatingActionButton: FloatingActionButton(
-                child: Icon(Icons.more_vert),
-                onPressed: () {
-                  setState(() {
-                    isPushed = !isPushed;
-                  });
-                  print('more is pushed');
-                }),
-          );
-        });
+      stream: widget.database.childStream(childId: widget.childModel.id),
+      builder: (context, snapshot) {
+        final child = snapshot.data;
+        final childName = child?.name ?? '';
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 2.0,
+            title: Text(childName),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => _confirmDelete(context, widget.childModel),
+              ),
+            ],
+          ),
+          body: _buildContentTemporary(context, child),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.more_vert),
+            onPressed: () {
+              setState(() {
+                isPushed = !isPushed;
+              });
+              print('more is pushed');
+            },
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
@@ -100,17 +102,19 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       'Enter this code on the child\'s device',
                       textAlign: TextAlign.end,
                       style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black.withOpacity(0.35)),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black.withOpacity(0.35),
+                      ),
                     ),
                     SizedBox(height: 4),
                     Text(
                       model.id,
                       style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent),
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrangeAccent,
+                      ),
                     ),
                   ],
                 ),
@@ -151,8 +155,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               padding: const EdgeInsets.only(left: 50.0),
               child: RichText(
                 text: TextSpan(
-                    text: "Send notifications to your Child's device",
-                    style: TextStyle(color: Colors.indigo, fontSize: 14)),
+                  text: "Send notifications to your Child's device",
+                  style: TextStyle(color: Colors.indigo, fontSize: 14),
+                ),
               ),
             ),
             SizedBox(height: 2),
@@ -160,8 +165,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               padding: const EdgeInsets.only(left: 50.0),
               child: RichText(
                 text: TextSpan(
-                    text: 'Push the button ',
-                    style: TextStyle(color: Colors.grey, fontSize: 11)),
+                  text: 'Push the button ',
+                  style: TextStyle(color: Colors.grey, fontSize: 11),
+                ),
               ),
             ),
             SizedBox(
@@ -185,21 +191,27 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       onPressed: () async {
                         try {
                           await widget.database.setNotification(
-                              NotificationModel(
-                                id: model.id,
-                                title: ' Hey ${model.name}',
-                                body: 'Here is a new message',
-                                message: 'Go to bed now ',
-                              ),
-                              model);
-                          await showAlertDialog(context,
-                              title: 'Successful',
-                              content: 'Notification sent to ${model.name}',
-                              defaultActionText: 'OK');
+                            NotificationModel(
+                              id: model.id,
+                              title: ' Hey ${model.name}',
+                              body: 'Here is a new message',
+                              message: 'Go to bed now ',
+                            ),
+                            model,
+                          );
+                          await showAlertDialog(
+                            context,
+                            title: 'Successful',
+                            content: 'Notification sent to ${model.name}',
+                            defaultActionText: 'OK',
+                          );
                           print('Notification sent to device');
                         } on FirebaseException catch (e) {
-                          await showExceptionAlertDialog(context,
-                              title: 'An error occurred', exception: e);
+                          await showExceptionAlertDialog(
+                            context,
+                            title: 'An error occurred',
+                            exception: e,
+                          );
                         }
                       },
                     ),
@@ -217,21 +229,27 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       onPressed: () async {
                         try {
                           await widget.database.setNotification(
-                              NotificationModel(
-                                id: model.id,
-                                title: ' Hey ${model.name}',
-                                body: 'Here is a new message',
-                                message: 'Homework Time',
-                              ),
-                              model);
-                          await showAlertDialog(context,
-                              title: 'Successful',
-                              content: 'Notification sent to ${model.name}',
-                              defaultActionText: 'OK');
+                            NotificationModel(
+                              id: model.id,
+                              title: ' Hey ${model.name}',
+                              body: 'Here is a new message',
+                              message: 'Homework Time',
+                            ),
+                            model,
+                          );
+                          await showAlertDialog(
+                            context,
+                            title: 'Successful',
+                            content: 'Notification sent to ${model.name}',
+                            defaultActionText: 'OK',
+                          );
                           print('Notification sent to device');
                         } on FirebaseException catch (e) {
-                          await showExceptionAlertDialog(context,
-                              title: 'An error occurred', exception: e);
+                          await showExceptionAlertDialog(
+                            context,
+                            title: 'An error occurred',
+                            exception: e,
+                          );
                         }
                       },
                     ),
@@ -257,22 +275,26 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                               title: Text(
                                 '${model.appsUsageModel[index]['appName']}',
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               trailing: Text(
                                 model.appsUsageModel[index]['usage']
                                     .toString()
                                     .t(),
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.indigo),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.indigo,
+                                ),
                               ),
                             )
                           ],
                         ),
                       );
-                    })
+                    },
+                  )
                 : EmptyContent(
                     message: 'Tap on more to display apps statistics \n'
                         '        Tap again to hide',
@@ -286,7 +308,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       );
     } else {
       return EmptyContent(
-          title: 'Nothing Here', message: ' Here is the kids details page');
+        title: 'Nothing Here',
+        message: ' Here is the kids details page',
+      );
     }
   }
 
@@ -301,8 +325,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             ? Container(
                 height: 120,
                 decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    color: Colors.black.withOpacity(0.10)),
+                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  color: Colors.black.withOpacity(0.10),
+                ),
               )
             : Container(
                 alignment: Alignment.topLeft,
@@ -319,11 +344,13 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
   }
 
   Future<void> _confirmDelete(BuildContext context, ChildModel model) async {
-    final didConfirmDelete = await showAlertDialog(context,
-        title: 'Delete child',
-        content: 'Are you sure you want to delete this child?',
-        defaultActionText: 'Delete',
-        cancelActionText: 'Cancel');
+    final didConfirmDelete = await showAlertDialog(
+      context,
+      title: 'Delete child',
+      content: 'Are you sure you want to delete this child?',
+      defaultActionText: 'Delete',
+      cancelActionText: 'Cancel',
+    );
     if (didConfirmDelete == true) {
       await _delete(context, model);
       Navigator.of(context).pop();

@@ -23,15 +23,17 @@ void main() {
   /// Always create widgets with all the ancestors that are needed
   /// here we have to use MaterialApp
   Future<void> pumpSignInPage(WidgetTester tester) async {
-    await tester.pumpWidget(Provider<AuthBase>(
-      create: (_) => mockAuth,
-      child: MaterialApp(
-        home: Builder(builder: (context) => SignInPage.create(context)),
+    await tester.pumpWidget(
+      Provider<AuthBase>(
+        create: (_) => mockAuth,
+        child: MaterialApp(
+          home: Builder(builder: (context) => SignInPage.create(context)),
 
-        //2. Pass is to the list of observers in MaterialApp
-        navigatorObservers: [mockNavigatorObvserver],
+          //2. Pass is to the list of observers in MaterialApp
+          navigatorObservers: [mockNavigatorObvserver],
+        ),
       ),
-    ));
+    );
 
     //3.Verify if it is pushed right here
     verify(mockNavigatorObvserver.didPush(anything as Route, any)).called(1);

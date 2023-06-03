@@ -25,12 +25,17 @@ class EditChildPage extends StatefulWidget {
   /// The [context]  here is the context pf the JobsPage
   ///
   /// as the result we can get the provider of Database
-  static Future<void> show(BuildContext context,
-      {Database? database, ChildModel? model}) async {
-    await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => EditChildPage(database: database, model: model),
-      fullscreenDialog: true,
-    ));
+  static Future<void> show(
+    BuildContext context, {
+    Database? database,
+    ChildModel? model,
+  }) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditChildPage(database: database, model: model),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   @override
@@ -71,7 +76,10 @@ class _EditChildPageState extends State<EditChildPage> {
 
   Future<void> _getLocalImage() async {
     var imageFile = await _picker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50, maxWidth: 200);
+      source: ImageSource.gallery,
+      imageQuality: 50,
+      maxWidth: 200,
+    );
     if (imageFile != null) {
       setState(() {
         _imageFile = imageFile;
@@ -119,10 +127,12 @@ class _EditChildPageState extends State<EditChildPage> {
           allNames.remove(widget.model!.name);
         }
         if (allNames.contains(_name)) {
-          await showAlertDialog(context,
-              title: ' Name already used',
-              content: 'Please choose a different job name',
-              defaultActionText: 'OK');
+          await showAlertDialog(
+            context,
+            title: ' Name already used',
+            content: 'Please choose a different job name',
+            defaultActionText: 'OK',
+          );
         } else {
           final child = ChildModel(
             id: id,
@@ -131,17 +141,22 @@ class _EditChildPageState extends State<EditChildPage> {
             image: _imageURL,
           );
 
-          await widget.database!.setChild(child).whenComplete(() => {
-                setState(() {
-                  print('form Saved : $_name and email : $_email');
-                  appState = AppState.complete;
-                  Navigator.of(context).pop();
-                })
-              });
+          await widget.database!.setChild(child).whenComplete(
+                () => {
+                  setState(() {
+                    print('form Saved : $_name and email : $_email');
+                    appState = AppState.complete;
+                    Navigator.of(context).pop();
+                  })
+                },
+              );
         }
       } on FirebaseException catch (e) {
-        await showExceptionAlertDialog(context,
-            title: 'Operation failed', exception: e);
+        await showExceptionAlertDialog(
+          context,
+          title: 'Operation failed',
+          exception: e,
+        );
       }
     }
   }
@@ -186,11 +201,12 @@ class _EditChildPageState extends State<EditChildPage> {
 
   Widget _buildForm() {
     return Form(
-        key: _formkey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _buildFormChildren(),
-        ));
+      key: _formkey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: _buildFormChildren(),
+      ),
+    );
   }
 
   List<Widget> _buildFormChildren() {
@@ -216,7 +232,8 @@ class _EditChildPageState extends State<EditChildPage> {
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor),
+                    Theme.of(context).primaryColor,
+                  ),
                 ),
                 onPressed: () => _getLocalImage(),
                 child: Text(

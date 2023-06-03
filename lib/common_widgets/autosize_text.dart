@@ -6,9 +6,12 @@ class DisplayText extends StatelessWidget {
   final TextStyle style;
   final double? fontSize;
 
-  const DisplayText(
-      {Key? key, required this.text, required this.style, this.fontSize})
-      : super(key: key);
+  const DisplayText({
+    Key? key,
+    required this.text,
+    required this.style,
+    this.fontSize,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
