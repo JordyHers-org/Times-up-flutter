@@ -28,3 +28,4 @@ generate:
 #This command runs fastlane
 release:
 	fastlane release
+	
