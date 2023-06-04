@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:parental_control/app/config/geo_full.dart';
@@ -332,9 +330,7 @@ class _ParentPageState extends State<ParentPage>
     return Scaffold(
       body: Consumer<Position>(
         builder: (_, position, __) {
-          return (!position.isNull)
-              ? GeoFull(position, database)
-              : Center(child: CircularProgressIndicator());
+          return GeoFull(position, database);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,

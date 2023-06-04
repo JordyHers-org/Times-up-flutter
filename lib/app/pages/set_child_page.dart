@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/app/pages/child_page.dart';
@@ -55,14 +53,14 @@ class _SetChildPageState extends State<SetChildPage> {
         GeoPoint(position.latitude, position.longitude),
       );
       debugPrint('RESPONSE : ${response}');
-      if (!response.isNull) {
+      try {
         await Navigator.of(context).pushReplacement(
           MaterialPageRoute<void>(
             fullscreenDialog: true,
             builder: (context) => ChildPage.create(context, database, response),
           ),
         );
-      } else {
+      } catch (e) {
         setState(() {
           appState = AppState.complete;
         });

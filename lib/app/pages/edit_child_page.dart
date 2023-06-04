@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:js_interop';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +87,7 @@ class _EditChildPageState extends State<EditChildPage> {
 
   Future<dynamic> _submit(XFile localFile) async {
     id = uuid.v4().substring(0, 8).toUpperCase();
-    if (!localFile.isNull) {
+    try {
       var fileExtension = path.extension(localFile.path);
       debugPrint(fileExtension);
       //final _id = widget.model?.id ?? id;
@@ -108,9 +107,10 @@ class _EditChildPageState extends State<EditChildPage> {
       var url = await firebaseStorageRef.getDownloadURL();
       _imageURL = url;
       debugPrint('download url: $url');
-    } else {
-      debugPrint('...skipping image upload');
+    } catch (e) {
+      debugPrint('...skipping image upload with error ${e.toString()}');
     }
+
     if (_validateAndSaveForm()) {
       setState(() {
         appState = AppState.loading;
