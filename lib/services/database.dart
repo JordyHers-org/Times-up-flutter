@@ -21,14 +21,19 @@ abstract class Database {
   Stream<List<ChildModel>> childrenStream();
 
   Future<void> setNotification(
-      NotificationModel notification, ChildModel model);
+    NotificationModel notification,
+    ChildModel model,
+  );
 
   Stream<List<NotificationModel>> notificationStream({String childId});
 
   Stream<ChildModel> childStream({required String childId});
 
   Future<ChildModel> getUserCurrentChild(
-      String name, String key, GeoPoint latLong);
+    String name,
+    String key,
+    GeoPoint latLong,
+  );
 }
 
 // String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -37,7 +42,7 @@ class FirestoreDatabase implements Database {
   FirestoreDatabase({
     required this.uid,
     this.auth,
-  }) : assert(uid != null);
+  });
 
   final String uid;
   final AuthBase? auth;
@@ -52,7 +57,10 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<ChildModel> getUserCurrentChild(
-      String name, String key, GeoPoint latLong) async {
+    String name,
+    String key,
+    GeoPoint latLong,
+  ) async {
     final user = auth?.currentUser?.uid;
     final token = await auth?.setToken();
     await apps.getAppUsageService();
@@ -82,13 +90,14 @@ class FirestoreDatabase implements Database {
         print('Unique Key : $key');
 
         _child = ChildModel(
-            id: doc.id,
-            name: _currentChild,
-            email: _email,
-            image: _image,
-            position: latLong,
-            appsUsageModel: apps.info,
-            token: token);
+          id: doc.id,
+          name: _currentChild,
+          email: _email,
+          image: _image,
+          position: latLong,
+          appsUsageModel: apps.info,
+          token: token,
+        );
 
         await setChild(_child!);
         return _child;
@@ -109,7 +118,8 @@ class FirestoreDatabase implements Database {
 
     print('The user is $user and the Child Id: ${model.id}');
     print(
-        ' DEBUG: FROM DATABASE ===> Last location taken is longitude : ${point.longitude} , latitude :${point.latitude}');
+      ' DEBUG: FROM DATABASE ===> Last location taken is longitude : ${point.longitude} , latitude :${point.latitude}',
+    );
     print(' DEBUG: APP USAGE ==> ${apps.info}');
 
     if (model.id == 'D9FBAB88') {
@@ -163,15 +173,20 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<void> setNotification(
-      NotificationModel notification, ChildModel child) async {
+    NotificationModel notification,
+    ChildModel child,
+  ) async {
     await _service.setNotificationFunction(
-        path: APIPath.notificationsStream(uid, child.id),
-        data: notification.toMap());
+      path: APIPath.notificationsStream(uid, child.id),
+      data: notification.toMap(),
+    );
   }
 
   Future<void> setTokenOnFireStore(Map<String, dynamic> token) async {
     await _service.setNotificationFunction(
-        path: APIPath.deviceToken(), data: token);
+      path: APIPath.deviceToken(),
+      data: token,
+    );
   }
 
   @override
