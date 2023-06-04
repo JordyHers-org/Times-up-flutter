@@ -32,7 +32,7 @@ class SettingsPage extends StatelessWidget {
     try {
       await auth.signOut();
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 

@@ -284,7 +284,7 @@ class _ParentPageState extends State<ParentPage>
                 return EmptyContent();
               }
             } else if (snapshot.hasError) {
-              print(snapshot.error);
+              debugPrint(snapshot.error.toString());
               return EmptyContent(
                 title: 'Something went wrong ',
                 message: 'Can\'t load items right now',
@@ -330,9 +330,7 @@ class _ParentPageState extends State<ParentPage>
     return Scaffold(
       body: Consumer<Position>(
         builder: (_, position, __) {
-          return (position != null)
-              ? GeoFull(position, database)
-              : Center(child: CircularProgressIndicator());
+          return GeoFull(position, database);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,

@@ -158,7 +158,8 @@ class _ChildPageState extends State<ChildPage> {
         iconTheme: IconThemeData(color: Colors.indigo),
         centerTitle: true,
       ),
-      body: appUsage.info == null
+      //ignore: non_null
+      body: appUsage.info.isEmpty
           ? EmptyContent(
               title: 'This is the child page',
               message: 'Nothing to show at the moment',

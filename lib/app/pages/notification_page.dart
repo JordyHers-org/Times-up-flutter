@@ -99,13 +99,13 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       key: ValueKey<int>(index),
                       onDismissed: (DismissDirection direction) async {
-                        print('DATA TO BE DELETED IS ${data[index].id}');
+                        debugPrint('DATA TO BE DELETED IS ${data[index].id}');
                         await _delete(context, data[index]);
                         setState(() {
-                          print(' Notification deleted');
+                          debugPrint(' Notification deleted');
                           data.removeAt(index);
                           appState = AppState.Empty;
-                          print(appState);
+                          debugPrint(appState.toString());
                         });
                       },
                       direction: DismissDirection.endToStart,
@@ -132,8 +132,8 @@ class _NotificationPageState extends State<NotificationPage> {
                   },
                 )
               : EmptyContent(
-                  message:
-                      'This side of the app will display the list of Notifications',
+                  message: 'This side of the app will display the list of'
+                      ' Notifications',
                   title: 'Notification page',
                   fontSizeMessage: 13,
                   fontSizeTitle: 23,

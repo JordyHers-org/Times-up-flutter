@@ -51,15 +51,6 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  ///Future void Function called to Sign In Anonymously
-  Future<void> _signInAnonymously(BuildContext context) async {
-    try {
-      await manager.signInAnonymously();
-    } on Exception catch (e) {
-      _showSignInError(context, e);
-    }
-  }
-
   ///Future void Function called to Sign In with Google
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
@@ -80,10 +71,11 @@ class SignInPage extends StatelessWidget {
 
   ///Future void Function called to Sign In with Email and password
   ///
-  ///[fullscreenDialog] gives the orientation that the page will have while created
-  ///from bottom to to if false or slide on the side (ONLY FOR IOS)
+  ///[fullscreenDialog] gives the orientation that the page will have
+  /// while created from bottom to to if false or slide on the side
+  /// (ONLY FOR IOS)
   Future<void> _signInWithEmail(BuildContext context) async {
-    print('SIGNIN WITH EMAIL =>');
+    debugPrint('SIGNIN WITH EMAIL =>');
     try {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
@@ -92,7 +84,7 @@ class SignInPage extends StatelessWidget {
         ),
       );
     } on Exception catch (e) {
-      print('ERROR THROWN $e');
+      debugPrint('ERROR THROWN $e');
     }
   }
 

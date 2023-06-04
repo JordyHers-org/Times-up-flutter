@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
-    final apps = Provider.of<AppUsageService>(context, listen: false);
+    //final apps = Provider.of<AppUsageService>(context, listen: false);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

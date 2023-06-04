@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:parental_control/models/notification_model.dart';
 
@@ -38,7 +39,7 @@ class NotificationService {
 
   /// this function calls the Firebase Push notification
 
-  configureFirebaseMessaging() {
+  void configureFirebaseMessaging() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       var notification = message.notification;
       var android = message.notification?.android;
@@ -64,12 +65,12 @@ class NotificationService {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      var notification = message.notification;
-      print('A new onMessageOpenedApp event was published!');
+      // var notification = message.notification;
+      debugPrint('A new onMessageOpenedApp event was published!');
       _setNotifications(
         {'message': message.messageId, 'notification': message.notification},
       );
-      print('Message : $message');
+      debugPrint('Message : $message');
     });
   }
 }

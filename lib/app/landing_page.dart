@@ -19,8 +19,8 @@ class _LandingPageState extends State<LandingPage> {
   late bool _isParent;
   late GeoLocatorService geoService;
 
-  ///In order to pass this value auth declared in the [STATE] for Stateful classes
-  ///to the actual LandingPage widget
+  ///In order to pass this value auth declared in the [STATE]
+  ///for Stateful classes to the actual LandingPage widget
   ///we need to use the key word [widget.auth]
   @override
   void initState() {
@@ -58,7 +58,8 @@ class _LandingPageState extends State<LandingPage> {
               return Provider<Database>(
                 create: (_) => FirestoreDatabase(uid: user.uid),
 
-                ///Here the ShowCaseWidget triggers the Showcase view and passes the context
+                ///Here the ShowCaseWidget triggers the Showcase view
+                ///and passes the context
                 child: FutureProvider(
                   initialData: null,
                   create: (context) => geoService.getInitialLocation(),

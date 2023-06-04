@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -59,7 +60,7 @@ class Auth implements AuthBase {
     final userCredential = await _firebaseAuth.signInWithCredential(
       EmailAuthProvider.credential(email: email, password: password),
     );
-    print('Welcome back dear user _____=>  $email ');
+    debugPrint('Welcome back dear user _____=>  $email ');
     return userCredential.user!;
   }
 
@@ -70,10 +71,10 @@ class Auth implements AuthBase {
     try {
       await _firebaseMessaging.getToken().then((token) {
         _token = token!;
-        print('Device Token: $_token');
+        debugPrint('Device Token: $_token');
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     return _token;
   }
@@ -90,7 +91,7 @@ class Auth implements AuthBase {
       email: email,
       password: password,
     );
-    print('Sign Up user complete  Name : $name');
+    debugPrint('Sign Up user complete  Name : $name');
     return userCredential.user!;
   }
 
@@ -143,7 +144,7 @@ class Auth implements AuthBase {
         final userCredential = await _firebaseAuth.signInWithCredential(
           FacebookAuthProvider.credential(accessToken!.token),
         );
-        print('Facebook Login Completed : ${accessToken.token}');
+        debugPrint('Facebook Login Completed : ${accessToken.token}');
         return userCredential.user!;
 
       case FacebookLoginStatus.cancel:

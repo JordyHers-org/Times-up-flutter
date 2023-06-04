@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class FirestoreService {
   FirestoreService._();
@@ -10,7 +11,7 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    print('$path: $data');
+    debugPrint('$path: $data');
     await reference.set(data);
   }
 
@@ -19,7 +20,7 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    print('$path: $data');
+    debugPrint('$path: $data');
     await reference.update(data);
   }
 
@@ -29,7 +30,7 @@ class FirestoreService {
   }) async {
     final reference =
         FirebaseFirestore.instance.collection(path).doc(data['id']);
-    print('$path: $data');
+    debugPrint('$path: $data');
     await reference.set(data);
   }
 
@@ -40,13 +41,13 @@ class FirestoreService {
     // await FirebaseFirestore.instance.collection('Notifications').
     // doc().set({'message': 'HomeWork Time'});
     final reference = FirebaseFirestore.instance.collection(path).doc();
-    print('$path: $data');
+    debugPrint('$path: $data');
     await reference.set(data);
   }
 
   Future<void> deleteData({required String path}) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    print('delete: $path');
+    debugPrint('delete: $path');
     await reference.delete();
   }
 
