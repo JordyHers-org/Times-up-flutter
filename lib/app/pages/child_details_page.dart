@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/bar_chart.dart';
 import 'package:parental_control/common_widgets/custom_raised_button.dart';
@@ -12,6 +13,7 @@ import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({required this.database, required this.childModel});
@@ -106,11 +108,36 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      model.id,
+                      'Long press to copy or double tap to share',
                       style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent),
+                          fontSize: 11, color: Colors.black.withOpacity(0.35)),
+                    ),
+                    SizedBox(height: 8),
+                    GestureDetector(
+                      onLongPress: () {
+                        Clipboard.setData(
+                                ClipboardData(text: model.id.toString()))
+                            .then((value) {
+                          final snackBar = SnackBar(
+                            content: const Text('Code Copied!'),
+                          );
+
+                          // Find the ScaffoldMessenger in the widget tree
+                          // and use it to show a SnackBar.
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        });
+                      },
+                      onDoubleTap: () async {
+                        await Share.share(
+                            "Enter this code on child's device:\n${model.id}");
+                      },
+                      child: Text(
+                        model.id,
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepOrangeAccent),
+                      ),
                     ),
                   ],
                 ),
