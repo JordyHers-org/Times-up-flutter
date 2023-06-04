@@ -144,9 +144,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 color: Colors.indigo,
               ),
             ),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.only(left: 50.0),
               child: RichText(
@@ -164,9 +162,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     style: TextStyle(color: Colors.grey, fontSize: 11)),
               ),
             ),
-            SizedBox(
-              height: 8,
-            ),
+            SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(color: Colors.white),
               child: Column(
