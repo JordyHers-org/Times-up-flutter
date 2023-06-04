@@ -49,6 +49,7 @@ dependencies:
   mockito: ^5.0.0
   flutter_local_notifications: ^14.0.0-dev.2
   auto_size_text: ^3.0.0
+  share_plus: ^6.3.0
 
   test: any
 
