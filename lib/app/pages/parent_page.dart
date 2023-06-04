@@ -164,7 +164,7 @@ class _ParentPageState extends State<ParentPage>
               tabs: [
                 // first tab [you can add an icon using the icon property]
                 Tab(
-                  text: 'Control',
+                  text: 'Dashboard',
                 ),
 
                 // second tab [you can add an icon using the icon property]
