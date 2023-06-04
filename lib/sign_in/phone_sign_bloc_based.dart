@@ -53,13 +53,13 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
 
   /// THIS FUNCTION Verify the phone number entered
   Future<void> verifyPhone(phoneNo) async {
-    print('Phone number reached verifyphone $phoneNo');
+    debugPrint('Phone number reached verifyphone $phoneNo');
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       signIn(authResult);
     };
 
     final verificationfailed = (FirebaseAuthException authException) {
-      print('${authException.message}');
+      debugPrint('${authException.message}');
     };
 
     final smsSent = (String verId, [int? forceResend]) {
@@ -116,7 +116,7 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
       onChanged: (value) {
         setState(() {
           phoneNo = '+90${_phoneNumberController.text}';
-          print('This is the phone number taken : $phoneNo');
+          debugPrint('This is the phone number taken : $phoneNo');
         });
       },
     );
@@ -149,7 +149,7 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
     });
   }
 
-  ///------------------------------ Widgets -------------------------------------------------
+  ///------------------------------ Widgets --------------
 
   @override
   Widget build(BuildContext context) {

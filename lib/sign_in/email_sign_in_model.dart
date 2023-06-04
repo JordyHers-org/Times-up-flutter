@@ -54,7 +54,6 @@ class EmailSignInModel with EmailAndPasswordValidators {
 
   bool get showErrorTexPassword {
     return submitted && !passwordValidator.isValid(password);
-    ;
   }
 
   final String name;

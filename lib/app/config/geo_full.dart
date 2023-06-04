@@ -63,7 +63,9 @@ class _GeoFullState extends State<GeoFull> {
           childLocationsList.add(document.docs[i].data);
           initMarker(document.docs[i].data());
           getChildMarkerImage(document.docs[i].data());
-          print('This is the list of children ${childLocationsList.length}');
+          debugPrint(
+            'This is the list of children ${childLocationsList.length}',
+          );
         }
       }
     });
@@ -77,7 +79,7 @@ class _GeoFullState extends State<GeoFull> {
           title: data['id'],
           snippet: data['name'],
           onTap: () {
-            print('Tapped');
+            debugPrint('Tapped');
           },
         ),
         markerId: MarkerId(data['id']),
@@ -85,14 +87,13 @@ class _GeoFullState extends State<GeoFull> {
             BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
         draggable: false,
         onTap: () {
-          print('Marker Tapped');
+          debugPrint('Marker Tapped');
         },
         position: LatLng(data['position'].latitude, data['position'].longitude),
       ),
     );
 
     return allMarkers;
-    return [];
   }
 
   @override

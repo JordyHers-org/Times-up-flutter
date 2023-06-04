@@ -66,7 +66,8 @@ class AppUsageInfo {
 
   @override
   String toString() {
-    return 'App Usage: $packageName - $appName, duration: $usage [$startDate, $endDate]';
+    return 'App Usage: $packageName - $appName, '
+        'duration: $usage [$startDate, $endDate]';
   }
 }
 

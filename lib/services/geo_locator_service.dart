@@ -22,7 +22,8 @@ class GeoLocatorService {
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.',
+        'Location permissions are permanently denied, we cannot request'
+        ' permissions.',
       );
     }
 

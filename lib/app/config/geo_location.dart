@@ -63,7 +63,9 @@ class _GeoState extends State<Geo> {
           childLocationsList.add(document.docs[i].data);
           initMarker(document.docs[i].data());
           getChildMarkerImage(document.docs[i].data());
-          print('This is the list of children ${childLocationsList.length}');
+          debugPrint(
+            'This is the list of children ${childLocationsList.length}',
+          );
         }
       }
     });
@@ -71,17 +73,17 @@ class _GeoState extends State<Geo> {
 
   //TODO:Make function async
   Future<List<Marker>> initMarker(Map<String, dynamic> data) async {
-    print('--------------- data -------------');
-    print(data['id']);
-    print(data['position']?.latitude);
-    print(data['position']?.longitude);
+    debugPrint('--------------- data -------------');
+    debugPrint(data['id']);
+    debugPrint(data['position']?.latitude);
+    debugPrint(data['position']?.longitude);
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(
           title: data['id'],
           snippet: data['name'],
           onTap: () {
-            print('Tapped');
+            debugPrint('Tapped');
           },
         ),
         markerId: MarkerId(data['id']),
@@ -91,12 +93,12 @@ class _GeoState extends State<Geo> {
             BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
         draggable: false,
         onTap: () {
-          print('Marker Tapped');
+          debugPrint('Marker Tapped');
         },
         position: LatLng(data['position'].latitude, data['position'].longitude),
       ),
     );
-    print(allMarkers);
+    debugPrint(allMarkers.toString());
     return allMarkers;
   }
 

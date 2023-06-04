@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:parental_control/services/app_usage_local_service.dart';
 
 abstract class AppService {
@@ -17,7 +18,7 @@ class AppUsageService implements AppService {
       var infoList = await AppUsage.getAppUsage(startDate, endDate);
       _info = infoList;
     } on AppUsageException catch (exception) {
-      print(exception);
+      debugPrint(exception.toString());
     }
   }
 }

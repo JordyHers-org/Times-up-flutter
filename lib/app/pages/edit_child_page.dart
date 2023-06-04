@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:js_interop';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,6 @@ import 'package:uuid/uuid.dart';
 
 enum AppState { loading, complete }
 
-//TODO: Fix the onComplete Function line 91
-//TODO: Submit data to Firestore line 146
 class EditChildPage extends StatefulWidget {
   final Database? database;
   final ChildModel? model;
@@ -89,10 +88,10 @@ class _EditChildPageState extends State<EditChildPage> {
 
   Future<dynamic> _submit(XFile localFile) async {
     id = uuid.v4().substring(0, 8).toUpperCase();
-    if (localFile != null) {
+    if (!localFile.isNull) {
       var fileExtension = path.extension(localFile.path);
-      print(fileExtension);
-      final _id = widget.model?.id ?? id;
+      debugPrint(fileExtension);
+      //final _id = widget.model?.id ?? id;
       //var id = documentIdFromCurrentDate();
       final firebaseStorageRef = FirebaseStorage.instance
           .ref()
@@ -102,15 +101,15 @@ class _EditChildPageState extends State<EditChildPage> {
           .putFile(File(localFile.path))
           //.onComplete
           .catchError((onError) {
-        print(onError);
+        debugPrint(onError);
         // ignore: return_of_invalid_type_from_catch_error
         return false;
       });
       var url = await firebaseStorageRef.getDownloadURL();
       _imageURL = url;
-      print('download url: $url');
+      debugPrint('download url: $url');
     } else {
-      print('...skipping image upload');
+      debugPrint('...skipping image upload');
     }
     if (_validateAndSaveForm()) {
       setState(() {
@@ -142,13 +141,11 @@ class _EditChildPageState extends State<EditChildPage> {
           );
 
           await widget.database!.setChild(child).whenComplete(
-                () => {
-                  setState(() {
-                    print('form Saved : $_name and email : $_email');
-                    appState = AppState.complete;
-                    Navigator.of(context).pop();
-                  })
-                },
+                () => setState(() {
+                  debugPrint('form Saved : $_name and email : $_email');
+                  appState = AppState.complete;
+                  Navigator.of(context).pop();
+                }),
               );
         }
       } on FirebaseException catch (e) {
@@ -270,7 +267,7 @@ class _EditChildPageState extends State<EditChildPage> {
         color: Colors.grey[500],
       );
     } else if (_imageFile != null) {
-      print('showing image from local file');
+      debugPrint('showing image from local file');
       return InkWell(
         onTap: _getLocalImage,
         child: Image.file(

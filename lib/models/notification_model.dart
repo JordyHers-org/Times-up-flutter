@@ -14,7 +14,7 @@ class NotificationModel with ChangeNotifier {
   }
 
   factory NotificationModel.fromMap(Map<dynamic, dynamic> data, documentId) {
-    final String id = data['id'];
+    //final String id = data['id'];
     final String title = data['title'];
     final String message = data['message'];
 
@@ -37,7 +37,6 @@ class NotificationModel with ChangeNotifier {
 
   @override
   String toString() {
-    // TODO: implement toString
     return 'id : $id  title: $title  message: $message body: $body';
   }
 }

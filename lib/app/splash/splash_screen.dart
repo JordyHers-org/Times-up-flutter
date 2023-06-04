@@ -35,8 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
       'image': 'images/png/undraw4.png'
     },
     {
-      'text':
-          "Because we care, Let's live track their location \nand see on the map where your child is.",
+      'text': "Because we care, Let's live track their location \nand see on "
+          'the map where your child is.',
       'image': 'images/png/undraw3.png'
     },
   ];
@@ -95,8 +95,8 @@ class _SplashScreenState extends State<SplashScreen> {
                               onPressed: () {
                                 SharedPreference().setVisitingFlag();
                                 SharedPreference().setParentDevice();
-                                print(
-                                  'The page is set to Parent => now moving ......',
+                                debugPrint(
+                                  'The page is set to Parent => now moving ..',
                                 );
                                 Navigator.of(context).pushReplacement(
                                   CupertinoPageRoute(
@@ -114,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                           ),
 
-                          ///-------------------------------------------------------------------
+                          ///------------------------------------
                           Container(
                             height: 40,
                             child: ElevatedButton(
@@ -128,8 +128,8 @@ class _SplashScreenState extends State<SplashScreen> {
                                 SharedPreference().setVisitingFlag();
                                 SharedPreference().setChildDevice();
 
-                                print(
-                                  'The page is set to Child => now moving ......',
+                                debugPrint(
+                                  'The page is set to Child => now moving ....',
                                 );
                                 Navigator.of(context).pushReplacement(
                                   CupertinoPageRoute(

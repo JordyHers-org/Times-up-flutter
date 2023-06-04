@@ -55,7 +55,8 @@ class ChildModel {
 
   @override
   String toString() =>
-      'id: $id , name: $name , latitude:${position?.latitude} , longitude:${position?.longitude} ';
+      'id: $id , name: $name , latitude:${position?.latitude} ,'
+      ' longitude:${position?.longitude} ';
 }
 
 List<Map<String, dynamic>> appsList(List<dynamic> apps) {
@@ -64,12 +65,4 @@ List<Map<String, dynamic>> appsList(List<dynamic> apps) {
     appsMap.add(value.toMap());
   });
   return appsMap;
-}
-
-List<AppUsageInfo> _convertModel(List<dynamic> appsMod) {
-  var apps = <AppUsageInfo>[];
-  appsMod.forEach((value) {
-    apps.add(AppUsageInfo.fromMap(value));
-  });
-  return apps;
 }
