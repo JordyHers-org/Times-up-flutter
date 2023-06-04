@@ -20,14 +20,15 @@ void main() {
   });
 
   test(
-      'When email is updated'
-      'AND password is updated'
-      'AND submit is called'
-      'THEN modelstream emits the correct event', () async {
-    when(mockAuth.signInWithEmailAndPassword(any.toString(), any.toString()))
-        .thenThrow(PlatformException(code: 'ERROR'));
+    'When email is updated'
+    'AND password is updated'
+    'AND submit is called'
+    'THEN modelstream emits the correct event',
+    () async {
+      when(mockAuth.signInWithEmailAndPassword(any.toString(), any.toString()))
+          .thenThrow(PlatformException(code: 'ERROR'));
 
-    expect(
+      expect(
         bloc.modelStream,
         emitsInOrder([
           EmailSignInModel(),
@@ -48,13 +49,16 @@ void main() {
             submitted: true,
             isLoading: false,
           ),
-        ]));
-    bloc.updateEmail('email@email.com');
+        ]),
+      );
+      bloc.updateEmail('email@email.com');
 
-    bloc.updatePassword('password');
+      bloc.updatePassword('password');
 
-    try {
-      await bloc.submit();
-    } catch (_) {}
-  }, skip: true);
+      try {
+        await bloc.submit();
+      } catch (_) {}
+    },
+    skip: true,
+  );
 }

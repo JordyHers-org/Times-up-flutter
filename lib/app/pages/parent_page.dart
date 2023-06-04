@@ -72,9 +72,10 @@ class _ParentPageState extends State<ParentPage>
     });
 
     _isShowCaseActivated == false
-        ? WidgetsBinding.instance.addPostFrameCallback((_) =>
-            ShowCaseWidget.of(context)
-                .startShowCase([_settingsKey, _childListKey, _addKey]))
+        ? WidgetsBinding.instance.addPostFrameCallback(
+            (_) => ShowCaseWidget.of(context)
+                .startShowCase([_settingsKey, _childListKey, _addKey]),
+          )
         : null;
   }
 
@@ -91,8 +92,10 @@ class _ParentPageState extends State<ParentPage>
               textColor: Colors.indigo,
               description: 'Add a new child here ',
               child: FloatingActionButton(
-                onPressed: () => EditChildPage.show(context,
-                    database: Provider.of<Database>(context, listen: false)),
+                onPressed: () => EditChildPage.show(
+                  context,
+                  database: Provider.of<Database>(context, listen: false),
+                ),
                 child: const Icon(Icons.add),
               ),
             ),
@@ -101,7 +104,10 @@ class _ParentPageState extends State<ParentPage>
   }
 
   Widget _buildParentPageContent(
-      BuildContext context, AuthBase auth, Database database) {
+    BuildContext context,
+    AuthBase auth,
+    Database database,
+  ) {
     return NestedScrollView(
       headerSliverBuilder: (context, value) {
         return [
@@ -109,18 +115,21 @@ class _ParentPageState extends State<ParentPage>
             backgroundColor: CustomColors.indigoDark,
             expandedHeight: MediaQuery.of(context).size.height * 0.12,
             shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30))),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Time's Up",
                   style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: CustomColors.indigoLight,
-                      fontSize: 22),
+                    fontWeight: FontWeight.w800,
+                    color: CustomColors.indigoLight,
+                    fontSize: 22,
+                  ),
                 ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(side: BorderSide.none),
@@ -213,11 +222,12 @@ class _ParentPageState extends State<ParentPage>
                                 mapScreenState = MapScreenState.Full;
                               }),
                               child: Consumer<Position?>(
-                                  builder: (_, position, __) {
-                                return (position != null)
-                                    ? Geo(position, database)
-                                    : LoadingMap();
-                              }),
+                                builder: (_, position, __) {
+                                  return (position != null)
+                                      ? Geo(position, database)
+                                      : LoadingMap();
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -263,10 +273,11 @@ class _ParentPageState extends State<ParentPage>
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Kids(
-                        image_location: data[index]?.image,
-                        image_caption: data[index]?.name,
-                        onPressed: () =>
-                            ChildDetailsPage.show(context, data[index]!));
+                      image_location: data[index]?.image,
+                      image_caption: data[index]?.name,
+                      onPressed: () =>
+                          ChildDetailsPage.show(context, data[index]!),
+                    );
                   },
                 );
               } else {
@@ -284,7 +295,10 @@ class _ParentPageState extends State<ParentPage>
               itemCount: 3,
               itemBuilder: (context, index) {
                 return Kids(
-                    image_location: null, image_caption: null, onPressed: null);
+                  image_location: null,
+                  image_caption: null,
+                  onPressed: null,
+                );
               },
             );
           },
@@ -314,11 +328,13 @@ class _ParentPageState extends State<ParentPage>
 
   Widget _buildMapFullScreen(database) {
     return Scaffold(
-      body: Consumer<Position>(builder: (_, position, __) {
-        return (position != null)
-            ? GeoFull(position, database)
-            : Center(child: CircularProgressIndicator());
-      }),
+      body: Consumer<Position>(
+        builder: (_, position, __) {
+          return (position != null)
+              ? GeoFull(position, database)
+              : Center(child: CircularProgressIndicator());
+        },
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: FloatingActionButton(
         onPressed: () {

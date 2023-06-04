@@ -44,8 +44,11 @@ class SignInPage extends StatelessWidget {
         exception.code == 'ERROR_ABORTED_BY_USER') {
       return;
     }
-    showExceptionAlertDialog(context,
-        title: 'Sign in Failed', exception: exception);
+    showExceptionAlertDialog(
+      context,
+      title: 'Sign in Failed',
+      exception: exception,
+    );
   }
 
   ///Future void Function called to Sign In Anonymously
@@ -80,10 +83,14 @@ class SignInPage extends StatelessWidget {
   ///[fullscreenDialog] gives the orientation that the page will have while created
   ///from bottom to to if false or slide on the side (ONLY FOR IOS)
   Future<void> _signInWithEmail(BuildContext context) async {
-    print("SIGNIN WITH EMAIL =>");
+    print('SIGNIN WITH EMAIL =>');
     try {
-      await Navigator.of(context).push(MaterialPageRoute<void>(
-          fullscreenDialog: true, builder: (context) => EmailSignInPage()));
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (context) => EmailSignInPage(),
+        ),
+      );
     } on Exception catch (e) {
       print('ERROR THROWN $e');
     }

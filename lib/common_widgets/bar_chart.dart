@@ -50,9 +50,10 @@ class AppUsageChartState extends State<AppUsageChart> {
                   Text(
                     widget.name,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(
                     height: 4,
@@ -60,9 +61,10 @@ class AppUsageChartState extends State<AppUsageChart> {
                   const Text(
                     'App Usage Graph',
                     style: TextStyle(
-                        color: Color(0xff379982),
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold),
+                      color: Color(0xff379982),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(
                     height: 18,
@@ -140,26 +142,47 @@ class AppUsageChartState extends State<AppUsageChart> {
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, widget.isEmpty ? 0.5 : 5,
-                isTouched: i == touchedIndex);
+            return makeGroupData(
+              0,
+              widget.isEmpty ? 0.5 : 5,
+              isTouched: i == touchedIndex,
+            );
           case 1:
-            return makeGroupData(1, widget.isEmpty ? 0.5 : 6.5,
-                isTouched: i == touchedIndex);
+            return makeGroupData(
+              1,
+              widget.isEmpty ? 0.5 : 6.5,
+              isTouched: i == touchedIndex,
+            );
           case 2:
-            return makeGroupData(2, widget.isEmpty ? 0.5 : 5,
-                isTouched: i == touchedIndex);
+            return makeGroupData(
+              2,
+              widget.isEmpty ? 0.5 : 5,
+              isTouched: i == touchedIndex,
+            );
           case 3:
-            return makeGroupData(3, widget.isEmpty ? 0.5 : 7.5,
-                isTouched: i == touchedIndex);
+            return makeGroupData(
+              3,
+              widget.isEmpty ? 0.5 : 7.5,
+              isTouched: i == touchedIndex,
+            );
           case 4:
-            return makeGroupData(4, widget.isEmpty ? 0.5 : 9,
-                isTouched: i == touchedIndex);
+            return makeGroupData(
+              4,
+              widget.isEmpty ? 0.5 : 9,
+              isTouched: i == touchedIndex,
+            );
           case 5:
-            return makeGroupData(5, widget.isEmpty ? 0.5 : 11.5,
-                isTouched: i == touchedIndex);
+            return makeGroupData(
+              5,
+              widget.isEmpty ? 0.5 : 11.5,
+              isTouched: i == touchedIndex,
+            );
           case 6:
-            return makeGroupData(6, widget.isEmpty ? 0.5 : 6.5,
-                isTouched: i == touchedIndex);
+            return makeGroupData(
+              6,
+              widget.isEmpty ? 0.5 : 6.5,
+              isTouched: i == touchedIndex,
+            );
           default:
             return throw Error();
         }
@@ -169,53 +192,54 @@ class AppUsageChartState extends State<AppUsageChart> {
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
-            tooltipBgColor: Colors.blueGrey,
-            getTooltipItem: (group, groupIndex, rod, rodIndex) {
-              String weekDay;
-              switch (group.x.toInt()) {
-                case 0:
-                  weekDay = 'Monday';
-                  break;
-                case 1:
-                  weekDay = 'Tuesday';
-                  break;
-                case 2:
-                  weekDay = 'Wednesday';
-                  break;
-                case 3:
-                  weekDay = 'Thursday';
-                  break;
-                case 4:
-                  weekDay = 'Friday';
-                  break;
-                case 5:
-                  weekDay = 'Saturday';
-                  break;
-                case 6:
-                  weekDay = 'Sunday';
-                  break;
-                default:
-                  throw Error();
-              }
-              return BarTooltipItem(
-                weekDay + '\n',
-                const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: (rod.toY - 1).toString(),
-                    style: const TextStyle(
-                      color: Colors.yellow,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+          tooltipBgColor: Colors.blueGrey,
+          getTooltipItem: (group, groupIndex, rod, rodIndex) {
+            String weekDay;
+            switch (group.x.toInt()) {
+              case 0:
+                weekDay = 'Monday';
+                break;
+              case 1:
+                weekDay = 'Tuesday';
+                break;
+              case 2:
+                weekDay = 'Wednesday';
+                break;
+              case 3:
+                weekDay = 'Thursday';
+                break;
+              case 4:
+                weekDay = 'Friday';
+                break;
+              case 5:
+                weekDay = 'Saturday';
+                break;
+              case 6:
+                weekDay = 'Sunday';
+                break;
+              default:
+                throw Error();
+            }
+            return BarTooltipItem(
+              weekDay + '\n',
+              const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: (rod.toY - 1).toString(),
+                  style: const TextStyle(
+                    color: Colors.yellow,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
-              );
-            }),
+                ),
+              ],
+            );
+          },
+        ),
         touchCallback: (FlTouchEvent event, barTouchResponse) {
           setState(() {
             if (!event.isInterestedForInteractions ||
@@ -329,33 +353,54 @@ class AppUsageChartState extends State<AppUsageChart> {
       barGroups: List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[
-                    Random().nextInt(widget.availableColors.length)]);
+            return makeGroupData(
+              0,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+                  Random().nextInt(widget.availableColors.length)],
+            );
           case 1:
-            return makeGroupData(1, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[
-                    Random().nextInt(widget.availableColors.length)]);
+            return makeGroupData(
+              1,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+                  Random().nextInt(widget.availableColors.length)],
+            );
           case 2:
-            return makeGroupData(2, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[
-                    Random().nextInt(widget.availableColors.length)]);
+            return makeGroupData(
+              2,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+                  Random().nextInt(widget.availableColors.length)],
+            );
           case 3:
-            return makeGroupData(3, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[
-                    Random().nextInt(widget.availableColors.length)]);
+            return makeGroupData(
+              3,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+                  Random().nextInt(widget.availableColors.length)],
+            );
           case 4:
-            return makeGroupData(4, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[
-                    Random().nextInt(widget.availableColors.length)]);
+            return makeGroupData(
+              4,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+                  Random().nextInt(widget.availableColors.length)],
+            );
           case 5:
-            return makeGroupData(5, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[
-                    Random().nextInt(widget.availableColors.length)]);
+            return makeGroupData(
+              5,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+                  Random().nextInt(widget.availableColors.length)],
+            );
           case 6:
-            return makeGroupData(6, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[
-                    Random().nextInt(widget.availableColors.length)]);
+            return makeGroupData(
+              6,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+                  Random().nextInt(widget.availableColors.length)],
+            );
           default:
             return throw Error();
         }
@@ -367,7 +412,8 @@ class AppUsageChartState extends State<AppUsageChart> {
   Future<dynamic> refreshState() async {
     setState(() {});
     await Future<dynamic>.delayed(
-        animDuration + const Duration(milliseconds: 50));
+      animDuration + const Duration(milliseconds: 50),
+    );
     if (isPlaying) {
       await refreshState();
     }

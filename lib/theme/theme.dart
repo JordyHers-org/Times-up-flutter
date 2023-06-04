@@ -34,8 +34,9 @@ class AppTheme {
     iconTheme: IconThemeData(color: Colors.indigo),
     dividerColor: CustomColors.indigoDark,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: CustomColors.greenPrimary,
-        foregroundColor: Colors.white),
+      backgroundColor: CustomColors.greenPrimary,
+      foregroundColor: Colors.white,
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -47,7 +48,8 @@ class AppTheme {
     cardTheme: CardTheme(color: Colors.white),
     iconTheme: IconThemeData(color: CustomColors.indigoLight),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: CustomColors.indigoLight),
+      backgroundColor: CustomColors.indigoLight,
+    ),
   );
 
   static TextStyle h1Style =
@@ -107,23 +109,28 @@ class TextStyles {
   static TextStyle get titleSize15 =>
       title.copyWith(fontWeight: FontWeight.w500, fontSize: 15);
   static TextStyle get titleNormal => title.copyWith(
-      fontWeight: FontWeight.w500, fontSize: FontSizes.titleSmall);
+        fontWeight: FontWeight.w500,
+        fontSize: FontSizes.titleSmall,
+      );
   static TextStyle get titleMedium =>
       titleM.copyWith(fontWeight: FontWeight.w300);
   static TextStyle get h1Style =>
       TextStyle(fontSize: FontSizes.sizeXXl, fontWeight: FontWeight.bold);
   static TextStyle get h2Style => TextStyle(
-      fontSize: FontSizes.sizeXl,
-      fontWeight: FontWeight.bold,
-      color: Colors.black);
+        fontSize: FontSizes.sizeXl,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      );
   static TextStyle get h3Large => TextStyle(
-      fontSize: FontSizes.Large,
-      fontWeight: FontWeight.bold,
-      color: Colors.black);
+        fontSize: FontSizes.Large,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      );
   static TextStyle get headTitleColored => TextStyle(
-      fontSize: FontSizes.sizeXl,
-      fontWeight: FontWeight.bold,
-      color: Colors.blueAccent);
+        fontSize: FontSizes.sizeXl,
+        fontWeight: FontWeight.bold,
+        color: Colors.blueAccent,
+      );
   static TextStyle get body =>
       TextStyle(fontSize: FontSizes.body, fontWeight: FontWeight.w300);
   static TextStyle get bodySm => body.copyWith(fontSize: FontSizes.bodySm);
@@ -132,14 +139,14 @@ class TextStyles {
 // This Function creates a material color from HEX color value
 MaterialColor buildMaterialColor(Color color) {
   List strengths = <double>[.05];
-  Map<int, Color> swatch = {};
+  var swatch = <int, Color>{};
   final int r = color.red, g = color.green, b = color.blue;
 
-  for (int i = 1; i < 10; i++) {
+  for (var i = 1; i < 10; i++) {
     strengths.add(0.1 * i);
   }
   strengths.forEach((strength) {
-    final double ds = 0.5 - strength;
+    final ds = 0.5 - strength;
     swatch[(strength * 1000).round()] = Color.fromRGBO(
       r + ((ds < 0 ? r : (255 - r)) * ds).round(),
       g + ((ds < 0 ? g : (255 - g)) * ds).round(),
