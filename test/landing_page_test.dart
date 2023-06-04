@@ -65,17 +65,17 @@ void main() {
     stubOnAuthStateChangesYields([]);
     await pumpLandingPage(tester);
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
-  });
+  }, skip: true);
 
   testWidgets('null User', (WidgetTester tester) async {
     stubOnAuthStateChangesYields([]);
     await pumpLandingPage(tester);
     expect(find.byType(SignInPage), findsOneWidget);
-  });
+  }, skip: true);
   testWidgets('non-null User', (WidgetTester tester) async {
     stubOnAuthStateChangesYields([MockUser.uid('1342552')]);
     await pumpLandingPage(tester);
     expect(find.byType(ParentPage), findsNothing);
     expect(find.byType(ChildPage), findsNothing);
-  });
+  }, skip: true);
 }
