@@ -5,7 +5,8 @@ void main() {
   test('non empty string ', () {
     final validator = NonEmptyStringValidator();
 
-    ///here we pass a string [test] to check if the method isValid will return true
+    ///here we pass a string [test] to check if the method isValid will
+    /// return true
     ///
     expect(validator.isValid('test'), true);
   });
@@ -13,7 +14,8 @@ void main() {
   test('empty string ', () {
     final validator = NonEmptyStringValidator();
 
-    ///here we pass a string [test] to check if the method isValid will return false
+    ///here we pass a string [test] to check if the method isValid will
+    ///return false
     /// when the string is empty
     expect(validator.isValid(''), false);
   });
@@ -21,8 +23,9 @@ void main() {
   test('null string ', () {
     final validator = NonEmptyStringValidator();
 
-    ///here we pass a string [test] to check if the method isValid will return null
+    ///here we pass a string [test] to check if the method isValid will
+    ///return null
     /// when the string is empty
-    expect(validator.isValid(null), null);
+    expect(validator.isValid(null), false);
   });
 }

@@ -3,14 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parental_control/services/app_usage_local_service.dart';
 
 class ChildModel {
-  ChildModel(
-      {required this.id,
-      required this.name,
-      required this.email,
-      this.image,
-      this.token,
-      this.position,
-      this.appsUsageModel = const <AppUsageInfo>[]});
+  ChildModel({
+    required this.id,
+    required this.name,
+    required this.email,
+    this.image,
+    this.token,
+    this.position,
+    this.appsUsageModel = const <AppUsageInfo>[],
+  });
 
   String? token;
   final String name;
@@ -30,13 +31,14 @@ class ChildModel {
     var apps = data['appsUsageModel'] ?? [];
 
     return ChildModel(
-        id: documentId,
-        name: name,
-        image: image,
-        email: email,
-        token: token,
-        position: position,
-        appsUsageModel: apps ?? []);
+      id: documentId,
+      name: name,
+      image: image,
+      email: email,
+      token: token,
+      position: position,
+      appsUsageModel: apps ?? [],
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -53,7 +55,8 @@ class ChildModel {
 
   @override
   String toString() =>
-      'id: $id , name: $name , latitude:${position?.latitude} , longitude:${position?.longitude} ';
+      'id: $id , name: $name , latitude:${position?.latitude} ,'
+      ' longitude:${position?.longitude} ';
 }
 
 List<Map<String, dynamic>> appsList(List<dynamic> apps) {
@@ -62,12 +65,4 @@ List<Map<String, dynamic>> appsList(List<dynamic> apps) {
     appsMap.add(value.toMap());
   });
   return appsMap;
-}
-
-List<AppUsageInfo> _convertModel(List<dynamic> appsMod) {
-  var apps = <AppUsageInfo>[];
-  appsMod.forEach((value) {
-    apps.add(AppUsageInfo.fromMap(value));
-  });
-  return apps;
 }

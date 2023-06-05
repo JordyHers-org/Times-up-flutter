@@ -26,8 +26,9 @@ class Kids extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.14),
                       image: DecorationImage(
-                          image: NetworkImage(image_location!),
-                          fit: BoxFit.cover),
+                        image: NetworkImage(image_location!),
+                        fit: BoxFit.cover,
+                      ),
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
                     ),
                   ),
@@ -36,9 +37,10 @@ class Kids extends StatelessWidget {
                     child: Text(
                       image_caption!,
                       style: TextStyle(
-                          color: CustomColors.indigoLight,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700),
+                        color: CustomColors.indigoLight,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ],
@@ -55,9 +57,9 @@ class Kids extends StatelessWidget {
                   Container(
                     height: 110,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        color: Colors.black.withOpacity(0.10)),
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      color: Colors.black.withOpacity(0.10),
+                    ),
                   ),
                   Spacer(),
                   Container(
@@ -67,9 +69,9 @@ class Kids extends StatelessWidget {
                     width: 45,
                     height: 15,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(66)),
-                        color: Colors.black.withOpacity(0.10)),
+                      borderRadius: const BorderRadius.all(Radius.circular(66)),
+                      color: Colors.black.withOpacity(0.10),
+                    ),
                   ),
                   Spacer(),
                 ],

@@ -12,12 +12,15 @@ void main() {
 
     /// pumpWidget is always called for the widget we want to build
     ///don't forget to surround it with a [Material Widget]
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(
+      MaterialApp(
         home: CustomRaisedButton(
-      child: Text('tap me'),
-      onPressed: () => pressed = true,
-      color: Colors.black,
-    )));
+          child: Text('tap me'),
+          onPressed: () => pressed = true,
+          color: Colors.black,
+        ),
+      ),
+    );
 
     ///This code tries to find if in CustomRaisedButton there is a RaisedButton
     final button = find.byType(ElevatedButton);
