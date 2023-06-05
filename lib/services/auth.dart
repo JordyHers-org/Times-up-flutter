@@ -156,8 +156,19 @@ class Auth implements AuthBase {
   Future<void> signOut() async {
     final googleSignIn = GoogleSignIn();
     final facebookLogin = FacebookLogin();
-    await facebookLogin.logOut();
-    await googleSignIn.signOut();
+    final auth_provider = _firebaseAuth.currentUser!.providerData[0].providerId;
+
+    switch (auth_provider) {
+      case 'google.com':
+        await googleSignIn.signOut();
+        break;
+      case 'facebook.com':
+        await facebookLogin.logOut();
+        break;
+      default:
+        break;
+    }
+
     await _firebaseAuth.signOut();
   }
 }
