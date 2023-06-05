@@ -328,19 +328,21 @@ class _ParentPageState extends State<ParentPage>
 
   Widget _buildMapFullScreen(database) {
     return Scaffold(
-      body: Consumer<Position>(
-        builder: (_, position, __) {
-          return GeoFull(position, database);
-        },
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            setState(() {
+              mapScreenState = MapScreenState.Small;
+            });
+          },
+        ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            mapScreenState = MapScreenState.Small;
-          });
-        },
-        child: Icon(Icons.arrow_back_ios),
+      body: SafeArea(
+        child: Consumer<Position>(
+          builder: (_, position, __) {
+            return GeoFull(position, database);
+          },
+        ),
       ),
     );
   }
