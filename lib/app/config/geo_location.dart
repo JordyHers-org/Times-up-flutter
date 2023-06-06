@@ -1,16 +1,18 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+
 import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
-import 'package:provider/provider.dart';
 
 class Geo extends StatefulWidget {
   final Position initialPosition;
@@ -39,20 +41,21 @@ class _GeoState extends State<Geo> {
     geoService.getCurrentLocation.listen((position) {
       centerScreen(position);
     });
-    getAllChildLocations();
+    _getAllChildLocations();
     super.initState();
   }
 
-  Future<Uint8List> getChildMarkerImage(Map<String, dynamic> data) async {
-    var bytes =
-        (await NetworkAssetBundle(Uri.parse(data['image'])).load(data['image']))
-            .buffer
-            .asUint8List();
+  Future<Uint8List> _getChildMarkerImage(Map<String, dynamic> data) async {
+    final bytes = (await NetworkAssetBundle(Uri.parse(data['image'])).load(
+      data['image'],
+    ))
+        .buffer
+        .asUint8List();
 
     return bytes;
   }
 
-  void getAllChildLocations() async {
+  void _getAllChildLocations() async {
     childLocationsList = [];
     await FirebaseFirestore.instance
         .collection(APIPath.children(_currentUser.uid))
@@ -62,7 +65,7 @@ class _GeoState extends State<Geo> {
         for (var i = 0; i < document.docs.length; i++) {
           childLocationsList.add(document.docs[i].data);
           initMarker(document.docs[i].data());
-          getChildMarkerImage(document.docs[i].data());
+          _getChildMarkerImage(document.docs[i].data());
           debugPrint(
             'This is the list of children ${childLocationsList.length}',
           );
@@ -77,6 +80,8 @@ class _GeoState extends State<Geo> {
     debugPrint(data['id']);
     debugPrint(data['position']?.latitude);
     debugPrint(data['position']?.longitude);
+    if (data['position'] == null) return [];
+
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(
@@ -89,8 +94,9 @@ class _GeoState extends State<Geo> {
         markerId: MarkerId(data['id']),
         //TODO:Implement child image as marker
         //icon: BitmapDescriptor.fromBytes(imageData),
-        icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+        icon: BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueMagenta,
+        ),
         draggable: false,
         onTap: () {
           debugPrint('Marker Tapped');
@@ -121,9 +127,11 @@ class _GeoState extends State<Geo> {
         ),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
+          if (allMarkers.isEmpty) return;
           setState(() {
-            markers[MarkerId(allMarkers.first.markerId.value)] =
-                allMarkers.first;
+            markers[MarkerId(
+              allMarkers.first.markerId.value,
+            )] = allMarkers.first;
           });
         },
       ),
