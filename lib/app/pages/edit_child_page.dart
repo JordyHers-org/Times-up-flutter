@@ -85,36 +85,40 @@ class _EditChildPageState extends State<EditChildPage> {
     }
   }
 
-  Future<dynamic> _submit(XFile localFile) async {
-    id = uuid.v4().substring(0, 8).toUpperCase();
-    try {
-      var fileExtension = path.extension(localFile.path);
-      debugPrint(fileExtension);
-      //final _id = widget.model?.id ?? id;
-      //var id = documentIdFromCurrentDate();
-      final firebaseStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('Child/"${id}"/$id$fileExtension');
-
-      await firebaseStorageRef
-          .putFile(File(localFile.path))
-          //.onComplete
-          .catchError((onError) {
-        debugPrint(onError);
-        // ignore: return_of_invalid_type_from_catch_error
-        return false;
-      });
-      var url = await firebaseStorageRef.getDownloadURL();
-      _imageURL = url;
-      debugPrint('download url: $url');
-    } catch (e) {
-      debugPrint('...skipping image upload with error ${e.toString()}');
-    }
+  Future<void> _submit(XFile? localFile) async {
+    if (appState == AppState.loading) return;
 
     if (_validateAndSaveForm()) {
+      if (localFile == null) return;
       setState(() {
         appState = AppState.loading;
       });
+
+      id = uuid.v4().substring(0, 8).toUpperCase();
+      try {
+        var fileExtension = path.extension(localFile.path);
+        debugPrint(fileExtension);
+        //final _id = widget.model?.id ?? id;
+        //var id = documentIdFromCurrentDate();
+        final firebaseStorageRef = FirebaseStorage.instance
+            .ref()
+            .child('Child/"${id}"/$id$fileExtension');
+
+        await firebaseStorageRef
+            .putFile(File(localFile.path))
+            //.onComplete
+            .catchError((onError) {
+          debugPrint(onError);
+          // ignore: return_of_invalid_type_from_catch_error
+          return false;
+        });
+        var url = await firebaseStorageRef.getDownloadURL();
+        _imageURL = url;
+        debugPrint('download url: $url');
+      } catch (e) {
+        debugPrint('...skipping image upload with error ${e.toString()}');
+      }
+
       try {
         /// this section makes sure the name entered does not already exist
         /// in the stream
@@ -168,7 +172,7 @@ class _EditChildPageState extends State<EditChildPage> {
         centerTitle: true,
         actions: [
           OutlinedButton(
-            onPressed: () => _submit(_imageFile!),
+            onPressed: () async => await _submit(_imageFile),
             child: Text(
               'Save',
               style: TextStyle(fontSize: 18, color: Colors.white),
@@ -243,16 +247,16 @@ class _EditChildPageState extends State<EditChildPage> {
         ),
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'child name'),
+        decoration: InputDecoration(labelText: 'Child name'),
         initialValue: _name,
         validator: (value) => value!.isNotEmpty ? null : "Name can't be empty",
         onSaved: (value) => _name = value!,
         enabled: appState == AppState.complete ? true : false,
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'email'),
+        decoration: InputDecoration(labelText: 'Email'),
         initialValue: _email,
-        validator: (value) => value!.isNotEmpty ? null : "email can't be empty",
+        validator: (value) => value!.isNotEmpty ? null : "Email can't be empty",
         onSaved: (value) => _email = value!,
         enabled: appState == AppState.complete ? true : false,
       ),
