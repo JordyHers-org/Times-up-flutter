@@ -28,21 +28,27 @@ void main() {
     manager = SignInManager(auth: mockAuth, isLoading: isLoading);
   });
 
-  test('sign-in success', () async {
-    when(mockAuth.signInAnonymously())
-        .thenAnswer((_) => Future.value(MockUser()));
-    await manager.signInAnonymously();
-
-    expect(isLoading.values, [true]);
-  }, skip: true,);
-
-  test('sign-in failure', () async {
-    when(mockAuth.signInAnonymously())
-        .thenThrow(PlatformException(code: 'ERROR', message: 'sign in failed'));
-    try {
+  test(
+    'sign-in success',
+    () async {
+      when(mockAuth.signInAnonymously())
+          .thenAnswer((_) => Future.value(MockUser()));
       await manager.signInAnonymously();
-    } catch (e) {
-      expect(isLoading.values, [true, false]);
-    }
-  }, skip: true,);
+
+      expect(isLoading.values, [true]);
+    },
+  );
+
+  test(
+    'sign-in failure',
+    () async {
+      when(mockAuth.signInAnonymously()).thenThrow(
+          PlatformException(code: 'ERROR', message: 'sign in failed'));
+      try {
+        await manager.signInAnonymously();
+      } catch (e) {
+        expect(isLoading.values, [true, false]);
+      }
+    },
+  );
 }

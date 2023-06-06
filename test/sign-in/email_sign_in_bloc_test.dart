@@ -25,7 +25,7 @@ void main() {
     'AND submit is called'
     'THEN modelstream emits the correct event',
     () async {
-      when(mockAuth.signInWithEmailAndPassword(any.toString(), any.toString()))
+      when(mockAuth.signInWithEmailAndPassword(any, any))
           .thenThrow(PlatformException(code: 'ERROR'));
 
       expect(
