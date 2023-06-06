@@ -13,8 +13,6 @@ import 'package:parental_control/common_widgets/show_logger.dart';
 
 enum AppState { loading, complete }
 
-//TODO: Fix the onComplete Function line 91
-//TODO: Submit data to Firestore line 146
 class EditChildPage extends StatefulWidget {
   final Database? database;
   final ChildModel? model;
@@ -26,12 +24,17 @@ class EditChildPage extends StatefulWidget {
   /// The [context]  here is the context pf the JobsPage
   ///
   /// as the result we can get the provider of Database
-  static Future<void> show(BuildContext context,
-      {Database? database, ChildModel? model}) async {
-    await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => EditChildPage(database: database, model: model),
-      fullscreenDialog: true,
-    ));
+  static Future<void> show(
+    BuildContext context, {
+    Database? database,
+    ChildModel? model,
+  }) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditChildPage(database: database, model: model),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   @override
@@ -72,7 +75,10 @@ class _EditChildPageState extends State<EditChildPage> {
 
   Future<void> _getLocalImage() async {
     var imageFile = await _picker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50, maxWidth: 200);
+      source: ImageSource.gallery,
+      imageQuality: 50,
+      maxWidth: 200,
+    );
     if (imageFile != null) {
       setState(() {
         _imageFile = imageFile;
@@ -80,35 +86,40 @@ class _EditChildPageState extends State<EditChildPage> {
     }
   }
 
-  Future<dynamic> _submit(XFile localFile) async {
-    id = uuid.v4().substring(0, 8).toUpperCase();
-    if (localFile != null) {
-      var fileExtension = path.extension(localFile.path);
-      Logging.logger.d(fileExtension);
-      final _id = widget.model?.id ?? id;
-      //var id = documentIdFromCurrentDate();
-      final firebaseStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('Child/"${id}"/$id$fileExtension');
 
-      await firebaseStorageRef
-          .putFile(File(localFile.path))
-          //.onComplete
-          .catchError((onError) {
-        Logging.logger.e(onError);
-        // ignore: return_of_invalid_type_from_catch_error
-        return false;
-      });
-      var url = await firebaseStorageRef.getDownloadURL();
-      _imageURL = url;
-      Logging.logger.d('download url: $url');
-    } else {
-      Logging.logger.d('...skipping image upload');
-    }
+  Future<void> _submit(XFile? localFile) async {
+    if (appState == AppState.loading) return;
     if (_validateAndSaveForm()) {
+      if (localFile == null) return;
       setState(() {
         appState = AppState.loading;
       });
+
+      id = uuid.v4().substring(0, 8).toUpperCase();
+      try {
+        var fileExtension = path.extension(localFile.path);
+         Logging.logger.d(fileExtension);
+        //final _id = widget.model?.id ?? id;
+        //var id = documentIdFromCurrentDate();
+        final firebaseStorageRef = FirebaseStorage.instance
+            .ref()
+            .child('Child/"${id}"/$id$fileExtension');
+
+        await firebaseStorageRef
+            .putFile(File(localFile.path))
+            //.onComplete
+            .catchError((onError) {
+          Logging.logger.e(onError);
+          // ignore: return_of_invalid_type_from_catch_error
+          return false;
+        });
+        var url = await firebaseStorageRef.getDownloadURL();
+        _imageURL = url;
+        Logging.logger.d('download url: $url');
+      } catch (e) {
+         Logging.logger.d('...skipping image upload');
+      }
+
       try {
         /// this section makes sure the name entered does not already exist
         /// in the stream
@@ -120,10 +131,12 @@ class _EditChildPageState extends State<EditChildPage> {
           allNames.remove(widget.model!.name);
         }
         if (allNames.contains(_name)) {
-          await showAlertDialog(context,
-              title: ' Name already used',
-              content: 'Please choose a different job name',
-              defaultActionText: 'OK');
+          await showAlertDialog(
+            context,
+            title: ' Name already used',
+            content: 'Please choose a different job name',
+            defaultActionText: 'OK',
+          );
         } else {
           final child = ChildModel(
             id: id,
@@ -131,18 +144,20 @@ class _EditChildPageState extends State<EditChildPage> {
             email: _email ?? 'No email',
             image: _imageURL,
           );
-
           await widget.database!.setChild(child).whenComplete(() => {
                 setState(() {
                   Logging.logger.d('form Saved : $_name and email : $_email');
                   appState = AppState.complete;
                   Navigator.of(context).pop();
-                })
-              });
+                }),
+              );
         }
       } on FirebaseException catch (e) {
-        await showExceptionAlertDialog(context,
-            title: 'Operation failed', exception: e);
+        await showExceptionAlertDialog(
+          context,
+          title: 'Operation failed',
+          exception: e,
+        );
       }
     }
   }
@@ -157,7 +172,7 @@ class _EditChildPageState extends State<EditChildPage> {
         centerTitle: true,
         actions: [
           OutlinedButton(
-            onPressed: () => _submit(_imageFile!),
+            onPressed: () async => await _submit(_imageFile),
             child: Text(
               'Save',
               style: TextStyle(fontSize: 18, color: Colors.white),
@@ -187,11 +202,12 @@ class _EditChildPageState extends State<EditChildPage> {
 
   Widget _buildForm() {
     return Form(
-        key: _formkey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _buildFormChildren(),
-        ));
+      key: _formkey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: _buildFormChildren(),
+      ),
+    );
   }
 
   List<Widget> _buildFormChildren() {
@@ -217,7 +233,8 @@ class _EditChildPageState extends State<EditChildPage> {
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor),
+                    Theme.of(context).primaryColor,
+                  ),
                 ),
                 onPressed: () => _getLocalImage(),
                 child: Text(
@@ -230,16 +247,16 @@ class _EditChildPageState extends State<EditChildPage> {
         ),
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'child name'),
+        decoration: InputDecoration(labelText: 'Child name'),
         initialValue: _name,
         validator: (value) => value!.isNotEmpty ? null : "Name can't be empty",
         onSaved: (value) => _name = value!,
         enabled: appState == AppState.complete ? true : false,
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'email'),
+        decoration: InputDecoration(labelText: 'Email'),
         initialValue: _email,
-        validator: (value) => value!.isNotEmpty ? null : "email can't be empty",
+        validator: (value) => value!.isNotEmpty ? null : "Email can't be empty",
         onSaved: (value) => _email = value!,
         enabled: appState == AppState.complete ? true : false,
       ),

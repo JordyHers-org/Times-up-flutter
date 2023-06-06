@@ -35,7 +35,8 @@ class ParentPage extends StatefulWidget {
   _ParentPageState createState() => _ParentPageState();
 }
 
-class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateMixin {
+class _ParentPageState extends State<ParentPage>
+    with SingleTickerProviderStateMixin {
   late Geo geo;
 
   ///  Variables
@@ -73,7 +74,9 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
 
     _isShowCaseActivated == false
         ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) => ShowCaseWidget.of(context).startShowCase([_settingsKey, _childListKey, _addKey]))
+            (_) => ShowCaseWidget.of(context)
+                .startShowCase([_settingsKey, _childListKey, _addKey]),
+          )
         : null;
   }
 
@@ -90,7 +93,10 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
               textColor: Colors.indigo,
               description: 'Add a new child here ',
               child: FloatingActionButton(
-                onPressed: () => EditChildPage.show(context, database: Provider.of<Database>(context, listen: false)),
+                onPressed: () => EditChildPage.show(
+                  context,
+                  database: Provider.of<Database>(context, listen: false),
+                ),
                 child: const Icon(Icons.add),
               ),
             ),
@@ -98,7 +104,11 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
         : _buildMapFullScreen(database);
   }
 
-  Widget _buildParentPageContent(BuildContext context, AuthBase auth, Database database) {
+  Widget _buildParentPageContent(
+    BuildContext context,
+    AuthBase auth,
+    Database database,
+  ) {
     return NestedScrollView(
       headerSliverBuilder: (context, value) {
         return [
@@ -106,13 +116,21 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
             backgroundColor: CustomColors.indigoDark,
             expandedHeight: MediaQuery.of(context).size.height * 0.12,
             shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Time's Up",
-                  style: TextStyle(fontWeight: FontWeight.w800, color: CustomColors.indigoLight, fontSize: 22),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: CustomColors.indigoLight,
+                    fontSize: 22,
+                  ),
                 ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(side: BorderSide.none),
@@ -147,7 +165,7 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
               tabs: [
                 // first tab [you can add an icon using the icon property]
                 Tab(
-                  text: 'Control',
+                  text: 'Dashboard',
                 ),
 
                 // second tab [you can add an icon using the icon property]
@@ -204,9 +222,13 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
                               onLongPress: () => setState(() {
                                 mapScreenState = MapScreenState.Full;
                               }),
-                              child: Consumer<Position?>(builder: (_, position, __) {
-                                return (position != null) ? Geo(position, database) : LoadingMap();
-                              }),
+                              child: Consumer<Position?>(
+                                builder: (_, position, __) {
+                                  return (position != null)
+                                      ? Geo(position, database)
+                                      : LoadingMap();
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -222,7 +244,8 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
 
                 Provider<NotificationService>(
                   create: (_) => NotificationService(),
-                  builder: (context, __) => NotificationPage.create(context, widget.auth!),
+                  builder: (context, __) =>
+                      NotificationPage.create(context, widget.auth!),
                 ),
               ],
             ),
@@ -251,9 +274,11 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Kids(
-                        image_location: data[index]?.image,
-                        image_caption: data[index]?.name,
-                        onPressed: () => ChildDetailsPage.show(context, data[index]!));
+                      image_location: data[index]?.image,
+                      image_caption: data[index]?.name,
+                      onPressed: () =>
+                          ChildDetailsPage.show(context, data[index]!),
+                    );
                   },
                 );
               } else {
@@ -270,7 +295,11 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
               scrollDirection: Axis.horizontal,
               itemCount: 3,
               itemBuilder: (context, index) {
-                return Kids(image_location: null, image_caption: null, onPressed: null);
+                return Kids(
+                  image_location: null,
+                  image_caption: null,
+                  onPressed: null,
+                );
               },
             );
           },
@@ -300,17 +329,21 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
 
   Widget _buildMapFullScreen(database) {
     return Scaffold(
-      body: Consumer<Position>(builder: (_, position, __) {
-        return (position != null) ? GeoFull(position, database) : Center(child: CircularProgressIndicator());
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            mapScreenState = MapScreenState.Small;
-          });
-        },
-        child: Icon(Icons.arrow_back_ios),
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            setState(() {
+              mapScreenState = MapScreenState.Small;
+            });
+          },
+        ),
+      ),
+      body: SafeArea(
+        child: Consumer<Position>(
+          builder: (_, position, __) {
+            return GeoFull(position, database);
+          },
+        ),
       ),
     );
   }

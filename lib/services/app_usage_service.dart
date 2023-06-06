@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:parental_control/services/app_usage_local_service.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 abstract class AppService {
@@ -18,6 +19,7 @@ class AppUsageService implements AppService {
       _info = infoList;
     } on AppUsageException catch (exception) {
       Logging.logger.e(exception);
+
     }
   }
 }

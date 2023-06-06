@@ -20,17 +20,17 @@ class SharedPreference {
     return displayShowCase;
   }
 
-  setVisitingFlag() async {
+  void setVisitingFlag() async {
     var preferences = await SharedPreferences.getInstance();
     await preferences.setBool('alreadyVisited', true);
   }
 
-  setParentDevice() async {
+  void setParentDevice() async {
     var preferences = await SharedPreferences.getInstance();
     await preferences.setBool('isParent', true);
   }
 
-  setChildDevice() async {
+  void setChildDevice() async {
     var preferences = await SharedPreferences.getInstance();
     await preferences.setBool('isParent', false);
   }

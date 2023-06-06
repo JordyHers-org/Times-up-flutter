@@ -23,7 +23,11 @@ class AppUsageInfo {
   DateTime _startDate, _endDate;
 
   AppUsageInfo(
-      String name, double usageInSeconds, this._startDate, this._endDate) {
+    String name,
+    double usageInSeconds,
+    this._startDate,
+    this._endDate,
+  ) {
     var tokens = name.split('.');
     _packageName = name;
     _appName = tokens.last;
@@ -62,7 +66,8 @@ class AppUsageInfo {
 
   @override
   String toString() {
-    return 'App Usage: $packageName - $appName, duration: $usage [$startDate, $endDate]';
+    return 'App Usage: $packageName - $appName, '
+        'duration: $usage [$startDate, $endDate]';
   }
 }
 
@@ -71,7 +76,9 @@ class AppUsage {
       MethodChannel('app_usage.methodChannel');
 
   static Future<List<AppUsageInfo>> getAppUsage(
-      DateTime startDate, DateTime endDate) async {
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     if (Platform.isAndroid) {
       /// Convert dates to ms since epoch
       var end = endDate.millisecondsSinceEpoch;

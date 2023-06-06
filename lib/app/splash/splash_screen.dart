@@ -36,8 +36,8 @@ class _SplashScreenState extends State<SplashScreen> {
       'image': 'images/png/undraw4.png'
     },
     {
-      'text':
-          "Because we care, Let's live track their location \nand see on the map where your child is.",
+      'text': "Because we care, Let's live track their location \nand see on "
+          'the map where your child is.',
       'image': 'images/png/undraw3.png'
     },
   ];
@@ -76,7 +76,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 flex: 1,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(20)),
+                    horizontal: getProportionateScreenWidth(20),
+                  ),
                   child: Column(
                     children: <Widget>[
                       Spacer(flex: 3),
@@ -87,17 +88,22 @@ class _SplashScreenState extends State<SplashScreen> {
                             height: 40,
                             child: ElevatedButton(
                               style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Theme.of(context).primaryColor,
+                                ),
+                              ),
                               onPressed: () {
                                 SharedPreference().setVisitingFlag();
                                 SharedPreference().setParentDevice();
                                 Logging.logger.v(
                                     'The page is set to Parent => now moving ......');
+
                                 Navigator.of(context).pushReplacement(
-                                    CupertinoPageRoute(
-                                        builder: (context) => LandingPage()));
+                                  CupertinoPageRoute(
+                                    builder: (context) => LandingPage(),
+                                  ),
+                                );
                               },
                               child: Text(
                                 'Parent device'.toUpperCase(),
@@ -109,23 +115,28 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                           ),
 
-                          ///-------------------------------------------------------------------
+                          ///------------------------------------
                           Container(
                             height: 40,
                             child: ElevatedButton(
                               style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          CustomColors.greenPrimary)),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  CustomColors.greenPrimary,
+                                ),
+                              ),
                               onPressed: () {
                                 SharedPreference().setVisitingFlag();
                                 SharedPreference().setChildDevice();
 
                                 Logging.logger.v(
                                     'The page is set to Child => now moving ......');
+
                                 Navigator.of(context).pushReplacement(
-                                    CupertinoPageRoute(
-                                        builder: (context) => LandingPage()));
+                                  CupertinoPageRoute(
+                                    builder: (context) => LandingPage(),
+                                  ),
+                                );
                               },
                               child: Text(
                                 ' Child device'.toUpperCase(),

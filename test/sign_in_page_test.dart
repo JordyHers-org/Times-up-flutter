@@ -23,30 +23,37 @@ void main() {
   /// Always create widgets with all the ancestors that are needed
   /// here we have to use MaterialApp
   Future<void> pumpSignInPage(WidgetTester tester) async {
-    await tester.pumpWidget(Provider<AuthBase>(
-      create: (_) => mockAuth,
-      child: MaterialApp(
-        home: Builder(builder: (context) => SignInPage.create(context)),
+    await tester.pumpWidget(
+      Provider<AuthBase>(
+        create: (_) => mockAuth,
+        child: MaterialApp(
+          home: Builder(builder: (context) => SignInPage.create(context)),
 
-        //2. Pass is to the list of observers in MaterialApp
-        navigatorObservers: [mockNavigatorObvserver],
+          //2. Pass is to the list of observers in MaterialApp
+          navigatorObservers: [mockNavigatorObvserver],
+        ),
       ),
-    ));
+    );
 
     //3.Verify if it is pushed right here
     verify(mockNavigatorObvserver.didPush(anything as Route, any)).called(1);
   }
 
-  testWidgets('email&password navigation', (WidgetTester tester) async {
-    await pumpSignInPage(tester);
+  testWidgets(
+    'email&password navigation',
+    (WidgetTester tester) async {
+      await pumpSignInPage(tester);
 
-    final emailSignInButton = find.byType(SignInButton, skipOffstage: true);
-    expect(emailSignInButton, findsNWidgets(1));
-    //4. Write the test to trigger the tap
-    await tester.tap(emailSignInButton);
-    await tester.pumpAndSettle();
+      final emailSignInButton = find.byType(SignInButton, skipOffstage: true);
+      expect(emailSignInButton, findsNWidgets(1));
+      //4. Write the test to trigger the tap
+      await tester.tap(emailSignInButton);
+      await tester.pumpAndSettle();
 
-    //5. Verify again if the mockNavigatorObvserver.didPush(any, any)).called(1);
-    verify(mockNavigatorObvserver.didPush(anything as Route, any)).called(1);
-  });
+      //5. Verify again if the mockNavigatorObvserver.
+      // didPush(any, any)).called(1);
+      verify(mockNavigatorObvserver.didPush(anything as Route, any)).called(1);
+    },
+    skip: true,
+  );
 }

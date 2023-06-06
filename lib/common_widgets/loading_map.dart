@@ -8,8 +8,9 @@ class LoadingMap extends StatelessWidget {
     return Container(
       height: 250,
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-          color: Colors.black.withOpacity(0.14)),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        color: Colors.black.withOpacity(0.14),
+      ),
     );
   }
 }

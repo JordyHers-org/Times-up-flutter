@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
-    final apps = Provider.of<AppUsageService>(context, listen: false);
+    //final apps = Provider.of<AppUsageService>(context, listen: false);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -47,11 +47,12 @@ class _MyAppState extends State<MyApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       home: FutureBuilder(
-          future: Future.wait([
-            geoService.getInitialLocation(),
-            //  apps.getAppUsageService(),
-          ]),
-          builder: (context, _) => ScreensController()),
+        future: Future.wait([
+          geoService.getInitialLocation(),
+          //  apps.getAppUsageService(),
+        ]),
+        builder: (context, _) => ScreensController(),
+      ),
     );
   }
 }

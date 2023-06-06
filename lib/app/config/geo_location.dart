@@ -108,9 +108,12 @@ class _GeoState extends State<Geo> {
         myLocationEnabled: true,
         markers: Set<Marker>.of(allMarkers),
         initialCameraPosition: CameraPosition(
-            target: LatLng(widget.initialPosition.latitude,
-                widget.initialPosition.longitude),
-            zoom: 15),
+          target: LatLng(
+            widget.initialPosition.latitude,
+            widget.initialPosition.longitude,
+          ),
+          zoom: 15,
+        ),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
           setState(() {
@@ -124,9 +127,13 @@ class _GeoState extends State<Geo> {
 
   Future<void> centerScreen(Position position) async {
     final controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
         CameraPosition(
-            target: LatLng(position.latitude, position.longitude),
-            zoom: 16.0)));
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 16.0,
+        ),
+      ),
+    );
   }
 }

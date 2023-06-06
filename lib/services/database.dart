@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/api_path.dart';
@@ -22,14 +23,19 @@ abstract class Database {
   Stream<List<ChildModel>> childrenStream();
 
   Future<void> setNotification(
-      NotificationModel notification, ChildModel model);
+    NotificationModel notification,
+    ChildModel model,
+  );
 
   Stream<List<NotificationModel>> notificationStream({String childId});
 
   Stream<ChildModel> childStream({required String childId});
 
   Future<ChildModel> getUserCurrentChild(
-      String name, String key, GeoPoint latLong);
+    String name,
+    String key,
+    GeoPoint latLong,
+  );
 }
 
 // String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -38,13 +44,12 @@ class FirestoreDatabase implements Database {
   FirestoreDatabase({
     required this.uid,
     this.auth,
-  }) : assert(uid != null);
+  });
 
   final String uid;
   final AuthBase? auth;
   ChildModel? _child;
 
-  @override
   ChildModel get currentChild => _child!;
 
   final _service = FirestoreService.instance;
@@ -53,7 +58,10 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<ChildModel> getUserCurrentChild(
-      String name, String key, GeoPoint latLong) async {
+    String name,
+    String key,
+    GeoPoint latLong,
+  ) async {
     final user = auth?.currentUser?.uid;
     final token = await auth?.setToken();
     await apps.getAppUsageService();
@@ -73,6 +81,7 @@ class FirestoreDatabase implements Database {
         _email = doc.data()!['email'];
         _currentChild = doc.data()!['name'];
         _image = doc.data()!['image'];
+
         Logging.logger.d('------------------------------------------------------');
         Logging.logger.d(' User : $user \n');
         Logging.logger.d(' ---------------- We found this as a match --------');
@@ -82,14 +91,16 @@ class FirestoreDatabase implements Database {
         Logging.logger.d('Email : $_email');
         Logging.logger.d('Unique Key : $key');
 
+
         _child = ChildModel(
-            id: doc.id,
-            name: _currentChild,
-            email: _email,
-            image: _image,
-            position: latLong,
-            appsUsageModel: apps.info,
-            token: token);
+          id: doc.id,
+          name: _currentChild,
+          email: _email,
+          image: _image,
+          position: latLong,
+          appsUsageModel: apps.info,
+          token: token,
+        );
 
         await setChild(_child!);
         return _child;
@@ -164,15 +175,20 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<void> setNotification(
-      NotificationModel notification, ChildModel child) async {
+    NotificationModel notification,
+    ChildModel child,
+  ) async {
     await _service.setNotificationFunction(
-        path: APIPath.notificationsStream(uid, child.id),
-        data: notification.toMap());
+      path: APIPath.notificationsStream(uid, child.id),
+      data: notification.toMap(),
+    );
   }
 
   Future<void> setTokenOnFireStore(Map<String, dynamic> token) async {
     await _service.setNotificationFunction(
-        path: APIPath.deviceToken(), data: token);
+      path: APIPath.deviceToken(),
+      data: token,
+    );
   }
 
   @override

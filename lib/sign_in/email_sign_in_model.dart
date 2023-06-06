@@ -4,14 +4,15 @@ import 'package:parental_control/sign_in/validators.dart';
 enum EmailSignInFormType { signIn, register }
 
 class EmailSignInModel with EmailAndPasswordValidators {
-  EmailSignInModel(
-      {this.name = '',
-      this.surname = '',
-      this.email = '',
-      this.password = '',
-      this.formType = EmailSignInFormType.signIn,
-      this.isLoading = false,
-      this.submitted = false});
+  EmailSignInModel({
+    this.name = '',
+    this.surname = '',
+    this.email = '',
+    this.password = '',
+    this.formType = EmailSignInFormType.signIn,
+    this.isLoading = false,
+    this.submitted = false,
+  });
 
   String get primaryButtonText {
     return formType == EmailSignInFormType.signIn
@@ -53,7 +54,6 @@ class EmailSignInModel with EmailAndPasswordValidators {
 
   bool get showErrorTexPassword {
     return submitted && !passwordValidator.isValid(password);
-    ;
   }
 
   final String name;

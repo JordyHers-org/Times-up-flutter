@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
+import 'package:flutter/foundation.dart';
+
+
 class FirestoreService {
   FirestoreService._();
 
@@ -20,6 +23,7 @@ class FirestoreService {
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
     Logging.logger.d('$path: $data');
+
     await reference.update(data);
   }
 
@@ -30,6 +34,7 @@ class FirestoreService {
     final reference =
         FirebaseFirestore.instance.collection(path).doc(data['id']);
     Logging.logger.d('$path: $data');
+
     await reference.set(data);
   }
 
@@ -41,12 +46,14 @@ class FirestoreService {
     // doc().set({'message': 'HomeWork Time'});
     final reference = FirebaseFirestore.instance.collection(path).doc();
     Logging.logger.d('$path: $data');
+
     await reference.set(data);
   }
 
   Future<void> deleteData({required String path}) async {
     final reference = FirebaseFirestore.instance.doc(path);
     Logging.logger.w('delete: $path');
+
     await reference.delete();
   }
 
