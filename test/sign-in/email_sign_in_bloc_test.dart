@@ -4,14 +4,14 @@ import 'package:mockito/mockito.dart';
 import 'package:parental_control/sign_in/email_sign_in_bloc.dart';
 import 'package:parental_control/sign_in/email_sign_in_model.dart';
 
-import 'mocks.dart';
+import '../helpers/test_helpers.mocks.dart';
 
 void main() {
-  late MockAuth mockAuth;
+  late MockAuthBase mockAuth;
   late EmailSignInBloc bloc;
 
   setUp(() {
-    mockAuth = MockAuth();
+    mockAuth = MockAuthBase();
     bloc = EmailSignInBloc(auth: mockAuth);
   });
 

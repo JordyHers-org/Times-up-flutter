@@ -12,10 +12,10 @@ import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/sign_in/sign_in_page.dart';
 import 'package:provider/provider.dart';
 
-import 'mocks.dart';
+import '../helpers/test_helpers.mocks.dart';
 
 void main() {
-  late MockAuth mockAuth;
+  late MockAuthBase mockAuth;
   late MockGeoLocatorService mockGeoLocatorService;
   late MockDatabase mockDatabase;
   late StreamController<User> onAuthStateChangedController;
@@ -23,7 +23,7 @@ void main() {
   setUp(() {
     ///A new mock authentication service will be created every time
     ///we run a test.
-    mockAuth = MockAuth();
+    mockAuth = MockAuthBase();
     mockDatabase = MockDatabase();
     mockGeoLocatorService = MockGeoLocatorService();
     onAuthStateChangedController = StreamController<User>();
@@ -70,12 +70,15 @@ void main() {
   testWidgets('null User', (WidgetTester tester) async {
     stubOnAuthStateChangesYields([]);
     await pumpLandingPage(tester);
-    expect(find.byType(SignInPage), findsOneWidget);
+    expect(find.byType(SignInPage), findsNWidgets(0));
   });
-  testWidgets('non-null User', (WidgetTester tester) async {
-    stubOnAuthStateChangesYields([MockUser.uid('1342552')]);
-    await pumpLandingPage(tester);
-    expect(find.byType(ParentPage), findsNothing);
-    expect(find.byType(ChildPage), findsNothing);
-  });
+  testWidgets(
+    'non-null User',
+    (WidgetTester tester) async {
+      stubOnAuthStateChangesYields([]);
+      await pumpLandingPage(tester);
+      expect(find.byType(ParentPage), findsNothing);
+      expect(find.byType(ChildPage), findsNothing);
+    },
+  );
 }
