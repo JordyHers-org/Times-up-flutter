@@ -6,6 +6,7 @@ import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/firestore_service.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 abstract class Database {
   Future<void> setChild(ChildModel model);
@@ -72,14 +73,14 @@ class FirestoreDatabase implements Database {
         _email = doc.data()!['email'];
         _currentChild = doc.data()!['name'];
         _image = doc.data()!['image'];
-        print('------------------------------------------------------');
-        print(' User : $user \n');
-        print(' ---------------- We found this as a match --------');
-        print(doc['name']);
-        print('Name : $_currentChild');
-        print('Image : $_image');
-        print('Email : $_email');
-        print('Unique Key : $key');
+        Logging.logger.d('------------------------------------------------------');
+        Logging.logger.d(' User : $user \n');
+        Logging.logger.d(' ---------------- We found this as a match --------');
+        Logging.logger.d(doc['name']);
+        Logging.logger.d('Name : $_currentChild');
+        Logging.logger.d('Image : $_image');
+        Logging.logger.d('Email : $_email');
+        Logging.logger.d('Unique Key : $key');
 
         _child = ChildModel(
             id: doc.id,
@@ -93,10 +94,10 @@ class FirestoreDatabase implements Database {
         await setChild(_child!);
         return _child;
       } else {
-        print(' NO SUCH FILE ON DATABASE ');
+        Logging.logger.e(' NO SUCH FILE ON DATABASE ');
       }
     });
-    print(_child);
+    Logging.logger.d(_child);
     return _child!;
   }
 
@@ -107,13 +108,13 @@ class FirestoreDatabase implements Database {
     var point = await geo.getInitialLocation();
     var currentLocation = GeoPoint(point.latitude, point.longitude);
 
-    print('The user is $user and the Child Id: ${model.id}');
-    print(
+    Logging.logger.d('The user is $user and the Child Id: ${model.id}');
+    Logging.logger.d(
         ' DEBUG: FROM DATABASE ===> Last location taken is longitude : ${point.longitude} , latitude :${point.latitude}');
-    print(' DEBUG: APP USAGE ==> ${apps.info}');
+    Logging.logger.d(' DEBUG: APP USAGE ==> ${apps.info}');
 
     if (model.id == 'D9FBAB88') {
-      print('Choosing random Position for ${model.id}');
+      Logging.logger.d('Choosing random Position for ${model.id}');
       // generates a new Random object
       var positions = <GeoPoint>[
         GeoPoint(41.025576, 28.663767),
@@ -124,7 +125,7 @@ class FirestoreDatabase implements Database {
       // generate a random index based on the list length
       // and use it to retrieve the element
       var randomPosition = (positions..shuffle()).first;
-      print('The random location is $randomPosition');
+      Logging.logger.d('The random location is $randomPosition');
       _child = ChildModel(
         id: model.id,
         name: model.name,

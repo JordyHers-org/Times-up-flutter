@@ -12,6 +12,7 @@ import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({required this.database, required this.childModel});
@@ -74,7 +75,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   setState(() {
                     isPushed = !isPushed;
                   });
-                  print('more is pushed');
+                  Logging.logger.d('more is pushed');
                 }),
           );
         });
@@ -196,7 +197,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                               title: 'Successful',
                               content: 'Notification sent to ${model.name}',
                               defaultActionText: 'OK');
-                          print('Notification sent to device');
+                          Logging.logger.d('Notification sent to device');
                         } on FirebaseException catch (e) {
                           await showExceptionAlertDialog(context,
                               title: 'An error occurred', exception: e);
@@ -228,7 +229,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                               title: 'Successful',
                               content: 'Notification sent to ${model.name}',
                               defaultActionText: 'OK');
-                          print('Notification sent to device');
+                          Logging.logger.d('Notification sent to device');
                         } on FirebaseException catch (e) {
                           await showExceptionAlertDialog(context,
                               title: 'An error occurred', exception: e);

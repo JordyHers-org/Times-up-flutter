@@ -11,6 +11,7 @@ import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:provider/provider.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 class Geo extends StatefulWidget {
   final Position initialPosition;
@@ -63,7 +64,7 @@ class _GeoState extends State<Geo> {
           childLocationsList.add(document.docs[i].data);
           initMarker(document.docs[i].data());
           getChildMarkerImage(document.docs[i].data());
-          print('This is the list of children ${childLocationsList.length}');
+          Logging.logger.d('This is the list of children ${childLocationsList.length}');
         }
       }
     });
@@ -71,16 +72,16 @@ class _GeoState extends State<Geo> {
 
   //TODO:Make function async
   Future<List<Marker>> initMarker(Map<String, dynamic> data) async {
-    print('--------------- data -------------');
-    print(data['id']);
-    print(data['position']?.latitude);
-    print(data['position']?.longitude);
+    Logging.logger.d('--------------- data -------------');
+    Logging.logger.v(data['id']);
+    Logging.logger.v(data['position']?.latitude);
+    Logging.logger.v(data['position']?.longitude);
     allMarkers.add(Marker(
       infoWindow: InfoWindow(
           title: data['id'],
           snippet: data['name'],
           onTap: () {
-            print('Tapped');
+            Logging.logger.d('Tapped');
           }),
       markerId: MarkerId(data['id']),
       //TODO:Implement child image as marker
@@ -88,11 +89,11 @@ class _GeoState extends State<Geo> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
       draggable: false,
       onTap: () {
-        print('Marker Tapped');
+        Logging.logger.d('Marker Tapped');
       },
       position: LatLng(data['position'].latitude, data['position'].longitude),
     ));
-    print(allMarkers);
+    Logging.logger.d(allMarkers);
     return allMarkers;
   }
 

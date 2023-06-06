@@ -1,5 +1,5 @@
 import 'package:parental_control/services/app_usage_local_service.dart';
-
+import 'package:parental_control/common_widgets/show_logger.dart';
 abstract class AppService {
   Future<void> getAppUsageService();
 }
@@ -17,7 +17,7 @@ class AppUsageService implements AppService {
       var infoList = await AppUsage.getAppUsage(startDate, endDate);
       _info = infoList;
     } on AppUsageException catch (exception) {
-      print(exception);
+      Logging.logger.e(exception);
     }
   }
 }

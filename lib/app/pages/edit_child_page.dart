@@ -9,6 +9,7 @@ import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 enum AppState { loading, complete }
 
@@ -83,7 +84,7 @@ class _EditChildPageState extends State<EditChildPage> {
     id = uuid.v4().substring(0, 8).toUpperCase();
     if (localFile != null) {
       var fileExtension = path.extension(localFile.path);
-      print(fileExtension);
+      Logging.logger.d(fileExtension);
       final _id = widget.model?.id ?? id;
       //var id = documentIdFromCurrentDate();
       final firebaseStorageRef = FirebaseStorage.instance
@@ -94,15 +95,15 @@ class _EditChildPageState extends State<EditChildPage> {
           .putFile(File(localFile.path))
           //.onComplete
           .catchError((onError) {
-        print(onError);
+        Logging.logger.e(onError);
         // ignore: return_of_invalid_type_from_catch_error
         return false;
       });
       var url = await firebaseStorageRef.getDownloadURL();
       _imageURL = url;
-      print('download url: $url');
+      Logging.logger.d('download url: $url');
     } else {
-      print('...skipping image upload');
+      Logging.logger.d('...skipping image upload');
     }
     if (_validateAndSaveForm()) {
       setState(() {
@@ -133,7 +134,7 @@ class _EditChildPageState extends State<EditChildPage> {
 
           await widget.database!.setChild(child).whenComplete(() => {
                 setState(() {
-                  print('form Saved : $_name and email : $_email');
+                  Logging.logger.d('form Saved : $_name and email : $_email');
                   appState = AppState.complete;
                   Navigator.of(context).pop();
                 })
@@ -253,7 +254,7 @@ class _EditChildPageState extends State<EditChildPage> {
         color: Colors.grey[500],
       );
     } else if (_imageFile != null) {
-      print('showing image from local file');
+      Logging.logger.d('showing image from local file');
       return InkWell(
         onTap: _getLocalImage,
         child: Image.file(

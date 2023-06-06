@@ -3,6 +3,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/theme/theme.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 class SettingsPage extends StatelessWidget {
   SettingsPage({Key? key, this.title, this.name, this.email, this.context, required this.auth}) : super(key: key);
@@ -25,7 +26,7 @@ class SettingsPage extends StatelessWidget {
     try {
       await auth.signOut();
     } catch (e) {
-      print(e.toString());
+      Logging.logger.e(e.toString());
     }
   }
 

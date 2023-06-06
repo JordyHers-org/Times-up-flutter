@@ -5,6 +5,7 @@ import 'package:parental_control/app/splash/splash_content.dart';
 import 'package:parental_control/common_widgets/size_config.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 class SplashScreen extends StatefulWidget {
   final BuildContext? context;
@@ -92,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               onPressed: () {
                                 SharedPreference().setVisitingFlag();
                                 SharedPreference().setParentDevice();
-                                print(
+                                Logging.logger.v(
                                     'The page is set to Parent => now moving ......');
                                 Navigator.of(context).pushReplacement(
                                     CupertinoPageRoute(
@@ -120,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 SharedPreference().setVisitingFlag();
                                 SharedPreference().setChildDevice();
 
-                                print(
+                                Logging.logger.v(
                                     'The page is set to Child => now moving ......');
                                 Navigator.of(context).pushReplacement(
                                     CupertinoPageRoute(

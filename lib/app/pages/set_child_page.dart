@@ -7,6 +7,7 @@ import 'package:parental_control/models/set_child_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:provider/provider.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 enum AppState { loading, complete }
 
@@ -41,13 +42,13 @@ class _SetChildPageState extends State<SetChildPage> {
 
   void _submit(String name, String key) async {
     final position = await geo.getInitialLocation();
-    print(
+    Logging.logger.d(
         'Method latitude :${position.latitude} , Longitude : ${position.longitude}');
     final database = Provider.of<Database>(context, listen: false);
     try {
       final response = await database.getUserCurrentChild(
           name, key, GeoPoint(position.latitude, position.longitude));
-      print('RESPONSE : ${response}');
+      Logging.logger.d('RESPONSE : ${response}');
       if (response != null) {
         await Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
             fullscreenDialog: true,
@@ -61,10 +62,10 @@ class _SetChildPageState extends State<SetChildPage> {
             title: 'No Such file in Database',
             content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
             defaultActionText: 'OK');
-        print('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
+        Logging.logger.e('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {
-      print(e.toString());
+      Logging.logger.e(e.toString());
     }
   }
 

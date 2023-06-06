@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:parental_control/models/notification_model.dart';
-
+import 'package:parental_control/common_widgets/show_logger.dart';
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
@@ -64,10 +64,10 @@ class NotificationService {
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       var notification = message.notification;
-      print('A new onMessageOpenedApp event was published!');
+      Logging.logger.d('A new onMessageOpenedApp event was published!');
       _setNotifications(
           {'message': message.messageId, 'notification': message.notification});
-      print('Message : $message');
+      Logging.logger.d('Message : $message');
     });
   }
 }
