@@ -38,8 +38,12 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
   Future<void> signInWithOTP(smsCode, verId) async {
     var authCred =
         PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
-    await signIn(authCred).whenComplete(() => Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => ParentPage())));
+    await signIn(authCred).whenComplete(
+      () => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ParentPage()),
+      ),
+    );
   }
 
   /// THIS FUNCTION SIGN THE USER using the sms Code provided
@@ -49,13 +53,13 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
 
   /// THIS FUNCTION Verify the phone number entered
   Future<void> verifyPhone(phoneNo) async {
-    print('Phone number reached verifyphone $phoneNo');
+    debugPrint('Phone number reached verifyphone $phoneNo');
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       signIn(authResult);
     };
 
     final verificationfailed = (FirebaseAuthException authException) {
-      print('${authException.message}');
+      debugPrint('${authException.message}');
     };
 
     final smsSent = (String verId, [int? forceResend]) {
@@ -66,12 +70,13 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
       verificationId = verId;
     };
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phoneNo,
-        timeout: const Duration(seconds: 5),
-        verificationCompleted: verified,
-        verificationFailed: verificationfailed,
-        codeSent: smsSent,
-        codeAutoRetrievalTimeout: autoTimeout);
+      phoneNumber: phoneNo,
+      timeout: const Duration(seconds: 5),
+      verificationCompleted: verified,
+      verificationFailed: verificationfailed,
+      codeSent: smsSent,
+      codeAutoRetrievalTimeout: autoTimeout,
+    );
   }
 
   ///--------------------------------------------------------------------------
@@ -83,15 +88,16 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
       _buildOTP(),
       SizedBox(height: 8.0),
       FormSubmitButton(
-          text: _isVisible == true ? 'Login' : 'Send sms Code',
-          onPressed: () async {
-            if (_isVisible == false) {
-              _turnOnOtpField();
-            }
-            _isVisible == true
-                ? await verifyPhone(phoneNo)
-                : await signInWithOTP(_verificationCode, _id);
-          }),
+        text: _isVisible == true ? 'Login' : 'Send sms Code',
+        onPressed: () async {
+          if (_isVisible == false) {
+            _turnOnOtpField();
+          }
+          _isVisible == true
+              ? await verifyPhone(phoneNo)
+              : await signInWithOTP(_verificationCode, _id);
+        },
+      ),
       SizedBox(height: 8.0),
     ];
   }
@@ -110,7 +116,7 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
       onChanged: (value) {
         setState(() {
           phoneNo = '+90${_phoneNumberController.text}';
-          print('This is the phone number taken : $phoneNo');
+          debugPrint('This is the phone number taken : $phoneNo');
         });
       },
     );
@@ -143,7 +149,7 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
     });
   }
 
-  ///------------------------------ Widgets -------------------------------------------------
+  ///------------------------------ Widgets --------------
 
   @override
   Widget build(BuildContext context) {

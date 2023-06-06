@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -59,7 +60,7 @@ class Auth implements AuthBase {
     final userCredential = await _firebaseAuth.signInWithCredential(
       EmailAuthProvider.credential(email: email, password: password),
     );
-    print('Welcome back dear user _____=>  $email ');
+    debugPrint('Welcome back dear user _____=>  $email ');
     return userCredential.user!;
   }
 
@@ -70,10 +71,10 @@ class Auth implements AuthBase {
     try {
       await _firebaseMessaging.getToken().then((token) {
         _token = token!;
-        print('Device Token: $_token');
+        debugPrint('Device Token: $_token');
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     return _token;
   }
@@ -81,10 +82,16 @@ class Auth implements AuthBase {
   ///Register with email and passwords
   @override
   Future<User> signUpUserWithEmailAndPassword(
-      String email, String password, String name, String surname) async {
+    String email,
+    String password,
+    String name,
+    String surname,
+  ) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    print('Sign Up user complete  Name : $name');
+      email: email,
+      password: password,
+    );
+    debugPrint('Sign Up user complete  Name : $name');
     return userCredential.user!;
   }
 
@@ -99,7 +106,9 @@ class Auth implements AuthBase {
       if (googleAuth.idToken != null) {
         final userCredential = await _firebaseAuth.signInWithCredential(
           GoogleAuthProvider.credential(
-              idToken: googleAuth.idToken, accessToken: googleAuth.accessToken),
+            idToken: googleAuth.idToken,
+            accessToken: googleAuth.accessToken,
+          ),
         );
         return userCredential.user!;
       } else {
@@ -123,17 +132,19 @@ class Auth implements AuthBase {
   Future<User> signInWithFacebook() async {
     final fb = FacebookLogin();
 
-    final response = await fb.logIn(permissions: [
-      FacebookPermission.publicProfile,
-      FacebookPermission.email,
-    ]);
+    final response = await fb.logIn(
+      permissions: [
+        FacebookPermission.publicProfile,
+        FacebookPermission.email,
+      ],
+    );
     switch (response.status) {
       case FacebookLoginStatus.success:
         final accessToken = response.accessToken;
         final userCredential = await _firebaseAuth.signInWithCredential(
           FacebookAuthProvider.credential(accessToken!.token),
         );
-        print('Facebook Login Completed : ${accessToken.token}');
+        debugPrint('Facebook Login Completed : ${accessToken.token}');
         return userCredential.user!;
 
       case FacebookLoginStatus.cancel:
@@ -156,8 +167,19 @@ class Auth implements AuthBase {
   Future<void> signOut() async {
     final googleSignIn = GoogleSignIn();
     final facebookLogin = FacebookLogin();
-    await facebookLogin.logOut();
-    await googleSignIn.signOut();
+    final auth_provider = _firebaseAuth.currentUser!.providerData[0].providerId;
+
+    switch (auth_provider) {
+      case 'google.com':
+        await googleSignIn.signOut();
+        break;
+      case 'facebook.com':
+        await facebookLogin.logOut();
+        break;
+      default:
+        break;
+    }
+
     await _firebaseAuth.signOut();
   }
 }

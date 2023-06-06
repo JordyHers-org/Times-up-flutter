@@ -36,9 +36,10 @@ class FeatureWidget extends StatelessWidget {
               ? Text(
                   title!,
                   style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                      color: CustomColors.indigoLight),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    color: CustomColors.indigoLight,
+                  ),
                 )
               : SizedBox.shrink(),
           Spacer(),

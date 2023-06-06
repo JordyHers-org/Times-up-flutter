@@ -63,7 +63,9 @@ class _GeoFullState extends State<GeoFull> {
           childLocationsList.add(document.docs[i].data);
           initMarker(document.docs[i].data());
           getChildMarkerImage(document.docs[i].data());
-          print('This is the list of children ${childLocationsList.length}');
+          debugPrint(
+            'This is the list of children ${childLocationsList.length}',
+          );
         }
       }
     });
@@ -71,27 +73,27 @@ class _GeoFullState extends State<GeoFull> {
 
   //TODO:Make function async
   Future<List<Marker>> initMarker(Map<String, dynamic> data) async {
-    if (data != null) {
-      allMarkers.add(Marker(
+    allMarkers.add(
+      Marker(
         infoWindow: InfoWindow(
-            title: data['id'],
-            snippet: data['name'],
-            onTap: () {
-              print('Tapped');
-            }),
+          title: data['id'],
+          snippet: data['name'],
+          onTap: () {
+            debugPrint('Tapped');
+          },
+        ),
         markerId: MarkerId(data['id']),
         icon:
             BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
         draggable: false,
         onTap: () {
-          print('Marker Tapped');
+          debugPrint('Marker Tapped');
         },
         position: LatLng(data['position'].latitude, data['position'].longitude),
-      ));
+      ),
+    );
 
-      return allMarkers;
-    }
-    return [];
+    return allMarkers;
   }
 
   @override
@@ -101,9 +103,12 @@ class _GeoFullState extends State<GeoFull> {
       child: Center(
         child: GoogleMap(
           initialCameraPosition: CameraPosition(
-              target: LatLng(widget.initialPosition.latitude,
-                  widget.initialPosition.longitude),
-              zoom: 15),
+            target: LatLng(
+              widget.initialPosition.latitude,
+              widget.initialPosition.longitude,
+            ),
+            zoom: 15,
+          ),
           mapType: MapType.normal,
           myLocationEnabled: true,
           onMapCreated: (GoogleMapController controller) {
@@ -121,9 +126,13 @@ class _GeoFullState extends State<GeoFull> {
 
   Future<void> centerScreen(Position position) async {
     final controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
         CameraPosition(
-            target: LatLng(position.latitude, position.longitude),
-            zoom: 16.0)));
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 16.0,
+        ),
+      ),
+    );
   }
 }

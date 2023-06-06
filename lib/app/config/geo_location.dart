@@ -63,7 +63,9 @@ class _GeoState extends State<Geo> {
           childLocationsList.add(document.docs[i].data);
           initMarker(document.docs[i].data());
           getChildMarkerImage(document.docs[i].data());
-          print('This is the list of children ${childLocationsList.length}');
+          debugPrint(
+            'This is the list of children ${childLocationsList.length}',
+          );
         }
       }
     });
@@ -71,28 +73,32 @@ class _GeoState extends State<Geo> {
 
   //TODO:Make function async
   Future<List<Marker>> initMarker(Map<String, dynamic> data) async {
-    print('--------------- data -------------');
-    print(data['id']);
-    print(data['position']?.latitude);
-    print(data['position']?.longitude);
-    allMarkers.add(Marker(
-      infoWindow: InfoWindow(
+    debugPrint('--------------- data -------------');
+    debugPrint(data['id']);
+    debugPrint(data['position']?.latitude);
+    debugPrint(data['position']?.longitude);
+    allMarkers.add(
+      Marker(
+        infoWindow: InfoWindow(
           title: data['id'],
           snippet: data['name'],
           onTap: () {
-            print('Tapped');
-          }),
-      markerId: MarkerId(data['id']),
-      //TODO:Implement child image as marker
-      //icon: BitmapDescriptor.fromBytes(imageData),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
-      draggable: false,
-      onTap: () {
-        print('Marker Tapped');
-      },
-      position: LatLng(data['position'].latitude, data['position'].longitude),
-    ));
-    print(allMarkers);
+            debugPrint('Tapped');
+          },
+        ),
+        markerId: MarkerId(data['id']),
+        //TODO:Implement child image as marker
+        //icon: BitmapDescriptor.fromBytes(imageData),
+        icon:
+            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+        draggable: false,
+        onTap: () {
+          debugPrint('Marker Tapped');
+        },
+        position: LatLng(data['position'].latitude, data['position'].longitude),
+      ),
+    );
+    debugPrint(allMarkers.toString());
     return allMarkers;
   }
 
@@ -107,9 +113,12 @@ class _GeoState extends State<Geo> {
         myLocationEnabled: true,
         markers: Set<Marker>.of(allMarkers),
         initialCameraPosition: CameraPosition(
-            target: LatLng(widget.initialPosition.latitude,
-                widget.initialPosition.longitude),
-            zoom: 15),
+          target: LatLng(
+            widget.initialPosition.latitude,
+            widget.initialPosition.longitude,
+          ),
+          zoom: 15,
+        ),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
           setState(() {
@@ -123,9 +132,13 @@ class _GeoState extends State<Geo> {
 
   Future<void> centerScreen(Position position) async {
     final controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
         CameraPosition(
-            target: LatLng(position.latitude, position.longitude),
-            zoom: 16.0)));
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 16.0,
+        ),
+      ),
+    );
   }
 }
