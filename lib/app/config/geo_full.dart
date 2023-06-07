@@ -41,11 +41,11 @@ class _GeoFullState extends State<GeoFull> {
     geoService.getCurrentLocation.listen((position) {
       centerScreen(position);
     });
-    getAllChildLocations();
+    _getAllChildLocations();
     super.initState();
   }
 
-  Future<Uint8List> getChildMarkerImage(Map<String, dynamic> data) async {
+  Future<Uint8List> _getChildMarkerImage(Map<String, dynamic> data) async {
     var bytes =
         (await NetworkAssetBundle(Uri.parse(data['image'])).load(data['image']))
             .buffer
@@ -54,7 +54,7 @@ class _GeoFullState extends State<GeoFull> {
     return bytes;
   }
 
-  void getAllChildLocations() async {
+  void _getAllChildLocations() async {
     childLocationsList = [];
     await FirebaseFirestore.instance
         .collection(APIPath.children(_currentUser.uid))
@@ -63,8 +63,8 @@ class _GeoFullState extends State<GeoFull> {
       if (document.docs.isNotEmpty) {
         for (var i = 0; i < document.docs.length; i++) {
           childLocationsList.add(document.docs[i].data);
-          initMarker(document.docs[i].data());
-          getChildMarkerImage(document.docs[i].data());
+          _initMarker(document.docs[i].data());
+          _getChildMarkerImage(document.docs[i].data());
           debugPrint(
             'This is the list of children ${childLocationsList.length}',
           );
@@ -74,8 +74,9 @@ class _GeoFullState extends State<GeoFull> {
   }
 
   //TODO:Make function async
-  Future<List<Marker>> initMarker(Map<String, dynamic> data) async {
+  Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
+    allMarkers.clear();
 
     allMarkers.add(
       Marker(
@@ -94,7 +95,10 @@ class _GeoFullState extends State<GeoFull> {
         onTap: () {
           debugPrint('Marker Tapped');
         },
-        position: LatLng(data['position'].latitude, data['position'].longitude),
+        position: LatLng(
+          data['position'].latitude,
+          data['position'].longitude,
+        ),
       ),
     );
 
@@ -116,15 +120,14 @@ class _GeoFullState extends State<GeoFull> {
           ),
           mapType: MapType.normal,
           myLocationEnabled: true,
+          markers: Set<Marker>.of(allMarkers),
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
-            if (allMarkers.isEmpty) return;
             setState(() {
               markers[MarkerId(allMarkers.first.markerId.value)] =
                   allMarkers.first;
             });
           },
-          markers: Set<Marker>.of(allMarkers),
         ),
       ),
     );

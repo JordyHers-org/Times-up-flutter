@@ -60,28 +60,27 @@ class _GeoState extends State<Geo> {
     await FirebaseFirestore.instance
         .collection(APIPath.children(_currentUser.uid))
         .get()
-        .then((document) {
-      if (document.docs.isNotEmpty) {
-        for (var i = 0; i < document.docs.length; i++) {
-          childLocationsList.add(document.docs[i].data);
-          initMarker(document.docs[i].data());
-          _getChildMarkerImage(document.docs[i].data());
-          debugPrint(
-            'This is the list of children ${childLocationsList.length}',
-          );
+        .then(
+      (document) {
+        if (document.docs.isNotEmpty) {
+          for (var i = 0; i < document.docs.length; i++) {
+            childLocationsList.add(document.docs[i].data);
+            _initMarker(document.docs[i].data());
+            _getChildMarkerImage(document.docs[i].data());
+            debugPrint(
+              'This is the list of children ${childLocationsList.length}',
+            );
+          }
         }
-      }
-    });
+      },
+    );
   }
 
   //TODO:Make function async
-  Future<List<Marker>> initMarker(Map<String, dynamic> data) async {
-    debugPrint('--------------- data -------------');
-    debugPrint(data['id']);
-    debugPrint(data['position']?.latitude);
-    debugPrint(data['position']?.longitude);
+  Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
-
+    allMarkers.clear();
+    
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(
@@ -101,10 +100,20 @@ class _GeoState extends State<Geo> {
         onTap: () {
           debugPrint('Marker Tapped');
         },
-        position: LatLng(data['position'].latitude, data['position'].longitude),
+        position: LatLng(
+          data['position'].latitude,
+          data['position'].longitude,
+        ),
       ),
     );
     debugPrint(allMarkers.toString());
+    if (allMarkers.isEmpty) return [];
+    if (!mounted) return [];
+    setState(() {
+      markers[MarkerId(
+        allMarkers.first.markerId.value,
+      )] = allMarkers.first;
+    });
     return allMarkers;
   }
 
@@ -114,10 +123,6 @@ class _GeoState extends State<Geo> {
       height: 300,
       margin: EdgeInsets.all(10),
       child: GoogleMap(
-        padding: EdgeInsets.all(10),
-        mapType: MapType.normal,
-        myLocationEnabled: true,
-        markers: Set<Marker>.of(allMarkers),
         initialCameraPosition: CameraPosition(
           target: LatLng(
             widget.initialPosition.latitude,
@@ -125,14 +130,12 @@ class _GeoState extends State<Geo> {
           ),
           zoom: 15,
         ),
+        mapType: MapType.normal,
+        myLocationEnabled: true,
+        padding: EdgeInsets.all(10),
+        markers: Set<Marker>.of(allMarkers),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
-          if (allMarkers.isEmpty) return;
-          setState(() {
-            markers[MarkerId(
-              allMarkers.first.markerId.value,
-            )] = allMarkers.first;
-          });
         },
       ),
     );
