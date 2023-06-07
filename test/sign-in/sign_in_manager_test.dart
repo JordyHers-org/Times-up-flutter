@@ -43,7 +43,8 @@ void main() {
     'sign-in failure',
     () async {
       when(mockAuth.signInAnonymously()).thenThrow(
-          PlatformException(code: 'ERROR', message: 'sign in failed'));
+        PlatformException(code: 'ERROR', message: 'sign in failed'),
+      );
       try {
         await manager.signInAnonymously();
       } catch (e) {

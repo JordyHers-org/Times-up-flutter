@@ -11,14 +11,12 @@ import '../../mocks.dart';
 
 void main() {
   late MockDatabase mockDatabase;
-  late MockAuthBase mockAuthBase;
   late Position position;
 
   setUp(() {
     ///A new mock authentication service will be created every time
     ///we run a test.
     mockDatabase = MockDatabase();
-    mockAuthBase = MockAuthBase();
     position = Dummy.position;
   });
 
