@@ -23,33 +23,48 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^2.9.0
+    
+  # UI Packages:
+  flutter_svg: ^2.0.4
+  fl_chart: ^0.61.0
+  auto_size_text: ^3.0.0
+
+  # Authentication Packages:
   firebase_auth: ^4.2.2
   google_sign_in: ^6.1.0
   flutter_login_facebook: ^1.4.1
+
+  # Data Management Packages:
   provider: ^6.0.2
   cloud_firestore: ^4.5.0
-  intl: ^0.18.0
-  google_fonts: ^4.0.3
-  fl_chart: ^0.61.0
-  flutter_svg: ^2.0.4
-  image_picker: ^0.8.5+3
+  shared_preferences: ^2.0.15
   firebase_storage: ^11.1.0
+
+  # Location Packages:
   geolocator: ^9.0.2
   google_maps_flutter: ^2.1.5
-  line_awesome_flutter: ^2.0.0
+
+  # Notification Packages:
   firebase_messaging: ^14.4.0
-  shared_preferences: ^2.0.15
-  showcaseview: ^2.0.3
-  pedantic: ^1.9.2
+  flutter_local_notifications: ^14.0.0-dev.2
+
+  # Utility Packages:
+  intl: ^0.18.0
   uuid: ^3.0.6
   app_usage: ^2.0.0
-  bloc: ^8.0.3
-  flutter_bloc: ^8.0.1
+
+  # UI Component Packages:
+  line_awesome_flutter: ^2.0.0
+  showcaseview: ^2.0.3
+
+  # Testing Packages:
   mockito: ^5.0.0
-  flutter_local_notifications: ^14.0.0-dev.2
-  auto_size_text: ^3.0.0
+
+  # Share Packages:
   share_plus: ^6.3.0
+
+  # Code Formatting Packages:
+  pedantic: ^1.9.2
 
   test: any
 
