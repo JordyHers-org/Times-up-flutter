@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/constants.dart';
+import 'package:parental_control/utils/constants.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/sign_in/sign_in_button.dart';
 import 'package:parental_control/sign_in/sign_in_manager.dart';
