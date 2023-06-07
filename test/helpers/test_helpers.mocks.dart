@@ -17,6 +17,8 @@ import 'package:parental_control/models/notification_model.dart' as _i8;
 import 'package:parental_control/services/auth.dart' as _i5;
 import 'package:parental_control/services/database.dart' as _i7;
 import 'package:parental_control/services/geo_locator_service.dart' as _i10;
+import 'package:parental_control/sign_in/email_sign_in_bloc.dart' as _i13;
+import 'package:parental_control/sign_in/email_sign_in_model.dart' as _i14;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -103,6 +105,16 @@ class _FakeUserCredential_6 extends _i1.SmartFake
 class _FakeConfirmationResult_7 extends _i1.SmartFake
     implements _i2.ConfirmationResult {
   _FakeConfirmationResult_7(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeAuthBase_8 extends _i1.SmartFake implements _i5.AuthBase {
+  _FakeAuthBase_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -989,6 +1001,113 @@ class MockNavigatorObserver extends _i1.Mock implements _i12.NavigatorObserver {
         Invocation.method(
           #didStopUserGesture,
           [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [EmailSignInBloc].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockEmailSignInBloc extends _i1.Mock implements _i13.EmailSignInBloc {
+  @override
+  _i5.AuthBase get auth => (super.noSuchMethod(
+        Invocation.getter(#auth),
+        returnValue: _FakeAuthBase_8(
+          this,
+          Invocation.getter(#auth),
+        ),
+        returnValueForMissingStub: _FakeAuthBase_8(
+          this,
+          Invocation.getter(#auth),
+        ),
+      ) as _i5.AuthBase);
+  @override
+  _i6.Stream<_i14.EmailSignInModel> get modelStream => (super.noSuchMethod(
+        Invocation.getter(#modelStream),
+        returnValue: _i6.Stream<_i14.EmailSignInModel>.empty(),
+        returnValueForMissingStub: _i6.Stream<_i14.EmailSignInModel>.empty(),
+      ) as _i6.Stream<_i14.EmailSignInModel>);
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i6.Future<void> submit() => (super.noSuchMethod(
+        Invocation.method(
+          #submit,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  void toggleFormType() => super.noSuchMethod(
+        Invocation.method(
+          #toggleFormType,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void updateEmail(String? email) => super.noSuchMethod(
+        Invocation.method(
+          #updateEmail,
+          [email],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void updatePassword(String? password) => super.noSuchMethod(
+        Invocation.method(
+          #updatePassword,
+          [password],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void updateName(String? name) => super.noSuchMethod(
+        Invocation.method(
+          #updateName,
+          [name],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void updateSurname(String? surname) => super.noSuchMethod(
+        Invocation.method(
+          #updateSurname,
+          [surname],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void updateWith({
+    String? email,
+    String? password,
+    String? name,
+    String? surname,
+    _i14.EmailSignInFormType? formType,
+    bool? isLoading,
+    bool? submitted,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #updateWith,
+          [],
+          {
+            #email: email,
+            #password: password,
+            #name: name,
+            #surname: surname,
+            #formType: formType,
+            #isLoading: isLoading,
+            #submitted: submitted,
+          },
         ),
         returnValueForMissingStub: null,
       );
