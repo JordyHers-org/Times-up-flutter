@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parental_control/app/config/geo_full.dart';
-import 'package:parental_control/constants.dart';
+import 'package:parental_control/utils/constants.dart';
 
 import '../../helpers/test_helpers.dart';
 import '../../helpers/test_helpers.mocks.dart';
