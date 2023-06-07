@@ -2,15 +2,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
+import 'package:parental_control/services/app_usage_local_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/sign_in/email_sign_in_bloc.dart';
 
 @GenerateMocks(
   [],
   customMocks: [
-    //MockViewModels
+    //MockServices
     MockSpec<AuthBase>(
       onMissingStub: OnMissingStub.returnDefault,
     ),
@@ -27,6 +29,16 @@ import 'package:parental_control/sign_in/email_sign_in_bloc.dart';
       onMissingStub: OnMissingStub.returnDefault,
     ),
     MockSpec<EmailSignInBloc>(
+      onMissingStub: OnMissingStub.returnDefault,
+    ),
+
+    MockSpec<AppUsage>(
+      onMissingStub: OnMissingStub.returnDefault,
+    ),
+    MockSpec<FirestoreDatabase>(
+      onMissingStub: OnMissingStub.returnDefault,
+    ),
+    MockSpec<NotificationService>(
       onMissingStub: OnMissingStub.returnDefault,
     ),
 
