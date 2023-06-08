@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class FirestoreService {
   FirestoreService._();
@@ -37,15 +38,19 @@ class FirestoreService {
     required String path,
     required Map<String, dynamic> data,
   }) async {
-    // await FirebaseFirestore.instance.collection('Notifications').
-    // doc().set({'message': 'HomeWork Time'});
     final reference = FirebaseFirestore.instance.collection(path).doc();
     print('$path: $data');
     await reference.set(data);
   }
 
-  Future<void> deleteData({required String path}) async {
+  Future<void> deleteData({required String path, String? image}) async {
     final reference = FirebaseFirestore.instance.doc(path);
+
+    /// Deleting the child's picture
+    if (image != null) {
+      final storageReference = FirebaseStorage.instance.refFromURL(image);
+      await storageReference.delete();
+    }
     print('delete: $path');
     await reference.delete();
   }
