@@ -38,7 +38,9 @@ class ChildDetailsPage extends StatefulWidget {
 
 class _ChildDetailsPageState extends State<ChildDetailsPage> {
   Future<void> _deleteUserPictureAndChild(
-      BuildContext context, ChildModel model) async {
+    BuildContext context,
+    ChildModel model,
+  ) async {
     try {
       await widget.database.deleteChild(model);
     } on FirebaseException catch (e) {
