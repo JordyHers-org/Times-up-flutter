@@ -38,9 +38,10 @@ class SplashContent extends StatelessWidget {
                 child: DisplayText(
                   text: text,
                   style: TextStyle(
-                      color: Colors.black.withOpacity(0.5),
-                      fontWeight: FontWeight.w500,
-                      height: 1.5),
+                    color: Colors.black.withOpacity(0.5),
+                    fontWeight: FontWeight.w500,
+                    height: 1.5,
+                  ),
                 ),
               ),
             ],

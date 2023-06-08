@@ -4,6 +4,7 @@ import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/theme/theme.dart';
+import 'package:parental_control/utils/app_strings.dart';
 import 'package:provider/provider.dart';
 
 import 'app/config/screencontroller_config.dart';
@@ -39,19 +40,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
-    final apps = Provider.of<AppUsageService>(context, listen: false);
+    //final apps = Provider.of<AppUsageService>(context, listen: false);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Parental Control',
+      title: Strings.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       home: FutureBuilder(
-          future: Future.wait([
-            geoService.getInitialLocation(),
-            //  apps.getAppUsageService(),
-          ]),
-          builder: (context, _) => ScreensController()),
+        future: Future.wait([
+          geoService.getInitialLocation(),
+          //  apps.getAppUsageService(),
+        ]),
+        builder: (context, _) => ScreensController(),
+      ),
     );
   }
 }

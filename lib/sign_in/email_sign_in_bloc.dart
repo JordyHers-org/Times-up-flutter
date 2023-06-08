@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:parental_control/services/auth.dart';
 
 import 'email_sign_in_model.dart';
@@ -22,14 +23,18 @@ class EmailSignInBloc {
 
   /// Submit function is called when the button is pressed
   Future<void> submit() async {
-    print('Submitted called');
+    debugPrint('Submitted called');
     updateWith(submitted: true, isLoading: true);
     try {
       if (_model.formType == EmailSignInFormType.signIn) {
         await auth.signInWithEmailAndPassword(_model.email, _model.password);
       } else {
         await auth.signUpUserWithEmailAndPassword(
-            _model.email, _model.password, _model.name, _model.surname);
+          _model.email,
+          _model.password,
+          _model.name,
+          _model.surname,
+        );
       }
       // Navigator.of(context).pop();
     } catch (e) {
@@ -47,13 +52,14 @@ class EmailSignInBloc {
     ///
     /// [Register] and [SignIn]
     updateWith(
-        email: '',
-        password: '',
-        name: '',
-        surname: '',
-        submitted: false,
-        formType: formType,
-        isLoading: false);
+      email: '',
+      password: '',
+      name: '',
+      surname: '',
+      submitted: false,
+      formType: formType,
+      isLoading: false,
+    );
   }
 
   void updateEmail(String email) => updateWith(email: email);
@@ -75,13 +81,14 @@ class EmailSignInBloc {
   }) {
     // update model
     _model = _model.copyWith(
-        name: name ?? _model.name,
-        surname: surname ?? _model.surname,
-        email: email ?? _model.email,
-        password: password ?? _model.password,
-        formType: formType ?? _model.formType,
-        isLoading: isLoading ?? _model.isLoading,
-        submitted: submitted ?? _model.submitted);
+      name: name ?? _model.name,
+      surname: surname ?? _model.surname,
+      email: email ?? _model.email,
+      password: password ?? _model.password,
+      formType: formType ?? _model.formType,
+      isLoading: isLoading ?? _model.isLoading,
+      submitted: submitted ?? _model.submitted,
+    );
 
     //add updated model to _modelController
     _modelController.add(_model);
