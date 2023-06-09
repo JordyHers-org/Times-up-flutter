@@ -21,14 +21,14 @@ abstract class Database {
 
   Stream<List<ChildModel>> childrenStream();
 
+  Stream<List<NotificationModel>> notificationStream({String childId});
+
+  Stream<ChildModel> childStream({required String childId});
+
   Future<void> setNotification(
     NotificationModel notification,
     ChildModel model,
   );
-
-  Stream<List<NotificationModel>> notificationStream({String childId});
-
-  Stream<ChildModel> childStream({required String childId});
 
   Future<ChildModel> getUserCurrentChild(
     String name,
@@ -117,7 +117,6 @@ class FireStoreDatabase implements Database {
 
   @override
   Future<void> liveUpdateChild(ChildModel model, value) async {
-    final user = auth?.currentUser?.uid;
     await apps.getAppUsageService();
     var point = await geo.getInitialLocation();
     var currentLocation = GeoPoint(point.latitude, point.longitude);
