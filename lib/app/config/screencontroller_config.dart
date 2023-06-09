@@ -4,21 +4,18 @@ import 'package:parental_control/services/shared_preferences.dart';
 
 import '../landing_page.dart';
 
-// ignore: must_be_immutable
 class ScreensController extends StatefulWidget {
   @override
   _ScreensControllerState createState() => _ScreensControllerState();
 }
 
 class _ScreensControllerState extends State<ScreensController> {
-  bool? _isVisited;
+  bool? _hasVisited;
 
-  ///_setFlagValue for the user when he entered the app
-  ///To Display a Splash Screen
   Future<void> _setFlagValue() async {
     var isVisited = await SharedPreference().getVisitingFlag();
     setState(() {
-      _isVisited = isVisited;
+      _hasVisited = isVisited;
     });
   }
 
@@ -30,7 +27,7 @@ class _ScreensControllerState extends State<ScreensController> {
 
   @override
   Widget build(BuildContext context) {
-    switch (_isVisited) {
+    switch (_hasVisited) {
       case true:
         return LandingPage();
       case false:
