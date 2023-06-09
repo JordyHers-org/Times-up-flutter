@@ -45,7 +45,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         await storageReference.delete();
       }
 
-      /// Deleting the child
+      // Deleting the child
       await widget.database.deleteChild(model);
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
