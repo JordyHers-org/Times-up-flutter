@@ -15,12 +15,6 @@ class EmailSignInPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Card(
-            /// Here we can change the child to
-            ///
-            /// EmailSignInFormChangeNotifier.create(context)
-            /// EmailSignInFormBlocBased.create(context)
-            /// EmailSignInFormStateful.create(context)
-            /// According to your preferences
             child: EmailSignInFormBlocBased.create(context),
           ),
         ),
