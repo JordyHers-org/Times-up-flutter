@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:geolocator/geolocator.dart';
-import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
-
 import 'package:parental_control/app/config/geo_full.dart';
 import 'package:parental_control/app/config/geo_location.dart';
 import 'package:parental_control/app/pages/child_details_page.dart';
@@ -21,6 +17,8 @@ import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
+import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 enum MapScreenState { Full, Small }
 
@@ -102,7 +100,7 @@ class _ParentPageState extends State<ParentPage>
               ),
             ),
           )
-        : _buildMapFullScreen(database);
+        : _buildMapFullScreen(database, auth);
   }
 
   Widget _buildParentPageContent(
@@ -329,7 +327,7 @@ class _ParentPageState extends State<ParentPage>
     ).p16;
   }
 
-  Widget _buildMapFullScreen(database) {
+  Widget _buildMapFullScreen(Database database, AuthBase auth) {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -342,8 +340,13 @@ class _ParentPageState extends State<ParentPage>
       ),
       body: SafeArea(
         child: Consumer<Position>(
-          builder: (_, position, __) {
-            return GeoFull(position, database);
+          builder: (context, position, __) {
+            return GeoFull.create(
+              context,
+              position: position,
+              database: database,
+              auth: auth,
+            );
           },
         ),
       ),

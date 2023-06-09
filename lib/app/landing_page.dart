@@ -63,8 +63,12 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Provider<AuthBase> buildChildSide(AuthBase auth, User user,
-      GeoLocatorService geoService, BuildContext context) {
+  Provider<AuthBase> buildChildSide(
+    AuthBase auth,
+    User user,
+    GeoLocatorService geoService,
+    BuildContext context,
+  ) {
     return Provider<AuthBase>(
       create: (_) => Auth(),
       child: Provider<Database>(
@@ -79,7 +83,10 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Provider<Database> buildParentSide(
-      User user, GeoLocatorService geoService, AuthBase auth) {
+    User user,
+    GeoLocatorService geoService,
+    AuthBase auth,
+  ) {
     return Provider<Database>(
       create: (_) => FireStoreDatabase(uid: user.uid),
       child: FutureProvider(
