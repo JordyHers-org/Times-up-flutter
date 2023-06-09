@@ -37,10 +37,8 @@ abstract class Database {
   );
 }
 
-// String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
-
-class FirestoreDatabase implements Database {
-  FirestoreDatabase({
+class FireStoreDatabase implements Database {
+  FireStoreDatabase({
     required this.uid,
     this.auth,
   });
@@ -54,111 +52,6 @@ class FirestoreDatabase implements Database {
   final _service = FirestoreService.instance;
   AppUsageService apps = AppUsageService();
   GeoLocatorService geo = GeoLocatorService();
-
-  @override
-  Future<ChildModel> getUserCurrentChild(
-    String name,
-    String key,
-    GeoPoint latLong,
-  ) async {
-    final user = auth?.currentUser?.uid;
-    final token = await auth?.setToken();
-    await apps.getAppUsageService();
-    await setTokenOnFireStore({'childId': '$key', 'device_token': '$token'});
-
-    String _currentChild;
-    String _email;
-    String _image;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user)
-        .collection('child')
-        .doc(key)
-        .get()
-        .then((doc) async {
-      if (doc.exists) {
-        _email = doc.data()!['email'];
-        _currentChild = doc.data()!['name'];
-        _image = doc.data()!['image'];
-        debugPrint('------------------------------------------------------');
-        debugPrint(' User : $user \n');
-        debugPrint(' ---------------- We found this as a match --------');
-        debugPrint(doc['name']);
-        debugPrint('Name : $_currentChild');
-        debugPrint('Image : $_image');
-        debugPrint('Email : $_email');
-        debugPrint('Unique Key : $key');
-
-        _child = ChildModel(
-          id: doc.id,
-          name: _currentChild,
-          email: _email,
-          image: _image,
-          position: latLong,
-          appsUsageModel: apps.info,
-          token: token,
-        );
-
-        await setChild(_child!);
-        return _child;
-      } else {
-        debugPrint(' NO SUCH FILE ON DATABASE ');
-      }
-    });
-    debugPrint(_child.toString());
-    return _child!;
-  }
-
-  @override
-  Future<void> liveUpdateChild(ChildModel model, value) async {
-    final user = auth?.currentUser?.uid;
-    await apps.getAppUsageService();
-    var point = await geo.getInitialLocation();
-    var currentLocation = GeoPoint(point.latitude, point.longitude);
-
-    debugPrint('The user is $user and the Child Id: ${model.id}');
-    debugPrint(
-      ' DEBUG: FROM DATABASE ===> Last location taken is'
-      ' longitude : ${point.longitude} , latitude :${point.latitude}',
-    );
-    debugPrint(' DEBUG: APP USAGE ==> ${apps.info}');
-
-    if (model.id == 'D9FBAB88') {
-      debugPrint('Choosing random Position for ${model.id}');
-      // generates a new Random object
-      var positions = <GeoPoint>[
-        GeoPoint(41.025576, 28.663767),
-        GeoPoint(41.021463, 28.661506),
-        GeoPoint(41.010192, 28.665780),
-        GeoPoint(41.008564, 28.672471),
-      ];
-      // generate a random index based on the list length
-      // and use it to retrieve the element
-      var randomPosition = (positions..shuffle()).first;
-      debugPrint('The random location is $randomPosition');
-      _child = ChildModel(
-        id: model.id,
-        name: model.name,
-        email: model.email,
-        token: model.token,
-        position: randomPosition,
-        appsUsageModel: apps.info,
-        image: model.image,
-      );
-    } else {
-      _child = ChildModel(
-        id: model.id,
-        name: model.name,
-        email: model.email,
-        token: model.token,
-        position: currentLocation,
-        appsUsageModel: apps.info,
-        image: model.image,
-      );
-    }
-
-    await updateChild(_child!);
-  }
 
   @override
   Future<void> setChild(ChildModel model) => _service.setData(
@@ -221,4 +114,70 @@ class FirestoreDatabase implements Database {
         path: APIPath.children(uid),
         builder: (data, documentId) => ChildModel.fromMap(data, documentId),
       );
+
+  @override
+  Future<void> liveUpdateChild(ChildModel model, value) async {
+    final user = auth?.currentUser?.uid;
+    await apps.getAppUsageService();
+    var point = await geo.getInitialLocation();
+    var currentLocation = GeoPoint(point.latitude, point.longitude);
+
+    _child = ChildModel(
+      id: model.id,
+      name: model.name,
+      email: model.email,
+      token: model.token,
+      position: currentLocation,
+      appsUsageModel: apps.info,
+      image: model.image,
+    );
+
+    await updateChild(_child!);
+  }
+
+  @override
+  Future<ChildModel> getUserCurrentChild(
+    String name,
+    String key,
+    GeoPoint latLong,
+  ) async {
+    final user = auth?.currentUser?.uid;
+    final token = await auth?.setToken();
+    await apps.getAppUsageService();
+    await setTokenOnFireStore({'childId': '$key', 'device_token': '$token'});
+
+    String _currentChild;
+    String _email;
+    String _image;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user)
+        .collection('child')
+        .doc(key)
+        .get()
+        .then((doc) async {
+      if (doc.exists) {
+        _email = doc.data()!['email'];
+        _currentChild = doc.data()!['name'];
+        _image = doc.data()!['image'];
+
+        _child = ChildModel(
+          id: doc.id,
+          name: _currentChild,
+          email: _email,
+          image: _image,
+          position: latLong,
+          appsUsageModel: apps.info,
+          token: token,
+        );
+
+        await setChild(_child!);
+        return _child;
+      } else {
+        debugPrint(' NO SUCH FILE ON DATABASE ');
+      }
+    });
+    debugPrint(_child.toString());
+    return _child!;
+  }
 }
