@@ -112,6 +112,7 @@ class _GeoState extends State<Geo> {
             zoom: 15),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
+          if (allMarkers.isEmpty) return;
           setState(() {
             markers[MarkerId(allMarkers.first.markerId.value)] =
                 allMarkers.first;
