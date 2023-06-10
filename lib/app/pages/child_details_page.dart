@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
@@ -37,7 +37,10 @@ class ChildDetailsPage extends StatefulWidget {
 }
 
 class _ChildDetailsPageState extends State<ChildDetailsPage> {
-  Future<void> _delete(BuildContext context, ChildModel model) async {
+  Future<void> _deleteUserPictureAndChild(
+    BuildContext context,
+    ChildModel model,
+  ) async {
     try {
       await widget.database.deleteChild(model);
     } on FirebaseException catch (e) {
@@ -378,7 +381,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       cancelActionText: 'Cancel',
     );
     if (didConfirmDelete == true) {
-      await _delete(context, model);
+      await _deleteUserPictureAndChild(context, model);
       Navigator.of(context).pop();
     }
     return;
