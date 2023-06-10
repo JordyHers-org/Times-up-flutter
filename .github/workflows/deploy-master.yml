@@ -1,7 +1,7 @@
 name: Deploy Master
 
 on:
-  push:
+  pull_request:
     branches:
       - master
 
