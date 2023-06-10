@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/app/pages/child_page.dart';
 import 'package:parental_control/common_widgets/form_submit_button.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
-import 'package:parental_control/models/set_child_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:provider/provider.dart';
@@ -68,39 +69,42 @@ class _SetChildPageState extends State<SetChildPage> {
     }
   }
 
-  List<Widget> _buildChildren(BuildContext context, {SetChildModel? model}) {
+  List<Widget> _buildChildren(BuildContext context, {ChildModel? model}) {
     return [
       TextField(
-          enabled: appState == AppState.loading ? false : true,
-          focusNode: _nameFocusNode,
-          controller: _nameController,
-          textInputAction: TextInputAction.next,
-          onEditingComplete: () {
-            if (model?.nameValidator.isValid(model.name) == true) {
-              FocusScope.of(context).requestFocus(_keyFocusNode);
-            }
-          },
-          decoration: InputDecoration(
-            labelText: 'Name',
-          )),
+        enabled: appState == AppState.loading ? false : true,
+        focusNode: _nameFocusNode,
+        controller: _nameController,
+        textInputAction: TextInputAction.next,
+        onEditingComplete: () {
+          if (model?.name.isValid(model.name) == true) {
+            FocusScope.of(context).requestFocus(_keyFocusNode);
+          }
+        },
+        decoration: InputDecoration(
+          labelText: 'Name',
+        ),
+      ),
       TextField(
-          enabled: appState == AppState.loading ? false : true,
-          focusNode: _keyFocusNode,
-          controller: _key,
-          textInputAction: TextInputAction.next,
-          decoration: InputDecoration(
-            labelText: 'Unique Key',
-          )),
+        enabled: appState == AppState.loading ? false : true,
+        focusNode: _keyFocusNode,
+        controller: _key,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          labelText: 'Unique Key',
+        ),
+      ),
       SizedBox(height: 8.0),
       SizedBox(height: 8.0),
       FormSubmitButton(
-          text: appState == AppState.complete ? 'Submit' : 'Loading ...',
-          onPressed: () {
-            setState(() {
-              appState = AppState.loading;
-            });
-            _submit(_nameController.text, _key.text);
-          }),
+        text: appState == AppState.complete ? 'Submit' : 'Loading ...',
+        onPressed: () {
+          setState(() {
+            appState = AppState.loading;
+          });
+          _submit(_nameController.text, _key.text);
+        },
+      ),
       SizedBox(height: 8.0),
     ];
   }

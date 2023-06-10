@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:parental_control/models/child_model.dart';
-import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
+// import 'package:parental_control/models/child_model.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
@@ -152,13 +153,13 @@ class FirestoreDatabase implements Database {
   @override
   Future<void> setChild(ChildModel model) => _service.setData(
         path: APIPath.child(uid, model.id),
-        data: model.toMap(),
+        data: model.toJson(),
       );
 
   @override
   Future<void> updateChild(ChildModel model) => _service.updateData(
         path: APIPath.child(uid, model.id),
-        data: model.toMap(),
+        data: model.toJson(),
       );
 
   @override
@@ -166,7 +167,7 @@ class FirestoreDatabase implements Database {
       NotificationModel notification, ChildModel child) async {
     await _service.setNotificationFunction(
         path: APIPath.notificationsStream(uid, child.id),
-        data: notification.toMap());
+        data: notification.toJson());
   }
 
   Future<void> setTokenOnFireStore(Map<String, dynamic> token) async {
@@ -188,7 +189,7 @@ class FirestoreDatabase implements Database {
   Stream<ChildModel> childStream({required String childId}) =>
       _service.documentStream(
         path: APIPath.child(uid, childId),
-        builder: (data, documentId) => ChildModel.fromMap(data, documentId),
+        builder: (data, documentId) => ChildModel.fromJson(data),
       );
 
   @override
@@ -196,13 +197,13 @@ class FirestoreDatabase implements Database {
     return _service.notificationStream(
       path: APIPath.notificationsStream(uid, childId ?? ''),
       builder: (data, documentId) =>
-          NotificationModel.fromMap(data, documentId),
+          NotificationModel.fromJson(data),
     );
   }
 
   @override
   Stream<List<ChildModel>> childrenStream() => _service.collectionStream(
         path: APIPath.children(uid),
-        builder: (data, documentId) => ChildModel.fromMap(data, documentId),
+        builder: (data) => ChildModel.fromJson(data),
       );
 }

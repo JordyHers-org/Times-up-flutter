@@ -52,7 +52,7 @@ class FirestoreService {
 
   Stream<List<T>> collectionStream<T>({
     required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required T Function(Map<String, dynamic> data) builder,
     Function(Query query)? queryBuilder,
     int Function(T lhs, T rhs)? sort,
   }) {
@@ -64,7 +64,7 @@ class FirestoreService {
     final snapshots = query.snapshots();
     return snapshots.map((snapshot) {
       final result = snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
+          .map((snapshot) => builder(snapshot.data()))
           .where((value) => value != null)
           .toList();
       if (sort != null) {

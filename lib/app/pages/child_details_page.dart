@@ -1,17 +1,18 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/bar_chart.dart';
 import 'package:parental_control/common_widgets/custom_raised_button.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/models/child_model.dart';
-import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/database.dart';
-import 'package:provider/provider.dart';
 
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({required this.database, required this.childModel});
@@ -255,12 +256,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                             ListTile(
                               leading: Icon(Icons.phone_android),
                               title: Text(
-                                '${model.appsUsageModel[index]['appName']}',
+                                '${model.appsUsageModel[index].appName}',
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                               ),
                               trailing: Text(
-                                model.appsUsageModel[index]['usage']
+                                model.appsUsageModel[index].usage
                                     .toString()
                                     .t(),
                                 style: TextStyle(

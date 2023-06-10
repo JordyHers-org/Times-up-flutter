@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
@@ -31,7 +31,12 @@ class NotificationService {
     final String title = notification['title'];
     final String body = notification['body'];
     final String mMessage = data['Message'];
-    final _not = NotificationModel(title: title, body: body, message: mMessage);
+    final _not = NotificationModel(
+      id: null,
+      title: title,
+      body: body,
+      message: mMessage,
+    );
 
     return _not;
   }
@@ -55,7 +60,7 @@ class NotificationService {
                 channel.id,
                 channel.name,
                 channelDescription: channel.description,
-                icon: android?.smallIcon,
+                icon: android.smallIcon,
                 // other properties...
               ),
             ));
