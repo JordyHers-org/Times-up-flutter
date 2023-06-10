@@ -1,6 +1,3 @@
-
-
-
 class APIPath {
   static String child(String uid, String childId) =>
       'users/$uid/child/$childId';

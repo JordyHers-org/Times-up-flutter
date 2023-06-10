@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
 
@@ -43,15 +44,16 @@ class NotificationService {
 
   /// this function calls the Firebase Push notification
 
-  configureFirebaseMessaging() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      var notification = message.notification;
-      var android = message.notification?.android;
+  void configureFirebaseMessaging() {
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) {
+        var notification = message.notification;
+        var android = message.notification?.android;
 
-      // If `onMessage` is triggered with a notification, construct our own
-      // local notification to show to users using the created channel.
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
+        // If `onMessage` is triggered with a notification, construct our own
+        // local notification to show to users using the created channel.
+        if (notification != null && android != null) {
+          flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             notification.title,
             notification.body,
@@ -63,16 +65,21 @@ class NotificationService {
                 icon: android.smallIcon,
                 // other properties...
               ),
-            ));
-      }
-    });
+            ),
+          );
+        }
+      },
+    );
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      var notification = message.notification;
-      print('A new onMessageOpenedApp event was published!');
-      _setNotifications(
-          {'message': message.messageId, 'notification': message.notification});
-      print('Message : $message');
-    });
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage message) {
+        // var notification = message.notification;
+        debugPrint('A new onMessageOpenedApp event was published!');
+        _setNotifications(
+          {'message': message.messageId, 'notification': message.notification},
+        );
+        debugPrint('Message : $message');
+      },
+    );
   }
 }

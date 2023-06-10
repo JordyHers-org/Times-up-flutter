@@ -1,27 +1,31 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:mockito/mockito.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
 
-///we don't want to use the real firebase authentication multiple times
-///so we create a mock sign-in class. Mock is taken from the Mokito package
+class Dummy {
+  static Position position = Position(
+    longitude: 0.00,
+    latitude: 0.00,
+    timestamp: DateTime.now(),
+    accuracy: 0.00,
+    altitude: 0.00,
+    heading: 0.00,
+    speed: 0.00,
+    speedAccuracy: 0.00,
+  );
 
-class MockAuth extends Mock implements AuthBase {}
+  static GeoPoint geoPoint = GeoPoint(
+    0.00,
+    0.00,
+  );
 
-class MockDatabase extends Mock implements Database {}
-
-class MockGeoLocatorService extends Mock implements GeoLocatorService {}
-
-class MockUser extends Mock implements User {
-  MockUser();
-
-  factory MockUser.uid(String uid) {
-    final user = MockUser();
-    when(user.uid).thenReturn(uid);
-    return user;
-  }
+  static final childModel = ChildModel(
+    id: '001',
+    name: 'name',
+    email: 'email',
+    image: 'image',
+    token: 'token',
+    position: Dummy.geoPoint,
+    appsUsageModel: [],
+  );
 }
-
-class MockNavigatorObvserver extends Mock implements NavigatorObserver {}

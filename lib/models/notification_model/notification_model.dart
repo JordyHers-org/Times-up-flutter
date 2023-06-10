@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'notification_model.freezed.dart';

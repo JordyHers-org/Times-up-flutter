@@ -42,30 +42,39 @@ class _SetChildPageState extends State<SetChildPage> {
 
   void _submit(String name, String key) async {
     final position = await geo.getInitialLocation();
-    print(
-        'Method latitude :${position.latitude} , Longitude : ${position.longitude}');
+    debugPrint(
+      'Method latitude :${position.latitude} ,'
+      ' Longitude : ${position.longitude}',
+    );
     final database = Provider.of<Database>(context, listen: false);
     try {
       final response = await database.getUserCurrentChild(
-          name, key, GeoPoint(position.latitude, position.longitude));
-      print('RESPONSE : ${response}');
-      if (response != null) {
-        await Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
+        name,
+        key,
+        GeoPoint(position.latitude, position.longitude),
+      );
+      debugPrint('RESPONSE : ${response}');
+      try {
+        await Navigator.of(context).pushReplacement(
+          MaterialPageRoute<void>(
             fullscreenDialog: true,
-            builder: (context) =>
-                ChildPage.create(context, database, response)));
-      } else {
+            builder: (context) => ChildPage.create(context, database, response),
+          ),
+        );
+      } catch (e) {
         setState(() {
           appState = AppState.complete;
         });
-        await showAlertDialog(context,
-            title: 'No Such file in Database',
-            content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
-            defaultActionText: 'OK');
-        print('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
+        await showAlertDialog(
+          context,
+          title: 'No Such file in Database',
+          content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
+          defaultActionText: 'OK',
+        );
+        debugPrint('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 

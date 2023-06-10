@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 // import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
@@ -22,14 +23,19 @@ abstract class Database {
   Stream<List<ChildModel>> childrenStream();
 
   Future<void> setNotification(
-      NotificationModel notification, ChildModel model);
+    NotificationModel notification,
+    ChildModel model,
+  );
 
   Stream<List<NotificationModel>> notificationStream({String childId});
 
   Stream<ChildModel> childStream({required String childId});
 
   Future<ChildModel> getUserCurrentChild(
-      String name, String key, GeoPoint latLong);
+    String name,
+    String key,
+    GeoPoint latLong,
+  );
 }
 
 // String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
@@ -38,13 +44,12 @@ class FirestoreDatabase implements Database {
   FirestoreDatabase({
     required this.uid,
     this.auth,
-  }) : assert(uid != null);
+  });
 
   final String uid;
   final AuthBase? auth;
   ChildModel? _child;
 
-  @override
   ChildModel get currentChild => _child!;
 
   final _service = FirestoreService.instance;
@@ -53,7 +58,10 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<ChildModel> getUserCurrentChild(
-      String name, String key, GeoPoint latLong) async {
+    String name,
+    String key,
+    GeoPoint latLong,
+  ) async {
     final user = auth?.currentUser?.uid;
     final token = await auth?.setToken();
     await apps.getAppUsageService();
@@ -73,31 +81,32 @@ class FirestoreDatabase implements Database {
         _email = doc.data()!['email'];
         _currentChild = doc.data()!['name'];
         _image = doc.data()!['image'];
-        print('------------------------------------------------------');
-        print(' User : $user \n');
-        print(' ---------------- We found this as a match --------');
-        print(doc['name']);
-        print('Name : $_currentChild');
-        print('Image : $_image');
-        print('Email : $_email');
-        print('Unique Key : $key');
+        debugPrint('------------------------------------------------------');
+        debugPrint(' User : $user \n');
+        debugPrint(' ---------------- We found this as a match --------');
+        debugPrint(doc['name']);
+        debugPrint('Name : $_currentChild');
+        debugPrint('Image : $_image');
+        debugPrint('Email : $_email');
+        debugPrint('Unique Key : $key');
 
         _child = ChildModel(
-            id: doc.id,
-            name: _currentChild,
-            email: _email,
-            image: _image,
-            position: latLong,
-            appsUsageModel: apps.info,
-            token: token);
+          id: doc.id,
+          name: _currentChild,
+          email: _email,
+          image: _image,
+          position: latLong,
+          appsUsageModel: apps.info,
+          token: token,
+        );
 
         await setChild(_child!);
         return _child;
       } else {
-        print(' NO SUCH FILE ON DATABASE ');
+        debugPrint(' NO SUCH FILE ON DATABASE ');
       }
     });
-    print(_child);
+    debugPrint(_child.toString());
     return _child!;
   }
 
@@ -108,13 +117,15 @@ class FirestoreDatabase implements Database {
     var point = await geo.getInitialLocation();
     var currentLocation = GeoPoint(point.latitude, point.longitude);
 
-    print('The user is $user and the Child Id: ${model.id}');
-    print(
-        ' DEBUG: FROM DATABASE ===> Last location taken is longitude : ${point.longitude} , latitude :${point.latitude}');
-    print(' DEBUG: APP USAGE ==> ${apps.info}');
+    debugPrint('The user is $user and the Child Id: ${model.id}');
+    debugPrint(
+      ' DEBUG: FROM DATABASE ===> Last location taken is'
+      ' longitude : ${point.longitude} , latitude :${point.latitude}',
+    );
+    debugPrint(' DEBUG: APP USAGE ==> ${apps.info}');
 
     if (model.id == 'D9FBAB88') {
-      print('Choosing random Position for ${model.id}');
+      debugPrint('Choosing random Position for ${model.id}');
       // generates a new Random object
       var positions = <GeoPoint>[
         GeoPoint(41.025576, 28.663767),
@@ -125,7 +136,7 @@ class FirestoreDatabase implements Database {
       // generate a random index based on the list length
       // and use it to retrieve the element
       var randomPosition = (positions..shuffle()).first;
-      print('The random location is $randomPosition');
+      debugPrint('The random location is $randomPosition');
       _child = ChildModel(
         id: model.id,
         name: model.name,
@@ -164,20 +175,28 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<void> setNotification(
-      NotificationModel notification, ChildModel child) async {
+    NotificationModel notification,
+    ChildModel child,
+  ) async {
     await _service.setNotificationFunction(
-        path: APIPath.notificationsStream(uid, child.id),
-        data: notification.toJson());
+      path: APIPath.notificationsStream(uid, child.id),
+      data: notification.toJson(),
+    );
   }
 
   Future<void> setTokenOnFireStore(Map<String, dynamic> token) async {
     await _service.setNotificationFunction(
-        path: APIPath.deviceToken(), data: token);
+      path: APIPath.deviceToken(),
+      data: token,
+    );
   }
 
   @override
   Future<void> deleteChild(ChildModel model) async {
-    await _service.deleteData(path: APIPath.child(uid, model.id));
+    await _service.deleteData(
+      path: APIPath.child(uid, model.id),
+      image: model.image,
+    );
   }
 
   @override
@@ -196,8 +215,7 @@ class FirestoreDatabase implements Database {
   Stream<List<NotificationModel>> notificationStream({String? childId}) {
     return _service.notificationStream(
       path: APIPath.notificationsStream(uid, childId ?? ''),
-      builder: (data, documentId) =>
-          NotificationModel.fromJson(data),
+      builder: (data, documentId) => NotificationModel.fromJson(data),
     );
   }
 
