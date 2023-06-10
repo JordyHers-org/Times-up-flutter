@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:parental_control/sign_in/sign_in_manager.dart';
 
-import 'mocks.dart';
+import '../helpers/test_helpers.mocks.dart';
 
 class MockValueNotifier<T> extends ValueNotifier<T> {
   MockValueNotifier(T value) : super(value);
@@ -19,30 +19,37 @@ class MockValueNotifier<T> extends ValueNotifier<T> {
 }
 
 void main() {
-  late MockAuth mockAuth;
+  late MockAuthBase mockAuth;
   late MockValueNotifier<bool> isLoading;
   late SignInManager manager;
   setUp(() {
-    mockAuth = MockAuth();
+    mockAuth = MockAuthBase();
     isLoading = MockValueNotifier<bool>(false);
     manager = SignInManager(auth: mockAuth, isLoading: isLoading);
   });
 
-  test('sign-in success', () async {
-    when(mockAuth.signInAnonymously())
-        .thenAnswer((_) => Future.value(MockUser.uid('1234567')));
-    await manager.signInAnonymously();
-
-    expect(isLoading.values, [true]);
-  });
-
-  test('sign-in failure', () async {
-    when(mockAuth.signInAnonymously())
-        .thenThrow(PlatformException(code: 'ERROR', message: 'sign in failed'));
-    try {
+  test(
+    'sign-in success',
+    () async {
+      when(mockAuth.signInAnonymously())
+          .thenAnswer((_) => Future.value(MockUser()));
       await manager.signInAnonymously();
-    } catch (e) {
-      expect(isLoading.values, [true, false]);
-    }
-  });
+
+      expect(isLoading.values, [true]);
+    },
+  );
+
+  test(
+    'sign-in failure',
+    () async {
+      when(mockAuth.signInAnonymously()).thenThrow(
+        PlatformException(code: 'ERROR', message: 'sign in failed'),
+      );
+      try {
+        await manager.signInAnonymously();
+      } catch (e) {
+        expect(isLoading.values, [true, false]);
+      }
+    },
+  );
 }
