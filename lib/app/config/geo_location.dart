@@ -114,8 +114,8 @@ class _GeoState extends State<Geo> {
           _controller.complete(controller);
           if (allMarkers.isEmpty) return;
           setState(() {
-            markers[MarkerId(allMarkers.first.markerId.value)] =
-                allMarkers.first;
+            final markerId = MarkerId(allMarkers.first.markerId.value);
+            markers[markerId] = allMarkers.first;
           });
         },
       ),
