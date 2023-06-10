@@ -17,3 +17,12 @@ extension ParseResult on String {
     return result;
   }
 }
+
+extension IsValidString on String {
+  bool isValid(String? value) {
+    if (value != null) {
+      return value.isNotEmpty;
+    }
+    return false;
+  }
+}
