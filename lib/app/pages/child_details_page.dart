@@ -90,7 +90,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
   Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
     if (model != null) {
       return SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
