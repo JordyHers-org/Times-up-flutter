@@ -34,7 +34,7 @@ class SplashContent extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 20),
               DisplayText(
                 text: text,
                 fontSize: 17,
@@ -44,7 +44,7 @@ class SplashContent extends StatelessWidget {
                   height: 1.5,
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 50),
               Center(
                 child: Icon(
                   icon,

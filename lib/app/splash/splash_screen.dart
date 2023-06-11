@@ -32,7 +32,9 @@ class _SplashScreenState extends State<SplashScreen> {
     },
     {
       'text': 'Send notifications to your child when time '
-          ' limit is reached or when he has to go to bed. ',
+          ' limit is reached or when he has to go to bed. Explore more about'
+          ' controls '
+          'in the dashboard section. ',
       'title': 'Control',
       'icon': Icons.lock_reset,
     },
