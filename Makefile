@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------
 #
 # The make file is used to quickly run commands to help unify
-# our workflow and avoid typing longer methods. Please add here useful
+# our workflow and avoid typing longer commands. Please add here useful
 # commands and do not forget to write a comment to explain how this command
 # works and what it does. Update Readme File if necessary.
 #
@@ -29,3 +29,8 @@ generate:
 release:
 	fastlane release
 	
+dev:
+	git checkout dev
+
+master:
+	git chechout master
