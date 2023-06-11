@@ -12,9 +12,11 @@ The application has for sole purpose to track and record the data from the child
 device and send it to parents. The application does not violate the `privacy policies`
 settled for user, and doesn't collect data for third parties companies. 
 
-
-- App Icons 📱
-- App Usage Metrics 📈
+ ####  🚀 V2.0.0 
+ 
+ ##### Planned Features: 
+- App Icons 📱  
+- App Usage Metrics 📈 
 - Setting page (Update Profile) 🚹
 - Contact Us page📩
 - Dark Mode 🌘
@@ -23,8 +25,7 @@ settled for user, and doesn't collect data for third parties companies.
 - Marker image (Child's Picture) on Map 🗺
 - Email follow up for weekly report 📨
 - Location Tracking 📍
-- Notification 🔔
-
+- Notification 🔔 
 
 
 ## Screenshot
