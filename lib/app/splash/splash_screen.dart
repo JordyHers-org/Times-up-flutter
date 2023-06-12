@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
     {
       'text': 'Send notifications to your child when time '
           ' limit is reached or when he has to go to bed.',
-      'title': 'Learn to Control and Monitor',
+      'title': 'Control and Monitor',
       'icon': Icons.lock_reset,
     },
     {

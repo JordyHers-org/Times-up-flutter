@@ -50,29 +50,30 @@ class _SplashContentState extends State<SplashContent>
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10.0,
-              vertical: 40,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Icon(
-                    widget.icon,
-                    size: 260,
-                  ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10.0,
+            vertical: 40,
+          ),
+          child: Stack(
+            children: [
+              Center(
+                child: Icon(
+                  widget.icon,
+                  size: 260,
                 ),
-                SizedBox(height: 20),
-                _SlideText(
-                  slideAnimation: _slideAnimation,
-                  delay: Duration(milliseconds: 200),
+              ),
+              SizedBox(height: 20),
+              _SlideText(
+                slideAnimation: _slideAnimation,
+                delay: Duration(milliseconds: 200),
+                child: Container(
+                  padding: EdgeInsets.only(top: 250),
+                  margin: EdgeInsets.symmetric(horizontal: 40),
                   child: DisplayText(
                     text: widget.title,
                     fontSize: 25,
@@ -82,28 +83,29 @@ class _SplashContentState extends State<SplashContent>
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                _SlideText(
-                  slideAnimation: _slideAnimation,
-                  delay: Duration(milliseconds: 300),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 40),
-                    child: DisplayText(
-                      text: widget.text,
-                      fontSize: 17,
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.5),
-                        fontWeight: FontWeight.w400,
-                        height: 1.2,
-                      ),
+              ),
+              SizedBox(height: 20),
+              _SlideText(
+                slideAnimation: _slideAnimation,
+                delay: Duration(milliseconds: 300),
+                child: Container(
+                  padding: EdgeInsets.only(top: 300),
+                  margin: EdgeInsets.symmetric(horizontal: 40),
+                  child: DisplayText(
+                    text: widget.text,
+                    fontSize: 17,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                      fontWeight: FontWeight.w400,
+                      height: 1.2,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -125,10 +127,6 @@ class _SlideText extends StatelessWidget {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
       child: SlideTransition(
         position: slideAnimation!,
         child: _DelayedDisplay(
