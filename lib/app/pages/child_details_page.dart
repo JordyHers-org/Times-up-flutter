@@ -347,7 +347,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
     return;
   }
 
-
   Future<void> _sendNotification(
     BuildContext context,
     ChildModel model,
