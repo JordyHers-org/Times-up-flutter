@@ -40,18 +40,6 @@ class ChildDetailsPage extends StatefulWidget {
 }
 
 class _ChildDetailsPageState extends State<ChildDetailsPage> {
-  Future<void> _delete(BuildContext context, ChildModel model) async {
-    try {
-      await widget.database.deleteChild(model);
-    } on FirebaseException catch (e) {
-      await showExceptionAlertDialog(
-        context,
-        title: 'Operation failed',
-        exception: e,
-      );
-    }
-  }
-
   var isPushed = false;
 
   @override
@@ -79,7 +67,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               setState(() {
                 isPushed = !isPushed;
               });
-              debugPrint('more is pushed');
             },
           ),
         );
@@ -217,32 +204,11 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       borderRadius: 12,
                       color: Colors.indigo,
                       height: 45,
-                      onPressed: () async {
-                        try {
-                          await widget.database.setNotification(
-                            NotificationModel(
-                              id: model.id,
-                              title: ' Hey ${model.name}',
-                              body: 'Here is a new message',
-                              message: 'Go to bed now ',
-                            ),
-                            model,
-                          );
-                          await showAlertDialog(
-                            context,
-                            title: 'Successful',
-                            content: 'Notification sent to ${model.name}',
-                            defaultActionText: 'OK',
-                          );
-                          debugPrint('Notification sent to device');
-                        } on FirebaseException catch (e) {
-                          await showExceptionAlertDialog(
-                            context,
-                            title: 'An error occurred',
-                            exception: e,
-                          );
-                        }
-                      },
+                      onPressed: () async => await _sendNotification(
+                        context,
+                        model,
+                        'Hey Go to bed Now',
+                      ),
                     ),
                   ),
                   Padding(
@@ -255,32 +221,11 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       borderRadius: 12,
                       color: Colors.white,
                       height: 45,
-                      onPressed: () async {
-                        try {
-                          await widget.database.setNotification(
-                            NotificationModel(
-                              id: model.id,
-                              title: ' Hey ${model.name}',
-                              body: 'Here is a new message',
-                              message: 'Homework Time',
-                            ),
-                            model,
-                          );
-                          await showAlertDialog(
-                            context,
-                            title: 'Successful',
-                            content: 'Notification sent to ${model.name}',
-                            defaultActionText: 'OK',
-                          );
-                          debugPrint('Notification sent to device');
-                        } on FirebaseException catch (e) {
-                          await showExceptionAlertDialog(
-                            context,
-                            title: 'An error occurred',
-                            exception: e,
-                          );
-                        }
-                      },
+                      onPressed: () async => await _sendNotification(
+                        context,
+                        model,
+                        'Homework Time',
+                      ),
                     ),
                   ),
                 ],
@@ -385,5 +330,48 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       Navigator.of(context).pop();
     }
     return;
+  }
+
+  Future<void> _delete(BuildContext context, ChildModel model) async {
+    try {
+      await widget.database.deleteChild(model);
+    } on FirebaseException catch (e) {
+      await showExceptionAlertDialog(
+        context,
+        title: 'Operation failed',
+        exception: e,
+      );
+    }
+  }
+
+  Future<void> _sendNotification(
+    BuildContext context,
+    ChildModel model,
+    String content,
+  ) async {
+    try {
+      await widget.database.setNotification(
+        NotificationModel(
+          id: model.id,
+          title: ' Hey ${model.name}',
+          body: 'Here is a new message',
+          message: content,
+        ),
+        model,
+      );
+      await showAlertDialog(
+        context,
+        title: 'Successful',
+        content: 'Notification sent to ${model.name}',
+        defaultActionText: 'OK',
+      );
+      debugPrint('Notification sent to device');
+    } on FirebaseException catch (e) {
+      await showExceptionAlertDialog(
+        context,
+        title: 'An error occurred',
+        exception: e,
+      );
+    }
   }
 }

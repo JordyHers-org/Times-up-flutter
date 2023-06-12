@@ -13,7 +13,6 @@ import 'package:parental_control/common_widgets/loading_map.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
@@ -36,12 +35,9 @@ class ParentPage extends StatefulWidget {
 
 class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
-  late Geo geo;
-
   ///  Variables
   late TabController _tabController;
   late bool _isShowCaseActivated;
-  late GeoLocatorService geoService;
   MapScreenState mapScreenState = MapScreenState.Small;
 
   /// Here we declare the GlobalKeys to enable Showcase
@@ -52,7 +48,6 @@ class _ParentPageState extends State<ParentPage>
   @override
   void initState() {
     super.initState();
-    geoService = Provider.of<GeoLocatorService>(context, listen: false);
     _tabController = TabController(length: 2, vsync: this);
     _setShowCaseView();
   }
@@ -94,7 +89,7 @@ class _ParentPageState extends State<ParentPage>
               child: FloatingActionButton(
                 onPressed: () => EditChildPage.show(
                   context,
-                  database: Provider.of<Database>(context, listen: false),
+                  database: database,
                 ),
                 child: const Icon(Icons.add),
               ),
@@ -198,7 +193,7 @@ class _ParentPageState extends State<ParentPage>
                               style: TextStyle(color: Colors.indigo),
                             ),
                             subtitle: Text(
-                              'Choose child to get more infos - scroll right ',
+                              'Choose child to get more info - scroll right ',
                               style: TextStyle(color: Colors.grey.shade400),
                             ),
                             trailing: Icon(

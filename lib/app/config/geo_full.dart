@@ -57,7 +57,7 @@ class _GeoFullState extends State<GeoFull> {
   void initState() {
     _currentUser = widget.auth.currentUser!;
     widget.geo.getCurrentLocation.listen((position) {
-      centerScreen(position);
+      _centerScreen(position);
     });
     _getAllChildLocations();
     super.initState();
@@ -151,7 +151,7 @@ class _GeoFullState extends State<GeoFull> {
     );
   }
 
-  Future<void> centerScreen(Position position) async {
+  Future<void> _centerScreen(Position position) async {
     final controller = await _controller.future;
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(

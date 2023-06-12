@@ -22,11 +22,11 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void initState() {
-    setFlagParentOrChild();
+    _setFlagParentOrChild();
     super.initState();
   }
 
-  Future<void> setFlagParentOrChild() async {
+  Future<void> _setFlagParentOrChild() async {
     var isParent = await SharedPreference().getParentOrChild();
     setState(() {
       isParent ? side = AppSide.parent : side = AppSide.child;
@@ -47,9 +47,9 @@ class _LandingPageState extends State<LandingPage> {
           }
           switch (side) {
             case AppSide.parent:
-              return buildParentSide(user, geoService, auth);
+              return _buildParentSide(user, geoService, auth);
             case AppSide.child:
-              return buildChildSide(auth, user, geoService, context);
+              return _buildChildSide(auth, user, geoService, context);
             default:
               return CircularProgressIndicator();
           }
@@ -63,7 +63,7 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Provider<AuthBase> buildChildSide(
+  Provider<AuthBase> _buildChildSide(
     AuthBase auth,
     User user,
     GeoLocatorService geoService,
@@ -82,7 +82,7 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Provider<Database> buildParentSide(
+  Provider<Database> _buildParentSide(
     User user,
     GeoLocatorService geoService,
     AuthBase auth,

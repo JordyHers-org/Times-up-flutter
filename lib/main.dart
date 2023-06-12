@@ -30,11 +30,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: Strings.appName,

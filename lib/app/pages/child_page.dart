@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parental_control/app/bloc/child_side_bloc.dart';
+import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/app/pages/set_child_page.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/models/child_model.dart';
@@ -170,15 +171,15 @@ class _ChildPageState extends State<ChildPage> {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state is ChildSideInitial) {
-                      return buildInitialInput(context);
+                      return _buildInitialInput(context);
                     } else if (state is ChildSideFetching) {
-                      return buildLoading();
+                      return _buildLoading();
                     } else if (state is ChildSideNotification) {
-                      return buildNotification();
+                      return _buildNotification();
                     } else if (state is ChildSideAppList) {
-                      return buildAppList(appUsage);
+                      return _buildAppList(appUsage);
                     } else {
-                      return buildInitialInput(context);
+                      return _buildInitialInput(context);
                     }
                   },
                 ),
@@ -187,7 +188,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildInitialInput(BuildContext context) {
+  Widget _buildInitialInput(BuildContext context) {
     return Center(
       child: Text(
         'Child Page',
@@ -200,7 +201,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildLoading() {
+  Widget _buildLoading() {
     return Center(
       child: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
@@ -208,7 +209,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildNotification() {
+  Widget _buildNotification() {
     return StreamBuilder<List<NotificationModel>>(
       stream: widget.database!.notificationStream(childId: ''),
       builder: (BuildContext context, snapshot) {
@@ -250,7 +251,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildAppList(appUsage) {
+  Widget _buildAppList(appUsage) {
     return ListView.builder(
       itemCount: appUsage.info.length,
       itemBuilder: (context, index) {
@@ -260,29 +261,11 @@ class _ChildPageState extends State<ChildPage> {
             style: TextStyle(fontSize: 15),
           ),
           trailing: Text(
-            parseResult(appUsage.info[index].usage.toString()),
+            appUsage.info[index].usage.toString().t(),
             style: TextStyle(fontSize: 14, color: Colors.indigo),
           ),
         );
       },
     );
-  }
-
-  String parseResult(String value) {
-    var removeColon = value.replaceAll(':', ' ');
-    var result = removeColon.replaceAll('.', '');
-
-    result = result.replaceRange(1, 1, ' day ');
-    result = result.replaceRange(9, 9, ' hour ');
-    result = result.replaceRange(18, null, ' minutes');
-
-    if (result.contains('00 hour')) {
-      result = result.replaceRange(0, 14, '');
-      return result;
-    } else if (result.contains('0 day')) {
-      result = result.replaceRange(0, 5, '');
-      return result;
-    }
-    return result;
   }
 }

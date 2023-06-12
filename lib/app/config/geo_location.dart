@@ -37,7 +37,7 @@ class _GeoState extends State<Geo> {
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
     _currentUser = auth.currentUser!;
     geoService.getCurrentLocation.listen((position) {
-      centerScreen(position);
+      _centerScreen(position);
     });
     _getAllChildLocations();
     super.initState();
@@ -137,7 +137,7 @@ class _GeoState extends State<Geo> {
     );
   }
 
-  Future<void> centerScreen(Position position) async {
+  Future<void> _centerScreen(Position position) async {
     final controller = await _controller.future;
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(

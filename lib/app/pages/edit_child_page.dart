@@ -20,9 +20,6 @@ class EditChildPage extends StatefulWidget {
       : assert(database != null),
         super(key: key);
 
-  /// The [context]  here is the context pf the JobsPage
-  ///
-  /// as the result we can get the provider of Database
   static Future<void> show(
     BuildContext context, {
     Database? database,
@@ -98,18 +95,15 @@ class _EditChildPageState extends State<EditChildPage> {
       try {
         var fileExtension = path.extension(localFile.path);
         debugPrint(fileExtension);
-        //final _id = widget.model?.id ?? id;
-        //var id = documentIdFromCurrentDate();
+
         final firebaseStorageRef = FirebaseStorage.instance
             .ref()
             .child('Child/"${id}"/$id$fileExtension');
 
         await firebaseStorageRef
             .putFile(File(localFile.path))
-            //.onComplete
             .catchError((onError) {
           debugPrint(onError);
-          // ignore: return_of_invalid_type_from_catch_error
           return false;
         });
         var url = await firebaseStorageRef.getDownloadURL();
@@ -120,10 +114,6 @@ class _EditChildPageState extends State<EditChildPage> {
       }
 
       try {
-        /// this section makes sure the name entered does not already exist
-        /// in the stream
-        /// Stream.first is a getter that get the most up-to-date value
-
         final children = await widget.database!.childrenStream().first;
         final allNames = children.map((child) => child.name).toList();
         if (widget.model != null) {
