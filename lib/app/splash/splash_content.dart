@@ -32,10 +32,12 @@ class _SplashContentState extends State<SplashContent>
     _slideAnimation = Tween<Offset>(
       begin: Offset(0, 1),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _animationController.forward();
   }
