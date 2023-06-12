@@ -24,24 +24,28 @@ class _SplashScreenState extends State<SplashScreen> {
 
   List<Map<String, dynamic>> splashData = [
     {
+      'text':
+          "Time's Up is your solution to monitor the time your kids spend on "
+              'screen.',
+      'title': 'Get your new companion',
+      'icon': Icons.family_restroom,
+    },
+    {
       'text': 'The perfect tool to control apps and monitor the time '
-          'Your kids spend on screen. Easy to use ! '
-          'Start by setting up your device then set up your kid\'s phone',
-      'title': 'Times Up',
+          'Your kids spend on screen.',
+      'title': 'Get insightful dashboard',
       'icon': Icons.dashboard_customize_outlined,
     },
     {
       'text': 'Send notifications to your child when time '
-          ' limit is reached or when he has to go to bed. Explore more about'
-          ' controls '
-          'in the dashboard section. ',
-      'title': 'Control',
+          ' limit is reached or when he has to go to bed.',
+      'title': 'Learn to Control and Monitor',
       'icon': Icons.lock_reset,
     },
     {
       'text': "Because we care, Let's live track their location and see on "
           'the map where your child is.',
-      'title': 'Track Location',
+      'title': 'Get to track their Location',
       'icon': Icons.location_history,
     },
   ];
