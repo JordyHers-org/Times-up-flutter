@@ -85,7 +85,10 @@ class FireStoreDatabase implements Database {
 
   @override
   Future<void> deleteChild(ChildModel model) async {
-    await _service.deleteData(path: APIPath.child(uid, model.id));
+    await _service.deleteData(
+      path: APIPath.child(uid, model.id),
+      image: model.image,
+    );
   }
 
   @override

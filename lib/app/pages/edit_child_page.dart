@@ -161,11 +161,16 @@ class _EditChildPageState extends State<EditChildPage> {
         title: Text(widget.model == null ? 'New Child' : 'Edit Child'),
         centerTitle: true,
         actions: [
-          OutlinedButton(
-            onPressed: () async => await _submit(_imageFile),
-            child: Text(
-              'Save',
-              style: TextStyle(fontSize: 18, color: Colors.white),
+          GestureDetector(
+            onTap: () async => await _submit(_imageFile),
+            child: Align(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Save',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
             ),
           )
         ],
