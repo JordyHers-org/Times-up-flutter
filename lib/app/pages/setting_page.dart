@@ -55,22 +55,22 @@ class SettingsPage extends StatelessWidget {
       child: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
-          _ProfileListItem(
+          ProfileListItem(
             icon: LineAwesomeIcons.history,
             onPressed: () {},
             text: 'Update profile',
           ),
-          _ProfileListItem(
+          ProfileListItem(
             icon: LineAwesomeIcons.language,
             onPressed: () {},
             text: 'Change language',
           ),
-          _ProfileListItem(
+          ProfileListItem(
             icon: LineAwesomeIcons.moon,
             onPressed: () {},
             text: 'Dark mode',
           ),
-          _ProfileListItem(
+          ProfileListItem(
             icon: LineAwesomeIcons.user_shield,
             onPressed: () {},
             text: 'Contact us',
@@ -119,13 +119,13 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-class _ProfileListItem extends StatelessWidget {
+class ProfileListItem extends StatelessWidget {
   final IconData? icon;
   final String? text;
   final bool hasNavigation;
   final Function onPressed;
 
-  const _ProfileListItem({
+  const ProfileListItem({
     Key? key,
     this.icon,
     this.text,
