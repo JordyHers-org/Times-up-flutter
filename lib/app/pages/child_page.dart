@@ -92,12 +92,16 @@ class _ChildPageState extends State<ChildPage> {
                               ),
                             ),
                             SizedBox(height: 12),
-                            Text(
-                              '${widget.child!.email} ',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${widget.child!.email} ',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 6),
                             Text(
@@ -107,18 +111,21 @@ class _ChildPageState extends State<ChildPage> {
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            SizedBox(height: 6),
+                            SizedBox(height: 7),
                           ],
                         ),
                       ),
                     ),
                   )
                 : Container(),
+
             Divider(
               height: 0.5,
               thickness: 0.2,
               color: Colors.grey,
             ),
+            SizedBox(height: 5 * 2 ),
+
             ListTile(
               leading: Icon(Icons.notifications),
               title: Text('Notification'),
