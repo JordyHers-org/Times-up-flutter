@@ -44,7 +44,7 @@ to control pages is [BLoC](https://bloclibrary.dev/#/). It is the perfect tool i
 Specific ENUMS cases.
 
 
-## Packakes 
+## Packages 
 
 - [firebase auth](https://pub.dev/packages/firebase_auth) for authentication
 - [provider](https://pub.dev/packages/provider) for state management
@@ -52,7 +52,6 @@ Specific ENUMS cases.
 - [easy location](https://pub.dev/packages/easy_location) for tracking locations
 - [geo_locator](https://pub.dev/packages/geo_locator) for Lat and long values
 - [cached_network_image](https://pub.dev/packages/cached_network_image) for caching images
-- [app_usage](https://pub.dev/packages/app_usage) for app usage data
 - [shared_preferences](https://pub.dev/packages/shared_preferences) for String and bool caching
 - [share_plus](https://pub.dev/packages/share_plus) for sharing Child's code
 
