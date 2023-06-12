@@ -92,7 +92,7 @@ class _SplashContentState extends State<SplashContent>
                           slideAnimation: _slideAnimation,
                           delay: Duration(milliseconds: 300),
                           child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            margin: EdgeInsets.symmetric(horizontal: 40),
                             child: DisplayText(
                               text: widget.text,
                               fontSize: 17,
