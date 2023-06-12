@@ -18,7 +18,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  late AppSide side;
+  late AppSide _side;
 
   @override
   void initState() {
@@ -27,9 +27,9 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _setFlagParentOrChild() async {
-    var isParent = await SharedPreference().getParentOrChild();
+    var _isParent = await SharedPreference().getParentOrChild();
     setState(() {
-      isParent ? side = AppSide.parent : side = AppSide.child;
+      _isParent ? _side = AppSide.parent : _side = AppSide.child;
     });
   }
 
@@ -45,7 +45,7 @@ class _LandingPageState extends State<LandingPage> {
           if (user == null) {
             return SignInPage.create(context);
           }
-          switch (side) {
+          switch (_side) {
             case AppSide.parent:
               return _buildParentSide(user, geoService, auth);
             case AppSide.child:
