@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-
 import 'package:geolocator/geolocator.dart';
-import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
-
 import 'package:parental_control/app/config/geo_full.dart';
-import 'package:parental_control/app/config/geo_location.dart';
 import 'package:parental_control/app/pages/child_details_page.dart';
 import 'package:parental_control/app/pages/edit_child_page.dart';
+import 'package:parental_control/app/pages/notification_page.dart';
 import 'package:parental_control/app/pages/setting_page.dart';
 import 'package:parental_control/common_widgets/autosize_text.dart';
 import 'package:parental_control/common_widgets/child_horizontal_view.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
+import 'package:parental_control/common_widgets/feature_widget.dart';
+import 'package:parental_control/common_widgets/info_box.dart';
 import 'package:parental_control/common_widgets/loading_map.dart';
 import 'package:parental_control/common_widgets/summary_tile.dart';
 import 'package:parental_control/models/child_model.dart';
@@ -21,15 +19,31 @@ import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
-
-enum MapScreenState { Full, Small }
+import 'package:parental_control/utils/data.dart';
+import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class ParentPage extends StatefulWidget {
-  const ParentPage({Key? key, this.auth}) : super(key: key);
+  const ParentPage({
+    Key? key,
+    required this.auth,
+    required this.geo,
+    required this.database,
+  }) : super(key: key);
 
-  final AuthBase? auth;
+  final AuthBase auth;
+  final GeoLocatorService geo;
+  final Database database;
+
   static Widget create(BuildContext context, AuthBase auth) {
-    return ParentPage(auth: auth);
+    final database = Provider.of<Database>(context, listen: false);
+    final geo = Provider.of<GeoLocatorService>(context, listen: false);
+
+    return ParentPage(
+      auth: auth,
+      database: database,
+      geo: geo,
+    );
   }
 
   @override
@@ -38,33 +52,10 @@ class ParentPage extends StatefulWidget {
 
 class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
-  late Geo geo;
+  late ScrollController _scrollController;
   int currentIndex = 0;
 
-  Map<int, BottomNavigationBarItem> items = {
-    0: BottomNavigationBarItem(
-      label: 'Dashboard',
-      icon: Icon(
-        Icons.dashboard_customize_outlined,
-      ),
-    ),
-    1: BottomNavigationBarItem(
-      label: 'Notification',
-      icon: Icon(
-        Icons.notifications_on_outlined,
-      ),
-    ),
-    2: BottomNavigationBarItem(
-      label: 'Location',
-      icon: Icon(
-        Icons.location_history,
-      ),
-    )
-  };
-
   late bool _isShowCaseActivated;
-  late GeoLocatorService geoService;
-  MapScreenState mapScreenState = MapScreenState.Small;
 
   final GlobalKey _settingsKey = GlobalKey();
   final GlobalKey _childListKey = GlobalKey();
@@ -74,6 +65,13 @@ class _ParentPageState extends State<ParentPage>
   void initState() {
     super.initState();
     _setShowCaseView();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _setShowCaseView() async {
@@ -93,20 +91,17 @@ class _ParentPageState extends State<ParentPage>
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final database = Provider.of<Database>(context, listen: false);
-
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (value) {
           setState(() {
-            currentIndex = items.keys.toList()[value];
+            currentIndex = BottomNavigationData.items.keys.toList()[value];
           });
         },
-        items: items.values.toList(),
+        items: BottomNavigationData.items.values.toList(),
       ),
-      body: _buildParentPageContent(context, auth, database),
+      body: _buildParentPageContent(context, widget.auth, widget.database),
     );
   }
 
@@ -118,7 +113,7 @@ class _ParentPageState extends State<ParentPage>
     var children = <Widget>[
       _buildDashboard(database, auth),
       _buildNotificationPage(auth),
-      _buildMapFullScreen(database),
+      _buildMapFullScreen(database, auth),
     ];
     return children[currentIndex];
   }
@@ -134,12 +129,38 @@ class _ParentPageState extends State<ParentPage>
 
   Widget _buildDashboard(Database database, AuthBase auth) {
     return NestedScrollView(
+      controller: _scrollController,
       physics: BouncingScrollPhysics(),
       headerSliverBuilder: (context, value) {
         return [
           SliverAppBar(
+            flexibleSpace: !value
+                ? Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hello 👋',
+                        style: TextStyle(
+                          fontSize: 35,
+                          color: CustomColors.indigoDark,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      Text(
+                        'Welcome',
+                        style: TextStyle(
+                          fontSize: 35,
+                          color: Colors.grey.shade300,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox.shrink(),
             backgroundColor: Colors.white,
-            expandedHeight: 90,
+            expandedHeight: !value ? 110 : 90,
             shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
@@ -149,11 +170,12 @@ class _ParentPageState extends State<ParentPage>
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(
-                  Icons.menu_rounded,
-                  color: CustomColors.indigoPrimary,
-                  size: 25,
-                ),
+                !value
+                    ? SizedBox.shrink()
+                    : Icon(
+                        Icons.menu,
+                        color: CustomColors.indigoDark,
+                      ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(side: BorderSide.none),
                   onPressed: () => SettingsPage.show(context, auth),
@@ -193,14 +215,6 @@ class _ParentPageState extends State<ParentPage>
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  DisplayText(
-                    fontSize: 35,
-                    text: 'Welcome',
-                    style: TextStyle(
-                      color: Colors.grey.shade300,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ).hP8,
                   ListTile(
                     title: Text(
                       'My Children',
@@ -218,31 +232,82 @@ class _ParentPageState extends State<ParentPage>
                   _buildChildrenList(database),
                   _header(),
                   SummaryTile(),
-                  // Row(
-                  //   children: [
-                  //     InfoBox(
-                  //       icon: Icons.volume_up_outlined,
-                  //       iconColor: CustomColors.indigoDark,
-                  //       child: Container(
-                  //         width: 100,
-                  //         child: Text(
-                  //           ' In this section you will be able to track what '
-                  //           'your child is listening to.',
-                  //           style: TextStyle(color: Colors.grey),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     InfoBox(
-                  //       icon: Icons.lightbulb,
-                  //       iconColor: CustomColors.indigoDark,
-                  //       child: Text(' This is a live event'),
-                  //     ),
-                  //   ],
-                  // ),
-                  // FeatureWidget(
-                  //   title: '🚀 10 h:00 min',
-                  //   icon: Icons.timelapse_sharp,
-                  // ),
+                  ListTile(
+                    title: Text(
+                      'Information Section',
+                      style: TextStyle(color: Colors.indigo),
+                    ),
+                    subtitle: Text(
+                      'Get tips on how to use the app.',
+                      style: TextStyle(color: Colors.grey.shade400),
+                    ),
+                  ).p8,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InfoBox(
+                        onPress: null,
+                        icon: Icons.auto_graph,
+                        iconColor: CustomColors.indigoDark,
+                        child: SizedBox(
+                          width: 150,
+                          child: Text(
+                            ' Lorem ipsum dolor sit amet, consectetuer '
+                            'adipiscing elit.Aenean commodo ligula eget dolor. ',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                      InfoBox(
+                        onPress: null,
+                        icon: Icons.message,
+                        iconColor: CustomColors.indigoDark,
+                        child: SizedBox(
+                          width: 150,
+                          child: Text(
+                            ' Lorem ipsum dolor sit amet, consectetuer '
+                            ' .Aenean commodo ligula eget dolor.  ',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ).p16,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InfoBox(
+                        onPress: null,
+                        icon: Icons.lightbulb_rounded,
+                        iconColor: CustomColors.indigoDark,
+                        child: SizedBox(
+                          width: 150,
+                          child: Text(
+                            ' Lorem ipsum dolor sit amet, consectetuer adipiscing '
+                            'elit.Aenean commodo ligula eget dolor. ',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                      InfoBox(
+                        onPress: null,
+                        icon: Icons.volume_up_outlined,
+                        iconColor: CustomColors.indigoDark,
+                        child: SizedBox(
+                          width: 150,
+                          child: Text(
+                            ' Lorem ipsum dolor sit amet, consectetuer adipiscing '
+                            'elit.Aenean commodo ligula eget dolor.  ',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ).p16,
+                  FeatureWidget(
+                    title: '🚀 10:00 ',
+                    icon: Icons.timelapse_sharp,
+                  ),
                 ],
               ),
             ),
@@ -321,10 +386,17 @@ class _ParentPageState extends State<ParentPage>
     ).p16;
   }
 
-  Widget _buildMapFullScreen(Database database) {
+  Widget _buildMapFullScreen(Database database, AuthBase auth) {
     return Consumer<Position?>(
-      builder: (_, position, __) {
-        return position != null ? GeoFull(position, database) : LoadingMap();
+      builder: (context, position, __) {
+        return position != null
+            ? GeoFull.create(
+                context,
+                position: position,
+                database: database,
+                auth: auth,
+              )
+            : LoadingMap();
       },
     );
   }
