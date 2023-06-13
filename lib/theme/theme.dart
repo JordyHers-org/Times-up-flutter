@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomColors {
   static Color indigoPrimary = Color(0xFF283593);
@@ -25,6 +26,7 @@ class CustomDecoration {
 class AppTheme {
   const AppTheme();
   static ThemeData lightTheme = ThemeData(
+    textTheme: GoogleFonts.interTextTheme(),
     primarySwatch: buildMaterialColor(CustomColors.indigoDark),
     primaryColor: CustomColors.indigoDark,
     scaffoldBackgroundColor: Colors.white,

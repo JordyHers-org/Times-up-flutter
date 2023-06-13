@@ -1,18 +1,16 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
-
 import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:provider/provider.dart';
 
 class Geo extends StatefulWidget {
   final Position initialPosition;
@@ -80,7 +78,7 @@ class _GeoState extends State<Geo> {
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
     allMarkers.clear();
-    
+
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(
@@ -111,8 +109,8 @@ class _GeoState extends State<Geo> {
     if (!mounted) return [];
     setState(() {
       markers[MarkerId(
-        allMarkers.first.markerId.value,
-      )] = allMarkers.first;
+        allMarkers.last.markerId.value,
+      )] = allMarkers.last;
     });
     return allMarkers;
   }

@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.18.0
   uuid: ^3.0.6
   app_usage: ^2.0.0
+  google_fonts: ^4.0.3
   image_picker: ^0.8.5+3
 
   # UI Component Packages:

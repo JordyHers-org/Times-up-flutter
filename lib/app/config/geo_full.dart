@@ -72,7 +72,6 @@ class _GeoFullState extends State<GeoFull> {
     });
   }
 
-  //TODO:Make function async
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
     allMarkers.clear();
@@ -82,18 +81,12 @@ class _GeoFullState extends State<GeoFull> {
         infoWindow: InfoWindow(
           title: data['id'],
           snippet: data['name'],
-          onTap: () {
-            debugPrint('Tapped');
-          },
         ),
         markerId: MarkerId(data['id']),
         icon: BitmapDescriptor.defaultMarkerWithHue(
           BitmapDescriptor.hueMagenta,
         ),
         draggable: false,
-        onTap: () {
-          debugPrint('Marker Tapped');
-        },
         position: LatLng(
           data['position'].latitude,
           data['position'].longitude,

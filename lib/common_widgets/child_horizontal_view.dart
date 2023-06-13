@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/theme/theme.dart';
 
 class Kids extends StatelessWidget {
   final String? image_location;
@@ -30,17 +29,6 @@ class Kids extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      image_caption!,
-                      style: TextStyle(
-                        color: CustomColors.indigoLight,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
                     ),
                   ),
                 ],

@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-
 import 'package:geolocator/geolocator.dart';
-import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
-
 import 'package:parental_control/app/config/geo_full.dart';
 import 'package:parental_control/app/config/geo_location.dart';
 import 'package:parental_control/app/pages/child_details_page.dart';
 import 'package:parental_control/app/pages/edit_child_page.dart';
-import 'package:parental_control/app/pages/notification_page.dart';
 import 'package:parental_control/app/pages/setting_page.dart';
+import 'package:parental_control/common_widgets/autosize_text.dart';
 import 'package:parental_control/common_widgets/child_horizontal_view.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
-import 'package:parental_control/common_widgets/feature_widget.dart';
 import 'package:parental_control/common_widgets/loading_map.dart';
+import 'package:parental_control/common_widgets/summary_tile.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
+import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
+
+import 'notification_page.dart';
 
 enum MapScreenState { Full, Small }
 
@@ -39,14 +38,31 @@ class ParentPage extends StatefulWidget {
 class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
   late Geo geo;
+  int currentIndex = 0;
 
-  ///  Variables
-  late TabController _tabController;
+  Map<int, BottomNavigationBarItem> items = {
+    0: BottomNavigationBarItem(
+      label: 'Dashboard',
+      icon: Icon(
+        Icons.dashboard_customize_outlined,
+      ),
+    ),
+    1: BottomNavigationBarItem(
+      label: 'Notification',
+      icon: Icon(
+        Icons.notifications_on_outlined,
+      ),
+    ),
+    2: BottomNavigationBarItem(
+      label: 'Location',
+      icon: Icon(
+        Icons.location_history,
+      ),
+    )
+  };
+
   late bool _isShowCaseActivated;
-  late GeoLocatorService geoService;
-  MapScreenState mapScreenState = MapScreenState.Small;
 
-  /// Here we declare the GlobalKeys to enable Showcase
   final GlobalKey _settingsKey = GlobalKey();
   final GlobalKey _childListKey = GlobalKey();
   final GlobalKey _addKey = GlobalKey();
@@ -54,18 +70,9 @@ class _ParentPageState extends State<ParentPage>
   @override
   void initState() {
     super.initState();
-    geoService = Provider.of<GeoLocatorService>(context, listen: false);
-    _tabController = TabController(length: 2, vsync: this);
     _setShowCaseView();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _tabController.dispose();
-  }
-
-  /// This function takes care of the ShowCase logic
   Future<void> _setShowCaseView() async {
     var isVisited = await SharedPreference().getDisplayShowCase();
     setState(() {
@@ -86,23 +93,18 @@ class _ParentPageState extends State<ParentPage>
     final auth = Provider.of<AuthBase>(context, listen: false);
     final database = Provider.of<Database>(context, listen: false);
 
-    return mapScreenState == MapScreenState.Small
-        ? Scaffold(
-            body: _buildParentPageContent(context, auth, database),
-            floatingActionButton: Showcase(
-              key: _addKey,
-              textColor: Colors.indigo,
-              description: 'Add a new child here ',
-              child: FloatingActionButton(
-                onPressed: () => EditChildPage.show(
-                  context,
-                  database: Provider.of<Database>(context, listen: false),
-                ),
-                child: const Icon(Icons.add),
-              ),
-            ),
-          )
-        : _buildMapFullScreen(database);
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (value) {
+          setState(() {
+            currentIndex = items.keys.toList()[value];
+          });
+        },
+        items: items.values.toList(),
+      ),
+      body: _buildParentPageContent(context, auth, database),
+    );
   }
 
   Widget _buildParentPageContent(
@@ -110,12 +112,31 @@ class _ParentPageState extends State<ParentPage>
     AuthBase auth,
     Database database,
   ) {
+    var children = <Widget>[
+      _buildDashboard(database, auth),
+      _buildNotificationPage(auth),
+      _buildMapFullScreen(database),
+    ];
+    return children[currentIndex];
+  }
+
+  Widget _buildNotificationPage(AuthBase auth) {
+    return Provider<NotificationService>(
+      create: (_) => NotificationService(),
+      builder: (context, __) {
+        return NotificationPage.create(context, auth);
+      },
+    );
+  }
+
+  Widget _buildDashboard(Database database, AuthBase auth) {
     return NestedScrollView(
+      physics: BouncingScrollPhysics(),
       headerSliverBuilder: (context, value) {
         return [
           SliverAppBar(
-            backgroundColor: CustomColors.indigoDark,
-            expandedHeight: MediaQuery.of(context).size.height * 0.12,
+            backgroundColor: Colors.white,
+            expandedHeight: 90,
             shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
@@ -125,13 +146,10 @@ class _ParentPageState extends State<ParentPage>
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Time's Up",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    color: CustomColors.indigoLight,
-                    fontSize: 22,
-                  ),
+                Icon(
+                  Icons.menu_rounded,
+                  color: CustomColors.indigoPrimary,
+                  size: 25,
                 ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(side: BorderSide.none),
@@ -141,118 +159,92 @@ class _ParentPageState extends State<ParentPage>
                     textColor: Colors.indigo,
                     description: 'change the settings here',
                     showArrow: true,
-                    child: Icon(
-                      Icons.settings,
-                      color: Colors.white,
+                    child: CircleAvatar(
+                      child: Icon(Icons.person),
                     ),
                   ),
-                )
+                ),
               ],
             ),
             pinned: true,
             floating: true,
-            bottom: TabBar(
-              indicatorPadding: EdgeInsets.all(4.0),
-              physics: BouncingScrollPhysics(),
-              controller: _tabController,
-              // give the indicator a decoration (color and border radius)
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.white,
-              ),
-
-              labelColor: Colors.indigo,
-              unselectedLabelColor: Colors.white,
-              tabs: [
-                // first tab [you can add an icon using the icon property]
-                Tab(
-                  text: 'Dashboard',
-                ),
-
-                // second tab [you can add an icon using the icon property]
-                Tab(
-                  text: 'Notifications',
-                ),
-              ],
-            ),
           ),
         ];
       },
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          /// Tab bar view here
-          Expanded(
-            child: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: _tabController,
-              children: [
-                // first tab bar view widget
-                CustomScrollView(
-                  physics: BouncingScrollPhysics(),
-                  slivers: <Widget>[
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          ListTile(
-                            title: Text(
-                              'My Children',
-                              style: TextStyle(color: Colors.indigo),
-                            ),
-                            subtitle: Text(
-                              'Choose child to get more infos - scroll right ',
-                              style: TextStyle(color: Colors.grey.shade400),
-                            ),
-                            trailing: Icon(
-                              Icons.info_outline_rounded,
-                              color: Colors.deepOrangeAccent.shade100,
-                            ),
-                          ).p8,
-                          SizedBox(height: 3),
-                          _buildChildrenList(database),
-                          _header(),
-                          Container(
-                            margin: EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              color: Colors.black.withOpacity(0.14),
-                            ),
-                            child: GestureDetector(
-                              onLongPress: () => setState(() {
-                                mapScreenState = MapScreenState.Full;
-                              }),
-                              child: Consumer<Position?>(
-                                builder: (_, position, __) {
-                                  return (position != null)
-                                      ? Geo(position, database)
-                                      : LoadingMap();
-                                },
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          FeatureWidget(
-                            title: '-- 00 h:00 min --',
-                            icon: Icons.access_alarm,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                Provider<NotificationService>(
-                  create: (_) => NotificationService(),
-                  builder: (context, __) {
-                    return NotificationPage.create(context, widget.auth!);
-                  },
-                ),
-              ],
+      body: Scaffold(
+        floatingActionButton: Showcase(
+          key: _addKey,
+          textColor: Colors.indigo,
+          description: 'Add a new child here ',
+          child: FloatingActionButton(
+            onPressed: () => EditChildPage.show(
+              context,
+              database: Provider.of<Database>(context, listen: false),
             ),
+            child: const Icon(Icons.add),
           ),
-        ],
+        ),
+        body: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  DisplayText(
+                    fontSize: 35,
+                    text: 'Welcome',
+                    style: TextStyle(
+                      color: Colors.grey.shade300,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ).hP8,
+                  ListTile(
+                    title: Text(
+                      'My Children',
+                      style: TextStyle(color: Colors.indigo),
+                    ),
+                    subtitle: Text(
+                      'Choose child to get more infos - scroll right ',
+                      style: TextStyle(color: Colors.grey.shade400),
+                    ),
+                    trailing: Icon(
+                      Icons.info_outline_rounded,
+                      color: Colors.deepOrangeAccent.shade100,
+                    ),
+                  ).p8,
+                  _buildChildrenList(database),
+                  _header(),
+                  SummaryTile(),
+                  // Row(
+                  //   children: [
+                  //     InfoBox(
+                  //       icon: Icons.volume_up_outlined,
+                  //       iconColor: CustomColors.indigoDark,
+                  //       child: Container(
+                  //         width: 100,
+                  //         child: Text(
+                  //           ' In this section you will be able to track what '
+                  //           'your child is listening to.',
+                  //           style: TextStyle(color: Colors.grey),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     InfoBox(
+                  //       icon: Icons.lightbulb,
+                  //       iconColor: CustomColors.indigoDark,
+                  //       child: Text(' This is a live event'),
+                  //     ),
+                  //   ],
+                  // ),
+                  // FeatureWidget(
+                  //   title: '🚀 10 h:00 min',
+                  //   icon: Icons.timelapse_sharp,
+                  // ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -263,8 +255,7 @@ class _ParentPageState extends State<ParentPage>
       description: 'Tap on the child to display infos',
       key: _childListKey,
       child: Container(
-        decoration: CustomDecoration.withShadowDecoration,
-        height: 160.0,
+        height: 165.0,
         child: StreamBuilder<List<ChildModel?>>(
           stream: database.childrenStream(),
           builder: (context, AsyncSnapshot snapshot) {
@@ -314,39 +305,24 @@ class _ParentPageState extends State<ParentPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 20.0),
-          child: Text(
-            "Follow your child's location ",
-            style: TextStyle(color: CustomColors.indigoLight),
-          ),
+        DisplayText(
+          text: 'Get to see our child live app usage',
+          style: TextStyle(color: Colors.indigo),
         ),
-        Text(
-          'Long Press the map to open the full screen mode',
-          style: TextStyle(color: CustomColors.greenPrimary),
+        SizedBox(height: 2),
+        DisplayText(
+          text: 'Click on it to have the full report',
+          style: TextStyle(color: Colors.grey.shade400),
         ),
       ],
     ).p16;
   }
 
-  Widget _buildMapFullScreen(database) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () {
-            setState(() {
-              mapScreenState = MapScreenState.Small;
-            });
-          },
-        ),
-      ),
-      body: SafeArea(
-        child: Consumer<Position>(
-          builder: (_, position, __) {
-            return GeoFull(position, database);
-          },
-        ),
-      ),
+  Widget _buildMapFullScreen(Database database) {
+    return Consumer<Position?>(
+      builder: (_, position, __) {
+        return position != null ? GeoFull(position, database) : LoadingMap();
+      },
     );
   }
 }

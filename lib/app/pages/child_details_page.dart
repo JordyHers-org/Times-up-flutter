@@ -12,6 +12,7 @@ import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/database.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -60,18 +61,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       stream: widget.database.childStream(childId: widget.childModel.id),
       builder: (context, snapshot) {
         final child = snapshot.data;
-        final childName = child?.name ?? '';
         return Scaffold(
-          appBar: AppBar(
-            elevation: 2.0,
-            title: Text(childName),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => _confirmDelete(context, widget.childModel),
-              ),
-            ],
-          ),
           body: _buildContentTemporary(context, child),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.more_vert),
@@ -89,9 +79,46 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
 
   Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
     if (model != null) {
-      return SingleChildScrollView(
+      return NestedScrollView(
         physics: BouncingScrollPhysics(),
-        child: Column(
+        headerSliverBuilder: (context, value) {
+          return [
+            SliverAppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                color: CustomColors.indigoPrimary,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              iconTheme: IconThemeData(color: Colors.red),
+              backgroundColor: Colors.white,
+              expandedHeight: 50,
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+              ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox.shrink(),
+                  IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    onPressed: () => _confirmDelete(context, widget.childModel),
+                  ),
+                ],
+              ),
+              pinned: true,
+              floating: true,
+            )
+          ];
+        },
+        body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -130,8 +157,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                             content: const Text('Code Copied!'),
                           );
 
-                          // Find the ScaffoldMessenger in the widget tree
-                          // and use it to show a SnackBar.
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         });
                       },
@@ -290,37 +315,33 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             SizedBox(height: 58),
             isPushed == true && model.appsUsageModel.isNotEmpty
                 ? ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: model.appsUsageModel.length,
                     itemBuilder: (context, index) {
-                      return SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            ListTile(
-                              leading: Icon(Icons.phone_android),
-                              title: Text(
-                                '${model.appsUsageModel[index]['appName']}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      return Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          ListTile(
+                            leading: Icon(Icons.phone_android),
+                            title: Text(
+                              '${model.appsUsageModel[index]['appName']}',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
                               ),
-                              trailing: Text(
-                                model.appsUsageModel[index]['usage']
-                                    .toString()
-                                    .t(),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.indigo,
-                                ),
+                            ),
+                            trailing: Text(
+                              model.appsUsageModel[index]['usage']
+                                  .toString()
+                                  .t(),
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.indigo,
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       );
                     },
                   )
