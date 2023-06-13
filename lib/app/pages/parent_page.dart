@@ -272,7 +272,7 @@ class _ParentPageState extends State<ParentPage>
                         ),
                       ),
                     ],
-                  ).p16,
+                  ).p4,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -303,7 +303,7 @@ class _ParentPageState extends State<ParentPage>
                         ),
                       ),
                     ],
-                  ).p16,
+                  ).p4,
                   FeatureWidget(
                     child: Image.asset('images/google-logo.png'),
                     icon: Icons.timelapse_sharp,
