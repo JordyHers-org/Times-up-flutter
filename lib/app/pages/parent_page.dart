@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
+
 import 'package:parental_control/app/config/geo_full.dart';
 import 'package:parental_control/app/config/geo_location.dart';
 import 'package:parental_control/app/pages/child_details_page.dart';
@@ -13,13 +17,10 @@ import 'package:parental_control/common_widgets/summary_tile.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
+import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
-import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
-
-import 'notification_page.dart';
 
 enum MapScreenState { Full, Small }
 
@@ -62,6 +63,8 @@ class _ParentPageState extends State<ParentPage>
   };
 
   late bool _isShowCaseActivated;
+  late GeoLocatorService geoService;
+  MapScreenState mapScreenState = MapScreenState.Small;
 
   final GlobalKey _settingsKey = GlobalKey();
   final GlobalKey _childListKey = GlobalKey();

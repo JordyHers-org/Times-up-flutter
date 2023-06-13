@@ -10,38 +10,34 @@ import 'package:parental_control/sign_in/sign_in_page.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 
+enum AppSide { parent, child }
+
 class LandingPage extends StatefulWidget {
   @override
   _LandingPageState createState() => _LandingPageState();
 }
 
 class _LandingPageState extends State<LandingPage> {
-  late bool _isParent;
-  late GeoLocatorService geoService;
+  late AppSide _side;
 
-  ///In order to pass this value auth declared in the [STATE]
-  ///for Stateful classes to the actual LandingPage widget
-  ///we need to use the key word [widget.auth]
   @override
   void initState() {
-    setFlagParentOrChild();
-    geoService = Provider.of<GeoLocatorService>(context, listen: false);
+    _setFlagParentOrChild();
     super.initState();
   }
 
-  ///Function to set sharedPreference On [Parent or Child] devices
-  Future<void> setFlagParentOrChild() async {
-    var isParent = await SharedPreference().getParentOrChild();
+  Future<void> _setFlagParentOrChild() async {
+    var _isParent = await SharedPreference().getParentOrChild();
     setState(() {
-      _isParent = isParent;
+      _isParent ? _side = AppSide.parent : _side = AppSide.child;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
+    final geoService = Provider.of<GeoLocatorService>(context, listen: false);
     return StreamBuilder<User?>(
-      ///auth.authStateChanges is the stream  declared in the [auth.dart] class
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
@@ -49,45 +45,11 @@ class _LandingPageState extends State<LandingPage> {
           if (user == null) {
             return SignInPage.create(context);
           }
-
-          /// Here we have added a provider [Database] as a parent of the Parent
-          /// Page
-          switch (_isParent) {
-            /// THIS CASE SET THE APP AS A PARENT APP
-            case true:
-              return Provider<Database>(
-                create: (_) => FirestoreDatabase(uid: user.uid),
-
-                ///Here the ShowCaseWidget triggers the Showcase view
-                ///and passes the context
-                child: FutureProvider(
-                  initialData: null,
-                  create: (context) => geoService.getInitialLocation(),
-                  child: ShowCaseWidget(
-                    builder: Builder(
-                      builder: (context) => ParentPage.create(context, auth),
-                    ),
-                    autoPlay: false,
-
-                    //autoPlayDelay: Duration(seconds: 3),
-                    // autoPlayLockEnable: true,
-                  ),
-                ),
-              );
-            case false:
-
-              /// THIS CASE SET THE APP AS A PARENT APP
-              return Provider<AuthBase>(
-                create: (_) => Auth(),
-                child: Provider<Database>(
-                  create: (_) => FirestoreDatabase(auth: auth, uid: user.uid),
-                  child: FutureProvider(
-                    initialData: geoService.getCurrentLocation,
-                    create: (context) => geoService.getInitialLocation(),
-                    child: SetChildPage.create(context),
-                  ),
-                ),
-              );
+          switch (_side) {
+            case AppSide.parent:
+              return _buildParentSide(user, geoService, auth);
+            case AppSide.child:
+              return _buildChildSide(auth, user, geoService, context);
             default:
               return CircularProgressIndicator();
           }
@@ -98,6 +60,45 @@ class _LandingPageState extends State<LandingPage> {
           ),
         );
       },
+    );
+  }
+
+  Provider<AuthBase> _buildChildSide(
+    AuthBase auth,
+    User user,
+    GeoLocatorService geoService,
+    BuildContext context,
+  ) {
+    return Provider<AuthBase>(
+      create: (_) => Auth(),
+      child: Provider<Database>(
+        create: (_) => FireStoreDatabase(auth: auth, uid: user.uid),
+        child: FutureProvider(
+          initialData: geoService.getCurrentLocation,
+          create: (context) => geoService.getInitialLocation(),
+          child: SetChildPage.create(context),
+        ),
+      ),
+    );
+  }
+
+  Provider<Database> _buildParentSide(
+    User user,
+    GeoLocatorService geoService,
+    AuthBase auth,
+  ) {
+    return Provider<Database>(
+      create: (_) => FireStoreDatabase(uid: user.uid),
+      child: FutureProvider(
+        initialData: null,
+        create: (context) => geoService.getInitialLocation(),
+        child: ShowCaseWidget(
+          builder: Builder(
+            builder: (context) => ParentPage.create(context, auth),
+          ),
+          autoPlay: false,
+        ),
+      ),
     );
   }
 }

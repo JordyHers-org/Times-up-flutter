@@ -19,7 +19,6 @@ class SignInPage extends StatelessWidget {
   final SignInManager manager;
   final bool isLoading;
 
-  ///Here we had the provider wrapping the Sign in Page
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
     return ChangeNotifierProvider<ValueNotifier<bool>>(
@@ -50,7 +49,6 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  ///Future void Function called to Sign In with Google
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
       await manager.signInWithGoogle();
@@ -59,7 +57,6 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-  ///Future void Function called to Sign In with Facebook
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
       await manager.signInWithFacebook();
@@ -68,13 +65,7 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-  ///Future void Function called to Sign In with Email and password
-  ///
-  ///[fullscreenDialog] gives the orientation that the page will have
-  /// while created from bottom to to if false or slide on the side
-  /// (ONLY FOR IOS)
   Future<void> _signInWithEmail(BuildContext context) async {
-    debugPrint('SIGNIN WITH EMAIL =>');
     try {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(

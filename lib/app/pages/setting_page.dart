@@ -62,9 +62,7 @@ class SettingsPage extends StatelessWidget {
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.language,
-            onPressed: () {
-              //TODO: ADD EASY LOCALIZATION TO SET UP LIVE TRANSLATION
-            },
+            onPressed: () {},
             text: 'Change language',
           ),
           ProfileListItem(
@@ -74,9 +72,7 @@ class SettingsPage extends StatelessWidget {
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.user_shield,
-            onPressed: () {
-              //TODO: ADD CONTACT US PAGE
-            },
+            onPressed: () {},
             text: 'Contact us',
           ),
         ],

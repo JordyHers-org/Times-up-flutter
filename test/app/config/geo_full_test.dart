@@ -3,19 +3,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parental_control/app/config/geo_full.dart';
+import 'package:parental_control/services/auth.dart';
+import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/utils/constants.dart';
+import 'package:provider/provider.dart';
 
-import '../../helpers/test_helpers.dart';
 import '../../helpers/test_helpers.mocks.dart';
 import '../../mocks.dart';
 
 void main() {
   late MockDatabase mockDatabase;
+  late MockAuthBase mockAuthBase;
+  late MockGeoLocatorService mockGeoLocatorService;
   late Position position;
 
   setUp(() {
     ///A new mock authentication service will be created every time
     ///we run a test.
+    mockAuthBase = MockAuthBase();
+    mockGeoLocatorService = MockGeoLocatorService();
     mockDatabase = MockDatabase();
     position = Dummy.position;
   });
@@ -23,8 +29,21 @@ void main() {
   testWidgets(
     'GeoFull Test',
     (tester) async {
-      final child = GeoFull(position, mockDatabase);
-      await Helper.launch(child, tester);
+      final child = Provider<GeoLocatorService>(
+        create: (_) => mockGeoLocatorService,
+        child: Provider<AuthBase>(
+          create: (_) => mockAuthBase,
+          builder: (context, __) => MaterialApp(
+            home: GeoFull.create(
+              context,
+              position: position,
+              database: mockDatabase,
+              auth: mockAuthBase,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpWidget(child);
 
       // Use the Finder to locate the widget to be zoomed
       final map = find.byType(GoogleMap);
@@ -36,8 +55,21 @@ void main() {
   testWidgets(
     'GeoFull Test',
     (tester) async {
-      final child = GeoFull(position, mockDatabase);
-      await Helper.launch(child, tester);
+      final child = Provider<GeoLocatorService>(
+        create: (_) => mockGeoLocatorService,
+        child: Provider<AuthBase>(
+          create: (_) => mockAuthBase,
+          builder: (context, __) => MaterialApp(
+            home: GeoFull.create(
+              context,
+              position: position,
+              database: mockDatabase,
+              auth: mockAuthBase,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpWidget(child);
 
       // Use the Finder to locate the GoogleMap widget
       final googleMapFinder = find.descendant(

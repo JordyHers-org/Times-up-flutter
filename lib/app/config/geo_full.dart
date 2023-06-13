@@ -16,8 +16,29 @@ import 'package:provider/provider.dart';
 class GeoFull extends StatefulWidget {
   final Position initialPosition;
   final Database database;
+  final AuthBase auth;
+  final GeoLocatorService geo;
 
-  GeoFull(this.initialPosition, this.database);
+  GeoFull(this.initialPosition, this.database, this.auth, this.geo);
+
+  static Widget create(
+    BuildContext context, {
+    required Position position,
+    required Database database,
+    required AuthBase auth,
+  }) {
+    final geoService = Provider.of<GeoLocatorService>(
+      context,
+      listen: false,
+    );
+
+    return GeoFull(
+      position,
+      database,
+      auth,
+      geoService,
+    );
+  }
 
   @override
   State<StatefulWidget> createState() => _GeoFullState();
@@ -34,11 +55,9 @@ class _GeoFullState extends State<GeoFull> {
 
   @override
   void initState() {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final geoService = Provider.of<GeoLocatorService>(context, listen: false);
-    _currentUser = auth.currentUser!;
-    geoService.getCurrentLocation.listen((position) {
-      centerScreen(position);
+    _currentUser = widget.auth.currentUser!;
+    widget.geo.getCurrentLocation.listen((position) {
+      _centerScreen(position);
     });
     _getAllChildLocations();
     super.initState();
@@ -126,7 +145,7 @@ class _GeoFullState extends State<GeoFull> {
     );
   }
 
-  Future<void> centerScreen(Position position) async {
+  Future<void> _centerScreen(Position position) async {
     final controller = await _controller.future;
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(

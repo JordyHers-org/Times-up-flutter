@@ -22,30 +22,23 @@ class SetChildPage extends StatefulWidget {
 class _SetChildPageState extends State<SetChildPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _key = TextEditingController();
-
   final FocusNode _nameFocusNode = FocusNode();
   final FocusNode _keyFocusNode = FocusNode();
-  GeoLocatorService geo = GeoLocatorService();
   var appState = AppState.complete;
 
-  ///void Dispose Method
   @override
   void dispose() {
     _nameController.dispose();
     _key.dispose();
-
     _nameFocusNode.dispose();
     _keyFocusNode.dispose();
     super.dispose();
   }
 
-  void _submit(String name, String key) async {
-    final position = await geo.getInitialLocation();
-    debugPrint(
-      'Method latitude :${position.latitude} ,'
-      ' Longitude : ${position.longitude}',
-    );
+  void _submit(String name, String key, BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
+    final geo = Provider.of<GeoLocatorService>(context, listen: false);
+    final position = await geo.getInitialLocation();
     try {
       final response = await database.getUserCurrentChild(
         name,
@@ -67,10 +60,10 @@ class _SetChildPageState extends State<SetChildPage> {
         await showAlertDialog(
           context,
           title: 'No Such file in Database',
-          content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
+          content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
           defaultActionText: 'OK',
         );
-        debugPrint('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
+        debugPrint('ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -102,15 +95,14 @@ class _SetChildPageState extends State<SetChildPage> {
           labelText: 'Unique Key',
         ),
       ),
-      SizedBox(height: 8.0),
-      SizedBox(height: 8.0),
+      SizedBox(height: 16.0),
       FormSubmitButton(
         text: appState == AppState.complete ? 'Submit' : 'Loading ...',
         onPressed: () {
           setState(() {
             appState = AppState.loading;
           });
-          _submit(_nameController.text, _key.text);
+          _submit(_nameController.text, _key.text, context);
         },
       ),
       SizedBox(height: 8.0),

@@ -39,7 +39,7 @@ import 'test_helpers.mocks.dart';
     MockSpec<AppUsage>(
       onMissingStub: OnMissingStub.returnDefault,
     ),
-    MockSpec<FirestoreDatabase>(
+    MockSpec<FireStoreDatabase>(
       onMissingStub: OnMissingStub.returnDefault,
     ),
     MockSpec<NotificationService>(
