@@ -19,17 +19,17 @@ void main() {
         Provider<AppUsageService>(create: (context) => AppUsageService()),
         Provider<GeoLocatorService>(create: (context) => GeoLocatorService()),
       ],
-      child: MyApp(),
+      child: TimesUpApp(),
     ),
   );
 }
 
-class MyApp extends StatefulWidget {
+class TimesUpApp extends StatefulWidget {
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<TimesUpApp> createState() => _TimesUpAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _TimesUpAppState extends State<TimesUpApp> {
   @override
   Widget build(BuildContext context) {
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
@@ -39,9 +39,7 @@ class _MyAppState extends State<MyApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       home: FutureBuilder(
-        future: Future.wait([
-          geoService.getInitialLocation(),
-        ]),
+        future: geoService.getInitialLocation(),
         builder: (context, _) => ScreensController(),
       ),
     );
