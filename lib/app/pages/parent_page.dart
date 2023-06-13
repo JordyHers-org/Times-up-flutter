@@ -305,7 +305,11 @@ class _ParentPageState extends State<ParentPage>
                     ],
                   ).p16,
                   FeatureWidget(
-                    title: '🚀 10:00 ',
+                    child: Image.asset('images/google-logo.png'),
+                    icon: Icons.timelapse_sharp,
+                  ),
+                  FeatureWidget(
+                    child: Image.asset('images/facebook-logo.png'),
                     icon: Icons.timelapse_sharp,
                   ),
                 ],

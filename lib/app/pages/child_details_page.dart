@@ -220,6 +220,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 SizedBox(height: 58),
                 model.appsUsageModel.isNotEmpty
                     ? ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: model.appsUsageModel.length,
                         itemBuilder: (context, index) {
