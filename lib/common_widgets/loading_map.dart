@@ -5,11 +5,12 @@ class LoadingMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 250,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(16)),
-        color: Colors.black.withOpacity(0.14),
+    return Center(
+      child: Transform.scale(
+        scale: 1.5,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+        ),
       ),
     );
   }
