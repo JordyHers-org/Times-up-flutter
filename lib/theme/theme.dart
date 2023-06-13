@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomColors {
   static Color indigoPrimary = Color(0xFF283593);
@@ -26,7 +25,6 @@ class CustomDecoration {
 class AppTheme {
   const AppTheme();
   static ThemeData lightTheme = ThemeData(
-    textTheme: GoogleFonts.interTextTheme(),
     primarySwatch: buildMaterialColor(CustomColors.indigoDark),
     primaryColor: CustomColors.indigoDark,
     scaffoldBackgroundColor: Colors.white,
@@ -83,6 +81,9 @@ extension PaddingHelper on Widget {
   /// Vertical Padding 16
   Padding get vP16 =>
       Padding(padding: EdgeInsets.symmetric(vertical: 16), child: this);
+
+  Padding get vP36 =>
+      Padding(padding: EdgeInsets.symmetric(vertical: 36), child: this);
   Padding get vP8 =>
       Padding(padding: EdgeInsets.symmetric(vertical: 8), child: this);
   Padding get vP4 =>
