@@ -9,12 +9,13 @@ class SummaryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10),
-      height: 150,
+      height: 200,
       width: 400,
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: Colors.grey.shade200)),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
       child: Column(
         children: [
           Row(
