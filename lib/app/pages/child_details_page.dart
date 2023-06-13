@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/bar_chart.dart';
-import 'package:parental_control/common_widgets/custom_raised_button.dart';
+import 'package:parental_control/common_widgets/custom_button.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
@@ -56,8 +56,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
     }
   }
 
-  var isPushed = false;
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ChildModel?>(
@@ -66,14 +64,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         final child = snapshot.data;
         return Scaffold(
           body: _buildContentTemporary(context, child),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.more_vert),
-            onPressed: () {
-              setState(() {
-                isPushed = !isPushed;
-              });
-            },
-          ),
         );
       },
     );
@@ -120,201 +110,155 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             )
           ];
         },
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                _buildProfile(model),
-                Column(
-                  children: [
-                    Text(
-                      'Enter this code on the child\'s device',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black.withOpacity(0.35),
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Long press to copy or double tap to share',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.black.withOpacity(0.35),
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    GestureDetector(
-                      onLongPress: () {
-                        Clipboard.setData(
-                          ClipboardData(text: model.id.toString()),
-                        ).then((value) {
-                          final snackBar = SnackBar(
-                            content: const Text('Code Copied!'),
-                          );
+        body: CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: <Widget>[
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                SizedBox(height: 8),
+                ListTile(
+                  title: Text(
+                    'Enter this code on the child\'s device',
+                    style: TextStyle(color: Colors.indigo),
+                  ),
+                  subtitle: Text(
+                    'Long press to copy or double tap to share ',
+                    style: TextStyle(color: Colors.grey.shade400),
+                  ),
+                ),
+                GestureDetector(
+                  onLongPress: () {
+                    Clipboard.setData(
+                      ClipboardData(text: model.id.toString()),
+                    ).then((value) {
+                      final snackBar = SnackBar(
+                        content: const Text('Code Copied!'),
+                      );
 
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        });
-                      },
-                      onDoubleTap: () async {
-                        await Share.share(
-                          "Enter this code on child's device:\n${model.id}",
-                        );
-                      },
-                      child: Text(
-                        model.id,
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent,
-                        ),
-                      ),
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    });
+                  },
+                  onDoubleTap: () async {
+                    await Share.share(
+                      "Enter this code on child's device:\n${model.id}",
+                    );
+                  },
+                  child: Text(
+                    model.id,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrangeAccent,
+                    ),
+                  ),
+                ).hP16,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    _buildProfile(model),
+                  ],
+                ).p16,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 18),
+                      height: 205,
+                      width: double.infinity,
+                      child: model.appsUsageModel.isNotEmpty
+                          ? AppUsageChart(
+                              isEmpty: false,
+                              name: model.name,
+                            )
+                          : AppUsageChart(
+                              isEmpty: true,
+                              name: model.name,
+                            ),
                     ),
                   ],
                 ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+                SizedBox(height: 18),
+                ListTile(
+                  title: Text(
+                    'Send notifications to your Child\'s device',
+                    style: TextStyle(color: Colors.indigo),
+                  ),
+                  subtitle: Text(
+                    'Push the button ',
+                    style: TextStyle(color: Colors.grey.shade400),
+                  ),
+                ).p8,
+                SizedBox(height: 8),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 18),
-                  height: 205,
-                  width: double.infinity,
-                  child: model.appsUsageModel.isNotEmpty
-                      ? AppUsageChart(
-                          isEmpty: false,
-                          name: model.name,
-                        )
-                      : AppUsageChart(
-                          isEmpty: true,
-                          name: model.name,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomButton(
+                        title: ' Bed Time',
+                        color: Colors.indigo,
+                        onPress: () async => await _sendNotification(
+                          context,
+                          model,
+                          'Hey Go to bed Now',
                         ),
-                ),
-                SizedBox(height: 6),
-              ],
-            ),
-            SizedBox(height: 18),
-            SizedBox(
-              height: 2,
-              width: double.infinity,
-              child: Container(
-                color: Colors.indigo,
-              ),
-            ),
-            SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: RichText(
-                text: TextSpan(
-                  text: "Send notifications to your Child's device",
-                  style: TextStyle(color: Colors.indigo, fontSize: 14),
-                ),
-              ),
-            ),
-            SizedBox(height: 2),
-            Padding(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: RichText(
-                text: TextSpan(
-                  text: 'Push the button ',
-                  style: TextStyle(color: Colors.grey, fontSize: 11),
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(75.0, 22, 75, 12),
-                    child: CustomRaisedButton(
-                      child: Text(
-                        ' Bed Time',
-                        style: TextStyle(fontSize: 17, color: Colors.white),
                       ),
-                      borderRadius: 12,
-                      color: Colors.indigo,
-                      height: 45,
-                      onPressed: () async => await _sendNotification(
-                        context,
-                        model,
-                        'Hey Go to bed Now',
+                      CustomButton(
+                        title: 'Homework Time',
+                        color: CustomColors.indigoLight,
+                        onPress: () async => await _sendNotification(
+                          context,
+                          model,
+                          'Homework Time',
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(75.0, 12, 75, 6),
-                    child: CustomRaisedButton(
-                      child: Text(
-                        'Homework Time',
-                        style: TextStyle(fontSize: 17),
+                  height: 150,
+                ),
+                SizedBox(height: 58),
+                model.appsUsageModel.isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: model.appsUsageModel.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              ListTile(
+                                leading: Icon(Icons.phone_android),
+                                title: Text(
+                                  '${model.appsUsageModel[index]['appName']}',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                trailing: Text(
+                                  model.appsUsageModel[index]['usage']
+                                      .toString()
+                                      .t(),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.indigo,
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      )
+                    : EmptyContent(
+                        message: 'Tap on more to display apps statistics \n'
+                            '        Tap again to hide',
+                        title: 'Show apps Statistics',
+                        fontSizeMessage: 12,
+                        fontSizeTitle: 23,
                       ),
-                      borderRadius: 12,
-                      color: Colors.white,
-                      height: 45,
-                      onPressed: () async => await _sendNotification(
-                        context,
-                        model,
-                        'Homework Time',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              height: 150,
-            ),
-            SizedBox(height: 58),
-            isPushed == true && model.appsUsageModel.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: model.appsUsageModel.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          ListTile(
-                            leading: Icon(Icons.phone_android),
-                            title: Text(
-                              '${model.appsUsageModel[index]['appName']}',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            trailing: Text(
-                              model.appsUsageModel[index]['usage']
-                                  .toString()
-                                  .t(),
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.indigo,
-                              ),
-                            ),
-                          )
-                        ],
-                      );
-                    },
-                  )
-                : EmptyContent(
-                    message: 'Tap on more to display apps statistics \n'
-                        '        Tap again to hide',
-                    title: 'Show apps Statistics',
-                    fontSizeMessage: 12,
-                    fontSizeTitle: 23,
-                  ),
-            SizedBox(height: 50)
-          ],
-        ),
+              ]))
+            ]),
       );
     } else {
       return EmptyContent(

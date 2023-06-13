@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -36,7 +35,7 @@ class AppUsageChartState extends State<AppUsageChart> {
     return AspectRatio(
       aspectRatio: 1,
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: Theme.of(context).primaryColor,
         child: Stack(
           children: <Widget>[

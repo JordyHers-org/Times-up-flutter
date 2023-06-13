@@ -77,6 +77,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
           return data!.isNotEmpty
               ? ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Dismissible(

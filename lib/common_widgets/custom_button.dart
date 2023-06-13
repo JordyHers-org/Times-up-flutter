@@ -14,6 +14,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Center(
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
