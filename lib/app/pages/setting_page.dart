@@ -83,36 +83,47 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-        actions: [
-          IconButton(
-            onPressed: () => confirmSignOut(context, auth),
-            icon: Icon(Icons.logout),
-          )
-        ],
-      ),
       body: Stack(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 18.0, left: 8, bottom: 8),
+          Align(
+            alignment: Alignment.topCenter,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(
+                        Icons.chevron_left,
+                        size: 33,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => confirmSignOut(context, auth),
+                      icon: Icon(
+                        Icons.logout,
+                        size: 23,
+                      ),
+                    )
+                  ],
+                ),
                 buildItems(context),
                 ListTile(
                   leading: IconButton(
                     icon: Icon(Icons.contact_support_sharp),
                     onPressed: () {},
                   ),
-                  trailing: Text(
-                    'Developed by Jordy-Hershel',
-                    style: TextStyle(color: Colors.redAccent, fontSize: 12),
+                  title: Text(
+                    'Copyright© JordyHers',
+                    style:
+                        TextStyle(color: CustomColors.indigoDark, fontSize: 12),
                   ),
                 )
               ],
             ),
-          )
+          ).vP36
         ],
       ),
     );
@@ -147,10 +158,6 @@ class ProfileListItem extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: 20,
         ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.grey.shade200,
-        ),
         child: Row(
           children: <Widget>[
             Icon(
@@ -165,9 +172,9 @@ class ProfileListItem extends StatelessWidget {
             Spacer(),
             if (hasNavigation)
               Icon(
-                LineAwesomeIcons.alternate_arrow_circle_right,
+                Icons.chevron_right,
                 size: 25,
-                color: CustomColors.greenPrimary,
+                color: CustomColors.indigoDark,
               ),
           ],
         ),
