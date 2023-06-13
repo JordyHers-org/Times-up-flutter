@@ -2,11 +2,11 @@ include: package:pedantic/analysis_options.1.9.0.yaml
 
 linter:
   rules:
-    - require_trailing_commas
-    - prefer_const_declarations
-    - lines_longer_than_80_chars
-    - always_declare_return_types
-    - prefer_final_fields
-    - prefer_single_quotes
-    - file_names
-    - avoid_print
+    require_trailing_commas : true
+    prefer_const_declarations : true
+    lines_longer_than_80_chars : true
+    always_declare_return_types : true
+    prefer_final_fields: true
+    prefer_single_quotes: true
+    file_names: true
+    avoid_print: true
