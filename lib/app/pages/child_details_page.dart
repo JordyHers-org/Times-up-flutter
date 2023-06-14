@@ -18,6 +18,7 @@ import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({
     required this.database,

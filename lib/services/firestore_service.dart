@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 class FirestoreService {
   FirestoreService._();
@@ -12,7 +13,7 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    debugPrint('$path: $data');
+    Logging.logger.d('$path: $data');
     await reference.set(data);
   }
 
@@ -21,7 +22,8 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    debugPrint('$path: $data');
+    Logging.logger.d('$path: $data');
+
     await reference.update(data);
   }
 
@@ -31,7 +33,8 @@ class FirestoreService {
   }) async {
     final reference =
         FirebaseFirestore.instance.collection(path).doc(data['id']);
-    debugPrint('$path: $data');
+    Logging.logger.d('$path: $data');
+
     await reference.set(data);
   }
 
@@ -40,7 +43,8 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.collection(path).doc();
-    debugPrint('$path: $data');
+    Logging.logger.d('$path: $data');
+
     await reference.set(data);
   }
 

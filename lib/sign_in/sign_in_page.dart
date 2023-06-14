@@ -7,7 +7,7 @@ import 'package:parental_control/sign_in/sign_in_manager.dart';
 import 'package:parental_control/sign_in/social_sign_in_button.dart';
 import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
-
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'email_sign_in_page.dart';
 
 class SignInPage extends StatelessWidget {
@@ -66,6 +66,7 @@ class SignInPage extends StatelessWidget {
   }
 
   Future<void> _signInWithEmail(BuildContext context) async {
+    Logging.logger.d('SIGNIN WITH EMAIL =>');
     try {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
@@ -74,7 +75,7 @@ class SignInPage extends StatelessWidget {
         ),
       );
     } on Exception catch (e) {
-      debugPrint('ERROR THROWN $e');
+      Logging.logger.e('ERROR THROWN $e');
     }
   }
 

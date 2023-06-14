@@ -23,6 +23,9 @@ import 'package:parental_control/theme/theme.dart';
 import 'package:parental_control/utils/data.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
+
+enum MapScreenState { Full, Small }
 
 class ParentPage extends StatefulWidget {
   const ParentPage({
@@ -73,6 +76,12 @@ class _ParentPageState extends State<ParentPage>
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _startShowCase() {
+    return ShowCaseWidget.of(context).startShowCase(
+      [_settingsKey, _childListKey, _addKey],
+    );
   }
 
   @override
@@ -252,7 +261,7 @@ class _ParentPageState extends State<ParentPage>
                 );
               }
             } else if (snapshot.hasError) {
-              debugPrint(snapshot.error.toString());
+              Logging.logger.e(snapshot.error);
               return EmptyContent(
                 title: 'Something went wrong ',
                 message: 'Can\'t load items right now',

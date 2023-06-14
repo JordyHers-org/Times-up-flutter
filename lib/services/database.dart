@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
-// import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/app_usage_service.dart';
@@ -176,10 +175,10 @@ class FireStoreDatabase implements Database {
         await setChild(_child!);
         return _child;
       } else {
-        debugPrint(' NO SUCH FILE ON DATABASE ');
+        Logging.logger.e(' NO SUCH FILE ON DATABASE ');
       }
     });
-    debugPrint(_child.toString());
+    Logging.logger.d(' NO SUCH FILE ON DATABASE ');
     return _child!;
   }
 }
