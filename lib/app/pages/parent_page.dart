@@ -14,7 +14,7 @@ import 'package:parental_control/common_widgets/child_horizontal_view.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/feature_widget.dart';
 import 'package:parental_control/common_widgets/loading_map.dart';
-import 'package:parental_control/models/child_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
@@ -76,10 +76,15 @@ class _ParentPageState extends State<ParentPage>
 
     _isShowCaseActivated == false
         ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) => ShowCaseWidget.of(context)
-                .startShowCase([_settingsKey, _childListKey, _addKey]),
+            (_) => _startShowCase(),
           )
         : null;
+  }
+
+  void _startShowCase() {
+    return ShowCaseWidget.of(context).startShowCase(
+      [_settingsKey, _childListKey, _addKey],
+    );
   }
 
   @override
@@ -204,8 +209,9 @@ class _ParentPageState extends State<ParentPage>
                               'Choose child to get more infos - scroll right ',
                               style: TextStyle(color: Colors.grey.shade400),
                             ),
-                            trailing: Icon(
-                              Icons.info_outline_rounded,
+                            trailing: IconButton(
+                              onPressed: _startShowCase,
+                              icon: Icon(Icons.info_outline_rounded),
                               color: Colors.deepOrangeAccent.shade100,
                             ),
                           ).p8,

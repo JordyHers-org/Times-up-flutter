@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
-import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/notification_service.dart';

@@ -140,6 +140,11 @@ class _GeoState extends State<Geo> {
         markers: Set<Marker>.of(allMarkers),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
+          if (allMarkers.isEmpty) return;
+          setState(() {
+            final markerId = MarkerId(allMarkers.first.markerId.value);
+            markers[markerId] = allMarkers.first;
+          });
         },
       ),
     );

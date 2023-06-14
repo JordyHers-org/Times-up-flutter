@@ -17,3 +17,26 @@ extension ParseResult on String {
     return result;
   }
 }
+
+extension IsValidString on String {
+  bool isValid(String? value) {
+    if (value != null) {
+      return value.isNotEmpty;
+    }
+    return false;
+  }
+}
+
+extension TimeStringParsing on String {
+  double p() {
+    var timeComponents = split(':');
+
+    var hours = int.parse(timeComponents[0]);
+    var minutes = int.parse(timeComponents[1]);
+    var seconds = double.parse(timeComponents[2]);
+
+    var totalTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
+
+    return totalTimeInSeconds;
+  }
+}

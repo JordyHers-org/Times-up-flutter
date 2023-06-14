@@ -10,3 +10,10 @@ linter:
     - prefer_single_quotes
     - file_names
     - avoid_print
+
+analyzer:
+  exclude:
+    - '**.freezed.dart'
+    - '**.g.dart'
+    - '**.gr.dart'
+    - '**/generated_plugin_registrant.dart'
