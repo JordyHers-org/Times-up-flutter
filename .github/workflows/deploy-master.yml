@@ -65,6 +65,9 @@ jobs:
       - name: Generate
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
+      - name: Format
+        run:  dart fix --dry-run --apply
+
       - name: Analyze
         run: flutter analyze
 
