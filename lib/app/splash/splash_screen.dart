@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   CustomButton(
-                    color: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).primaryColor,
                     title: 'Parent device'.toUpperCase(),
                     onPress: () {
                       SharedPreference().setVisitingFlag();
@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   const SizedBox(height: 8),
                   CustomButton(
-                    color: CustomColors.greenPrimary,
+                    backgroundColor: CustomColors.greenPrimary,
                     title: 'Child device'.toUpperCase(),
                     onPress: () {
                       SharedPreference().setVisitingFlag();

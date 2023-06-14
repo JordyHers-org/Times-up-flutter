@@ -8,6 +8,7 @@ import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/jh_bar_chart.dart';
 import 'package:parental_control/common_widgets/jh_custom_button.dart';
+import 'package:parental_control/common_widgets/jh_header_widget.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
@@ -93,19 +94,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   bottomRight: Radius.circular(30),
                 ),
               ),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox.shrink(),
-                  IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
-                    onPressed: () => _confirmDelete(context, widget.childModel),
-                  ),
-                ],
-              ),
               pinned: true,
               floating: true,
             )
@@ -116,48 +104,41 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             slivers: <Widget>[
               SliverList(
                   delegate: SliverChildListDelegate([
-                SizedBox(height: 8),
-                ListTile(
-                  title: Text(
-                    'Enter this code on the child\'s device',
-                    style: TextStyle(color: Colors.indigo),
-                  ),
-                  subtitle: Text(
-                    'Long press to copy or double tap to share ',
-                    style: TextStyle(color: Colors.grey.shade400),
-                  ),
+                HeaderWidget(
+                  title: 'Enter this code on the child\'s device',
+                  subtitle: 'Long press to copy or double tap to share ',
                 ),
-                GestureDetector(
-                  onLongPress: () {
-                    Clipboard.setData(
-                      ClipboardData(text: model.id.toString()),
-                    ).then((value) {
-                      final snackBar = SnackBar(
-                        content: const Text('Code Copied!'),
-                      );
-
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    });
-                  },
-                  onDoubleTap: () async {
-                    await Share.share(
-                      "Enter this code on child's device:\n${model.id}",
-                    );
-                  },
-                  child: Text(
-                    model.id,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepOrangeAccent,
-                    ),
-                  ),
-                ).hP16,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     _buildProfile(model),
+                    GestureDetector(
+                      onLongPress: () {
+                        Clipboard.setData(
+                          ClipboardData(text: model.id.toString()),
+                        ).then((value) {
+                          final snackBar = SnackBar(
+                            content: const Text('Code Copied!'),
+                          );
+
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        });
+                      },
+                      onDoubleTap: () async {
+                        await Share.share(
+                          "Enter this code on child's device:\n${model.id}",
+                        );
+                      },
+                      child: Text(
+                        model.id,
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepOrangeAccent,
+                        ),
+                      ),
+                    ).hP16,
                   ],
                 ).p16,
                 Column(
@@ -198,7 +179,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     children: [
                       CustomButton(
                         title: ' Bed Time',
-                        color: Colors.indigo,
+                        backgroundColor: Colors.indigo,
                         onPress: () async => await _sendNotification(
                           context,
                           model,
@@ -207,16 +188,26 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       ),
                       CustomButton(
                         title: 'Homework Time',
-                        color: CustomColors.indigoLight,
+                        backgroundColor: CustomColors.indigoLight,
                         onPress: () async => await _sendNotification(
                           context,
                           model,
                           'Homework Time',
                         ),
                       ),
+                      CustomButton(
+                        title: 'Delete Child',
+                        backgroundColor: Colors.transparent,
+                        borderColor: Colors.red,
+                        textColor: Colors.red,
+                        onPress: () async => _confirmDelete(
+                          context,
+                          widget.childModel,
+                        ),
+                      ),
                     ],
                   ),
-                  height: 150,
+                  height: 250,
                 ),
                 SizedBox(height: 58),
                 model.appsUsageModel.isNotEmpty
