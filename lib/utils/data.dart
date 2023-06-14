@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parental_control/theme/theme.dart';
 
 class TabData {
   static List<Map<String, dynamic>> items = [
@@ -51,4 +52,23 @@ class BottomNavigationData {
       ),
     )
   };
+}
+
+class MockData {
+  static String text_1 = 'Get to know how to read and interpret the graphs '
+      'that is a summary of how your child uses his device';
+  static String text_2 = 'Get to know how to send messages and notifications'
+      'to your child device';
+  static String text_3 = 'Get to know all the tips and tricks to monitor'
+      ' your child';
+  static String text_4 = 'Get to know how to control what your child '
+      'is listening to anytime anywhere.';
+}
+
+class Png {
+  static Image google = Image.asset('images/google-logo.png');
+  static Image facebook = Image.asset(
+    'images/facebook-logo.png',
+    color: CustomColors.indigoDark,
+  );
 }

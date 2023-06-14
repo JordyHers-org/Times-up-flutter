@@ -4,11 +4,11 @@ import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/app/pages/child_page.dart';
 import 'package:parental_control/common_widgets/form_submit_button.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:provider/provider.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
 
 enum AppState { loading, complete }
 
@@ -43,7 +43,10 @@ class _SetChildPageState extends State<SetChildPage> {
     final position = await geo.getInitialLocation();
     try {
       final response = await database.getUserCurrentChild(
-          name, key, GeoPoint(position.latitude, position.longitude),);
+        name,
+        key,
+        GeoPoint(position.latitude, position.longitude),
+      );
       Logging.logger.d('RESPONSE : ${response}');
       try {
         await Navigator.of(context).pushReplacement(
@@ -56,10 +59,12 @@ class _SetChildPageState extends State<SetChildPage> {
         setState(() {
           appState = AppState.complete;
         });
-        await showAlertDialog(context,
-            title: 'No Such file in Database',
-            content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
-            defaultActionText: 'OK',);
+        await showAlertDialog(
+          context,
+          title: 'No Such file in Database',
+          content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
+          defaultActionText: 'OK',
+        );
         Logging.logger.e('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {

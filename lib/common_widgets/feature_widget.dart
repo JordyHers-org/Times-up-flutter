@@ -14,19 +14,19 @@ class FeatureWidget extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.07,
       decoration: BoxDecoration(
-        color: CustomColors.indigoDark,
+        color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(5)),
         boxShadow: [
           BoxShadow(
             color: CustomColors.indigoPrimary.withOpacity(0.3),
             spreadRadius: 2,
-            blurRadius: 3,
+            blurRadius: 2,
             offset: Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
       padding: EdgeInsets.all(15.0),
-      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 30),
+      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

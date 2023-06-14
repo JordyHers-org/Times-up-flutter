@@ -12,7 +12,6 @@ import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
 
 class GeoFull extends StatefulWidget {
   final Position initialPosition;

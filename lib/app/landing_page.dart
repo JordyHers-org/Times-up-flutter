@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/app/pages/parent_page.dart';
 import 'package:parental_control/app/pages/set_child_page.dart';
+import 'package:parental_control/common_widgets/jh_loading_widget.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
@@ -51,12 +52,12 @@ class _LandingPageState extends State<LandingPage> {
             case AppSide.child:
               return _buildChildSide(auth, user, geoService, context);
             default:
-              return CircularProgressIndicator();
+              return LoadingWidget();
           }
         }
         return Scaffold(
           body: Center(
-            child: CircularProgressIndicator(),
+            child: LoadingWidget(),
           ),
         );
       },

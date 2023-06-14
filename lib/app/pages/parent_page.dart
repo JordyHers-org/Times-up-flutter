@@ -13,6 +13,7 @@ import 'package:parental_control/common_widgets/jh_header_widget.dart';
 import 'package:parental_control/common_widgets/jh_info_row_widget.dart';
 import 'package:parental_control/common_widgets/jh_loading_widget.dart';
 import 'package:parental_control/common_widgets/jh_summary_tile.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
@@ -23,7 +24,6 @@ import 'package:parental_control/theme/theme.dart';
 import 'package:parental_control/utils/data.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
 
 enum MapScreenState { Full, Small }
 
@@ -186,6 +186,10 @@ class _ParentPageState extends State<ParentPage>
                   HeaderWidget(
                     title: 'My Children',
                     subtitle: 'Choose child to get more info - scroll right ',
+                    trailing: IconButton(
+                      icon: Icon(Icons.info_outline),
+                      onPressed: () => _startShowCase(),
+                    ),
                   ).p8,
                   _buildChildrenList(database),
                   HeaderWidget(
@@ -200,25 +204,21 @@ class _ParentPageState extends State<ParentPage>
                   InfoRow(
                     icon_1: Icons.auto_graph_outlined,
                     icon_2: Icons.message_outlined,
-                    text_1: 'Get to know how to read and interpret the graphs '
-                        'that is a summary of how your child uses his device',
-                    text_2: 'Get to know how to send messages and notifications'
-                        'to your child device',
+                    text_1: MockData.text_1,
+                    text_2: MockData.text_2,
                   ).p4,
                   InfoRow(
                     icon_1: Icons.lightbulb_rounded,
                     icon_2: Icons.volume_up_outlined,
-                    text_1: 'Get to know all the tips and tricks to monitor'
-                        ' your child',
-                    text_2: 'Get to know how to control what your child '
-                        'is listening to anytime anywhere.',
+                    text_1: MockData.text_3,
+                    text_2: MockData.text_4,
                   ).p4,
                   FeatureWidget(
-                    child: Image.asset('images/google-logo.png'),
+                    child: Png.google,
                     icon: Icons.timelapse_sharp,
                   ),
                   FeatureWidget(
-                    child: Image.asset('images/facebook-logo.png'),
+                    child: Png.facebook,
                     icon: Icons.timelapse_sharp,
                   ),
                 ],
@@ -244,6 +244,7 @@ class _ParentPageState extends State<ParentPage>
             if (snapshot.hasData) {
               if (data != null && data.isNotEmpty) {
                 return ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: data.length,
                   itemBuilder: (context, index) {

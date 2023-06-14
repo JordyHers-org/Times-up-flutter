@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
 
 enum AppState { loading, complete }
 
@@ -83,7 +83,6 @@ class _EditChildPageState extends State<EditChildPage> {
     }
   }
 
-
   Future<void> _submit(XFile? localFile) async {
     if (appState == AppState.loading) return;
     if (_validateAndSaveForm()) {
@@ -95,7 +94,7 @@ class _EditChildPageState extends State<EditChildPage> {
       id = uuid.v4().substring(0, 8).toUpperCase();
       try {
         var fileExtension = path.extension(localFile.path);
-         Logging.logger.d(fileExtension);
+        Logging.logger.d(fileExtension);
 
         final firebaseStorageRef = FirebaseStorage.instance
             .ref()
@@ -112,7 +111,7 @@ class _EditChildPageState extends State<EditChildPage> {
         _imageURL = url;
         Logging.logger.d('download url: $url');
       } catch (e) {
-         Logging.logger.d('...skipping image upload');
+        Logging.logger.d('...skipping image upload');
       }
 
       try {
@@ -136,7 +135,7 @@ class _EditChildPageState extends State<EditChildPage> {
             image: _imageURL,
           );
           await widget.database!.setChild(child).whenComplete(
-              () => setState(() {
+                () => setState(() {
                   Logging.logger.d('form Saved : $_name and email : $_email');
                   appState = AppState.complete;
                   Navigator.of(context).pop();

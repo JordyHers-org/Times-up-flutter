@@ -1,13 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/sign_in/sign_in_button.dart';
 import 'package:parental_control/sign_in/sign_in_manager.dart';
 import 'package:parental_control/sign_in/social_sign_in_button.dart';
 import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
+
 import 'email_sign_in_page.dart';
 
 class SignInPage extends StatelessWidget {

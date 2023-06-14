@@ -2,15 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
-
-import 'package:parental_control/common_widgets/show_logger.dart';
-import '../../common_widgets/show_exeption_alert.dart';
 
 enum AppState { Loaded, Empty }
 
@@ -103,13 +101,14 @@ class _NotificationPageState extends State<NotificationPage> {
                       key: ValueKey<int>(index),
                       onDismissed: (DismissDirection direction) async {
                         Logging.logger.w(
-                            'DATA TO BE DELETED IS ${data[index].id}',);
+                          'DATA TO BE DELETED IS ${data[index].id}',
+                        );
                         await _delete(context, data[index]);
                         setState(() {
-                           Logging.logger.d(' Notification deleted');
+                          Logging.logger.d(' Notification deleted');
                           data.removeAt(index);
                           appState = AppState.Empty;
-                            Logging.logger.d(appState);
+                          Logging.logger.d(appState);
                         });
                       },
                       direction: DismissDirection.endToStart,
