@@ -80,20 +80,18 @@ class _ParentPageState extends State<ParentPage>
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        onTap: (value) {
-          setState(() {
-            currentIndex = BottomNavigationData.items.keys.toList()[value];
-          });
-        },
+        onTap: _setIndex,
         items: BottomNavigationData.items.values.toList(),
       ),
       body: _buildParentPageContent(context, widget.auth, widget.database),
     );
   }
 
-  Widget _buildParentPageContent(BuildContext context,
-      AuthBase auth,
-      Database database,) {
+  Widget _buildParentPageContent(
+    BuildContext context,
+    AuthBase auth,
+    Database database,
+  ) {
     var children = <Widget>[
       _buildDashboard(database, auth),
       _buildNotificationPage(auth),
@@ -133,9 +131,9 @@ class _ParentPageState extends State<ParentPage>
                 !value
                     ? SizedBox.shrink()
                     : Icon(
-                  Icons.menu,
-                  color: CustomColors.indigoDark,
-                ),
+                        Icons.menu,
+                        color: CustomColors.indigoDark,
+                      ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(side: BorderSide.none),
                   onPressed: () => SettingsPage.show(context, auth),
@@ -162,12 +160,12 @@ class _ParentPageState extends State<ParentPage>
           textColor: Colors.indigo,
           description: 'Add a new child here ',
           child: FloatingActionButton(
-            onPressed: () =>
-                EditChildPage.show(
-                  context,
-                  database: Provider.of<Database>(context, listen: false),
-                ),
+            onPressed: () => EditChildPage.show(
+              context,
+              database: Provider.of<Database>(context, listen: false),
+            ),
             child: const Icon(Icons.add),
+            backgroundColor: CustomColors.indigoLight,
           ),
         ),
         body: CustomScrollView(
@@ -241,7 +239,9 @@ class _ParentPageState extends State<ParentPage>
                   },
                 );
               } else {
-                return EmptyContent();
+                return EmptyContent(
+                  child: Icon(Icons.info_outline_rounded),
+                );
               }
             } else if (snapshot.hasError) {
               debugPrint(snapshot.error.toString());
@@ -272,16 +272,15 @@ class _ParentPageState extends State<ParentPage>
       builder: (context, position, __) {
         return position != null
             ? GeoFull.create(
-          context,
-          position: position,
-          database: database,
-          auth: auth,
-        )
+                context,
+                position: position,
+                database: database,
+                auth: auth,
+              )
             : LoadingWidget();
       },
     );
   }
-
 
   Future<void> _setShowCaseView() async {
     var isVisited = await SharedPreference().getDisplayShowCase();
@@ -296,5 +295,11 @@ class _ParentPageState extends State<ParentPage>
                 .startShowCase([_settingsKey, _childListKey, _addKey]),
           )
         : null;
+  }
+
+  void _setIndex(int value) {
+    setState(() {
+      currentIndex = BottomNavigationData.items.keys.toList()[value];
+    });
   }
 }

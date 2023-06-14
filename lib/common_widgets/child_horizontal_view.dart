@@ -50,18 +50,6 @@ class Kids extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                    alignment: Alignment.topCenter,
-                    width: 45,
-                    height: 15,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(66)),
-                      color: Colors.black.withOpacity(0.10),
-                    ),
-                  ),
-                  Spacer(),
                 ],
               ),
             ),
