@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomMarker extends StatelessWidget {
+class JHCustomMarker extends StatelessWidget {
   final String markerUrl;
 
-  const CustomMarker({Key? key, required this.markerUrl}) : super(key: key);
+  const JHCustomMarker({Key? key, required this.markerUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

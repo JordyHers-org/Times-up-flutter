@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-class DisplayText extends StatelessWidget {
+class JHDisplayText extends StatelessWidget {
   final String text;
   final TextStyle style;
   final double? fontSize;
 
-  const DisplayText({
+  const JHDisplayText({
     Key? key,
     required this.text,
     required this.style,

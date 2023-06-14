@@ -67,7 +67,7 @@ class SignInPage extends StatelessWidget {
   }
 
   Future<void> _signInWithEmail(BuildContext context) async {
-    Logging.logger.d('SIGNIN WITH EMAIL =>');
+    JHLogger.$.d('SIGNIN WITH EMAIL =>');
     try {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
@@ -76,7 +76,7 @@ class SignInPage extends StatelessWidget {
         ),
       );
     } on Exception catch (e) {
-      Logging.logger.e('ERROR THROWN $e');
+      JHLogger.$.e('ERROR THROWN $e');
     }
   }
 

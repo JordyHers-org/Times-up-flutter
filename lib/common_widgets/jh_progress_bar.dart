@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/theme/theme.dart';
 
-class CustomProgressBar extends StatelessWidget {
+class JHCustomProgressBar extends StatelessWidget {
   final double progress;
 
-  const CustomProgressBar({Key? key, required this.progress}) : super(key: key);
+  const JHCustomProgressBar({Key? key, required this.progress})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

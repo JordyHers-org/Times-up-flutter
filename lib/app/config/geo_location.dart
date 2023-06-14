@@ -79,10 +79,10 @@ class _GeoState extends State<Geo> {
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
     allMarkers.clear();
-    Logging.logger.d('--------------- data -------------');
-    Logging.logger.v(data['id']);
-    Logging.logger.v(data['position']?.latitude);
-    Logging.logger.v(data['position']?.longitude);
+    JHLogger.$.d('--------------- data -------------');
+    JHLogger.$.v(data['id']);
+    JHLogger.$.v(data['position']?.latitude);
+    JHLogger.$.v(data['position']?.longitude);
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(

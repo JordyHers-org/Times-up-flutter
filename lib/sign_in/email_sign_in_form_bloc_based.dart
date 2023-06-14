@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/form_submit_button.dart';
+import 'package:parental_control/common_widgets/jh_form_submit_button.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/theme/theme.dart';

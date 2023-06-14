@@ -5,9 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/jh_bar_chart.dart';
 import 'package:parental_control/common_widgets/jh_custom_button.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
 import 'package:parental_control/common_widgets/jh_header_widget.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
@@ -100,10 +100,10 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
           ];
         },
         body: CustomScrollView(
-            physics: BouncingScrollPhysics(),
-            slivers: <Widget>[
-              SliverList(
-                  delegate: SliverChildListDelegate([
+          physics: BouncingScrollPhysics(),
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildListDelegate([
                 HeaderWidget(
                   title: 'Enter this code on the child\'s device',
                   subtitle: 'Long press to copy or double tap to share ',
@@ -149,11 +149,11 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       height: 205,
                       width: double.infinity,
                       child: model.appsUsageModel.isNotEmpty
-                          ? AppUsageChart(
+                          ? JHAppUsageChart(
                               isEmpty: false,
                               name: model.name,
                             )
-                          : AppUsageChart(
+                          : JHAppUsageChart(
                               isEmpty: true,
                               name: model.name,
                             ),
@@ -177,7 +177,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomButton(
+                      JHCustomButton(
                         title: ' Bed Time',
                         backgroundColor: Colors.indigo,
                         onPress: () async => await _sendNotification(
@@ -186,7 +186,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           'Hey Go to bed Now',
                         ),
                       ),
-                      CustomButton(
+                      JHCustomButton(
                         title: 'Homework Time',
                         backgroundColor: CustomColors.indigoLight,
                         onPress: () async => await _sendNotification(
@@ -195,7 +195,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           'Homework Time',
                         ),
                       ),
-                      CustomButton(
+                      JHCustomButton(
                         title: 'Delete Child',
                         backgroundColor: Colors.transparent,
                         borderColor: Colors.red,
@@ -243,18 +243,20 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           );
                         },
                       )
-                    : EmptyContent(
+                    : JHEmptyContent(
                         message: 'Tap on more to display apps statistics \n'
                             '        Tap again to hide',
                         title: 'Show apps Statistics',
                         fontSizeMessage: 12,
                         fontSizeTitle: 23,
                       ),
-              ]))
-            ]),
+              ]),
+            )
+          ],
+        ),
       );
     } else {
-      return EmptyContent(
+      return JHEmptyContent(
         title: 'Nothing Here',
         message: ' Here is the kids details page',
       );

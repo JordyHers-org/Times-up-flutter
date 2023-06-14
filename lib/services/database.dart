@@ -175,10 +175,10 @@ class FireStoreDatabase implements Database {
         await setChild(_child!);
         return _child;
       } else {
-        Logging.logger.e(' NO SUCH FILE ON DATABASE ');
+        JHLogger.$.e(' NO SUCH FILE ON DATABASE ');
       }
     });
-    Logging.logger.d(' NO SUCH FILE ON DATABASE ');
+    JHLogger.$.d(' NO SUCH FILE ON DATABASE ');
     return _child!;
   }
 }

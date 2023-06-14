@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/theme/theme.dart';
 
-class FeatureWidget extends StatelessWidget {
+class JHFeatureWidget extends StatelessWidget {
   final String? title;
   final Widget? child;
   final IconData? icon;
 
-  const FeatureWidget({Key? key, this.title, this.icon, this.child})
+  const JHFeatureWidget({Key? key, this.title, this.icon, this.child})
       : super(key: key);
 
   @override

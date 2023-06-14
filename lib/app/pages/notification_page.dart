@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
@@ -100,15 +100,15 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       key: ValueKey<int>(index),
                       onDismissed: (DismissDirection direction) async {
-                        Logging.logger.w(
+                        JHLogger.$.w(
                           'DATA TO BE DELETED IS ${data[index].id}',
                         );
                         await _delete(context, data[index]);
                         setState(() {
-                          Logging.logger.d(' Notification deleted');
+                          JHLogger.$.d(' Notification deleted');
                           data.removeAt(index);
                           appState = AppState.Empty;
-                          Logging.logger.d(appState);
+                          JHLogger.$.d(appState);
                         });
                       },
                       direction: DismissDirection.endToStart,
@@ -134,7 +134,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     );
                   },
                 )
-              : EmptyContent(
+              : JHEmptyContent(
                   message: 'This side of the app will display the list of'
                       ' Notifications',
                   title: 'Notification page',

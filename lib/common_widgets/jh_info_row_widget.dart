@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/jh_info_box.dart';
 import 'package:parental_control/theme/theme.dart';
 
-class InfoRow extends StatelessWidget {
+class JHInfoRow extends StatelessWidget {
   final IconData icon_1;
   final IconData icon_2;
   final String text_1;
   final String text_2;
-  const InfoRow({
+  const JHInfoRow({
     Key? key,
     required this.icon_1,
     required this.icon_2,

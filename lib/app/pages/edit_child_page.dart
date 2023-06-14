@@ -94,7 +94,7 @@ class _EditChildPageState extends State<EditChildPage> {
       id = uuid.v4().substring(0, 8).toUpperCase();
       try {
         var fileExtension = path.extension(localFile.path);
-        Logging.logger.d(fileExtension);
+        JHLogger.$.d(fileExtension);
 
         final firebaseStorageRef = FirebaseStorage.instance
             .ref()
@@ -103,15 +103,15 @@ class _EditChildPageState extends State<EditChildPage> {
         await firebaseStorageRef
             .putFile(File(localFile.path))
             .catchError((onError) {
-          Logging.logger.e(onError);
+          JHLogger.$.e(onError);
           // ignore: return_of_invalid_type_from_catch_error
           return false;
         });
         var url = await firebaseStorageRef.getDownloadURL();
         _imageURL = url;
-        Logging.logger.d('download url: $url');
+        JHLogger.$.d('download url: $url');
       } catch (e) {
-        Logging.logger.d('...skipping image upload');
+        JHLogger.$.d('...skipping image upload');
       }
 
       try {
@@ -136,7 +136,7 @@ class _EditChildPageState extends State<EditChildPage> {
           );
           await widget.database!.setChild(child).whenComplete(
                 () => setState(() {
-                  Logging.logger.d('form Saved : $_name and email : $_email');
+                  JHLogger.$.d('form Saved : $_name and email : $_email');
                   appState = AppState.complete;
                   Navigator.of(context).pop();
                 }),
@@ -266,7 +266,7 @@ class _EditChildPageState extends State<EditChildPage> {
         color: Colors.grey[500],
       );
     } else if (_imageFile != null) {
-      Logging.logger.d('showing image from local file');
+      JHLogger.$.d('showing image from local file');
       return InkWell(
         onTap: _getLocalImage,
         child: Image.file(

@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/jh_progress_bar.dart';
 import 'package:parental_control/theme/theme.dart';
 
-class SummaryTile extends StatelessWidget {
-  const SummaryTile({Key? key});
+class JHSummaryTile extends StatelessWidget {
+  final String title;
+  final String time;
+  final double progressValue;
+  const JHSummaryTile({
+    Key? key,
+    required this.title,
+    required this.time,
+    this.progressValue = 0.75,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10),
-      height: 200,
+      height: 150,
       width: 400,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -21,7 +29,7 @@ class SummaryTile extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Today, April 6 ',
+                title,
                 style: TextStyle(color: CustomColors.indigoPrimary),
               )
             ],
@@ -29,12 +37,12 @@ class SummaryTile extends StatelessWidget {
           Row(
             children: [
               Text(
-                '1 hr 5 min',
+                time,
                 style: TextStyle(color: Colors.black, fontSize: 35),
               ),
             ],
           ).p4,
-          CustomProgressBar(progress: 0.75),
+          JHCustomProgressBar(progress: progressValue),
         ],
       ),
     );

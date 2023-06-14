@@ -6,8 +6,8 @@ import 'package:parental_control/app/pages/edit_child_page.dart';
 import 'package:parental_control/app/pages/notification_page.dart';
 import 'package:parental_control/app/pages/setting_page.dart';
 import 'package:parental_control/common_widgets/child_horizontal_view.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
-import 'package:parental_control/common_widgets/feature_widget.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
+import 'package:parental_control/common_widgets/jh_feature_widget.dart';
 import 'package:parental_control/common_widgets/jh_header.dart';
 import 'package:parental_control/common_widgets/jh_header_widget.dart';
 import 'package:parental_control/common_widgets/jh_info_row_widget.dart';
@@ -196,28 +196,32 @@ class _ParentPageState extends State<ParentPage>
                     title: 'Get to see our child live app usage',
                     subtitle: 'Click on it to have the full report',
                   ).p8,
-                  SummaryTile(),
+                  JHSummaryTile(
+                    title: 'Today, April 6 ',
+                    time: '1 hr 5 min',
+                    progressValue: 0.15,
+                  ),
                   HeaderWidget(
                     title: 'Information Section',
                     subtitle: 'Get tips on how to use the app.',
                   ).p8,
-                  InfoRow(
+                  JHInfoRow(
                     icon_1: Icons.auto_graph_outlined,
                     icon_2: Icons.message_outlined,
                     text_1: MockData.text_1,
                     text_2: MockData.text_2,
                   ).p4,
-                  InfoRow(
+                  JHInfoRow(
                     icon_1: Icons.lightbulb_rounded,
                     icon_2: Icons.volume_up_outlined,
                     text_1: MockData.text_3,
                     text_2: MockData.text_4,
                   ).p4,
-                  FeatureWidget(
+                  JHFeatureWidget(
                     child: Png.google,
                     icon: Icons.timelapse_sharp,
                   ),
-                  FeatureWidget(
+                  JHFeatureWidget(
                     child: Png.facebook,
                     icon: Icons.timelapse_sharp,
                   ),
@@ -257,13 +261,13 @@ class _ParentPageState extends State<ParentPage>
                   },
                 );
               } else {
-                return EmptyContent(
+                return JHEmptyContent(
                   child: Icon(Icons.info_outline_rounded),
                 );
               }
             } else if (snapshot.hasError) {
-              Logging.logger.e(snapshot.error);
-              return EmptyContent(
+              JHLogger.$.e(snapshot.error);
+              return JHEmptyContent(
                 title: 'Something went wrong ',
                 message: 'Can\'t load items right now',
               );

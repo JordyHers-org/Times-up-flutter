@@ -71,11 +71,11 @@ class NotificationService {
       },
     );
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Logging.logger.d('A new onMessageOpenedApp event was published!');
+      JHLogger.$.d('A new onMessageOpenedApp event was published!');
       _setNotifications(
         {'message': message.messageId, 'notification': message.notification},
       );
-      Logging.logger.d('Message : $message');
+      JHLogger.$.d('Message : $message');
     });
   }
 }

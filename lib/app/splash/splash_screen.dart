@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parental_control/app/landing_page.dart';
 import 'package:parental_control/app/splash/splash_content.dart';
 import 'package:parental_control/common_widgets/jh_custom_button.dart';
-import 'package:parental_control/common_widgets/size_config.dart';
+import 'package:parental_control/common_widgets/jh_size_config.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
 import 'package:parental_control/utils/data.dart';
@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    JHSizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  CustomButton(
+                  JHCustomButton(
                     backgroundColor: Theme.of(context).primaryColor,
                     title: 'Parent device'.toUpperCase(),
                     onPress: () {
@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     },
                   ),
                   const SizedBox(height: 8),
-                  CustomButton(
+                  JHCustomButton(
                     backgroundColor: CustomColors.greenPrimary,
                     title: 'Child device'.toUpperCase(),
                     onPress: () {

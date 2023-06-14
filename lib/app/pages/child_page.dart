@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parental_control/app/bloc/child_side_bloc.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/app/pages/set_child_page.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/app_usage_service.dart';
@@ -118,14 +118,12 @@ class _ChildPageState extends State<ChildPage> {
                     ),
                   )
                 : Container(),
-
             Divider(
               height: 0.5,
               thickness: 0.2,
               color: Colors.grey,
             ),
-            SizedBox(height: 5 * 2 ),
-
+            SizedBox(height: 5 * 2),
             ListTile(
               leading: Icon(Icons.notifications),
               title: Text('Notification'),
@@ -168,7 +166,7 @@ class _ChildPageState extends State<ChildPage> {
       ),
       //ignore: non_null
       body: appUsage.info.isEmpty
-          ? EmptyContent(
+          ? JHEmptyContent(
               title: 'This is the child page',
               message: 'Nothing to show at the moment',
             )
@@ -247,7 +245,7 @@ class _ChildPageState extends State<ChildPage> {
         } else if (snapshot.hasData) {
           return ErrorWidget(snapshot.error!);
         }
-        return EmptyContent(
+        return JHEmptyContent(
           message:
               'This side of the app will display the list of Notifications',
           title: 'Notification page',

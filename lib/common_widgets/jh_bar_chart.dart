@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/theme/theme.dart';
 
-class AppUsageChart extends StatefulWidget {
+class JHAppUsageChart extends StatefulWidget {
   final List<Color> availableColors = const [
     Colors.purpleAccent,
     Colors.yellow,
@@ -16,14 +16,14 @@ class AppUsageChart extends StatefulWidget {
   final bool isEmpty;
   final String name;
 
-  const AppUsageChart({Key? key, required this.isEmpty, required this.name})
+  const JHAppUsageChart({Key? key, required this.isEmpty, required this.name})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => AppUsageChartState();
+  State<StatefulWidget> createState() => JHAppUsageChartState();
 }
 
-class AppUsageChartState extends State<AppUsageChart> {
+class JHAppUsageChartState extends State<JHAppUsageChart> {
   final Duration animDuration = const Duration(milliseconds: 250);
 
   int touchedIndex = -1;

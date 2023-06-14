@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:parental_control/app/landing_page.dart';
 import 'package:parental_control/app/splash/splash_screen.dart';
 import 'package:parental_control/services/shared_preferences.dart';
-
-import '../landing_page.dart';
 
 class ScreensController extends StatefulWidget {
   @override

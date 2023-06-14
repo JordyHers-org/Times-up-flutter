@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/custom_raised_button.dart';
+import 'package:parental_control/common_widgets/jh_custom_raised_button.dart';
 
-class SocialSignInButton extends CustomRaisedButton {
+class SocialSignInButton extends JHCustomRaisedButton {
   SocialSignInButton({
     required String assetName,
     required String text,

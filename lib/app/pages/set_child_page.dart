@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/app/pages/child_page.dart';
-import 'package:parental_control/common_widgets/form_submit_button.dart';
+import 'package:parental_control/common_widgets/jh_form_submit_button.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
@@ -30,8 +30,8 @@ class _SetChildPageState extends State<SetChildPage> {
 
   @override
   void dispose() {
-    _nameController.dispose();
     _key.dispose();
+    _nameController.dispose();
     _nameFocusNode.dispose();
     _keyFocusNode.dispose();
     super.dispose();
@@ -47,7 +47,7 @@ class _SetChildPageState extends State<SetChildPage> {
         key,
         GeoPoint(position.latitude, position.longitude),
       );
-      Logging.logger.d('RESPONSE : ${response}');
+      JHLogger.$.d('RESPONSE : ${response}');
       try {
         await Navigator.of(context).pushReplacement(
           MaterialPageRoute<void>(
@@ -62,13 +62,13 @@ class _SetChildPageState extends State<SetChildPage> {
         await showAlertDialog(
           context,
           title: 'No Such file in Database',
-          content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
+          content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
           defaultActionText: 'OK',
         );
-        Logging.logger.e('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
+        JHLogger.$.e('ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {
-      Logging.logger.e(e.toString());
+      JHLogger.$.e(e.toString());
     }
   }
 

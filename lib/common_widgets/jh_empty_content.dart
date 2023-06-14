@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EmptyContent extends StatelessWidget {
-  const EmptyContent({
+class JHEmptyContent extends StatelessWidget {
+  const JHEmptyContent({
     Key? key,
     this.title = 'Nothing here ',
     this.fontSizeMessage = 18.0,

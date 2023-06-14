@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/theme/theme.dart';
 
-import 'custom_raised_button.dart';
+import 'jh_custom_raised_button.dart';
 
-class FormSubmitButton extends CustomRaisedButton {
+class FormSubmitButton extends JHCustomRaisedButton {
   FormSubmitButton({
     required String text,
     required VoidCallback onPressed,
