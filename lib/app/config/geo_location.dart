@@ -13,6 +13,7 @@ import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 class Geo extends StatefulWidget {
   final Position initialPosition;
@@ -80,7 +81,10 @@ class _GeoState extends State<Geo> {
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
     allMarkers.clear();
-    
+    Logging.logger.d('--------------- data -------------');
+    Logging.logger.v(data['id']);
+    Logging.logger.v(data['position']?.latitude);
+    Logging.logger.v(data['position']?.longitude);
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(

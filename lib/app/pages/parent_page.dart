@@ -21,6 +21,7 @@ import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 enum MapScreenState { Full, Small }
 
@@ -293,7 +294,7 @@ class _ParentPageState extends State<ParentPage>
                 return EmptyContent();
               }
             } else if (snapshot.hasError) {
-              debugPrint(snapshot.error.toString());
+              Logging.logger.e(snapshot.error);
               return EmptyContent(
                 title: 'Something went wrong ',
                 message: 'Can\'t load items right now',

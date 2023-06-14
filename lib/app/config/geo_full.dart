@@ -12,6 +12,7 @@ import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 class GeoFull extends StatefulWidget {
   final Position initialPosition;
@@ -80,11 +81,11 @@ class _GeoFullState extends State<GeoFull> {
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(
-          title: data['id'],
-          snippet: data['name'],
-          onTap: () {
-            debugPrint('Tapped');
-          },
+            title: data['id'],
+            snippet: data['name'],
+            onTap: () {
+              Logging.logger.d('Tapped');
+            },
         ),
         markerId: MarkerId(data['id']),
         icon: BitmapDescriptor.defaultMarkerWithHue(
@@ -92,7 +93,7 @@ class _GeoFullState extends State<GeoFull> {
         ),
         draggable: false,
         onTap: () {
-          debugPrint('Marker Tapped');
+          Logging.logger.d('Marker Tapped');
         },
         position: LatLng(
           data['position'].latitude,

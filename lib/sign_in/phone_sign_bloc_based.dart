@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/app/pages/parent_page.dart';
 import 'package:parental_control/common_widgets/form_submit_button.dart';
-
+import 'package:parental_control/common_widgets/show_logger.dart';
 class PhoneSignInFormBlocBased extends StatefulWidget {
   PhoneSignInFormBlocBased({Key? key}) : super(key: key);
 
@@ -53,13 +53,14 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
 
   /// THIS FUNCTION Verify the phone number entered
   Future<void> verifyPhone(phoneNo) async {
-    debugPrint('Phone number reached verifyphone $phoneNo');
+    Logging.logger.d('Phone number reached verifyphone $phoneNo');
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       signIn(authResult);
     };
 
     final verificationfailed = (FirebaseAuthException authException) {
-      debugPrint('${authException.message}');
+      Logging.logger.e('${authException.message}');
+
     };
 
     final smsSent = (String verId, [int? forceResend]) {
@@ -116,7 +117,7 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
       onChanged: (value) {
         setState(() {
           phoneNo = '+90${_phoneNumberController.text}';
-          debugPrint('This is the phone number taken : $phoneNo');
+          Logging.logger.e('This is the phone number taken : $phoneNo');
         });
       },
     );

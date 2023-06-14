@@ -69,6 +69,10 @@ dependencies:
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.1
 
+  #logger
+  logger: ^1.4.0
+
+
 
 dev_dependencies:
   build_runner: ^2.3.3
@@ -96,3 +100,4 @@ flutter:
     - images/google-logo.png
     - images/splash_svg/
     - images/png/
+
