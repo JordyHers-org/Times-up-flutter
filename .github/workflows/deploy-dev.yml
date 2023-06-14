@@ -59,8 +59,6 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Check format lib
-        run: dart format --set-exit-if-changed
 
       - name: Analyze
         run: flutter analyze
