@@ -6,18 +6,18 @@ import 'package:parental_control/sign_in/sign_in_button.dart';
 import 'package:parental_control/sign_in/sign_in_page.dart';
 import 'package:provider/provider.dart';
 
-import 'mocks.dart';
+import '../helpers/test_helpers.mocks.dart';
 
 void main() {
-  late MockAuth mockAuth;
+  late MockAuthBase mockAuth;
 
   //First create Mock Navigation
-  late MockNavigatorObvserver mockNavigatorObvserver;
+  late MockNavigatorObserver mockNavigatorObvserver;
   setUp(() {
     ///A new mock authentication service will be created every time
     ///we run a test.
-    mockAuth = MockAuth();
-    mockNavigatorObvserver = MockNavigatorObvserver();
+    mockAuth = MockAuthBase();
+    mockNavigatorObvserver = MockNavigatorObserver();
   });
 
   /// Always create widgets with all the ancestors that are needed
@@ -36,24 +36,20 @@ void main() {
     );
 
     //3.Verify if it is pushed right here
-    verify(mockNavigatorObvserver.didPush(anything as Route, any)).called(1);
+    verify(mockNavigatorObvserver.didPush(any, any)).called(1);
   }
 
-  testWidgets(
-    'email&password navigation',
-    (WidgetTester tester) async {
-      await pumpSignInPage(tester);
+  testWidgets('email&password navigation', (WidgetTester tester) async {
+    await pumpSignInPage(tester);
 
-      final emailSignInButton = find.byType(SignInButton, skipOffstage: true);
-      expect(emailSignInButton, findsNWidgets(1));
-      //4. Write the test to trigger the tap
-      await tester.tap(emailSignInButton);
-      await tester.pumpAndSettle();
+    final emailSignInButton = find.byType(SignInButton, skipOffstage: true);
+    expect(emailSignInButton, findsNWidgets(1));
+    //4. Write the test to trigger the tap
+    await tester.tap(emailSignInButton);
+    await tester.pumpAndSettle();
 
-      //5. Verify again if the mockNavigatorObvserver.
-      // didPush(any, any)).called(1);
-      verify(mockNavigatorObvserver.didPush(anything as Route, any)).called(1);
-    },
-    skip: true,
-  );
+    //5. Verify again if the mockNavigatorObvserver.
+    // didPush(any, any)).called(1);
+    verify(mockNavigatorObvserver.didPush(any, any)).called(1);
+  });
 }

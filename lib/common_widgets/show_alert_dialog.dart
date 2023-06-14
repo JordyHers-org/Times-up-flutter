@@ -27,7 +27,7 @@ Future<dynamic> showAlertDialog(
           child: Text(
             defaultActionText,
             style: TextStyle(
-              color: Theme.of(context).secondaryHeaderColor,
+              color: Theme.of(context).indicatorColor,
             ),
           ),
           onPressed: () => Navigator.of(context).pop(true),

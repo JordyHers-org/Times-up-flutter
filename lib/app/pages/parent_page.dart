@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
+
 import 'package:parental_control/app/config/geo_full.dart';
 import 'package:parental_control/app/config/geo_location.dart';
 import 'package:parental_control/app/pages/child_details_page.dart';
@@ -17,8 +21,6 @@ import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
-import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 
 enum MapScreenState { Full, Small }
@@ -244,8 +246,9 @@ class _ParentPageState extends State<ParentPage>
 
                 Provider<NotificationService>(
                   create: (_) => NotificationService(),
-                  builder: (context, __) =>
-                      NotificationPage.create(context, widget.auth!),
+                  builder: (context, __) {
+                    return NotificationPage.create(context, widget.auth!);
+                  },
                 ),
               ],
             ),

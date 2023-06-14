@@ -10,6 +10,7 @@ import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 
@@ -40,11 +41,11 @@ class _GeoFullState extends State<GeoFull> {
     geoService.getCurrentLocation.listen((position) {
       centerScreen(position);
     });
-    getAllChildLocations();
+    _getAllChildLocations();
     super.initState();
   }
 
-  Future<Uint8List> getChildMarkerImage(Map<String, dynamic> data) async {
+  Future<Uint8List> _getChildMarkerImage(Map<String, dynamic> data) async {
     var bytes =
         (await NetworkAssetBundle(Uri.parse(data['image'])).load(data['image']))
             .buffer
@@ -53,7 +54,7 @@ class _GeoFullState extends State<GeoFull> {
     return bytes;
   }
 
-  void getAllChildLocations() async {
+  void _getAllChildLocations() async {
     childLocationsList = [];
     await FirebaseFirestore.instance
         .collection(APIPath.children(_currentUser.uid))
@@ -62,16 +63,21 @@ class _GeoFullState extends State<GeoFull> {
       if (document.docs.isNotEmpty) {
         for (var i = 0; i < document.docs.length; i++) {
           childLocationsList.add(document.docs[i].data);
-          initMarker(document.docs[i].data());
-          getChildMarkerImage(document.docs[i].data());
-          Logging.logger.d('This is the list of children ${childLocationsList.length}');
+          _initMarker(document.docs[i].data());
+          _getChildMarkerImage(document.docs[i].data());
+          debugPrint(
+            'This is the list of children ${childLocationsList.length}',
+          );
         }
       }
     });
   }
 
   //TODO:Make function async
-  Future<List<Marker>> initMarker(Map<String, dynamic> data) async {
+  Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
+    if (data['position'] == null) return [];
+    allMarkers.clear();
+
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(
@@ -81,13 +87,17 @@ class _GeoFullState extends State<GeoFull> {
               Logging.logger.d('Tapped');
             }),
         markerId: MarkerId(data['id']),
-        icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+        icon: BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueMagenta,
+        ),
         draggable: false,
         onTap: () {
           Logging.logger.d('Marker Tapped');
         },
-        position: LatLng(data['position'].latitude, data['position'].longitude),
+        position: LatLng(
+          data['position'].latitude,
+          data['position'].longitude,
+        ),
       ),
     );
 
@@ -100,6 +110,7 @@ class _GeoFullState extends State<GeoFull> {
       height: double.infinity,
       child: Center(
         child: GoogleMap(
+          key: Keys.googleMapKeys,
           initialCameraPosition: CameraPosition(
             target: LatLng(
               widget.initialPosition.latitude,
@@ -109,6 +120,7 @@ class _GeoFullState extends State<GeoFull> {
           ),
           mapType: MapType.normal,
           myLocationEnabled: true,
+          markers: Set<Marker>.of(allMarkers),
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
             setState(() {
@@ -116,7 +128,6 @@ class _GeoFullState extends State<GeoFull> {
                   allMarkers.first;
             });
           },
-          markers: Set<Marker>.of(allMarkers),
         ),
       ),
     );
