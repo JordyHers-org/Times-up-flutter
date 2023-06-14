@@ -51,6 +51,7 @@ class FirestoreService {
     if (image != null) {
       final storageReference = FirebaseStorage.instance.refFromURL(image);
       await storageReference.delete();
+      await reference.delete();
     }
 
     debugPrint('delete: $path');
