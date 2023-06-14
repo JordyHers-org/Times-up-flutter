@@ -5,10 +5,14 @@ import 'package:parental_control/theme/theme.dart';
 class InfoRow extends StatelessWidget {
   final IconData icon_1;
   final IconData icon_2;
+  final String text_1;
+  final String text_2;
   const InfoRow({
     Key? key,
     required this.icon_1,
     required this.icon_2,
+    required this.text_1,
+    required this.text_2,
   }) : super(key: key);
 
   @override
@@ -23,9 +27,8 @@ class InfoRow extends StatelessWidget {
           child: SizedBox(
             width: 150,
             child: Text(
-              ' Lorem ipsum dolor sit amet, consectetuer '
-              'adipiscing elit.Aenean commodo ligula eget dolor. ',
-              style: TextStyle(color: Colors.grey),
+              text_1,
+              style: TextStyle(color: Colors.grey.shade500),
             ),
           ),
         ),
@@ -36,9 +39,8 @@ class InfoRow extends StatelessWidget {
           child: SizedBox(
             width: 150,
             child: Text(
-              ' Lorem ipsum dolor sit amet, consectetuer '
-              ' .Aenean commodo ligula eget dolor.  ',
-              style: TextStyle(color: Colors.grey),
+              text_2,
+              style: TextStyle(color: Colors.grey.shade500),
             ),
           ),
         ),

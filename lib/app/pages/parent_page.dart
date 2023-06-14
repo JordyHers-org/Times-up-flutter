@@ -191,10 +191,18 @@ class _ParentPageState extends State<ParentPage>
                   InfoRow(
                     icon_1: Icons.auto_graph_outlined,
                     icon_2: Icons.message_outlined,
+                    text_1: 'Get to know how to read and interpret the graphs '
+                        'that is a summary of how your child uses his device',
+                    text_2: 'Get to know how to send messages and notifications'
+                        'to your child device',
                   ).p4,
                   InfoRow(
                     icon_1: Icons.lightbulb_rounded,
                     icon_2: Icons.volume_up_outlined,
+                    text_1: 'Get to know all the tips and tricks to monitor'
+                        ' your child',
+                    text_2: 'Get to know how to control what your child '
+                        'is listening to anytime anywhere.',
                   ).p4,
                   FeatureWidget(
                     child: Image.asset('images/google-logo.png'),
