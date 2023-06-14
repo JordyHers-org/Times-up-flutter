@@ -77,9 +77,10 @@ class AppUsage {
 
   static Future<List<AppUsageInfo>> getAppUsage(
     DateTime startDate,
-    DateTime endDate,
-  ) async {
-    if (Platform.isAndroid) {
+    DateTime endDate, {
+    required bool useMock,
+  }) async {
+    if (Platform.isAndroid || useMock) {
       /// Convert dates to ms since epoch
       var end = endDate.millisecondsSinceEpoch;
       var start = startDate.millisecondsSinceEpoch;
