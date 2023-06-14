@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:parental_control/models/child_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/app_usage_local_service.dart';
 
 import '../mocks.dart';

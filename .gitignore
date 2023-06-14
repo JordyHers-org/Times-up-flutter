@@ -41,3 +41,5 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 google-services.json
+/lib/models/**/*.freezed.dart
+/lib/models/**/*.g.dart

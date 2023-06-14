@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter/services.dart';
+import 'package:parental_control/app/helpers/parsing_extension.dart';
 
 /// Custom Exception for the plugin,
 /// thrown whenever the plugin is used on platforms other than Android
@@ -20,7 +21,7 @@ class AppUsageException implements Exception {
 class AppUsageInfo {
   late String _packageName, _appName;
   late Duration _usage;
-  DateTime _startDate, _endDate;
+  var _startDate, _endDate;
 
   AppUsageInfo(
     String name,
@@ -36,7 +37,7 @@ class AppUsageInfo {
 
   factory AppUsageInfo.fromMap(Map<String, dynamic> data) => AppUsageInfo(
         data['appName'],
-        data['usageInSeconds'],
+        data['usage'].toString().p(),
         data['startDate'],
         data['endDate'],
       );
