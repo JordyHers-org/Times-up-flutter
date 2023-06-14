@@ -69,7 +69,7 @@ jobs:
         run:  dart fix --dry-run --apply
 
       - name: Analyze
-        run: flutter analyze --exclude=**/*.g.dart
+        run: flutter analyze
 
 
 
