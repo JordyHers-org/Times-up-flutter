@@ -1,19 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
-
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
+import 'package:provider/provider.dart';
 
 class Geo extends StatefulWidget {
   final Position initialPosition;
@@ -40,7 +38,7 @@ class _GeoState extends State<Geo> {
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
     _currentUser = auth.currentUser!;
     geoService.getCurrentLocation.listen((position) {
-      centerScreen(position);
+      _centerScreen(position);
     });
     _getAllChildLocations();
     super.initState();
@@ -81,10 +79,10 @@ class _GeoState extends State<Geo> {
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
     allMarkers.clear();
-    Logging.logger.d('--------------- data -------------');
-    Logging.logger.v(data['id']);
-    Logging.logger.v(data['position']?.latitude);
-    Logging.logger.v(data['position']?.longitude);
+    JHLogger.$.d('--------------- data -------------');
+    JHLogger.$.v(data['id']);
+    JHLogger.$.v(data['position']?.latitude);
+    JHLogger.$.v(data['position']?.longitude);
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(
@@ -95,8 +93,6 @@ class _GeoState extends State<Geo> {
           },
         ),
         markerId: MarkerId(data['id']),
-        //TODO:Implement child image as marker
-        //icon: BitmapDescriptor.fromBytes(imageData),
         icon: BitmapDescriptor.defaultMarkerWithHue(
           BitmapDescriptor.hueMagenta,
         ),
@@ -150,7 +146,7 @@ class _GeoState extends State<Geo> {
     );
   }
 
-  Future<void> centerScreen(Position position) async {
+  Future<void> _centerScreen(Position position) async {
     final controller = await _controller.future;
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(

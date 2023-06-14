@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomRaisedButton extends StatelessWidget {
-  CustomRaisedButton({
+class JHCustomRaisedButton extends StatelessWidget {
+  JHCustomRaisedButton({
     required this.child,
     required this.onPressed,
     required this.color,

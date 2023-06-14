@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/autosize_text.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/theme/theme.dart';
 
 class SplashContent extends StatefulWidget {
@@ -74,7 +74,7 @@ class _SplashContentState extends State<SplashContent>
                 child: Container(
                   padding: EdgeInsets.only(top: 250),
                   margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: DisplayText(
+                  child: JHDisplayText(
                     text: widget.title,
                     fontSize: 25,
                     style: TextStyle(
@@ -91,7 +91,7 @@ class _SplashContentState extends State<SplashContent>
                 child: Container(
                   padding: EdgeInsets.only(top: 300),
                   margin: EdgeInsets.symmetric(horizontal: 40),
-                  child: DisplayText(
+                  child: JHDisplayText(
                     text: widget.text,
                     fontSize: 17,
                     style: TextStyle(

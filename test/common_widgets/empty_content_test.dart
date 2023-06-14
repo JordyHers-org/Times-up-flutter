@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
 
 import '../helpers/test_helpers.dart';
 
@@ -8,7 +8,7 @@ void main() {
     const expectedText = 'Title';
     const expectedMessage = 'Here is the message ';
 
-    final child = EmptyContent(
+    final child = JHEmptyContent(
       title: expectedText,
       message: expectedMessage,
     );

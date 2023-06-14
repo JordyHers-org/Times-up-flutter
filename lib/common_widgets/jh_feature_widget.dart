@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/theme/theme.dart';
 
-class FeatureWidget extends StatelessWidget {
+class JHFeatureWidget extends StatelessWidget {
   final String? title;
   final Widget? child;
   final IconData? icon;
 
-  const FeatureWidget({Key? key, this.title, this.icon, this.child})
+  const JHFeatureWidget({Key? key, this.title, this.icon, this.child})
       : super(key: key);
 
   @override
@@ -14,19 +14,19 @@ class FeatureWidget extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.07,
       decoration: BoxDecoration(
-        color: CustomColors.indigoDark,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5)),
         boxShadow: [
           BoxShadow(
-            color: CustomColors.indigoPrimary.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
+            color: CustomColors.indigoPrimary.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 2,
             offset: Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
       padding: EdgeInsets.all(15.0),
-      margin: EdgeInsets.symmetric(horizontal: 85.0, vertical: 30),
+      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

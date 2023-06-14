@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:parental_control/common_widgets/custom_raised_button.dart';
+import 'package:parental_control/common_widgets/jh_custom_raised_button.dart';
 
 void main() {
   /// This syntax is used to test widgets
@@ -14,7 +14,7 @@ void main() {
     ///don't forget to surround it with a [Material Widget]
     await tester.pumpWidget(
       MaterialApp(
-        home: CustomRaisedButton(
+        home: JHCustomRaisedButton(
           child: Text('tap me'),
           onPressed: () => pressed = true,
           color: Colors.black,

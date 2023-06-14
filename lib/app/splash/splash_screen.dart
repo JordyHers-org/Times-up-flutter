@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/app/landing_page.dart';
 import 'package:parental_control/app/splash/splash_content.dart';
-import 'package:parental_control/common_widgets/size_config.dart';
+import 'package:parental_control/common_widgets/jh_custom_button.dart';
+import 'package:parental_control/common_widgets/jh_size_config.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
+import 'package:parental_control/utils/data.dart';
 
 class SplashScreen extends StatefulWidget {
   final BuildContext? context;
@@ -22,37 +24,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   int currentPage = 0;
 
-  List<Map<String, dynamic>> splashData = [
-    {
-      'text':
-          "Time's Up is your solution to monitor the time your kids spend on "
-              'screen.',
-      'title': 'Get your new companion',
-      'icon': Icons.family_restroom,
-    },
-    {
-      'text': 'The perfect tool to control apps and monitor the time '
-          'Your kids spend on screen.',
-      'title': 'Get insightful dashboard',
-      'icon': Icons.dashboard_customize_outlined,
-    },
-    {
-      'text': 'Send notifications to your child when time '
-          ' limit is reached or when he has to go to bed.',
-      'title': 'Control and Monitor',
-      'icon': Icons.lock_reset,
-    },
-    {
-      'text': "Because we care, Let's live track their location and see on "
-          'the map where your child is.',
-      'title': 'Get to track their Location',
-      'icon': Icons.location_history,
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    JHSizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -66,11 +40,11 @@ class _SplashScreenState extends State<SplashScreen> {
                     currentPage = value;
                   });
                 },
-                itemCount: splashData.length,
+                itemCount: TabData.items.length,
                 itemBuilder: (context, index) => SplashContent(
-                  text: splashData[index]['text']!,
-                  title: splashData[index]['title']!,
-                  icon: splashData[index]['icon']!,
+                  text: TabData.items[index]['text'],
+                  title: TabData.items[index]['title'],
+                  icon: TabData.items[index]['icon'],
                 ),
               ),
             ),
@@ -79,8 +53,8 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  SideButton(
-                    color: Theme.of(context).primaryColor,
+                  JHCustomButton(
+                    backgroundColor: Theme.of(context).primaryColor,
                     title: 'Parent device'.toUpperCase(),
                     onPress: () {
                       SharedPreference().setVisitingFlag();
@@ -92,10 +66,10 @@ class _SplashScreenState extends State<SplashScreen> {
                       );
                     },
                   ),
-                  SizedBox(height: 8),
-                  SideButton(
-                    color: CustomColors.greenPrimary,
-                    title: ' Child device'.toUpperCase(),
+                  const SizedBox(height: 8),
+                  JHCustomButton(
+                    backgroundColor: CustomColors.greenPrimary,
+                    title: 'Child device'.toUpperCase(),
                     onPress: () {
                       SharedPreference().setVisitingFlag();
                       SharedPreference().setChildDevice();
@@ -106,15 +80,15 @@ class _SplashScreenState extends State<SplashScreen> {
                       );
                     },
                   ),
-                  Spacer(flex: 1),
+                  const Spacer(flex: 1),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      splashData.length,
+                      TabData.items.length,
                       (index) => buildDot(index: index),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),
@@ -127,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen> {
   AnimatedContainer buildDot({required int index}) {
     return AnimatedContainer(
       duration: kAnimationDuration,
-      margin: EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 5),
       height: 6,
       width: currentPage == index ? 20 : 6,
       decoration: BoxDecoration(
@@ -135,42 +109,6 @@ class _SplashScreenState extends State<SplashScreen> {
             ? Theme.of(context).primaryColor
             : Color(0xFFD8D8D8),
         borderRadius: BorderRadius.circular(3),
-      ),
-    );
-  }
-}
-
-class SideButton extends StatelessWidget {
-  final Color color;
-  final Function() onPress;
-  final String title;
-  const SideButton({
-    Key? key,
-    required this.color,
-    required this.onPress,
-    required this.title,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          backgroundColor: color,
-          side: BorderSide(width: 1.5, color: Colors.transparent),
-          minimumSize: Size(
-            MediaQuery.of(context).size.width * 0.95,
-            SizeConfig.screenHeight! * 0.07,
-          ),
-        ),
-        onPressed: onPress,
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: getProportionateScreenWidth(11),
-            color: Colors.white,
-          ),
-        ),
       ),
     );
   }

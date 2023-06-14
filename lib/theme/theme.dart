@@ -63,6 +63,7 @@ class AppTheme {
 
 extension PaddingHelper on Widget {
   Padding get p16 => Padding(padding: EdgeInsets.all(16), child: this);
+  Padding get p20 => Padding(padding: EdgeInsets.all(20), child: this);
   Padding get p8 => Padding(padding: EdgeInsets.only(top: 8), child: this);
   Padding get p4 => Padding(padding: EdgeInsets.all(8), child: this);
 
@@ -81,6 +82,9 @@ extension PaddingHelper on Widget {
   /// Vertical Padding 16
   Padding get vP16 =>
       Padding(padding: EdgeInsets.symmetric(vertical: 16), child: this);
+
+  Padding get vP36 =>
+      Padding(padding: EdgeInsets.symmetric(vertical: 36), child: this);
   Padding get vP8 =>
       Padding(padding: EdgeInsets.symmetric(vertical: 8), child: this);
   Padding get vP4 =>

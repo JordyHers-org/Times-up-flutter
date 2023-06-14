@@ -60,9 +60,9 @@ class EmailSignInModel with EmailAndPasswordValidators {
   final String surname;
   final String email;
   final String password;
-  final EmailSignInFormType formType;
   final bool isLoading;
   final bool submitted;
+  final EmailSignInFormType formType;
 
   EmailSignInModel copyWith({
     String? name,

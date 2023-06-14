@@ -1177,7 +1177,7 @@ class MockAppUsage extends _i1.Mock implements _i18.AppUsage {}
 /// A class which mocks [FirestoreDatabase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFirestoreDatabase extends _i1.Mock implements _i11.FirestoreDatabase {
+class MockFirestoreDatabase extends _i1.Mock implements _i11.FireStoreDatabase {
   @override
   String get uid => (super.noSuchMethod(
         Invocation.getter(#uid),

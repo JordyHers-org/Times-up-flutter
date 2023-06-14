@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parental_control/app/bloc/child_side_bloc.dart';
+import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/app/pages/set_child_page.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/app_usage_service.dart';
@@ -117,14 +118,12 @@ class _ChildPageState extends State<ChildPage> {
                     ),
                   )
                 : Container(),
-
             Divider(
               height: 0.5,
               thickness: 0.2,
               color: Colors.grey,
             ),
-            SizedBox(height: 5 * 2 ),
-
+            SizedBox(height: 5 * 2),
             ListTile(
               leading: Icon(Icons.notifications),
               title: Text('Notification'),
@@ -167,7 +166,7 @@ class _ChildPageState extends State<ChildPage> {
       ),
       //ignore: non_null
       body: appUsage.info.isEmpty
-          ? EmptyContent(
+          ? JHEmptyContent(
               title: 'This is the child page',
               message: 'Nothing to show at the moment',
             )
@@ -177,15 +176,15 @@ class _ChildPageState extends State<ChildPage> {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state is ChildSideInitial) {
-                      return buildInitialInput(context);
+                      return _buildInitialInput(context);
                     } else if (state is ChildSideFetching) {
-                      return buildLoading();
+                      return _buildLoading();
                     } else if (state is ChildSideNotification) {
-                      return buildNotification();
+                      return _buildNotification();
                     } else if (state is ChildSideAppList) {
-                      return buildAppList(appUsage);
+                      return _buildAppList(appUsage);
                     } else {
-                      return buildInitialInput(context);
+                      return _buildInitialInput(context);
                     }
                   },
                 ),
@@ -194,7 +193,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildInitialInput(BuildContext context) {
+  Widget _buildInitialInput(BuildContext context) {
     return Center(
       child: Text(
         'Child Page',
@@ -207,7 +206,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildLoading() {
+  Widget _buildLoading() {
     return Center(
       child: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
@@ -215,7 +214,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildNotification() {
+  Widget _buildNotification() {
     return StreamBuilder<List<NotificationModel>>(
       stream: widget.database!.notificationStream(childId: ''),
       builder: (BuildContext context, snapshot) {
@@ -246,7 +245,7 @@ class _ChildPageState extends State<ChildPage> {
         } else if (snapshot.hasData) {
           return ErrorWidget(snapshot.error!);
         }
-        return EmptyContent(
+        return JHEmptyContent(
           message:
               'This side of the app will display the list of Notifications',
           title: 'Notification page',
@@ -257,7 +256,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildAppList(appUsage) {
+  Widget _buildAppList(appUsage) {
     return ListView.builder(
       itemCount: appUsage.info.length,
       itemBuilder: (context, index) {
@@ -267,29 +266,11 @@ class _ChildPageState extends State<ChildPage> {
             style: TextStyle(fontSize: 15),
           ),
           trailing: Text(
-            parseResult(appUsage.info[index].usage.toString()),
+            appUsage.info[index].usage.toString().t(),
             style: TextStyle(fontSize: 14, color: Colors.indigo),
           ),
         );
       },
     );
-  }
-
-  String parseResult(String value) {
-    var removeColon = value.replaceAll(':', ' ');
-    var result = removeColon.replaceAll('.', '');
-
-    result = result.replaceRange(1, 1, ' day ');
-    result = result.replaceRange(9, 9, ' hour ');
-    result = result.replaceRange(18, null, ' minutes');
-
-    if (result.contains('00 hour')) {
-      result = result.replaceRange(0, 14, '');
-      return result;
-    } else if (result.contains('0 day')) {
-      result = result.replaceRange(0, 5, '');
-      return result;
-    }
-    return result;
   }
 }

@@ -1,8 +1,7 @@
 import 'package:logger/logger.dart';
 
-class Logging{
-
-  static var logger = Logger(
+class JHLogger {
+  static var $ = Logger(
     printer: PrettyPrinter(),
   );
 

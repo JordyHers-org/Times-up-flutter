@@ -12,13 +12,33 @@ import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
 
 class GeoFull extends StatefulWidget {
   final Position initialPosition;
   final Database database;
+  final AuthBase auth;
+  final GeoLocatorService geo;
 
-  GeoFull(this.initialPosition, this.database);
+  GeoFull(this.initialPosition, this.database, this.auth, this.geo);
+
+  static Widget create(
+    BuildContext context, {
+    required Position position,
+    required Database database,
+    required AuthBase auth,
+  }) {
+    final geoService = Provider.of<GeoLocatorService>(
+      context,
+      listen: false,
+    );
+
+    return GeoFull(
+      position,
+      database,
+      auth,
+      geoService,
+    );
+  }
 
   @override
   State<StatefulWidget> createState() => _GeoFullState();
@@ -35,11 +55,9 @@ class _GeoFullState extends State<GeoFull> {
 
   @override
   void initState() {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final geoService = Provider.of<GeoLocatorService>(context, listen: false);
-    _currentUser = auth.currentUser!;
-    geoService.getCurrentLocation.listen((position) {
-      centerScreen(position);
+    _currentUser = widget.auth.currentUser!;
+    widget.geo.getCurrentLocation.listen((position) {
+      _centerScreen(position);
     });
     _getAllChildLocations();
     super.initState();
@@ -73,7 +91,6 @@ class _GeoFullState extends State<GeoFull> {
     });
   }
 
-  //TODO:Make function async
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
     allMarkers.clear();
@@ -81,20 +98,14 @@ class _GeoFullState extends State<GeoFull> {
     allMarkers.add(
       Marker(
         infoWindow: InfoWindow(
-            title: data['id'],
-            snippet: data['name'],
-            onTap: () {
-              Logging.logger.d('Tapped');
-            },
+          title: data['id'],
+          snippet: data['name'],
         ),
         markerId: MarkerId(data['id']),
         icon: BitmapDescriptor.defaultMarkerWithHue(
           BitmapDescriptor.hueMagenta,
         ),
         draggable: false,
-        onTap: () {
-          Logging.logger.d('Marker Tapped');
-        },
         position: LatLng(
           data['position'].latitude,
           data['position'].longitude,
@@ -134,7 +145,7 @@ class _GeoFullState extends State<GeoFull> {
     );
   }
 
-  Future<void> centerScreen(Position position) async {
+  Future<void> _centerScreen(Position position) async {
     final controller = await _controller.future;
     await controller.animateCamera(
       CameraUpdate.newCameraPosition(

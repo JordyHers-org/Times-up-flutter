@@ -13,7 +13,7 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    Logging.logger.d('$path: $data');
+    JHLogger.$.d('$path: $data');
     await reference.set(data);
   }
 
@@ -22,7 +22,7 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    Logging.logger.d('$path: $data');
+    JHLogger.$.d('$path: $data');
 
     await reference.update(data);
   }
@@ -33,7 +33,7 @@ class FirestoreService {
   }) async {
     final reference =
         FirebaseFirestore.instance.collection(path).doc(data['id']);
-    Logging.logger.d('$path: $data');
+    JHLogger.$.d('$path: $data');
 
     await reference.set(data);
   }
@@ -43,7 +43,7 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.collection(path).doc();
-    Logging.logger.d('$path: $data');
+    JHLogger.$.d('$path: $data');
 
     await reference.set(data);
   }
