@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
@@ -38,7 +39,7 @@ class NotificationService {
 
   /// this function calls the Firebase Push notification
 
-  configureFirebaseMessaging() {
+  void configureFirebaseMessaging() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       var notification = message.notification;
       var android = message.notification?.android;
@@ -47,18 +48,19 @@ class NotificationService {
       // local notification to show to users using the created channel.
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                icon: android?.smallIcon,
-                // other properties...
-              ),
-            ));
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              icon: android.smallIcon,
+              // other properties...
+            ),
+          ),
+        );
       }
     });
 
@@ -68,6 +70,7 @@ class NotificationService {
       _setNotifications(
           {'message': message.messageId, 'notification': message.notification});
       Logging.logger.d('Message : $message');
+
     });
   }
 }

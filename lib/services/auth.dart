@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
@@ -82,7 +83,11 @@ class Auth implements AuthBase {
   ///Register with email and passwords
   @override
   Future<User> signUpUserWithEmailAndPassword(
-      String email, String password, String name, String surname) async {
+    String email,
+    String password,
+    String name,
+    String surname,
+  ) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     Logging.logger.v('Sign Up user complete  Name : $name');
@@ -100,7 +105,9 @@ class Auth implements AuthBase {
       if (googleAuth.idToken != null) {
         final userCredential = await _firebaseAuth.signInWithCredential(
           GoogleAuthProvider.credential(
-              idToken: googleAuth.idToken, accessToken: googleAuth.accessToken),
+            idToken: googleAuth.idToken,
+            accessToken: googleAuth.accessToken,
+          ),
         );
         return userCredential.user!;
       } else {
@@ -124,10 +131,12 @@ class Auth implements AuthBase {
   Future<User> signInWithFacebook() async {
     final fb = FacebookLogin();
 
-    final response = await fb.logIn(permissions: [
-      FacebookPermission.publicProfile,
-      FacebookPermission.email,
-    ]);
+    final response = await fb.logIn(
+      permissions: [
+        FacebookPermission.publicProfile,
+        FacebookPermission.email,
+      ],
+    );
     switch (response.status) {
       case FacebookLoginStatus.success:
         final accessToken = response.accessToken;
@@ -135,6 +144,7 @@ class Auth implements AuthBase {
           FacebookAuthProvider.credential(accessToken!.token),
         );
         Logging.logger.v('Facebook Login Completed : ${accessToken.token}');
+
         return userCredential.user!;
 
       case FacebookLoginStatus.cancel:
@@ -157,8 +167,19 @@ class Auth implements AuthBase {
   Future<void> signOut() async {
     final googleSignIn = GoogleSignIn();
     final facebookLogin = FacebookLogin();
-    await facebookLogin.logOut();
-    await googleSignIn.signOut();
+    final auth_provider = _firebaseAuth.currentUser!.providerData[0].providerId;
+
+    switch (auth_provider) {
+      case 'google.com':
+        await googleSignIn.signOut();
+        break;
+      case 'facebook.com':
+        await facebookLogin.logOut();
+        break;
+      default:
+        break;
+    }
+
     await _firebaseAuth.signOut();
   }
 }

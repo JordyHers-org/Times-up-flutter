@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
+
 class FirestoreService {
   FirestoreService._();
 
@@ -20,6 +23,7 @@ class FirestoreService {
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
     Logging.logger.d('$path: $data');
+
     await reference.update(data);
   }
 
@@ -30,6 +34,7 @@ class FirestoreService {
     final reference =
         FirebaseFirestore.instance.collection(path).doc(data['id']);
     Logging.logger.d('$path: $data');
+
     await reference.set(data);
   }
 
@@ -37,16 +42,22 @@ class FirestoreService {
     required String path,
     required Map<String, dynamic> data,
   }) async {
-    // await FirebaseFirestore.instance.collection('Notifications').
-    // doc().set({'message': 'HomeWork Time'});
     final reference = FirebaseFirestore.instance.collection(path).doc();
     Logging.logger.d('$path: $data');
+
     await reference.set(data);
   }
 
-  Future<void> deleteData({required String path}) async {
+  Future<void> deleteData({required String path, String? image}) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    Logging.logger.w('delete: $path');
+
+    /// Deleting the child's picture
+    if (image != null) {
+      final storageReference = FirebaseStorage.instance.refFromURL(image);
+      await storageReference.delete();
+    }
+
+    debugPrint('delete: $path');
     await reference.delete();
   }
 

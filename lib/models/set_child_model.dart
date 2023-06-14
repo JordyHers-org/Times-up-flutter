@@ -14,8 +14,8 @@ class SetChildModel with EmailAndPasswordValidators {
     required String email,
   }) {
     return SetChildModel(
-      email: email ?? this.email,
-      name: name ?? this.name,
+      email: email,
+      name: name,
     );
   }
 // model.copyWith(email:email)

@@ -23,7 +23,11 @@ class AppUsageInfo {
   DateTime _startDate, _endDate;
 
   AppUsageInfo(
-      String name, double usageInSeconds, this._startDate, this._endDate) {
+    String name,
+    double usageInSeconds,
+    this._startDate,
+    this._endDate,
+  ) {
     var tokens = name.split('.');
     _packageName = name;
     _appName = tokens.last;
@@ -62,7 +66,8 @@ class AppUsageInfo {
 
   @override
   String toString() {
-    return 'App Usage: $packageName - $appName, duration: $usage [$startDate, $endDate]';
+    return 'App Usage: $packageName - $appName, '
+        'duration: $usage [$startDate, $endDate]';
   }
 }
 
@@ -71,8 +76,11 @@ class AppUsage {
       MethodChannel('app_usage.methodChannel');
 
   static Future<List<AppUsageInfo>> getAppUsage(
-      DateTime startDate, DateTime endDate) async {
-    if (Platform.isAndroid) {
+    DateTime startDate,
+    DateTime endDate, {
+    required bool useMock,
+  }) async {
+    if (Platform.isAndroid || useMock) {
       /// Convert dates to ms since epoch
       var end = endDate.millisecondsSinceEpoch;
       var start = startDate.millisecondsSinceEpoch;
@@ -82,11 +90,11 @@ class AppUsage {
 
       /// Get result and parse it as a Map of <String, double>
       var usage = await _methodChannel.invokeMethod('getUsage', interval);
-      var _map = Map<String, double>.from(usage);
+      var _map = Map<String, dynamic>.from(usage);
 
       /// Convert each entry in the map to an Application object
       return _map.keys
-          .map((k) => AppUsageInfo(k, _map[k]!, startDate, endDate))
+          .map((k) => AppUsageInfo(k, _map[k][0], startDate, endDate))
           .where((a) => a.usage > Duration(seconds: 0))
           .toList();
     }

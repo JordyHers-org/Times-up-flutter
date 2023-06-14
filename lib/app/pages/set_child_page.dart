@@ -52,9 +52,10 @@ class _SetChildPageState extends State<SetChildPage> {
       if (response != null) {
         await Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
             fullscreenDialog: true,
-            builder: (context) =>
-                ChildPage.create(context, database, response)));
-      } else {
+            builder: (context) => ChildPage.create(context, database, response),
+          ),
+        );
+      } catch (e) {
         setState(() {
           appState = AppState.complete;
         });
@@ -72,36 +73,39 @@ class _SetChildPageState extends State<SetChildPage> {
   List<Widget> _buildChildren(BuildContext context, {SetChildModel? model}) {
     return [
       TextField(
-          enabled: appState == AppState.loading ? false : true,
-          focusNode: _nameFocusNode,
-          controller: _nameController,
-          textInputAction: TextInputAction.next,
-          onEditingComplete: () {
-            if (model?.nameValidator.isValid(model.name) == true) {
-              FocusScope.of(context).requestFocus(_keyFocusNode);
-            }
-          },
-          decoration: InputDecoration(
-            labelText: 'Name',
-          )),
+        enabled: appState == AppState.loading ? false : true,
+        focusNode: _nameFocusNode,
+        controller: _nameController,
+        textInputAction: TextInputAction.next,
+        onEditingComplete: () {
+          if (model?.nameValidator.isValid(model.name) == true) {
+            FocusScope.of(context).requestFocus(_keyFocusNode);
+          }
+        },
+        decoration: InputDecoration(
+          labelText: 'Name',
+        ),
+      ),
       TextField(
-          enabled: appState == AppState.loading ? false : true,
-          focusNode: _keyFocusNode,
-          controller: _key,
-          textInputAction: TextInputAction.next,
-          decoration: InputDecoration(
-            labelText: 'Unique Key',
-          )),
+        enabled: appState == AppState.loading ? false : true,
+        focusNode: _keyFocusNode,
+        controller: _key,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          labelText: 'Unique Key',
+        ),
+      ),
       SizedBox(height: 8.0),
       SizedBox(height: 8.0),
       FormSubmitButton(
-          text: appState == AppState.complete ? 'Submit' : 'Loading ...',
-          onPressed: () {
-            setState(() {
-              appState = AppState.loading;
-            });
-            _submit(_nameController.text, _key.text);
-          }),
+        text: appState == AppState.complete ? 'Submit' : 'Loading ...',
+        onPressed: () {
+          setState(() {
+            appState = AppState.loading;
+          });
+          _submit(_nameController.text, _key.text);
+        },
+      ),
       SizedBox(height: 8.0),
     ];
   }

@@ -23,136 +23,103 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   int currentPage = 0;
 
-  List<Map<String, String>> splashData = [
-    {
-      'text': 'The perfect tool to control apps and monitor the time\n'
-          'Your kids spend on screen. Easy to use ! \n'
-          'Start by setting up your device then set up\n your kid\'s phone',
-      'image': 'images/png/undraw_1.png'
-    },
-    {
-      'text': 'Send notifications to your child when time  \n '
-          ' limit is reached or when\n he has to go to bed. ',
-      'image': 'images/png/undraw4.png'
-    },
+  List<Map<String, dynamic>> splashData = [
     {
       'text':
-          "Because we care, Let's live track their location \nand see on the map where your child is.",
-      'image': 'images/png/undraw3.png'
+          "Time's Up is your solution to monitor the time your kids spend on "
+              'screen.',
+      'title': 'Get your new companion',
+      'icon': Icons.family_restroom,
+    },
+    {
+      'text': 'The perfect tool to control apps and monitor the time '
+          'Your kids spend on screen.',
+      'title': 'Get insightful dashboard',
+      'icon': Icons.dashboard_customize_outlined,
+    },
+    {
+      'text': 'Send notifications to your child when time '
+          ' limit is reached or when he has to go to bed.',
+      'title': 'Control and Monitor',
+      'icon': Icons.lock_reset,
+    },
+    {
+      'text': "Because we care, Let's live track their location and see on "
+          'the map where your child is.',
+      'title': 'Get to track their Location',
+      'icon': Icons.location_history,
     },
   ];
 
   @override
   Widget build(BuildContext context) {
-    // You have to call it on your starting screen
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          width: double.infinity,
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 3,
-                child: PageView.builder(
-                  physics: BouncingScrollPhysics(),
-                  onPageChanged: (value) {
-                    setState(() {
-                      currentPage = value;
-                    });
-                  },
-                  itemCount: splashData.length,
-                  itemBuilder: (context, index) => SplashContent(
-                    image: splashData[index]['image']!,
-                    text: splashData[index]['text']!,
-                  ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: PageView.builder(
+                physics: BouncingScrollPhysics(),
+                onPageChanged: (value) {
+                  setState(() {
+                    currentPage = value;
+                  });
+                },
+                itemCount: splashData.length,
+                itemBuilder: (context, index) => SplashContent(
+                  text: splashData[index]['text']!,
+                  title: splashData[index]['title']!,
+                  icon: splashData[index]['icon']!,
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(20)),
-                  child: Column(
-                    children: <Widget>[
-                      Spacer(flex: 3),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: 40,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor)),
-                              onPressed: () {
-                                SharedPreference().setVisitingFlag();
-                                SharedPreference().setParentDevice();
-                                Logging.logger.v(
-                                    'The page is set to Parent => now moving ......');
-                                Navigator.of(context).pushReplacement(
-                                    CupertinoPageRoute(
-                                        builder: (context) => LandingPage()));
-                              },
-                              child: Text(
-                                'Parent device'.toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(10),
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          ///-------------------------------------------------------------------
-                          Container(
-                            height: 40,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          CustomColors.greenPrimary)),
-                              onPressed: () {
-                                SharedPreference().setVisitingFlag();
-                                SharedPreference().setChildDevice();
-
-                                Logging.logger.v(
-                                    'The page is set to Child => now moving ......');
-                                Navigator.of(context).pushReplacement(
-                                    CupertinoPageRoute(
-                                        builder: (context) => LandingPage()));
-                              },
-                              child: Text(
-                                ' Child device'.toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(10),
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(flex: 1),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          splashData.length,
-                          (index) => buildDot(index: index),
+            ),
+            Expanded(
+              flex: 1,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SideButton(
+                    color: Theme.of(context).primaryColor,
+                    title: 'Parent device'.toUpperCase(),
+                    onPress: () {
+                      SharedPreference().setVisitingFlag();
+                      SharedPreference().setParentDevice();
+                      Navigator.of(context).pushReplacement(
+                        CupertinoPageRoute(
+                          builder: (context) => LandingPage(),
                         ),
-                      ),
-                      Spacer(),
-                    ],
+                      );
+                    },
                   ),
-                ),
+                  SizedBox(height: 8),
+                  SideButton(
+                    color: CustomColors.greenPrimary,
+                    title: ' Child device'.toUpperCase(),
+                    onPress: () {
+                      SharedPreference().setVisitingFlag();
+                      SharedPreference().setChildDevice();
+                      Navigator.of(context).pushReplacement(
+                        CupertinoPageRoute(
+                          builder: (context) => LandingPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  Spacer(flex: 1),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      splashData.length,
+                      (index) => buildDot(index: index),
+                    ),
+                  ),
+                  Spacer(),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -169,6 +136,42 @@ class _SplashScreenState extends State<SplashScreen> {
             ? Theme.of(context).primaryColor
             : Color(0xFFD8D8D8),
         borderRadius: BorderRadius.circular(3),
+      ),
+    );
+  }
+}
+
+class SideButton extends StatelessWidget {
+  final Color color;
+  final Function() onPress;
+  final String title;
+  const SideButton({
+    Key? key,
+    required this.color,
+    required this.onPress,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: color,
+          side: BorderSide(width: 1.5, color: Colors.transparent),
+          minimumSize: Size(
+            MediaQuery.of(context).size.width * 0.95,
+            SizeConfig.screenHeight! * 0.07,
+          ),
+        ),
+        onPressed: onPress,
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: getProportionateScreenWidth(11),
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

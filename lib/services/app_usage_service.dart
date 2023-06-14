@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:parental_control/services/app_usage_local_service.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 abstract class AppService {
@@ -14,10 +15,12 @@ class AppUsageService implements AppService {
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
-      var infoList = await AppUsage.getAppUsage(startDate, endDate);
+      var infoList =
+          await AppUsage.getAppUsage(startDate, endDate, useMock: false);
       _info = infoList;
     } on AppUsageException catch (exception) {
       Logging.logger.e(exception);
+
     }
   }
 }

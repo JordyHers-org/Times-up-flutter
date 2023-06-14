@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/constants.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/sign_in/sign_in_button.dart';
 import 'package:parental_control/sign_in/sign_in_manager.dart';
 import 'package:parental_control/sign_in/social_sign_in_button.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'email_sign_in_page.dart';
@@ -44,17 +43,11 @@ class SignInPage extends StatelessWidget {
         exception.code == 'ERROR_ABORTED_BY_USER') {
       return;
     }
-    showExceptionAlertDialog(context,
-        title: 'Sign in Failed', exception: exception);
-  }
-
-  ///Future void Function called to Sign In Anonymously
-  Future<void> _signInAnonymously(BuildContext context) async {
-    try {
-      await manager.signInAnonymously();
-    } on Exception catch (e) {
-      _showSignInError(context, e);
-    }
+    showExceptionAlertDialog(
+      context,
+      title: 'Sign in Failed',
+      exception: exception,
+    );
   }
 
   ///Future void Function called to Sign In with Google
@@ -77,13 +70,18 @@ class SignInPage extends StatelessWidget {
 
   ///Future void Function called to Sign In with Email and password
   ///
-  ///[fullscreenDialog] gives the orientation that the page will have while created
-  ///from bottom to to if false or slide on the side (ONLY FOR IOS)
+  ///[fullscreenDialog] gives the orientation that the page will have
+  /// while created from bottom to to if false or slide on the side
+  /// (ONLY FOR IOS)
   Future<void> _signInWithEmail(BuildContext context) async {
     Logging.logger.d("SIGNIN WITH EMAIL =>");
     try {
-      await Navigator.of(context).push(MaterialPageRoute<void>(
-          fullscreenDialog: true, builder: (context) => EmailSignInPage()));
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (context) => EmailSignInPage(),
+        ),
+      );
     } on Exception catch (e) {
       Logging.logger.e('ERROR THROWN $e');
     }
@@ -99,7 +97,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: CustomColors.indigoLight),
+      decoration: BoxDecoration(color: Colors.white),
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
