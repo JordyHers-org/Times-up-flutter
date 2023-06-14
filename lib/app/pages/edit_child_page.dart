@@ -144,8 +144,8 @@ class _EditChildPageState extends State<EditChildPage> {
             email: _email ?? 'No email',
             image: _imageURL,
           );
-          await widget.database!.setChild(child).whenComplete(() => {
-                setState(() {
+          await widget.database!.setChild(child).whenComplete(
+              () => setState(() {
                   Logging.logger.d('form Saved : $_name and email : $_email');
                   appState = AppState.complete;
                   Navigator.of(context).pop();

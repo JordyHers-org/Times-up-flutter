@@ -49,8 +49,9 @@ class _SetChildPageState extends State<SetChildPage> {
       final response = await database.getUserCurrentChild(
           name, key, GeoPoint(position.latitude, position.longitude));
       Logging.logger.d('RESPONSE : ${response}');
-      if (response != null) {
-        await Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
+      try {
+        await Navigator.of(context).pushReplacement(
+          MaterialPageRoute<void>(
             fullscreenDialog: true,
             builder: (context) => ChildPage.create(context, database, response),
           ),
