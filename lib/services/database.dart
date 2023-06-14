@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:parental_control/models/child_model.dart';
-import 'package:parental_control/models/notification_model.dart';
-import 'package:flutter/foundation.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/api_path.dart';
@@ -9,7 +7,6 @@ import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/firestore_service.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
 
 abstract class Database {
   Future<void> setChild(ChildModel model);
@@ -94,7 +91,6 @@ class FirestoreDatabase implements Database {
         Logging.logger.d('Email : $_email');
         Logging.logger.d('Unique Key : $key');
 
-
         _child = ChildModel(
           id: doc.id,
           name: _currentChild,
@@ -124,8 +120,9 @@ class FirestoreDatabase implements Database {
 
     Logging.logger.d('The user is $user and the Child Id: ${model.id}');
     Logging.logger.d(
-        ' DEBUG: FROM DATABASE ===> Last location taken is longitude :'
-            ' ${point.longitude} , latitude :${point.latitude}',);
+      ' DEBUG: FROM DATABASE ===> Last location taken is longitude :'
+      ' ${point.longitude} , latitude :${point.latitude}',
+    );
     Logging.logger.d(' DEBUG: APP USAGE ==> ${apps.info}');
 
     if (model.id == 'D9FBAB88') {
