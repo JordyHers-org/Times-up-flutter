@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/progress_bar.dart';
+import 'package:parental_control/common_widgets/jh_progress_bar.dart';
 import 'package:parental_control/theme/theme.dart';
 
 class SummaryTile extends StatelessWidget {

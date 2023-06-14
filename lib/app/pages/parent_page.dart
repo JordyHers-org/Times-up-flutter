@@ -5,13 +5,14 @@ import 'package:parental_control/app/pages/child_details_page.dart';
 import 'package:parental_control/app/pages/edit_child_page.dart';
 import 'package:parental_control/app/pages/notification_page.dart';
 import 'package:parental_control/app/pages/setting_page.dart';
-import 'package:parental_control/common_widgets/autosize_text.dart';
 import 'package:parental_control/common_widgets/child_horizontal_view.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/feature_widget.dart';
-import 'package:parental_control/common_widgets/info_box.dart';
-import 'package:parental_control/common_widgets/loading_map.dart';
-import 'package:parental_control/common_widgets/summary_tile.dart';
+import 'package:parental_control/common_widgets/jh_header.dart';
+import 'package:parental_control/common_widgets/jh_header_widget.dart';
+import 'package:parental_control/common_widgets/jh_info_row_widget.dart';
+import 'package:parental_control/common_widgets/jh_loading_widget.dart';
+import 'package:parental_control/common_widgets/jh_summary_tile.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
@@ -74,21 +75,6 @@ class _ParentPageState extends State<ParentPage>
     super.dispose();
   }
 
-  Future<void> _setShowCaseView() async {
-    var isVisited = await SharedPreference().getDisplayShowCase();
-    setState(() {
-      _isShowCaseActivated = isVisited;
-      SharedPreference().setDisplayShowCase();
-    });
-
-    _isShowCaseActivated == false
-        ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) => ShowCaseWidget.of(context)
-                .startShowCase([_settingsKey, _childListKey, _addKey]),
-          )
-        : null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,31 +120,7 @@ class _ParentPageState extends State<ParentPage>
       headerSliverBuilder: (context, value) {
         return [
           SliverAppBar(
-            flexibleSpace: !value
-                ? Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hello 👋',
-                        style: TextStyle(
-                          fontSize: 35,
-                          color: CustomColors.indigoDark,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Text(
-                        'Welcome',
-                        style: TextStyle(
-                          fontSize: 35,
-                          color: Colors.grey.shade300,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ],
-                  ).hP16
-                : SizedBox.shrink(),
+            flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
             backgroundColor: Colors.white,
             expandedHeight: !value ? 110 : 90,
             shape: ContinuousRectangleBorder(
@@ -215,94 +177,27 @@ class _ParentPageState extends State<ParentPage>
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  ListTile(
-                    title: Text(
-                      'My Children',
-                      style: TextStyle(color: Colors.indigo),
-                    ),
-                    subtitle: Text(
-                      'Choose child to get more infos - scroll right ',
-                      style: TextStyle(color: Colors.grey.shade400),
-                    ),
-                    trailing: Icon(
-                      Icons.info_outline_rounded,
-                      color: Colors.deepOrangeAccent.shade100,
-                    ),
+                  HeaderWidget(
+                    title: 'My Children',
+                    subtitle: 'Choose child to get more info - scroll right ',
                   ).p8,
                   _buildChildrenList(database),
-                  _header(),
-                  SummaryTile(),
-                  ListTile(
-                    title: Text(
-                      'Information Section',
-                      style: TextStyle(color: Colors.indigo),
-                    ),
-                    subtitle: Text(
-                      'Get tips on how to use the app.',
-                      style: TextStyle(color: Colors.grey.shade400),
-                    ),
+                  HeaderWidget(
+                    title: 'Get to see our child live app usage',
+                    subtitle: 'Click on it to have the full report',
                   ).p8,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InfoBox(
-                        onPress: null,
-                        icon: Icons.auto_graph,
-                        iconColor: CustomColors.indigoDark,
-                        child: SizedBox(
-                          width: 150,
-                          child: Text(
-                            ' Lorem ipsum dolor sit amet, consectetuer '
-                            'adipiscing elit.Aenean commodo ligula eget dolor. ',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                      InfoBox(
-                        onPress: null,
-                        icon: Icons.message,
-                        iconColor: CustomColors.indigoDark,
-                        child: SizedBox(
-                          width: 150,
-                          child: Text(
-                            ' Lorem ipsum dolor sit amet, consectetuer '
-                            ' .Aenean commodo ligula eget dolor.  ',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                    ],
+                  SummaryTile(),
+                  HeaderWidget(
+                    title: 'Information Section',
+                    subtitle: 'Get tips on how to use the app.',
+                  ).p8,
+                  InfoRow(
+                    icon_1: Icons.auto_graph_outlined,
+                    icon_2: Icons.message_outlined,
                   ).p4,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InfoBox(
-                        onPress: null,
-                        icon: Icons.lightbulb_rounded,
-                        iconColor: CustomColors.indigoDark,
-                        child: SizedBox(
-                          width: 150,
-                          child: Text(
-                            ' Lorem ipsum dolor sit amet, consectetuer adipiscing '
-                            'elit.Aenean commodo ligula eget dolor. ',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                      InfoBox(
-                        onPress: null,
-                        icon: Icons.volume_up_outlined,
-                        iconColor: CustomColors.indigoDark,
-                        child: SizedBox(
-                          width: 150,
-                          child: Text(
-                            ' Lorem ipsum dolor sit amet, consectetuer adipiscing '
-                            'elit.Aenean commodo ligula eget dolor.  ',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                    ],
+                  InfoRow(
+                    icon_1: Icons.lightbulb_rounded,
+                    icon_2: Icons.volume_up_outlined,
                   ).p4,
                   FeatureWidget(
                     child: Image.asset('images/google-logo.png'),
@@ -324,7 +219,7 @@ class _ParentPageState extends State<ParentPage>
   Widget _buildChildrenList(Database database) {
     return Showcase(
       textColor: Colors.indigo,
-      description: 'Tap on the child to display infos',
+      description: 'Tap on the child to display info',
       key: _childListKey,
       child: Container(
         height: 165.0,
@@ -373,23 +268,6 @@ class _ParentPageState extends State<ParentPage>
     );
   }
 
-  Widget _header() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        DisplayText(
-          text: 'Get to see our child live app usage',
-          style: TextStyle(color: Colors.indigo),
-        ),
-        SizedBox(height: 2),
-        DisplayText(
-          text: 'Click on it to have the full report',
-          style: TextStyle(color: Colors.grey.shade400),
-        ),
-      ],
-    ).p16;
-  }
-
   Widget _buildMapFullScreen(Database database, AuthBase auth) {
     return Consumer<Position?>(
       builder: (context, position, __) {
@@ -400,8 +278,23 @@ class _ParentPageState extends State<ParentPage>
                 database: database,
                 auth: auth,
               )
-            : LoadingMap();
+            : LoadingWidget();
       },
     );
+  }
+
+  Future<void> _setShowCaseView() async {
+    var isVisited = await SharedPreference().getDisplayShowCase();
+    setState(() {
+      _isShowCaseActivated = isVisited;
+      SharedPreference().setDisplayShowCase();
+    });
+
+    _isShowCaseActivated == false
+        ? WidgetsBinding.instance.addPostFrameCallback(
+            (_) => ShowCaseWidget.of(context)
+                .startShowCase([_settingsKey, _childListKey, _addKey]),
+          )
+        : null;
   }
 }

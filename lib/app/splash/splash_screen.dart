@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/app/landing_page.dart';
 import 'package:parental_control/app/splash/splash_content.dart';
-import 'package:parental_control/common_widgets/custom_button.dart';
+import 'package:parental_control/common_widgets/jh_custom_button.dart';
 import 'package:parental_control/common_widgets/size_config.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
