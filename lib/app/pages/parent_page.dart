@@ -75,10 +75,15 @@ class _ParentPageState extends State<ParentPage>
 
     _isShowCaseActivated == false
         ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) => ShowCaseWidget.of(context)
-                .startShowCase([_settingsKey, _childListKey, _addKey]),
+            (_) => _startShowCase(),
           )
         : null;
+  }
+
+  void _startShowCase() {
+    return ShowCaseWidget.of(context).startShowCase(
+      [_settingsKey, _childListKey, _addKey],
+    );
   }
 
   @override
@@ -203,8 +208,9 @@ class _ParentPageState extends State<ParentPage>
                               'Choose child to get more infos - scroll right ',
                               style: TextStyle(color: Colors.grey.shade400),
                             ),
-                            trailing: Icon(
-                              Icons.info_outline_rounded,
+                            trailing: IconButton(
+                              onPressed: _startShowCase,
+                              icon: Icon(Icons.info_outline_rounded),
                               color: Colors.deepOrangeAccent.shade100,
                             ),
                           ).p8,
