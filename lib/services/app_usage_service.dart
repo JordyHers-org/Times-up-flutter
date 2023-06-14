@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:parental_control/services/app_usage_local_service.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 abstract class AppService {

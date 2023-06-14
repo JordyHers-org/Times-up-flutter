@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
@@ -89,7 +88,7 @@ class Auth implements AuthBase {
     String surname,
   ) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+        email: email, password: password,);
     Logging.logger.v('Sign Up user complete  Name : $name');
     return userCredential.user!;
   }

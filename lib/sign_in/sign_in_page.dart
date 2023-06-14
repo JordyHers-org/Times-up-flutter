@@ -74,7 +74,7 @@ class SignInPage extends StatelessWidget {
   /// while created from bottom to to if false or slide on the side
   /// (ONLY FOR IOS)
   Future<void> _signInWithEmail(BuildContext context) async {
-    Logging.logger.d("SIGNIN WITH EMAIL =>");
+    Logging.logger.d('SIGNIN WITH EMAIL =>');
     try {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(

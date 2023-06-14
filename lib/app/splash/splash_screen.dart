@@ -5,7 +5,6 @@ import 'package:parental_control/app/splash/splash_content.dart';
 import 'package:parental_control/common_widgets/size_config.dart';
 import 'package:parental_control/services/shared_preferences.dart';
 import 'package:parental_control/theme/theme.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
 
 class SplashScreen extends StatefulWidget {
   final BuildContext? context;

@@ -99,7 +99,8 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       key: ValueKey<int>(index),
                       onDismissed: (DismissDirection direction) async {
-                        Logging.logger.w('DATA TO BE DELETED IS ${data[index].id}');
+                        Logging.logger.w(
+                            'DATA TO BE DELETED IS ${data[index].id}',);
                         await _delete(context, data[index]);
                         setState(() {
                            Logging.logger.d(' Notification deleted');

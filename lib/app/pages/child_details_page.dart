@@ -82,9 +82,11 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     isPushed = !isPushed;
                   });
                   Logging.logger.d('more is pushed');
-                }),
+                },
+            ),
           );
-        });
+        },
+    );
   }
 
   Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
@@ -226,11 +228,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                                 body: 'Here is a new message',
                                 message: 'Go to bed now ',
                               ),
-                              model);
+                              model,
+                          );
                           await showAlertDialog(context,
                               title: 'Successful',
                               content: 'Notification sent to ${model.name}',
-                              defaultActionText: 'OK');
+                              defaultActionText: 'OK',);
                           Logging.logger.d('Notification sent to device');
                         } on FirebaseException catch (e) {
                           await showExceptionAlertDialog(
@@ -261,11 +264,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                                 body: 'Here is a new message',
                                 message: 'Homework Time',
                               ),
-                              model);
+                              model,
+                          );
                           await showAlertDialog(context,
                               title: 'Successful',
                               content: 'Notification sent to ${model.name}',
-                              defaultActionText: 'OK');
+                              defaultActionText: 'OK',);
                           Logging.logger.d('Notification sent to device');
                         } on FirebaseException catch (e) {
                           await showExceptionAlertDialog(

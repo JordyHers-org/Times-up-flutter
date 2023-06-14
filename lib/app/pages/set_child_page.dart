@@ -43,11 +43,12 @@ class _SetChildPageState extends State<SetChildPage> {
   void _submit(String name, String key) async {
     final position = await geo.getInitialLocation();
     Logging.logger.d(
-        'Method latitude :${position.latitude} , Longitude : ${position.longitude}');
+        'Method latitude :${position.latitude} , '
+            'Longitude : ${position.longitude}');
     final database = Provider.of<Database>(context, listen: false);
     try {
       final response = await database.getUserCurrentChild(
-          name, key, GeoPoint(position.latitude, position.longitude));
+          name, key, GeoPoint(position.latitude, position.longitude),);
       Logging.logger.d('RESPONSE : ${response}');
       try {
         await Navigator.of(context).pushReplacement(
@@ -63,7 +64,7 @@ class _SetChildPageState extends State<SetChildPage> {
         await showAlertDialog(context,
             title: 'No Such file in Database',
             content: 'ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE',
-            defaultActionText: 'OK');
+            defaultActionText: 'OK',);
         Logging.logger.e('ERROR OCCURED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {

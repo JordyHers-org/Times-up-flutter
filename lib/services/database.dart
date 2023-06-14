@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/api_path.dart';
@@ -82,7 +81,8 @@ class FirestoreDatabase implements Database {
         _currentChild = doc.data()!['name'];
         _image = doc.data()!['image'];
 
-        Logging.logger.d('------------------------------------------------------');
+        Logging.logger.d('------------------------------'
+            '------------------------');
         Logging.logger.d(' User : $user \n');
         Logging.logger.d(' ---------------- We found this as a match --------');
         Logging.logger.d(doc['name']);
@@ -121,7 +121,8 @@ class FirestoreDatabase implements Database {
 
     Logging.logger.d('The user is $user and the Child Id: ${model.id}');
     Logging.logger.d(
-        ' DEBUG: FROM DATABASE ===> Last location taken is longitude : ${point.longitude} , latitude :${point.latitude}');
+        ' DEBUG: FROM DATABASE ===> Last location taken is longitude :'
+            ' ${point.longitude} , latitude :${point.latitude}',);
     Logging.logger.d(' DEBUG: APP USAGE ==> ${apps.info}');
 
     if (model.id == 'D9FBAB88') {

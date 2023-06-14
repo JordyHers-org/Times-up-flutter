@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'email_sign_in_model.dart';

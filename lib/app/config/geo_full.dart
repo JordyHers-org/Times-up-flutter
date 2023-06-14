@@ -85,7 +85,8 @@ class _GeoFullState extends State<GeoFull> {
             snippet: data['name'],
             onTap: () {
               Logging.logger.d('Tapped');
-            }),
+            },
+        ),
         markerId: MarkerId(data['id']),
         icon: BitmapDescriptor.defaultMarkerWithHue(
           BitmapDescriptor.hueMagenta,
