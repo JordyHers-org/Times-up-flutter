@@ -13,7 +13,7 @@ import 'package:parental_control/common_widgets/jh_header_widget.dart';
 import 'package:parental_control/common_widgets/jh_info_row_widget.dart';
 import 'package:parental_control/common_widgets/jh_loading_widget.dart';
 import 'package:parental_control/common_widgets/jh_summary_tile.dart';
-import 'package:parental_control/models/child_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
@@ -91,11 +91,9 @@ class _ParentPageState extends State<ParentPage>
     );
   }
 
-  Widget _buildParentPageContent(
-    BuildContext context,
-    AuthBase auth,
-    Database database,
-  ) {
+  Widget _buildParentPageContent(BuildContext context,
+      AuthBase auth,
+      Database database,) {
     var children = <Widget>[
       _buildDashboard(database, auth),
       _buildNotificationPage(auth),
@@ -135,9 +133,9 @@ class _ParentPageState extends State<ParentPage>
                 !value
                     ? SizedBox.shrink()
                     : Icon(
-                        Icons.menu,
-                        color: CustomColors.indigoDark,
-                      ),
+                  Icons.menu,
+                  color: CustomColors.indigoDark,
+                ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(side: BorderSide.none),
                   onPressed: () => SettingsPage.show(context, auth),
@@ -164,10 +162,11 @@ class _ParentPageState extends State<ParentPage>
           textColor: Colors.indigo,
           description: 'Add a new child here ',
           child: FloatingActionButton(
-            onPressed: () => EditChildPage.show(
-              context,
-              database: Provider.of<Database>(context, listen: false),
-            ),
+            onPressed: () =>
+                EditChildPage.show(
+                  context,
+                  database: Provider.of<Database>(context, listen: false),
+                ),
             child: const Icon(Icons.add),
           ),
         ),
@@ -273,15 +272,16 @@ class _ParentPageState extends State<ParentPage>
       builder: (context, position, __) {
         return position != null
             ? GeoFull.create(
-                context,
-                position: position,
-                database: database,
-                auth: auth,
-              )
+          context,
+          position: position,
+          database: database,
+          auth: auth,
+        )
             : LoadingWidget();
       },
     );
   }
+
 
   Future<void> _setShowCaseView() async {
     var isVisited = await SharedPreference().getDisplayShowCase();

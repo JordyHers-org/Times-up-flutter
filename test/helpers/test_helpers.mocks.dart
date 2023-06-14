@@ -15,8 +15,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i8;
 import 'package:geolocator/geolocator.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:parental_control/models/child_model.dart' as _i3;
-import 'package:parental_control/models/notification_model.dart' as _i12;
+import 'package:parental_control/models/child_model/child_model.dart' as _i3;
+import 'package:parental_control/models/notification_model/notification_model.dart' as _i12;
 import 'package:parental_control/services/app_usage_local_service.dart' as _i18;
 import 'package:parental_control/services/app_usage_service.dart' as _i6;
 import 'package:parental_control/services/auth.dart' as _i5;

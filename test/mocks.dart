@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:parental_control/models/child_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
 
 class Dummy {
   static Position position = Position(

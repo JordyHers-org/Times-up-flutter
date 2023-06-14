@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 
 void main() {
   test('NotificationModel', () {

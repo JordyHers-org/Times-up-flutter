@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/models/child_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';

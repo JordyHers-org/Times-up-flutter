@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/empty_content.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/notification_service.dart';
@@ -99,10 +100,13 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       key: ValueKey<int>(index),
                       onDismissed: (DismissDirection direction) async {
+                        debugPrint('DATA TO BE DELETED IS ${data[index].id}');
                         await _delete(context, data[index]);
                         setState(() {
+                          debugPrint(' Notification deleted');
                           data.removeAt(index);
                           appState = AppState.Empty;
+                          debugPrint(appState.toString());
                         });
                       },
                       direction: DismissDirection.endToStart,
