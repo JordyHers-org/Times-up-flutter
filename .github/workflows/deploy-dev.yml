@@ -62,6 +62,9 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      - name: Generate
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
       - name: Analyze
         run: flutter analyze
 
