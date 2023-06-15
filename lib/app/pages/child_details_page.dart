@@ -18,6 +18,8 @@ import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../common_widgets/jh_display_text.dart';
+
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({
     required this.database,
@@ -130,8 +132,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           "Enter this code on child's device:\n${model.id}",
                         );
                       },
-                      child: Text(
-                        model.id,
+                      child: JHDisplayText(
+                        text : model.id,
                         style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
@@ -162,12 +164,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 ),
                 SizedBox(height: 18),
                 ListTile(
-                  title: Text(
-                    'Send notifications to your Child\'s device',
+                  title: JHDisplayText(
+                    text:'Send notifications to your Child\'s device',
                     style: TextStyle(color: Colors.indigo),
                   ),
-                  subtitle: Text(
-                    'Push the button ',
+                  subtitle: JHDisplayText(
+                    text: 'Push the button ',
                     style: TextStyle(color: Colors.grey.shade400),
                   ),
                 ).p8,
@@ -221,15 +223,15 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                             children: [
                               ListTile(
                                 leading: Icon(Icons.phone_android),
-                                title: Text(
-                                  '${model.appsUsageModel[index].appName}',
+                                title: JHDisplayText(
+                                  text:'${model.appsUsageModel[index].appName}',
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                trailing: Text(
-                                  model.appsUsageModel[index].usage
+                                trailing: JHDisplayText(
+                                  text:model.appsUsageModel[index].usage
                                       .toString()
                                       .t(),
                                   style: TextStyle(

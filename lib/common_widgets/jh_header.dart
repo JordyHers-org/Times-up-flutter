@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/theme/theme.dart';
 
+import 'jh_display_text.dart';
+
 class JHHeader extends StatelessWidget {
   const JHHeader({
     Key? key,
@@ -13,16 +15,16 @@ class JHHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Hello 👋',
+        JHDisplayText(
+          text: 'Hello 👋',
           style: TextStyle(
             fontSize: 35,
             color: CustomColors.indigoDark,
             fontWeight: FontWeight.w900,
           ),
         ),
-        Text(
-          'Welcome',
+        JHDisplayText(
+          text:'Welcome',
           style: TextStyle(
             fontSize: 35,
             color: Colors.grey.shade300,

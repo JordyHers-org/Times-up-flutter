@@ -10,6 +10,8 @@ import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 
+import '../../common_widgets/jh_display_text.dart';
+
 enum AppState { Loaded, Empty }
 
 class NotificationPage extends StatefulWidget {
@@ -117,11 +119,17 @@ class _NotificationPageState extends State<NotificationPage> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
-                            title: Text(
-                              data[index].title ?? 'No title available',
+                            title: JHDisplayText(
+                              text: data[index].title ?? 'No title available',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
                             ),
-                            trailing: Text(
-                              data[index].message ?? 'No message available',
+                            trailing: JHDisplayText(
+                              text:
+                                  data[index].message ?? 'No message available',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,

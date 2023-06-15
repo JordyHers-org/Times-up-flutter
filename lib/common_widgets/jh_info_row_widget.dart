@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/jh_info_box.dart';
 import 'package:parental_control/theme/theme.dart';
 
+import 'jh_display_text.dart';
+
 class JHInfoRow extends StatelessWidget {
   final IconData icon_1;
   final IconData icon_2;
@@ -20,15 +22,18 @@ class JHInfoRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        InfoBox(
-          onPress: null,
-          icon: icon_1,
-          iconColor: CustomColors.indigoDark,
-          child: SizedBox(
-            width: 150,
-            child: Text(
-              text_1,
-              style: TextStyle(color: Colors.grey.shade500),
+        Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: InfoBox(
+            onPress: null,
+            icon: icon_1,
+            iconColor: CustomColors.indigoDark,
+            child: SizedBox(
+              width: 136,
+              child: JHDisplayText(
+                text: text_1,
+                style: TextStyle(color: Colors.grey.shade500),
+              ),
             ),
           ),
         ),
@@ -37,9 +42,9 @@ class JHInfoRow extends StatelessWidget {
           icon: icon_2,
           iconColor: CustomColors.indigoDark,
           child: SizedBox(
-            width: 150,
-            child: Text(
-              text_2,
+            width: 136,
+            child: JHDisplayText(
+              text: text_2,
               style: TextStyle(color: Colors.grey.shade500),
             ),
           ),

@@ -4,6 +4,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/theme/theme.dart';
 
+import 'jh_display_text.dart';
+
 class JHAppUsageChart extends StatefulWidget {
   final List<Color> availableColors = const [
     Colors.purpleAccent,
@@ -46,8 +48,8 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
-                    'Week Report',
+                  JHDisplayText(
+                    text: 'Week Report',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -57,8 +59,8 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
                   const SizedBox(
                     height: 4,
                   ),
-                  Text(
-                    'App Usage Graph',
+                  JHDisplayText(
+                    text:'App Usage Graph',
                     style: TextStyle(
                       color: CustomColors.indigoDark,
                       fontSize: 12,
@@ -288,28 +290,28 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = const Text('M', style: style);
+        text = JHDisplayText(text: 'M', style: style);
         break;
       case 1:
-        text = const Text('T', style: style);
+        text = JHDisplayText(text: 'T', style: style);
         break;
       case 2:
-        text = const Text('W', style: style);
+        text = JHDisplayText(text: 'W', style: style);
         break;
       case 3:
-        text = const Text('T', style: style);
+        text = JHDisplayText(text: 'T', style: style);
         break;
       case 4:
-        text = const Text('F', style: style);
+        text = JHDisplayText(text: 'F', style: style);
         break;
       case 5:
-        text = const Text('S', style: style);
+        text = JHDisplayText(text: 'S', style: style);
         break;
       case 6:
-        text = const Text('S', style: style);
+        text = JHDisplayText(text: 'S', style: style);
         break;
       default:
-        text = const Text('', style: style);
+        text =  JHDisplayText(text:'', style: style);
         break;
     }
     return Padding(padding: const EdgeInsets.only(top: 16), child: text);
