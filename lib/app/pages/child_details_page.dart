@@ -8,6 +8,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/jh_bar_chart.dart';
 import 'package:parental_control/common_widgets/jh_custom_button.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/jh_empty_content.dart';
 import 'package:parental_control/common_widgets/jh_feature_widget.dart';
 import 'package:parental_control/common_widgets/jh_header_widget.dart';
@@ -81,6 +82,14 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         headerSliverBuilder: (context, value) {
           return [
             SliverAppBar(
+              title: JHDisplayText(
+                text: model.name,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.normal,
+                  color: CustomColors.indigoLight,
+                ),
+              ),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 color: CustomColors.indigoPrimary,
