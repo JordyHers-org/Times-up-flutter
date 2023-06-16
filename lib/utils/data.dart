@@ -67,6 +67,15 @@ class MockData {
 
 class Png {
   static Image google = Image.asset('images/google-logo.png');
+  static Image info1 = Image.asset(
+    'images/png/undraw_1.png',
+  );
+  static Image info2 = Image.asset(
+    'images/png/undraw4.png',
+  );
+  static Image info3 = Image.asset(
+    'images/png/undraw3.png',
+  );
   static Image facebook = Image.asset(
     'images/facebook-logo.png',
     color: CustomColors.indigoDark,
