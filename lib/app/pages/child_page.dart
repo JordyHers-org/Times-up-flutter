@@ -36,14 +36,12 @@ class ChildPage extends StatefulWidget {
 }
 
 class _ChildPageState extends State<ChildPage> {
-  ///Methods To send to Bloc => Local User
   void sendLocalToBloCNotification(BuildContext context) {
     var childSideBloc = context.read<ChildSideBloc>();
     childSideBloc.add(GetNotifications());
     Navigator.pop(context);
   }
 
-  ///Methods To send to Bloc => Local User
   void sendLocalToBloCAppList(BuildContext context) {
     var childSideBloc = context.read<ChildSideBloc>();
     childSideBloc.add(GetAppList());
@@ -52,8 +50,7 @@ class _ChildPageState extends State<ChildPage> {
 
   @override
   void initState() {
-    /// This method updates the location on the map every 35 minutes
-    Timer.periodic(const Duration(minutes: 35), (timer) {
+    Timer.periodic(const Duration(seconds: 15), (timer) {
       widget.database?.liveUpdateChild(widget.child!, timer.tick);
     });
     super.initState();
