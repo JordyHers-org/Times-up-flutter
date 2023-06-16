@@ -79,6 +79,9 @@ extension PaddingHelper on Widget {
   Padding get hP16 =>
       Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: this);
 
+  Padding get hP50 =>
+      Padding(padding: EdgeInsets.symmetric(horizontal: 50), child: this);
+
   /// Vertical Padding 16
   Padding get vP16 =>
       Padding(padding: EdgeInsets.symmetric(vertical: 16), child: this);
