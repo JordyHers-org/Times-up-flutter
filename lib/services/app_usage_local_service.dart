@@ -91,13 +91,24 @@ class AppUsage {
 
       /// Get result and parse it as a Map of <String, double>
       var usage = await _methodChannel.invokeMethod('getUsage', interval);
-      var _map = Map<String, dynamic>.from(usage);
 
-      /// Convert each entry in the map to an Application object
-      return _map.keys
-          .map((k) => AppUsageInfo(k, _map[k][0], startDate, endDate))
-          .where((a) => a.usage > Duration(seconds: 0))
-          .toList();
+      // Convert to list of AppUsageInfo
+      var result = <AppUsageInfo>[];
+      for (String key in usage.keys) {
+        var temp = List<double>.from(usage[key]);
+        if (temp[0] > 0) {
+          result.add(
+            AppUsageInfo(
+              key,
+              temp[0],
+              DateTime.fromMillisecondsSinceEpoch(temp[1].round() * 1000),
+              DateTime.fromMillisecondsSinceEpoch(temp[2].round() * 1000),
+            ),
+          );
+        }
+      }
+
+      return result;
     }
     throw AppUsageException('AppUsage API exclusively available on Android!');
   }
