@@ -25,8 +25,6 @@ import 'package:parental_control/utils/data.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-enum MapScreenState { Full, Small }
-
 class ParentPage extends StatefulWidget {
   const ParentPage({
     Key? key,
