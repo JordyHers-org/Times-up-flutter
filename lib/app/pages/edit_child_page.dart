@@ -11,6 +11,8 @@ import 'package:parental_control/services/database.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
 
+import '../../common_widgets/jh_display_text.dart';
+
 enum AppState { loading, complete }
 
 class EditChildPage extends StatefulWidget {
@@ -158,7 +160,10 @@ class _EditChildPageState extends State<EditChildPage> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         elevation: 2.0,
-        title: Text(widget.model == null ? 'New Child' : 'Edit Child'),
+        title: JHDisplayText(
+          text: widget.model == null ? 'New Child' : 'Edit Child',
+          style: TextStyle(fontSize: 15),
+        ),
         centerTitle: true,
         actions: [
           GestureDetector(
@@ -166,8 +171,8 @@ class _EditChildPageState extends State<EditChildPage> {
             child: Align(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Save',
+                child: JHDisplayText(
+                  text: 'Save',
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
@@ -232,8 +237,8 @@ class _EditChildPageState extends State<EditChildPage> {
                   ),
                 ),
                 onPressed: () => _getLocalImage(),
-                child: Text(
-                  'add picture',
+                child: JHDisplayText(
+                  text: 'add picture',
                   style: TextStyle(color: Colors.white),
                 ),
               ),

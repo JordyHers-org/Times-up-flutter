@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/theme/theme.dart';
 
+import 'jh_display_text.dart';
+
 class JHFeatureWidget extends StatelessWidget {
   final String? title;
   final Widget? child;
@@ -33,8 +35,8 @@ class JHFeatureWidget extends StatelessWidget {
           SizedBox(width: 10),
           if (child != null) child ?? SizedBox.shrink(),
           title != null
-              ? Text(
-                  title!,
+              ? JHDisplayText(
+                  text: title!,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,

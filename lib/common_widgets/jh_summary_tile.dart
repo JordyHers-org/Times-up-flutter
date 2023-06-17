@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/jh_progress_bar.dart';
 import 'package:parental_control/theme/theme.dart';
 
+import 'jh_display_text.dart';
+
 class JHSummaryTile extends StatelessWidget {
   final String title;
   final String time;
@@ -28,17 +30,18 @@ class JHSummaryTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                title,
+              JHDisplayText(
+                text: title,
                 style: TextStyle(color: CustomColors.indigoPrimary),
               )
             ],
           ).p16,
           Row(
             children: [
-              Text(
-                time,
-                style: TextStyle(color: Colors.black, fontSize: 35),
+              JHDisplayText(
+                text: time,
+                fontSize: 35,
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ).p4,

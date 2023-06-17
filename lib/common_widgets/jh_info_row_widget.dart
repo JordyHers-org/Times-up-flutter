@@ -5,6 +5,8 @@ import 'package:parental_control/common_widgets/show_bottom_sheet.dart';
 import 'package:parental_control/theme/theme.dart';
 import 'package:parental_control/utils/data.dart';
 
+import 'jh_display_text.dart';
+
 class JHInfoRow extends StatelessWidget {
   final IconData icon_1;
   final IconData icon_2;
@@ -52,9 +54,9 @@ class JHInfoRow extends StatelessWidget {
           icon: icon_2,
           iconColor: CustomColors.indigoDark,
           child: SizedBox(
-            width: 150,
-            child: Text(
-              text_2,
+            width: 136,
+            child: JHDisplayText(
+              text: text_2,
               style: TextStyle(color: Colors.grey.shade500),
             ),
           ),

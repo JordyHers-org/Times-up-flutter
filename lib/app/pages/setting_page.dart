@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/services/auth.dart';
@@ -116,8 +117,8 @@ class SettingsPage extends StatelessWidget {
                     icon: Icon(Icons.contact_support_sharp),
                     onPressed: () {},
                   ),
-                  title: Text(
-                    'Copyright© JordyHers',
+                  title: JHDisplayText(
+                    text: 'Copyright© JordyHers',
                     style:
                         TextStyle(color: CustomColors.indigoDark, fontSize: 12),
                   ),
@@ -166,8 +167,8 @@ class ProfileListItem extends StatelessWidget {
               size: 25,
             ),
             SizedBox(width: 15),
-            Text(
-              text ?? '',
+            JHDisplayText(
+              text: text ?? '',
               style: TextStyles.body,
             ),
             Spacer(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/jh_size_config.dart';
 import 'package:parental_control/theme/theme.dart';
 
@@ -31,8 +32,8 @@ class JHCustomButton extends StatelessWidget {
           ),
         ),
         onPressed: onPress,
-        child: Text(
-          title,
+        child: JHDisplayText(
+          text: title,
           style: TextStyle(
             fontSize: getProportionateScreenWidth(13),
             color: textColor,

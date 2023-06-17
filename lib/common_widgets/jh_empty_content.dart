@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'jh_display_text.dart';
+
 class JHEmptyContent extends StatelessWidget {
   const JHEmptyContent({
     Key? key,
@@ -25,15 +27,15 @@ class JHEmptyContent extends StatelessWidget {
           if (child != null)
             child!
           else
-            Text(
-              title!,
+            JHDisplayText(
+              text: title!,
               style: TextStyle(
                 fontSize: fontSizeTitle,
                 color: Colors.black54,
               ),
             ),
-          Text(
-            message,
+          JHDisplayText(
+           text: message,
             style: TextStyle(
               fontSize: fontSizeMessage,
               color: Colors.black54,

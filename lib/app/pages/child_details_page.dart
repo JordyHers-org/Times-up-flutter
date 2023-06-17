@@ -84,8 +84,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             SliverAppBar(
               title: JHDisplayText(
                 text: model.name,
+                fontSize: 22,
                 style: TextStyle(
-                  fontSize: 22,
                   fontWeight: FontWeight.normal,
                   color: CustomColors.indigoLight,
                 ),
@@ -142,10 +142,10 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           "Enter this code on child's device:\n${model.id}",
                         );
                       },
-                      child: Text(
-                        model.id,
+                      child: JHDisplayText(
+                        text: model.id,
+                        fontSize: 32,
                         style: TextStyle(
-                          fontSize: 32,
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent,
                         ),

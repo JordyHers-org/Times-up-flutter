@@ -23,7 +23,7 @@ deploy:
 # This command will clean, delete .dart_tool and generate
 # classes.
 generate:
-	fvm flutter packages pub run build_runner build --delete-conflicting-outputs
+	 fvm flutter packages pub run build_runner build --delete-conflicting-outputs
 
 #This command runs fastlane
 release:

@@ -12,6 +12,8 @@ import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:provider/provider.dart';
 
+import '../../common_widgets/jh_display_text.dart';
+
 class ChildPage extends StatefulWidget {
   final Database? database;
   final ChildModel? child;
@@ -81,8 +83,8 @@ class _ChildPageState extends State<ChildPage> {
                               radius: 45,
                             ),
                             SizedBox(height: 6),
-                            Text(
-                              '${widget.child!.name} ',
+                            JHDisplayText(
+                              text: '${widget.child!.name} ',
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w800,
@@ -91,8 +93,8 @@ class _ChildPageState extends State<ChildPage> {
                             SizedBox(height: 12),
                             Row(
                               children: [
-                                Text(
-                                  '${widget.child!.email} ',
+                                JHDisplayText(
+                                  text: '${widget.child!.email} ',
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -101,8 +103,8 @@ class _ChildPageState extends State<ChildPage> {
                               ],
                             ),
                             SizedBox(height: 6),
-                            Text(
-                              '${widget.child!.id} ',
+                            JHDisplayText(
+                              text: '${widget.child!.id} ',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w800,
@@ -154,8 +156,8 @@ class _ChildPageState extends State<ChildPage> {
           )
         ],
         backgroundColor: Colors.white,
-        title: Text(
-          'Child',
+        title: JHDisplayText(
+          text: 'Child',
           style: TextStyle(color: Colors.indigo),
         ),
         iconTheme: IconThemeData(color: Colors.indigo),
@@ -192,8 +194,8 @@ class _ChildPageState extends State<ChildPage> {
 
   Widget _buildInitialInput(BuildContext context) {
     return Center(
-      child: Text(
-        'Child Page',
+      child: JHDisplayText(
+        text: 'Child Page',
         style: TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.bold,
@@ -225,9 +227,16 @@ class _ChildPageState extends State<ChildPage> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: ListTile(
-                    title: Text(data[index].title ?? 'No title available'),
-                    trailing: Text(
-                      data[index].message ?? 'No message available',
+                    title: JHDisplayText(
+                      text: data[index].title ?? 'No title available',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    trailing: JHDisplayText(
+                      text: data[index].message ?? 'No message available',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -258,12 +267,12 @@ class _ChildPageState extends State<ChildPage> {
       itemCount: appUsage.info.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(
-            appUsage.info[index].appName,
+          title: JHDisplayText(
+            text: appUsage.info[index].appName,
             style: TextStyle(fontSize: 15),
           ),
-          trailing: Text(
-            appUsage.info[index].usage.toString().t(),
+          trailing: JHDisplayText(
+            text: appUsage.info[index].usage.toString().t(),
             style: TextStyle(fontSize: 14, color: Colors.indigo),
           ),
         );
