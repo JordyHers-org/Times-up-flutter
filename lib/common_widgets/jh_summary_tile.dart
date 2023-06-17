@@ -40,7 +40,8 @@ class JHSummaryTile extends StatelessWidget {
             children: [
               JHDisplayText(
                 text: time,
-                style: TextStyle(color: Colors.black, fontSize: 35),
+                fontSize: 35,
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ).p4,

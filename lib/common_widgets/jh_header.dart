@@ -17,16 +17,16 @@ class JHHeader extends StatelessWidget {
       children: [
         JHDisplayText(
           text: 'Hello 👋',
+          fontSize: 35,
           style: TextStyle(
-            fontSize: 35,
             color: CustomColors.indigoDark,
             fontWeight: FontWeight.w900,
           ),
         ),
         JHDisplayText(
-          text:'Welcome',
+          text: 'Welcome',
+          fontSize: 35,
           style: TextStyle(
-            fontSize: 35,
             color: Colors.grey.shade300,
             fontWeight: FontWeight.w900,
           ),

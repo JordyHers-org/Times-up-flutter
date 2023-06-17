@@ -133,9 +133,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                         );
                       },
                       child: JHDisplayText(
-                        text : model.id,
+                        text: model.id,
+                        fontSize: 32,
                         style: TextStyle(
-                          fontSize: 32,
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent,
                         ),
@@ -165,7 +165,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 SizedBox(height: 18),
                 ListTile(
                   title: JHDisplayText(
-                    text:'Send notifications to your Child\'s device',
+                    text: 'Send notifications to your Child\'s device',
                     style: TextStyle(color: Colors.indigo),
                   ),
                   subtitle: JHDisplayText(
@@ -224,14 +224,15 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                               ListTile(
                                 leading: Icon(Icons.phone_android),
                                 title: JHDisplayText(
-                                  text:'${model.appsUsageModel[index].appName}',
+                                  text:
+                                      '${model.appsUsageModel[index].appName}',
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 trailing: JHDisplayText(
-                                  text:model.appsUsageModel[index].usage
+                                  text: model.appsUsageModel[index].usage
                                       .toString()
                                       .t(),
                                   style: TextStyle(
