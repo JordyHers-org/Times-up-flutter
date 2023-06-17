@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 abstract class AuthBase {
   User? get currentUser;
@@ -36,50 +36,40 @@ class Auth implements AuthBase {
 
   String get token => _token;
 
-  ///Streams allow us to control all changes applied
-  ///The stream is declare as follow final controller = StreamController();
-  ///controller.sink.add() adds value to the stream
-  ///controller.stream.listen gets the values.
   @override
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
-  /// This code is used to get the current user after The User has Logged in
   @override
   User? get currentUser => _firebaseAuth.currentUser;
 
-  ///Sign In Anonymously Method
   @override
   Future<User> signInAnonymously() async {
     final userCredential = await _firebaseAuth.signInAnonymously();
     return userCredential.user!;
   }
 
-  ///Sign in with Email and Password
   @override
   Future<User> signInWithEmailAndPassword(String email, String password) async {
     final userCredential = await _firebaseAuth.signInWithCredential(
       EmailAuthProvider.credential(email: email, password: password),
     );
-    debugPrint('Welcome back dear user _____=>  $email ');
+    JHLogger.$.v('$email');
     return userCredential.user!;
   }
 
   @override
-
-  /// This Method takes the device token Id which will be used later
   Future<String> setToken() async {
     try {
       await _firebaseMessaging.getToken().then((token) {
         _token = token!;
-        debugPrint('Device Token: $_token');
+        JHLogger.$.v('$_token');
       });
     } catch (e) {
-      debugPrint(e.toString());
+      JHLogger.$.e(e);
     }
     return _token;
   }
 
-  ///Register with email and passwords
   @override
   Future<User> signUpUserWithEmailAndPassword(
     String email,
@@ -91,11 +81,10 @@ class Auth implements AuthBase {
       email: email,
       password: password,
     );
-    debugPrint('Sign Up user complete  Name : $name');
+    JHLogger.$.v('Sign Up user complete  Name : $name');
     return userCredential.user!;
   }
 
-  ///Sign In with Google Method
   @override
   Future<User> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
@@ -125,9 +114,6 @@ class Auth implements AuthBase {
     }
   }
 
-  /// Sign in With Facebook credentials method
-  /// Facebook login will ask for permission
-  /// then initiate cases of responses
   @override
   Future<User> signInWithFacebook() async {
     final fb = FacebookLogin();
@@ -144,7 +130,8 @@ class Auth implements AuthBase {
         final userCredential = await _firebaseAuth.signInWithCredential(
           FacebookAuthProvider.credential(accessToken!.token),
         );
-        debugPrint('Facebook Login Completed : ${accessToken.token}');
+        JHLogger.$.v('Facebook Login Completed : ${accessToken.token}');
+
         return userCredential.user!;
 
       case FacebookLoginStatus.cancel:
@@ -162,7 +149,6 @@ class Auth implements AuthBase {
     }
   }
 
-  ///Sign Out Method from Firebase and Google
   @override
   Future<void> signOut() async {
     final googleSignIn = GoogleSignIn();

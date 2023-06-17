@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
-import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
+import 'package:parental_control/common_widgets/show_exeption_alert.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 
-import '../../common_widgets/show_exeption_alert.dart';
+import '../../common_widgets/jh_display_text.dart';
 
 enum AppState { Loaded, Empty }
 
@@ -66,10 +68,10 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return buildStreamNotification(context);
+    return _buildStreamNotification(context);
   }
 
-  Widget buildStreamNotification(BuildContext context) {
+  Widget _buildStreamNotification(BuildContext context) {
     return StreamBuilder<List<NotificationModel>>(
       stream: widget.database?.notificationStream(),
       builder: (BuildContext context, snapshot) {
@@ -78,6 +80,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
           return data!.isNotEmpty
               ? ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Dismissible(
@@ -99,13 +102,15 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       key: ValueKey<int>(index),
                       onDismissed: (DismissDirection direction) async {
-                        debugPrint('DATA TO BE DELETED IS ${data[index].id}');
+                        JHLogger.$.w(
+                          'DATA TO BE DELETED IS ${data[index].id}',
+                        );
                         await _delete(context, data[index]);
                         setState(() {
-                          debugPrint(' Notification deleted');
+                          JHLogger.$.d(' Notification deleted');
                           data.removeAt(index);
                           appState = AppState.Empty;
-                          debugPrint(appState.toString());
+                          JHLogger.$.d(appState);
                         });
                       },
                       direction: DismissDirection.endToStart,
@@ -114,11 +119,17 @@ class _NotificationPageState extends State<NotificationPage> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: ListTile(
-                            title: Text(
-                              data[index].title ?? 'No title available',
+                            title: JHDisplayText(
+                              text: data[index].title ?? 'No title available',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
                             ),
-                            trailing: Text(
-                              data[index].message ?? 'No message available',
+                            trailing: JHDisplayText(
+                              text:
+                                  data[index].message ?? 'No message available',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -131,7 +142,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     );
                   },
                 )
-              : EmptyContent(
+              : JHEmptyContent(
                   message: 'This side of the app will display the list of'
                       ' Notifications',
                   title: 'Notification page',

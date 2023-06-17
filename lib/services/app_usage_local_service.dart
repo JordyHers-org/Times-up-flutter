@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter/services.dart';
+import 'package:parental_control/app/helpers/parsing_extension.dart';
 
 /// Custom Exception for the plugin,
 /// thrown whenever the plugin is used on platforms other than Android
@@ -20,7 +21,7 @@ class AppUsageException implements Exception {
 class AppUsageInfo {
   late String _packageName, _appName;
   late Duration _usage;
-  DateTime _startDate, _endDate;
+  var _startDate, _endDate;
 
   AppUsageInfo(
     String name,
@@ -36,7 +37,7 @@ class AppUsageInfo {
 
   factory AppUsageInfo.fromMap(Map<String, dynamic> data) => AppUsageInfo(
         data['appName'],
-        data['usageInSeconds'],
+        data['usage'].toString().p(),
         data['startDate'],
         data['endDate'],
       );
@@ -77,9 +78,10 @@ class AppUsage {
 
   static Future<List<AppUsageInfo>> getAppUsage(
     DateTime startDate,
-    DateTime endDate,
-  ) async {
-    if (Platform.isAndroid) {
+    DateTime endDate, {
+    required bool useMock,
+  }) async {
+    if (Platform.isAndroid || useMock) {
       /// Convert dates to ms since epoch
       var end = endDate.millisecondsSinceEpoch;
       var start = startDate.millisecondsSinceEpoch;
@@ -89,13 +91,24 @@ class AppUsage {
 
       /// Get result and parse it as a Map of <String, double>
       var usage = await _methodChannel.invokeMethod('getUsage', interval);
-      var _map = Map<String, dynamic>.from(usage);
 
-      /// Convert each entry in the map to an Application object
-      return _map.keys
-          .map((k) => AppUsageInfo(k, _map[k][0], startDate, endDate))
-          .where((a) => a.usage > Duration(seconds: 0))
-          .toList();
+      // Convert to list of AppUsageInfo
+      var result = <AppUsageInfo>[];
+      for (String key in usage.keys) {
+        var temp = List<double>.from(usage[key]);
+        if (temp[0] > 0) {
+          result.add(
+            AppUsageInfo(
+              key,
+              temp[0],
+              DateTime.fromMillisecondsSinceEpoch(temp[1].round() * 1000),
+              DateTime.fromMillisecondsSinceEpoch(temp[2].round() * 1000),
+            ),
+          );
+        }
+      }
+
+      return result;
     }
     throw AppUsageException('AppUsage API exclusively available on Android!');
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/custom_raised_button.dart';
+import 'package:parental_control/common_widgets/jh_custom_raised_button.dart';
 
-class SocialSignInButton extends CustomRaisedButton {
+import '../common_widgets/jh_display_text.dart';
+
+class SocialSignInButton extends JHCustomRaisedButton {
   SocialSignInButton({
     required String assetName,
     required String text,
@@ -13,8 +15,8 @@ class SocialSignInButton extends CustomRaisedButton {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset(assetName),
-              Text(
-                text,
+              JHDisplayText(
+                text: text,
                 style: TextStyle(color: textColor, fontSize: 15),
               ),
               Opacity(

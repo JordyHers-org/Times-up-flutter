@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/utils/constants.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/sign_in/sign_in_button.dart';
 import 'package:parental_control/sign_in/sign_in_manager.dart';
 import 'package:parental_control/sign_in/social_sign_in_button.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 import 'email_sign_in_page.dart';
@@ -20,7 +20,6 @@ class SignInPage extends StatelessWidget {
   final SignInManager manager;
   final bool isLoading;
 
-  ///Here we had the provider wrapping the Sign in Page
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
     return ChangeNotifierProvider<ValueNotifier<bool>>(
@@ -51,7 +50,6 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  ///Future void Function called to Sign In with Google
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
       await manager.signInWithGoogle();
@@ -60,7 +58,6 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-  ///Future void Function called to Sign In with Facebook
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
       await manager.signInWithFacebook();
@@ -69,13 +66,8 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-  ///Future void Function called to Sign In with Email and password
-  ///
-  ///[fullscreenDialog] gives the orientation that the page will have
-  /// while created from bottom to to if false or slide on the side
-  /// (ONLY FOR IOS)
   Future<void> _signInWithEmail(BuildContext context) async {
-    debugPrint('SIGNIN WITH EMAIL =>');
+    JHLogger.$.d('SIGNIN WITH EMAIL =>');
     try {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
@@ -84,7 +76,7 @@ class SignInPage extends StatelessWidget {
         ),
       );
     } on Exception catch (e) {
-      debugPrint('ERROR THROWN $e');
+      JHLogger.$.e('ERROR THROWN $e');
     }
   }
 
@@ -98,7 +90,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: CustomColors.indigoLight),
+      decoration: BoxDecoration(color: Colors.white),
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

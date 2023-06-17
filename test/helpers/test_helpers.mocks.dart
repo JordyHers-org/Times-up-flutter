@@ -15,8 +15,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i8;
 import 'package:geolocator/geolocator.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:parental_control/models/child_model.dart' as _i3;
-import 'package:parental_control/models/notification_model.dart' as _i12;
+import 'package:parental_control/models/child_model/child_model.dart' as _i3;
+import 'package:parental_control/models/notification_model/notification_model.dart'
+    as _i12;
 import 'package:parental_control/services/app_usage_local_service.dart' as _i18;
 import 'package:parental_control/services/app_usage_service.dart' as _i6;
 import 'package:parental_control/services/auth.dart' as _i5;
@@ -411,22 +412,6 @@ class MockDatabase extends _i1.Mock implements _i11.Database {
         returnValueForMissingStub: _i10.Stream<List<_i3.ChildModel>>.empty(),
       ) as _i10.Stream<List<_i3.ChildModel>>);
   @override
-  _i10.Future<void> setNotification(
-    _i12.NotificationModel? notification,
-    _i3.ChildModel? model,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setNotification,
-          [
-            notification,
-            model,
-          ],
-        ),
-        returnValue: _i10.Future<void>.value(),
-        returnValueForMissingStub: _i10.Future<void>.value(),
-      ) as _i10.Future<void>);
-  @override
   _i10.Stream<List<_i12.NotificationModel>> notificationStream(
           {String? childId}) =>
       (super.noSuchMethod(
@@ -450,6 +435,22 @@ class MockDatabase extends _i1.Mock implements _i11.Database {
         returnValue: _i10.Stream<_i3.ChildModel>.empty(),
         returnValueForMissingStub: _i10.Stream<_i3.ChildModel>.empty(),
       ) as _i10.Stream<_i3.ChildModel>);
+  @override
+  _i10.Future<void> setNotification(
+    _i12.NotificationModel? notification,
+    _i3.ChildModel? model,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setNotification,
+          [
+            notification,
+            model,
+          ],
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
   _i10.Future<_i3.ChildModel> getUserCurrentChild(
     String? name,
@@ -1174,10 +1175,10 @@ class MockEmailSignInBloc extends _i1.Mock implements _i16.EmailSignInBloc {
 /// See the documentation for Mockito's code generation for more information.
 class MockAppUsage extends _i1.Mock implements _i18.AppUsage {}
 
-/// A class which mocks [FirestoreDatabase].
+/// A class which mocks [FireStoreDatabase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFirestoreDatabase extends _i1.Mock implements _i11.FirestoreDatabase {
+class MockFireStoreDatabase extends _i1.Mock implements _i11.FireStoreDatabase {
   @override
   String get uid => (super.noSuchMethod(
         Invocation.getter(#uid),
@@ -1236,61 +1237,6 @@ class MockFirestoreDatabase extends _i1.Mock implements _i11.FirestoreDatabase {
           Invocation.getter(#currentChild),
         ),
       ) as _i3.ChildModel);
-  @override
-  _i10.Future<_i3.ChildModel> getUserCurrentChild(
-    String? name,
-    String? key,
-    _i13.GeoPoint? latLong,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getUserCurrentChild,
-          [
-            name,
-            key,
-            latLong,
-          ],
-        ),
-        returnValue: _i10.Future<_i3.ChildModel>.value(_FakeChildModel_1(
-          this,
-          Invocation.method(
-            #getUserCurrentChild,
-            [
-              name,
-              key,
-              latLong,
-            ],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i10.Future<_i3.ChildModel>.value(_FakeChildModel_1(
-          this,
-          Invocation.method(
-            #getUserCurrentChild,
-            [
-              name,
-              key,
-              latLong,
-            ],
-          ),
-        )),
-      ) as _i10.Future<_i3.ChildModel>);
-  @override
-  _i10.Future<void> liveUpdateChild(
-    _i3.ChildModel? model,
-    int? value,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #liveUpdateChild,
-          [
-            model,
-            value,
-          ],
-        ),
-        returnValue: _i10.Future<void>.value(),
-        returnValueForMissingStub: _i10.Future<void>.value(),
-      ) as _i10.Future<void>);
   @override
   _i10.Future<void> setChild(_i3.ChildModel? model) => (super.noSuchMethod(
         Invocation.method(
@@ -1386,6 +1332,61 @@ class MockFirestoreDatabase extends _i1.Mock implements _i11.FirestoreDatabase {
         returnValue: _i10.Stream<List<_i3.ChildModel>>.empty(),
         returnValueForMissingStub: _i10.Stream<List<_i3.ChildModel>>.empty(),
       ) as _i10.Stream<List<_i3.ChildModel>>);
+  @override
+  _i10.Future<void> liveUpdateChild(
+    _i3.ChildModel? model,
+    int? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #liveUpdateChild,
+          [
+            model,
+            value,
+          ],
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
+  @override
+  _i10.Future<_i3.ChildModel> getUserCurrentChild(
+    String? name,
+    String? key,
+    _i13.GeoPoint? latLong,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUserCurrentChild,
+          [
+            name,
+            key,
+            latLong,
+          ],
+        ),
+        returnValue: _i10.Future<_i3.ChildModel>.value(_FakeChildModel_1(
+          this,
+          Invocation.method(
+            #getUserCurrentChild,
+            [
+              name,
+              key,
+              latLong,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i10.Future<_i3.ChildModel>.value(_FakeChildModel_1(
+          this,
+          Invocation.method(
+            #getUserCurrentChild,
+            [
+              name,
+              key,
+              latLong,
+            ],
+          ),
+        )),
+      ) as _i10.Future<_i3.ChildModel>);
 }
 
 /// A class which mocks [NotificationService].

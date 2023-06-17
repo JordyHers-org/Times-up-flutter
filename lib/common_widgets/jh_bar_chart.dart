@@ -1,10 +1,12 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:parental_control/theme/theme.dart';
 
-class AppUsageChart extends StatefulWidget {
+import 'jh_display_text.dart';
+
+class JHAppUsageChart extends StatefulWidget {
   final List<Color> availableColors = const [
     Colors.purpleAccent,
     Colors.yellow,
@@ -16,15 +18,14 @@ class AppUsageChart extends StatefulWidget {
   final bool isEmpty;
   final String name;
 
-  const AppUsageChart({Key? key, required this.isEmpty, required this.name})
+  const JHAppUsageChart({Key? key, required this.isEmpty, required this.name})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => AppUsageChartState();
+  State<StatefulWidget> createState() => JHAppUsageChartState();
 }
 
-class AppUsageChartState extends State<AppUsageChart> {
-  final Color barBackgroundColor = const Color(0xff72d8bf);
+class JHAppUsageChartState extends State<JHAppUsageChart> {
   final Duration animDuration = const Duration(milliseconds: 250);
 
   int touchedIndex = -1;
@@ -36,8 +37,8 @@ class AppUsageChartState extends State<AppUsageChart> {
     return AspectRatio(
       aspectRatio: 1,
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        color: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        color: CustomColors.indigoLight,
         child: Stack(
           children: <Widget>[
             Padding(
@@ -47,8 +48,8 @@ class AppUsageChartState extends State<AppUsageChart> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
-                    widget.name,
+                  JHDisplayText(
+                    text: 'Week Report',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -58,10 +59,10 @@ class AppUsageChartState extends State<AppUsageChart> {
                   const SizedBox(
                     height: 4,
                   ),
-                  const Text(
-                    'App Usage Graph',
+                  JHDisplayText(
+                    text:'App Usage Graph',
                     style: TextStyle(
-                      color: Color(0xff379982),
+                      color: CustomColors.indigoDark,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -115,7 +116,7 @@ class AppUsageChartState extends State<AppUsageChart> {
     double y, {
     bool isTouched = false,
     Color barColor = Colors.white,
-    double width = 12,
+    double width = 22,
     List<int> showTooltips = const [],
   }) {
     return BarChartGroupData(
@@ -130,8 +131,7 @@ class AppUsageChartState extends State<AppUsageChart> {
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            toY: 20,
-            color: barBackgroundColor,
+            toY: 10,
           ),
         ),
       ],
@@ -285,33 +285,33 @@ class AppUsageChartState extends State<AppUsageChart> {
     const style = TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,
-      fontSize: 14,
+      fontSize: 11,
     );
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = const Text('M', style: style);
+        text = JHDisplayText(text: 'M', style: style);
         break;
       case 1:
-        text = const Text('T', style: style);
+        text = JHDisplayText(text: 'T', style: style);
         break;
       case 2:
-        text = const Text('W', style: style);
+        text = JHDisplayText(text: 'W', style: style);
         break;
       case 3:
-        text = const Text('T', style: style);
+        text = JHDisplayText(text: 'T', style: style);
         break;
       case 4:
-        text = const Text('F', style: style);
+        text = JHDisplayText(text: 'F', style: style);
         break;
       case 5:
-        text = const Text('S', style: style);
+        text = JHDisplayText(text: 'S', style: style);
         break;
       case 6:
-        text = const Text('S', style: style);
+        text = JHDisplayText(text: 'S', style: style);
         break;
       default:
-        text = const Text('', style: style);
+        text =  JHDisplayText(text:'', style: style);
         break;
     }
     return Padding(padding: const EdgeInsets.only(top: 16), child: text);

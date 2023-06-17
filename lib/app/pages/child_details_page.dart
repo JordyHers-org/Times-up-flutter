@@ -1,22 +1,32 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
-import 'package:parental_control/common_widgets/bar_chart.dart';
-import 'package:parental_control/common_widgets/custom_raised_button.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
+import 'package:parental_control/common_widgets/jh_bar_chart.dart';
+import 'package:parental_control/common_widgets/jh_custom_button.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
+import 'package:parental_control/common_widgets/jh_feature_widget.dart';
+import 'package:parental_control/common_widgets/jh_header_widget.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
+import 'package:parental_control/common_widgets/show_bottom_sheet.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/models/child_model.dart';
-import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/database.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ChildDetailsPage extends StatefulWidget {
-  const ChildDetailsPage({required this.database, required this.childModel});
+  const ChildDetailsPage({
+    required this.database,
+    required this.childModel,
+  });
 
   final Database database;
   final ChildModel childModel;
@@ -52,36 +62,14 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
     }
   }
 
-  var isPushed = false;
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ChildModel?>(
       stream: widget.database.childStream(childId: widget.childModel.id),
       builder: (context, snapshot) {
         final child = snapshot.data;
-        final childName = child?.name ?? '';
         return Scaffold(
-          appBar: AppBar(
-            elevation: 2.0,
-            title: Text(childName),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => _confirmDelete(context, widget.childModel),
-              ),
-            ],
-          ),
           body: _buildContentTemporary(context, child),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.more_vert),
-            onPressed: () {
-              setState(() {
-                isPushed = !isPushed;
-              });
-              debugPrint('more is pushed');
-            },
-          ),
         );
       },
     );
@@ -89,38 +77,54 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
 
   Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
     if (model != null) {
-      return SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                _buildProfile(model),
-                Column(
+      return NestedScrollView(
+        physics: BouncingScrollPhysics(),
+        headerSliverBuilder: (context, value) {
+          return [
+            SliverAppBar(
+              title: JHDisplayText(
+                text: model.name,
+                fontSize: 22,
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color: CustomColors.indigoLight,
+                ),
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                color: CustomColors.indigoPrimary,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              iconTheme: IconThemeData(color: Colors.red),
+              backgroundColor: Colors.white,
+              expandedHeight: 50,
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+              ),
+              pinned: true,
+              floating: true,
+            )
+          ];
+        },
+        body: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildListDelegate([
+                HeaderWidget(
+                  title: 'Enter this code on the child\'s device',
+                  subtitle: 'Long press to copy or double tap to share ',
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(
-                      'Enter this code on the child\'s device',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black.withOpacity(0.35),
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Long press to copy or double tap to share',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.black.withOpacity(0.35),
-                      ),
-                    ),
-                    SizedBox(height: 8),
+                    _buildProfile(model),
                     GestureDetector(
                       onLongPress: () {
                         Clipboard.setData(
@@ -130,8 +134,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                             content: const Text('Code Copied!'),
                           );
 
-                          // Find the ScaffoldMessenger in the widget tree
-                          // and use it to show a SnackBar.
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         });
                       },
@@ -140,203 +142,98 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           "Enter this code on child's device:\n${model.id}",
                         );
                       },
-                      child: Text(
-                        model.id,
+                      child: JHDisplayText(
+                        text: model.id,
+                        fontSize: 32,
                         style: TextStyle(
-                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent,
                         ),
                       ),
+                    ).hP16,
+                  ],
+                ).p16,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 18),
+                      height: 205,
+                      width: double.infinity,
+                      child: model.appsUsageModel.isNotEmpty
+                          ? JHAppUsageChart(
+                              isEmpty: false,
+                              name: model.name,
+                            )
+                          : JHAppUsageChart(
+                              isEmpty: true,
+                              name: model.name,
+                            ),
                     ),
                   ],
                 ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+                SizedBox(height: 18),
+                GestureDetector(
+                  onTap: () => showCustomBottomSheet(
+                    context,
+                    child: _AppUsedList(
+                      model: model,
+                    ),
+                  ),
+                  child: JHFeatureWidget(
+                    title: 'Most Used Apps',
+                    icon: Icons.bar_chart_rounded,
+                  ),
+                ),
+                HeaderWidget(
+                  title: 'Send notifications to your Child\'s device',
+                  subtitle: 'Push the button ',
+                ).p8,
+                SizedBox(height: 8),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 18),
-                  height: 205,
-                  width: double.infinity,
-                  child: model.appsUsageModel.isNotEmpty
-                      ? AppUsageChart(
-                          isEmpty: false,
-                          name: model.name,
-                        )
-                      : AppUsageChart(
-                          isEmpty: true,
-                          name: model.name,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      JHCustomButton(
+                        title: ' Bed Time',
+                        backgroundColor: Colors.indigo,
+                        onPress: () async => await _sendNotification(
+                          context,
+                          model,
+                          'Hey Go to bed Now',
                         ),
-                ),
-                SizedBox(height: 6),
-              ],
-            ),
-            SizedBox(height: 18),
-            SizedBox(
-              height: 2,
-              width: double.infinity,
-              child: Container(
-                color: Colors.indigo,
-              ),
-            ),
-            SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: RichText(
-                text: TextSpan(
-                  text: "Send notifications to your Child's device",
-                  style: TextStyle(color: Colors.indigo, fontSize: 14),
-                ),
-              ),
-            ),
-            SizedBox(height: 2),
-            Padding(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: RichText(
-                text: TextSpan(
-                  text: 'Push the button ',
-                  style: TextStyle(color: Colors.grey, fontSize: 11),
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(75.0, 22, 75, 12),
-                    child: CustomRaisedButton(
-                      child: Text(
-                        ' Bed Time',
-                        style: TextStyle(fontSize: 17, color: Colors.white),
                       ),
-                      borderRadius: 12,
-                      color: Colors.indigo,
-                      height: 45,
-                      onPressed: () async {
-                        try {
-                          await widget.database.setNotification(
-                            NotificationModel(
-                              id: model.id,
-                              title: ' Hey ${model.name}',
-                              body: 'Here is a new message',
-                              message: 'Go to bed now ',
-                            ),
-                            model,
-                          );
-                          await showAlertDialog(
-                            context,
-                            title: 'Successful',
-                            content: 'Notification sent to ${model.name}',
-                            defaultActionText: 'OK',
-                          );
-                          debugPrint('Notification sent to device');
-                        } on FirebaseException catch (e) {
-                          await showExceptionAlertDialog(
-                            context,
-                            title: 'An error occurred',
-                            exception: e,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(75.0, 12, 75, 6),
-                    child: CustomRaisedButton(
-                      child: Text(
-                        'Homework Time',
-                        style: TextStyle(fontSize: 17),
-                      ),
-                      borderRadius: 12,
-                      color: Colors.white,
-                      height: 45,
-                      onPressed: () async {
-                        try {
-                          await widget.database.setNotification(
-                            NotificationModel(
-                              id: model.id,
-                              title: ' Hey ${model.name}',
-                              body: 'Here is a new message',
-                              message: 'Homework Time',
-                            ),
-                            model,
-                          );
-                          await showAlertDialog(
-                            context,
-                            title: 'Successful',
-                            content: 'Notification sent to ${model.name}',
-                            defaultActionText: 'OK',
-                          );
-                          debugPrint('Notification sent to device');
-                        } on FirebaseException catch (e) {
-                          await showExceptionAlertDialog(
-                            context,
-                            title: 'An error occurred',
-                            exception: e,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              height: 150,
-            ),
-            SizedBox(height: 58),
-            isPushed == true && model.appsUsageModel.isNotEmpty
-                ? ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: model.appsUsageModel.length,
-                    itemBuilder: (context, index) {
-                      return SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            ListTile(
-                              leading: Icon(Icons.phone_android),
-                              title: Text(
-                                '${model.appsUsageModel[index]['appName']}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                model.appsUsageModel[index]['usage']
-                                    .toString()
-                                    .t(),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.indigo,
-                                ),
-                              ),
-                            )
-                          ],
+                      JHCustomButton(
+                        title: 'Homework Time',
+                        backgroundColor: CustomColors.indigoLight,
+                        onPress: () async => await _sendNotification(
+                          context,
+                          model,
+                          'Homework Time',
                         ),
-                      );
-                    },
-                  )
-                : EmptyContent(
-                    message: 'Tap on more to display apps statistics \n'
-                        '        Tap again to hide',
-                    title: 'Show apps Statistics',
-                    fontSizeMessage: 12,
-                    fontSizeTitle: 23,
+                      ),
+                      JHCustomButton(
+                        title: 'Delete Child',
+                        backgroundColor: Colors.transparent,
+                        borderColor: Colors.red,
+                        textColor: Colors.red,
+                        onPress: () async => _confirmDelete(
+                          context,
+                          widget.childModel,
+                        ),
+                      ),
+                    ],
                   ),
-            SizedBox(height: 50)
+                  height: 250,
+                ),
+              ]),
+            )
           ],
         ),
       );
     } else {
-      return EmptyContent(
+      return JHEmptyContent(
         title: 'Nothing Here',
         message: ' Here is the kids details page',
       );
@@ -385,5 +282,119 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       Navigator.of(context).pop();
     }
     return;
+  }
+
+  Future<void> _sendNotification(
+    BuildContext context,
+    ChildModel model,
+    String content,
+  ) async {
+    try {
+      await widget.database.setNotification(
+        NotificationModel(
+          id: model.id,
+          title: ' Hey ${model.name}',
+          body: 'Here is a new message',
+          message: content,
+        ),
+        model,
+      );
+      await showAlertDialog(
+        context,
+        title: 'Successful',
+        content: 'Notification sent to ${model.name}',
+        defaultActionText: 'OK',
+      );
+      debugPrint('Notification sent to device');
+    } on FirebaseException catch (e) {
+      await showExceptionAlertDialog(
+        context,
+        title: 'An error occurred',
+        exception: e,
+      );
+    }
+  }
+}
+
+class _AppUsedList extends StatelessWidget {
+  final ChildModel model;
+  const _AppUsedList({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ScrollConfiguration(
+      behavior: const ScrollBehavior().copyWith(overscroll: false),
+      child: ListView(
+        physics: ScrollPhysics(),
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 6,
+                    width: 67,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey,
+                    ),
+                  )
+                ],
+              ).p8,
+              HeaderWidget(
+                title: 'Summary of used apps',
+                subtitle: 'Dismiss when done',
+              ).p8,
+              model.appsUsageModel.isNotEmpty
+                  ? ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: model.appsUsageModel.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            ListTile(
+                              leading: Icon(LineAwesomeIcons.android),
+                              title: Text(
+                                '${model.appsUsageModel[index].appName}',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: CustomColors.indigoDark,
+                                ),
+                              ),
+                              trailing: Text(
+                                model.appsUsageModel[index].usage
+                                    .toString()
+                                    .t(),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.indigo,
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    )
+                  : JHEmptyContent(
+                      message:
+                          'Seems like you have not set up the child device \n',
+                      title: 'Set up the child device',
+                      fontSizeMessage: 12,
+                      fontSizeTitle: 23,
+                    ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

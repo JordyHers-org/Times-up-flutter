@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/services/auth.dart';
 
 import 'email_sign_in_model.dart';
@@ -23,7 +23,7 @@ class EmailSignInBloc {
 
   /// Submit function is called when the button is pressed
   Future<void> submit() async {
-    debugPrint('Submitted called');
+    JHLogger.$.d('Submitted called');
     updateWith(submitted: true, isLoading: true);
     try {
       if (_model.formType == EmailSignInFormType.signIn) {

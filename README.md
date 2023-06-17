@@ -30,9 +30,9 @@ settled for user, and doesn't collect data for third parties companies.
 
 ## Screenshot
 
-| v2.0.0  | 
-| ------------- | 
-| <img width="215" alt="New Release" src="https://user-images.githubusercontent.com/49708438/232754018-525f1739-6cd4-47d9-b026-c4a53976255e.png">  |
+|  v2.0.0 | v2.0.0 |
+| ------------- |------------- |
+| <img width="215" alt="v2.0.0" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/1354eed0-dc20-4083-9b24-fe7fc26649fd"> | <img width="215" alt="v2.0.0" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/496fcdb6-adf9-48d3-9413-b4e2c781a3d7"> 
 
 
 

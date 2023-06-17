@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 
 class FirestoreService {
   FirestoreService._();
@@ -12,7 +13,7 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    debugPrint('$path: $data');
+    JHLogger.$.d('$path: $data');
     await reference.set(data);
   }
 
@@ -21,7 +22,8 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    debugPrint('$path: $data');
+    JHLogger.$.d('$path: $data');
+
     await reference.update(data);
   }
 
@@ -31,7 +33,8 @@ class FirestoreService {
   }) async {
     final reference =
         FirebaseFirestore.instance.collection(path).doc(data['id']);
-    debugPrint('$path: $data');
+    JHLogger.$.d('$path: $data');
+
     await reference.set(data);
   }
 
@@ -40,7 +43,8 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.collection(path).doc();
-    debugPrint('$path: $data');
+    JHLogger.$.d('$path: $data');
+
     await reference.set(data);
   }
 
@@ -51,6 +55,7 @@ class FirestoreService {
     if (image != null) {
       final storageReference = FirebaseStorage.instance.refFromURL(image);
       await storageReference.delete();
+      await reference.delete();
     }
 
     debugPrint('delete: $path');
@@ -59,7 +64,7 @@ class FirestoreService {
 
   Stream<List<T>> collectionStream<T>({
     required String path,
-    required T Function(Map<String, dynamic> data, String documentId) builder,
+    required T Function(Map<String, dynamic> data) builder,
     Function(Query query)? queryBuilder,
     int Function(T lhs, T rhs)? sort,
   }) {
@@ -71,7 +76,7 @@ class FirestoreService {
     final snapshots = query.snapshots();
     return snapshots.map((snapshot) {
       final result = snapshot.docs
-          .map((snapshot) => builder(snapshot.data(), snapshot.id))
+          .map((snapshot) => builder(snapshot.data()))
           .where((value) => value != null)
           .toList();
       if (sort != null) {

@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/models/child_model.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
+
+import '../../common_widgets/jh_display_text.dart';
 
 enum AppState { loading, complete }
 
@@ -20,9 +23,6 @@ class EditChildPage extends StatefulWidget {
       : assert(database != null),
         super(key: key);
 
-  /// The [context]  here is the context pf the JobsPage
-  ///
-  /// as the result we can get the provider of Database
   static Future<void> show(
     BuildContext context, {
     Database? database,
@@ -87,7 +87,6 @@ class _EditChildPageState extends State<EditChildPage> {
 
   Future<void> _submit(XFile? localFile) async {
     if (appState == AppState.loading) return;
-
     if (_validateAndSaveForm()) {
       if (localFile == null) return;
       setState(() {
@@ -97,33 +96,27 @@ class _EditChildPageState extends State<EditChildPage> {
       id = uuid.v4().substring(0, 8).toUpperCase();
       try {
         var fileExtension = path.extension(localFile.path);
-        debugPrint(fileExtension);
-        //final _id = widget.model?.id ?? id;
-        //var id = documentIdFromCurrentDate();
+        JHLogger.$.d(fileExtension);
+
         final firebaseStorageRef = FirebaseStorage.instance
             .ref()
             .child('Child/"${id}"/$id$fileExtension');
 
         await firebaseStorageRef
             .putFile(File(localFile.path))
-            //.onComplete
             .catchError((onError) {
-          debugPrint(onError);
+          JHLogger.$.e(onError);
           // ignore: return_of_invalid_type_from_catch_error
           return false;
         });
         var url = await firebaseStorageRef.getDownloadURL();
         _imageURL = url;
-        debugPrint('download url: $url');
+        JHLogger.$.d('download url: $url');
       } catch (e) {
-        debugPrint('...skipping image upload with error ${e.toString()}');
+        JHLogger.$.d('...skipping image upload');
       }
 
       try {
-        /// this section makes sure the name entered does not already exist
-        /// in the stream
-        /// Stream.first is a getter that get the most up-to-date value
-
         final children = await widget.database!.childrenStream().first;
         final allNames = children.map((child) => child.name).toList();
         if (widget.model != null) {
@@ -143,10 +136,9 @@ class _EditChildPageState extends State<EditChildPage> {
             email: _email ?? 'No email',
             image: _imageURL,
           );
-
           await widget.database!.setChild(child).whenComplete(
                 () => setState(() {
-                  debugPrint('form Saved : $_name and email : $_email');
+                  JHLogger.$.d('form Saved : $_name and email : $_email');
                   appState = AppState.complete;
                   Navigator.of(context).pop();
                 }),
@@ -168,7 +160,10 @@ class _EditChildPageState extends State<EditChildPage> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         elevation: 2.0,
-        title: Text(widget.model == null ? 'New Child' : 'Edit Child'),
+        title: JHDisplayText(
+          text: widget.model == null ? 'New Child' : 'Edit Child',
+          style: TextStyle(fontSize: 15),
+        ),
         centerTitle: true,
         actions: [
           GestureDetector(
@@ -176,8 +171,8 @@ class _EditChildPageState extends State<EditChildPage> {
             child: Align(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Save',
+                child: JHDisplayText(
+                  text: 'Save',
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
@@ -242,8 +237,8 @@ class _EditChildPageState extends State<EditChildPage> {
                   ),
                 ),
                 onPressed: () => _getLocalImage(),
-                child: Text(
-                  'add picture',
+                child: JHDisplayText(
+                  text: 'add picture',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -276,7 +271,7 @@ class _EditChildPageState extends State<EditChildPage> {
         color: Colors.grey[500],
       );
     } else if (_imageFile != null) {
-      debugPrint('showing image from local file');
+      JHLogger.$.d('showing image from local file');
       return InkWell(
         onTap: _getLocalImage,
         child: Image.file(

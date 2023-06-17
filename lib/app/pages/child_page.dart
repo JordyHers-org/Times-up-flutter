@@ -3,13 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parental_control/app/bloc/child_side_bloc.dart';
+import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/app/pages/set_child_page.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
-import 'package:parental_control/models/child_model.dart';
-import 'package:parental_control/models/notification_model.dart';
+import 'package:parental_control/common_widgets/jh_empty_content.dart';
+import 'package:parental_control/models/child_model/child_model.dart';
+import 'package:parental_control/models/notification_model/notification_model.dart';
 import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:provider/provider.dart';
+
+import '../../common_widgets/jh_display_text.dart';
 
 class ChildPage extends StatefulWidget {
   final Database? database;
@@ -35,14 +38,12 @@ class ChildPage extends StatefulWidget {
 }
 
 class _ChildPageState extends State<ChildPage> {
-  ///Methods To send to Bloc => Local User
   void sendLocalToBloCNotification(BuildContext context) {
     var childSideBloc = context.read<ChildSideBloc>();
     childSideBloc.add(GetNotifications());
     Navigator.pop(context);
   }
 
-  ///Methods To send to Bloc => Local User
   void sendLocalToBloCAppList(BuildContext context) {
     var childSideBloc = context.read<ChildSideBloc>();
     childSideBloc.add(GetAppList());
@@ -51,8 +52,7 @@ class _ChildPageState extends State<ChildPage> {
 
   @override
   void initState() {
-    /// This method updates the location on the map every 35 minutes
-    Timer.periodic(const Duration(minutes: 35), (timer) {
+    Timer.periodic(const Duration(seconds: 15), (timer) {
       widget.database?.liveUpdateChild(widget.child!, timer.tick);
     });
     super.initState();
@@ -83,30 +83,34 @@ class _ChildPageState extends State<ChildPage> {
                               radius: 45,
                             ),
                             SizedBox(height: 6),
-                            Text(
-                              '${widget.child!.name} ',
+                            JHDisplayText(
+                              text: '${widget.child!.name} ',
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
                             SizedBox(height: 12),
-                            Text(
-                              '${widget.child!.email} ',
+                            Row(
+                              children: [
+                                JHDisplayText(
+                                  text: '${widget.child!.email} ',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 6),
+                            JHDisplayText(
+                              text: '${widget.child!.id} ',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            SizedBox(height: 6),
-                            Text(
-                              '${widget.child!.id} ',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            SizedBox(height: 6),
+                            SizedBox(height: 7),
                           ],
                         ),
                       ),
@@ -118,6 +122,7 @@ class _ChildPageState extends State<ChildPage> {
               thickness: 0.2,
               color: Colors.grey,
             ),
+            SizedBox(height: 5 * 2),
             ListTile(
               leading: Icon(Icons.notifications),
               title: Text('Notification'),
@@ -151,8 +156,8 @@ class _ChildPageState extends State<ChildPage> {
           )
         ],
         backgroundColor: Colors.white,
-        title: Text(
-          'Child',
+        title: JHDisplayText(
+          text: 'Child',
           style: TextStyle(color: Colors.indigo),
         ),
         iconTheme: IconThemeData(color: Colors.indigo),
@@ -160,7 +165,7 @@ class _ChildPageState extends State<ChildPage> {
       ),
       //ignore: non_null
       body: appUsage.info.isEmpty
-          ? EmptyContent(
+          ? JHEmptyContent(
               title: 'This is the child page',
               message: 'Nothing to show at the moment',
             )
@@ -170,15 +175,15 @@ class _ChildPageState extends State<ChildPage> {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state is ChildSideInitial) {
-                      return buildInitialInput(context);
+                      return _buildInitialInput(context);
                     } else if (state is ChildSideFetching) {
-                      return buildLoading();
+                      return _buildLoading();
                     } else if (state is ChildSideNotification) {
-                      return buildNotification();
+                      return _buildNotification();
                     } else if (state is ChildSideAppList) {
-                      return buildAppList(appUsage);
+                      return _buildAppList(appUsage);
                     } else {
-                      return buildInitialInput(context);
+                      return _buildInitialInput(context);
                     }
                   },
                 ),
@@ -187,10 +192,10 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildInitialInput(BuildContext context) {
+  Widget _buildInitialInput(BuildContext context) {
     return Center(
-      child: Text(
-        'Child Page',
+      child: JHDisplayText(
+        text: 'Child Page',
         style: TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.bold,
@@ -200,7 +205,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildLoading() {
+  Widget _buildLoading() {
     return Center(
       child: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
@@ -208,7 +213,7 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildNotification() {
+  Widget _buildNotification() {
     return StreamBuilder<List<NotificationModel>>(
       stream: widget.database!.notificationStream(childId: ''),
       builder: (BuildContext context, snapshot) {
@@ -222,9 +227,16 @@ class _ChildPageState extends State<ChildPage> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: ListTile(
-                    title: Text(data[index].title ?? 'No title available'),
-                    trailing: Text(
-                      data[index].message ?? 'No message available',
+                    title: JHDisplayText(
+                      text: data[index].title ?? 'No title available',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    trailing: JHDisplayText(
+                      text: data[index].message ?? 'No message available',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -239,7 +251,7 @@ class _ChildPageState extends State<ChildPage> {
         } else if (snapshot.hasData) {
           return ErrorWidget(snapshot.error!);
         }
-        return EmptyContent(
+        return JHEmptyContent(
           message:
               'This side of the app will display the list of Notifications',
           title: 'Notification page',
@@ -250,39 +262,21 @@ class _ChildPageState extends State<ChildPage> {
     );
   }
 
-  Widget buildAppList(appUsage) {
+  Widget _buildAppList(appUsage) {
     return ListView.builder(
       itemCount: appUsage.info.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(
-            appUsage.info[index].appName,
+          title: JHDisplayText(
+            text: appUsage.info[index].appName,
             style: TextStyle(fontSize: 15),
           ),
-          trailing: Text(
-            parseResult(appUsage.info[index].usage.toString()),
+          trailing: JHDisplayText(
+            text: appUsage.info[index].usage.toString().t(),
             style: TextStyle(fontSize: 14, color: Colors.indigo),
           ),
         );
       },
     );
-  }
-
-  String parseResult(String value) {
-    var removeColon = value.replaceAll(':', ' ');
-    var result = removeColon.replaceAll('.', '');
-
-    result = result.replaceRange(1, 1, ' day ');
-    result = result.replaceRange(9, 9, ' hour ');
-    result = result.replaceRange(18, null, ' minutes');
-
-    if (result.contains('00 hour')) {
-      result = result.replaceRange(0, 14, '');
-      return result;
-    } else if (result.contains('0 day')) {
-      result = result.replaceRange(0, 5, '');
-      return result;
-    }
-    return result;
   }
 }

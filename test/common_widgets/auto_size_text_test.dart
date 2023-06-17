@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:parental_control/common_widgets/autosize_text.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
 
 import '../helpers/test_helpers.dart';
 
@@ -10,7 +10,7 @@ void main() {
     const expectedFontSize = 20.0;
     const expectedColor = Colors.blue;
 
-    final child = DisplayText(
+    final child = JHDisplayText(
       text: expectedText,
       style: TextStyle(fontSize: expectedFontSize, color: expectedColor),
     );
