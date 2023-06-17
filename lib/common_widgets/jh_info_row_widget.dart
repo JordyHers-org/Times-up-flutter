@@ -4,6 +4,7 @@ import 'package:parental_control/common_widgets/jh_info_box.dart';
 import 'package:parental_control/common_widgets/show_bottom_sheet.dart';
 import 'package:parental_control/theme/theme.dart';
 import 'package:parental_control/utils/data.dart';
+
 import 'jh_display_text.dart';
 
 class JHInfoRow extends StatelessWidget {
