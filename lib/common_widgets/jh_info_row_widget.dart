@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:parental_control/common_widgets/jh_info_bottom_sheet.dart';
 import 'package:parental_control/common_widgets/jh_info_box.dart';
+import 'package:parental_control/common_widgets/show_bottom_sheet.dart';
 import 'package:parental_control/theme/theme.dart';
-
+import 'package:parental_control/utils/data.dart';
 import 'jh_display_text.dart';
 
 class JHInfoRow extends StatelessWidget {
@@ -22,23 +24,32 @@ class JHInfoRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: InfoBox(
-            onPress: null,
-            icon: icon_1,
-            iconColor: CustomColors.indigoDark,
-            child: SizedBox(
-              width: 136,
-              child: JHDisplayText(
-                text: text_1,
-                style: TextStyle(color: Colors.grey.shade500),
-              ),
+        InfoBox(
+          onPress: () => showCustomBottomSheet(
+            context,
+            child: JHBottomSheet(
+              message: text_1,
+              child: Png.info1,
+            ),
+          ),
+          icon: icon_1,
+          iconColor: CustomColors.indigoDark,
+          child: SizedBox(
+            width: 150,
+            child: Text(
+              text_1,
+              style: TextStyle(color: Colors.grey.shade500),
             ),
           ),
         ),
         InfoBox(
-          onPress: null,
+          onPress: () => showCustomBottomSheet(
+            context,
+            child: JHBottomSheet(
+              message: text_2,
+              child: Png.info2,
+            ),
+          ),
           icon: icon_2,
           iconColor: CustomColors.indigoDark,
           child: SizedBox(

@@ -4,12 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/jh_bar_chart.dart';
 import 'package:parental_control/common_widgets/jh_custom_button.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/jh_empty_content.dart';
+import 'package:parental_control/common_widgets/jh_feature_widget.dart';
 import 'package:parental_control/common_widgets/jh_header_widget.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
+import 'package:parental_control/common_widgets/show_bottom_sheet.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
@@ -18,7 +22,6 @@ import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../common_widgets/jh_display_text.dart';
 
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({
@@ -80,6 +83,15 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         headerSliverBuilder: (context, value) {
           return [
             SliverAppBar(
+              title: JHDisplayText(
+                text: model.name,
+                fontSize: 22,
+                style: TextStyle(
+
+                  fontWeight: FontWeight.normal,
+                  color: CustomColors.indigoLight,
+                ),
+              ),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 color: CustomColors.indigoPrimary,
@@ -163,15 +175,21 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   ],
                 ),
                 SizedBox(height: 18),
-                ListTile(
-                  title: JHDisplayText(
-                    text: 'Send notifications to your Child\'s device',
-                    style: TextStyle(color: Colors.indigo),
+                GestureDetector(
+                  onTap: () => showCustomBottomSheet(
+                    context,
+                    child: _AppUsedList(
+                      model: model,
+                    ),
                   ),
-                  subtitle: JHDisplayText(
-                    text: 'Push the button ',
-                    style: TextStyle(color: Colors.grey.shade400),
+                  child: JHFeatureWidget(
+                    title: 'Most Used Apps',
+                    icon: Icons.bar_chart_rounded,
                   ),
+                ),
+                HeaderWidget(
+                  title: 'Send notifications to your Child\'s device',
+                  subtitle: 'Push the button ',
                 ).p8,
                 SizedBox(height: 8),
                 Container(
@@ -211,48 +229,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   ),
                   height: 250,
                 ),
-                SizedBox(height: 58),
-                model.appsUsageModel.isNotEmpty
-                    ? ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: model.appsUsageModel.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              ListTile(
-                                leading: Icon(Icons.phone_android),
-                                title: JHDisplayText(
-                                  text:
-                                      '${model.appsUsageModel[index].appName}',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                trailing: JHDisplayText(
-                                  text: model.appsUsageModel[index].usage
-                                      .toString()
-                                      .t(),
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.indigo,
-                                  ),
-                                ),
-                              )
-                            ],
-                          );
-                        },
-                      )
-                    : JHEmptyContent(
-                        message: 'Tap on more to display apps statistics \n'
-                            '        Tap again to hide',
-                        title: 'Show apps Statistics',
-                        fontSizeMessage: 12,
-                        fontSizeTitle: 23,
-                      ),
               ]),
             )
           ],
@@ -339,5 +315,88 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         exception: e,
       );
     }
+  }
+}
+
+class _AppUsedList extends StatelessWidget {
+  final ChildModel model;
+  const _AppUsedList({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ScrollConfiguration(
+      behavior: const ScrollBehavior().copyWith(overscroll: false),
+      child: ListView(
+        physics: ScrollPhysics(),
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 6,
+                    width: 67,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey,
+                    ),
+                  )
+                ],
+              ).p8,
+              HeaderWidget(
+                title: 'Summary of used apps',
+                subtitle: 'Dismiss when done',
+              ).p8,
+              model.appsUsageModel.isNotEmpty
+                  ? ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: model.appsUsageModel.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            ListTile(
+                              leading: Icon(LineAwesomeIcons.android),
+                              title: Text(
+                                '${model.appsUsageModel[index].appName}',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: CustomColors.indigoDark,
+                                ),
+                              ),
+                              trailing: Text(
+                                model.appsUsageModel[index].usage
+                                    .toString()
+                                    .t(),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.indigo,
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    )
+                  : JHEmptyContent(
+                      message:
+                          'Seems like you have not set up the child device \n',
+                      title: 'Set up the child device',
+                      fontSizeMessage: 12,
+                      fontSizeTitle: 23,
+                    ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

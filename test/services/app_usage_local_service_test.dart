@@ -15,8 +15,8 @@ void main() {
       final startDate = DateTime(2023, 6, 10, 10, 0, 0);
       final endDate = DateTime(2023, 6, 10, 11, 0, 0);
       final fakeUsage = {
-        'com.tiktok.app1': [3600.0],
-        'com.messenger.app1': [1800.0],
+        'com.tiktok.app1': [3600.0, 1640880000.0, 1640883600.0],
+        'com.messenger.app1': [1800.0, 1640887200.0, 1640890800.0],
       };
 
       TestDefaultBinaryMessengerBinding.instance?.defaultBinaryMessenger
@@ -35,13 +35,25 @@ void main() {
       expect(result.length, equals(2));
       expect(result[0].packageName, equals('com.tiktok.app1'));
       expect(result[0].usage, equals(const Duration(hours: 1)));
-      expect(result[0].startDate, equals(startDate));
-      expect(result[0].endDate, equals(endDate));
+      expect(
+        result[0].startDate,
+        DateTime.fromMillisecondsSinceEpoch(1640880000 * 1000),
+      );
+      expect(
+        result[0].endDate,
+        DateTime.fromMillisecondsSinceEpoch(1640883600 * 1000),
+      );
 
       expect(result[1].packageName, equals('com.messenger.app1'));
       expect(result[1].usage, equals(const Duration(minutes: 30)));
-      expect(result[1].startDate, equals(startDate));
-      expect(result[1].endDate, equals(endDate));
+      expect(
+        result[1].startDate,
+        DateTime.fromMillisecondsSinceEpoch(1640887200 * 1000),
+      );
+      expect(
+        result[1].endDate,
+        DateTime.fromMillisecondsSinceEpoch(1640890800 * 1000),
+      );
     });
 
     test('getAppUsage throws an exception for non-Android platforms', () async {
