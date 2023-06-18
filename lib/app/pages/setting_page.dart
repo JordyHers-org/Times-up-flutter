@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/services/auth.dart';
+import 'package:parental_control/services/firestore_service.dart';
+import 'package:parental_control/sign_in/sign_in_page.dart';
 import 'package:parental_control/theme/theme.dart';
+import 'package:parental_control/utils/app_strings.dart';
 
 class SettingsPage extends StatelessWidget {
   SettingsPage({
@@ -79,6 +82,37 @@ class SettingsPage extends StatelessWidget {
             },
             text: 'Contact us',
           ),
+          ProfileListItem(
+            icon: LineAwesomeIcons.user_shield,
+            onPressed: () {
+              showAlertDialog(
+                context,
+                title: Strings.deleteYourAccount,
+                content: Strings.deleteAccDesc,
+                defaultActionText: Strings.ok,
+              ).then((value) {
+
+
+                if (value) {
+                  deactivateAccount(auth).then((value) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        fullscreenDialog: false,
+                        builder: (context) => SignInPage.create(context),
+                      ),
+                          (route) => false,
+                    );
+
+                  });
+
+                  // set account status to deactivated
+                }
+              });
+              //showDialog(context: context, builder:  (context) => AlertDialog(),);
+            },
+            text: Strings.deleteYourAccount,
+          ),
         ],
       ),
     );
@@ -121,13 +155,19 @@ class SettingsPage extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> deactivateAccount(AuthBase auth) async {
+    await FirestoreService.instance.updateData(
+        path: '/users/' + auth.currentUser!.uid,
+        data: {'accountStatus': 'deactivated'});
+  }
 }
 
 class ProfileListItem extends StatelessWidget {
   final IconData? icon;
   final String? text;
   final bool hasNavigation;
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   const ProfileListItem({
     Key? key,
@@ -140,7 +180,7 @@ class ProfileListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onPressed,
+      onTap: onPressed,
       child: Container(
         height: 55,
         margin: EdgeInsets.symmetric(

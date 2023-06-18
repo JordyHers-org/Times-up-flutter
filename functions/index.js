@@ -1,69 +1,103 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-var newData;
+// newData;
 
 admin.initializeApp(functions.config().functions);
 
-exports.myTrigger = functions.firestore
-  .document("users/{userId}/notifications/{notificationId}")
-  .onCreate(async (snapshot, context) => {
-    const notificationId = context.params.notificationId;
+// exports.myTrigger = functions.firestore
+//   .document("users/{userId}/notifications/{notificationId}")
+//   .onCreate(async (snapshot, context) => {
+//     const notificationId = context.params.notificationId;
 
-    if (snapshot.empty) {
-      console.log("No Devices");
+//     if (snapshot.empty) {
+//       console.log("No Devices");
+//       return;
+//     }
+
+//     newData = snapshot.data();
+
+//     const deviceIdTokens = await admin
+//       .firestore()
+//       .collection("DeviceTokens")
+//       .where("childId", "==", notificationId)
+//       .get();
+
+//     const tokens = [];
+
+//     for (var token of deviceIdTokens.docs) {
+//       tokens.push(token.data().device_token);
+//     }
+//     const Notifications = {
+//       notification: {
+//         title: "Hey New notification",
+//         body: newData.message,
+//         sound: "default",
+//       },
+//       data: {
+//         click_action: "FLUTTER_NOTIFICATION_CLICK",
+//         message: newData.message,
+//       },
+//     };
+
+//     try {
+//       const response = await admin
+//         .messaging()
+//         .sendToDevice(tokens, Notifications);
+//       console.log("Id", notificationId);
+//       console.log("Notification sent successfully");
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   });
+
+
+const firestore = admin.firestore();
+
+exports.deleteInactiveUsers = functions.pubsub.schedule("every 1 minutes").onRun(async (context) => {
+
+  const usersCollection = firestore.collection("users");
+  const currentDate = new Date();
+  const thirtyDaysAgo = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+  const snapshot = await usersCollection.get();
+
+  const batch = firestore.batch();
+
+  snapshot.forEach((doc) => {
+    const { accountStatus, createdAt } = doc.data();
+
+    if (accountStatus === "activated") {
+      // Skip activated users
       return;
     }
 
-    newData = snapshot.data();
+    const createdAtDate = createdAt.toDate(); // Assuming createdAt field is stored as a Firestore Timestamp
 
-    const deviceIdTokens = await admin
-      .firestore()
-      .collection("DeviceTokens")
-      .where("childId", "==", notificationId)
-      .get();
-
-    var tokens = [];
-
-    for (var token of deviceIdTokens.docs) {
-      tokens.push(token.data().device_token);
-    }
-    var Notifications = {
-      notification: {
-        title: "Hey New notification",
-        body: newData.message,
-        sound: "default",
-      },
-      data: {
-        click_action: "FLUTTER_NOTIFICATION_CLICK",
-        message: newData.message,
-      },
-    };
-
-    try {
-      const response = await admin
-        .messaging()
-        .sendToDevice(tokens, Notifications);
-      console.log("Id", notificationId);
-      console.log("Notification sent successfully");
-    } catch (err) {
-      console.log(err);
+    if (currentDate.getTime() - createdAtDate.getTime() >= thirtyDaysAgo.getTime()) {
+      // Delete users with "deactivated" status older than 30 days
+      batch.delete(doc.ref);
     }
   });
 
-  exports.deleteUserAfter30Days= onSchedule("1 * * * *", async (event) => {
-//  "every day 00:00"
-    // Fetch all user details.
-//    const inactiveUsers = await getInactiveUsers();
+  return batch.commit();
+});
+
+
+//  exports.deleteUserAfter30Days= onSchedule("1 * * * *", async (event) => {
 //
-//    // Use a pool so that we delete maximum `MAX_CONCURRENT` users in parallel.
-//    const promisePool = new PromisePool(
-//        () => deleteInactiveUser(inactiveUsers),
-//        MAX_CONCURRENT,
-//    );
-//    await promisePool.start();
-
-    logger.log("running after 1 minute");
-  });
+////  "every day 00:00"
+//    // Fetch all user details.
+////    const inactiveUsers = await getInactiveUsers();
+////
+////    // Use a pool so that we delete maximum `MAX_CONCURRENT` users in parallel.
+////    const promisePool = new PromisePool(
+////        () => deleteInactiveUser(inactiveUsers),
+////        MAX_CONCURRENT,
+////    );
+////    await promisePool.start();
+//
+//    logger.log("running after 1 minute");
+//  });
 
 
 
