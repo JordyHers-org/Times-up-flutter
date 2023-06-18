@@ -4,10 +4,10 @@ import 'package:parental_control/theme/theme.dart';
 import 'jh_display_text.dart';
 
 class JHHeader extends StatelessWidget {
-  final double fontSize;
+  final double? fontSize;
   const JHHeader({
     Key? key,
-    required this.fontSize,
+    this.fontSize = 35,
   }) : super(key: key);
 
   @override

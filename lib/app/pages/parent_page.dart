@@ -57,7 +57,7 @@ class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   int currentIndex = 0;
-  int fontSize = 30;
+  var fontSize = 30.0;
 
   late bool _isShowCaseActivated;
 
@@ -86,9 +86,7 @@ class _ParentPageState extends State<ParentPage>
 
   void _scrollListener() {
     if (_scrollController.hasClients) {
-      setState(() {
-        fontSize = 17;
-      });
+      fontSize = 21;
     }
     if (_scrollController.offset == _scrollController.initialScrollOffset) {
       setState(() {
@@ -138,11 +136,8 @@ class _ParentPageState extends State<ParentPage>
       headerSliverBuilder: (context, value) {
         return [
           SliverAppBar(
-            flexibleSpace: !value
-                ? JHHeader(
-                    fontSize: fontSize.toDouble(),
-                  ).hP16
-                : SizedBox.shrink(),
+            toolbarHeight: value ? 70 : 100,
+            flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
             backgroundColor: Colors.white,
             expandedHeight: !value ? 120 : 100,
             shape: ContinuousRectangleBorder(
