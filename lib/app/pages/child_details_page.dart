@@ -144,7 +144,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       },
                       child: JHDisplayText(
                         text: model.id,
-                        fontSize: 32,
+                        fontSize: 22,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent,

@@ -4,8 +4,10 @@ import 'package:parental_control/theme/theme.dart';
 import 'jh_display_text.dart';
 
 class JHHeader extends StatelessWidget {
+  final double fontSize;
   const JHHeader({
     Key? key,
+    required this.fontSize,
   }) : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class JHHeader extends StatelessWidget {
       children: [
         JHDisplayText(
           text: 'Hello 👋',
-          fontSize: 35,
+          fontSize: fontSize,
           style: TextStyle(
             color: CustomColors.indigoDark,
             fontWeight: FontWeight.w900,
@@ -25,7 +27,7 @@ class JHHeader extends StatelessWidget {
         ),
         JHDisplayText(
           text: 'Welcome',
-          fontSize: 35,
+          fontSize: fontSize,
           style: TextStyle(
             color: Colors.grey.shade300,
             fontWeight: FontWeight.w900,

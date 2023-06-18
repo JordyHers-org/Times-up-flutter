@@ -6,6 +6,7 @@ import 'package:parental_control/app/pages/edit_child_page.dart';
 import 'package:parental_control/app/pages/notification_page.dart';
 import 'package:parental_control/app/pages/setting_page.dart';
 import 'package:parental_control/common_widgets/child_horizontal_view.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/jh_empty_content.dart';
 import 'package:parental_control/common_widgets/jh_feature_widget.dart';
 import 'package:parental_control/common_widgets/jh_header.dart';
@@ -56,6 +57,7 @@ class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   int currentIndex = 0;
+  int fontSize = 30;
 
   late bool _isShowCaseActivated;
 
@@ -67,7 +69,7 @@ class _ParentPageState extends State<ParentPage>
   void initState() {
     super.initState();
     _setShowCaseView();
-    _scrollController = ScrollController();
+    _scrollController = ScrollController()..addListener(_scrollListener);
   }
 
   @override
@@ -80,6 +82,19 @@ class _ParentPageState extends State<ParentPage>
     return ShowCaseWidget.of(context).startShowCase(
       [_settingsKey, _childListKey, _addKey],
     );
+  }
+
+  void _scrollListener() {
+    if (_scrollController.hasClients) {
+      setState(() {
+        fontSize = 17;
+      });
+    }
+    if (_scrollController.offset == _scrollController.initialScrollOffset) {
+      setState(() {
+        fontSize = 30;
+      });
+    }
   }
 
   @override
@@ -123,9 +138,13 @@ class _ParentPageState extends State<ParentPage>
       headerSliverBuilder: (context, value) {
         return [
           SliverAppBar(
-            flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
+            flexibleSpace: !value
+                ? JHHeader(
+                    fontSize: fontSize.toDouble(),
+                  ).hP16
+                : SizedBox.shrink(),
             backgroundColor: Colors.white,
-            expandedHeight: !value ? 110 : 90,
+            expandedHeight: !value ? 120 : 100,
             shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
@@ -137,9 +156,13 @@ class _ParentPageState extends State<ParentPage>
               children: [
                 !value
                     ? SizedBox.shrink()
-                    : Icon(
-                        Icons.menu,
-                        color: CustomColors.indigoDark,
+                    : JHDisplayText(
+                        text: 'Welcome',
+                        fontSize: fontSize.toDouble(),
+                        style: TextStyle(
+                          color: CustomColors.indigoDark,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(side: BorderSide.none),
