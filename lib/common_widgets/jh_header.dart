@@ -5,9 +5,11 @@ import 'jh_display_text.dart';
 
 class JHHeader extends StatelessWidget {
   final double? fontSize;
+  final double? maxFontSize;
   const JHHeader({
     Key? key,
-    this.fontSize = 35,
+    this.fontSize = 25,
+    this.maxFontSize = 35,
   }) : super(key: key);
 
   @override
@@ -20,6 +22,7 @@ class JHHeader extends StatelessWidget {
         JHDisplayText(
           text: 'Hello 👋',
           fontSize: fontSize,
+          maxFontSize: maxFontSize,
           style: TextStyle(
             color: CustomColors.indigoDark,
             fontWeight: FontWeight.w900,
@@ -28,6 +31,7 @@ class JHHeader extends StatelessWidget {
         JHDisplayText(
           text: 'Welcome',
           fontSize: fontSize,
+          maxFontSize: maxFontSize,
           style: TextStyle(
             color: Colors.grey.shade300,
             fontWeight: FontWeight.w900,

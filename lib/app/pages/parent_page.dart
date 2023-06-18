@@ -139,7 +139,7 @@ class _ParentPageState extends State<ParentPage>
             toolbarHeight: value ? 70 : 100,
             flexibleSpace: !value
                 ? JHHeader(
-                    fontSize: !value ? 25 : 35,
+                    maxFontSize: 35,
                   ).hP16
                 : SizedBox.shrink(),
             backgroundColor: Colors.white,
