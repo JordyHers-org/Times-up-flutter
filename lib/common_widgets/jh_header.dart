@@ -8,7 +8,7 @@ class JHHeader extends StatelessWidget {
   final double? maxFontSize;
   const JHHeader({
     Key? key,
-    this.fontSize = 27,
+    this.fontSize = 35,
     this.maxFontSize = 35,
   }) : super(key: key);
 

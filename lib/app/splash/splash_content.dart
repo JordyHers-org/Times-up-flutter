@@ -57,14 +57,14 @@ class _SplashContentState extends State<SplashContent>
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 10.0,
-            vertical: 40,
+            vertical: 30,
           ),
           child: Stack(
             children: [
               Center(
                 child: Icon(
                   widget.icon,
-                  size: 260,
+                  size: 230,
                 ),
               ),
               SizedBox(height: 20),
@@ -72,11 +72,11 @@ class _SplashContentState extends State<SplashContent>
                 slideAnimation: _slideAnimation,
                 delay: Duration(milliseconds: 200),
                 child: Container(
-                  padding: EdgeInsets.only(top: 250),
+                  padding: EdgeInsets.only(top: 160),
                   margin: EdgeInsets.symmetric(horizontal: 40),
                   child: JHDisplayText(
                     text: widget.title,
-                    fontSize: 25,
+                    fontSize: 30,
                     style: TextStyle(
                       color: CustomColors.indigoDark,
                       fontWeight: FontWeight.w800,
@@ -89,7 +89,7 @@ class _SplashContentState extends State<SplashContent>
                 slideAnimation: _slideAnimation,
                 delay: Duration(milliseconds: 300),
                 child: Container(
-                  padding: EdgeInsets.only(top: 300),
+                  padding: EdgeInsets.only(top: 250),
                   margin: EdgeInsets.symmetric(horizontal: 40),
                   child: JHDisplayText(
                     text: widget.text,

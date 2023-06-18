@@ -57,7 +57,6 @@ class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   int currentIndex = 0;
-  var fontSize = 30.0;
 
   late bool _isShowCaseActivated;
 
@@ -69,7 +68,7 @@ class _ParentPageState extends State<ParentPage>
   void initState() {
     super.initState();
     _setShowCaseView();
-    _scrollController = ScrollController()..addListener(_scrollListener);
+    _scrollController = ScrollController();
   }
 
   @override
@@ -82,17 +81,6 @@ class _ParentPageState extends State<ParentPage>
     return ShowCaseWidget.of(context).startShowCase(
       [_settingsKey, _childListKey, _addKey],
     );
-  }
-
-  void _scrollListener() {
-    if (_scrollController.hasClients) {
-      fontSize = 21;
-    }
-    if (_scrollController.offset == _scrollController.initialScrollOffset) {
-      setState(() {
-        fontSize = 30;
-      });
-    }
   }
 
   @override
@@ -153,7 +141,6 @@ class _ParentPageState extends State<ParentPage>
                     ? SizedBox.shrink()
                     : JHDisplayText(
                         text: 'Welcome',
-                        fontSize: fontSize.toDouble(),
                         style: TextStyle(
                           color: CustomColors.indigoDark,
                           fontWeight: FontWeight.w900,

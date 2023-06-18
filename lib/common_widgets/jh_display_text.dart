@@ -21,6 +21,7 @@ class JHDisplayText extends StatelessWidget {
       text,
       style: style,
       maxLines: 10,
+      textScaleFactor: 1,
       minFontSize: fontSize ?? 13,
       maxFontSize: maxFontSize ?? 35,
     );
