@@ -136,12 +136,8 @@ class _ParentPageState extends State<ParentPage>
       headerSliverBuilder: (context, value) {
         return [
           SliverAppBar(
-            toolbarHeight: value ? 70 : 100,
-            flexibleSpace: !value
-                ? JHHeader(
-                    maxFontSize: 35,
-                  ).hP16
-                : SizedBox.shrink(),
+            toolbarHeight: value ? 75 : 100,
+            flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
             backgroundColor: Colors.white,
             expandedHeight: !value ? 120 : 100,
             shape: ContinuousRectangleBorder(
