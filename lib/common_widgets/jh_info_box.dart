@@ -22,7 +22,6 @@ class InfoBox extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
-        height: 180,
         decoration: BoxDecoration(
           color: CustomColors.indigoLight.withOpacity(0.2),
           borderRadius: BorderRadius.circular(10),

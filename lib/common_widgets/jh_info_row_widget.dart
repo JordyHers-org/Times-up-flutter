@@ -25,39 +25,44 @@ class JHInfoRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        InfoBox(
-          onPress: () => showCustomBottomSheet(
-            context,
-            child: JHBottomSheet(
-              message: text_1,
-              child: Png.info1,
+        Expanded(
+          child: InfoBox(
+            onPress: () => showCustomBottomSheet(
+              context,
+              child: JHBottomSheet(
+                message: text_1,
+                child: Png.info1,
+              ),
             ),
-          ),
-          icon: icon_1,
-          iconColor: CustomColors.indigoDark,
-          child: SizedBox(
-            width: 150,
-            child: Text(
-              text_1,
-              style: TextStyle(color: Colors.grey.shade500),
+            icon: icon_1,
+            iconColor: CustomColors.indigoDark,
+            child: SizedBox(
+              width: 150,
+              child: Text(
+                text_1,
+                style: TextStyle(color: Colors.grey.shade500),
+              ),
             ),
           ),
         ),
-        InfoBox(
-          onPress: () => showCustomBottomSheet(
-            context,
-            child: JHBottomSheet(
-              message: text_2,
-              child: Png.info2,
+        const SizedBox(width: 12),
+        Expanded(
+          child: InfoBox(
+            onPress: () => showCustomBottomSheet(
+              context,
+              child: JHBottomSheet(
+                message: text_2,
+                child: Png.info2,
+              ),
             ),
-          ),
-          icon: icon_2,
-          iconColor: CustomColors.indigoDark,
-          child: SizedBox(
-            width: 136,
-            child: JHDisplayText(
-              text: text_2,
-              style: TextStyle(color: Colors.grey.shade500),
+            icon: icon_2,
+            iconColor: CustomColors.indigoDark,
+            child: SizedBox(
+              width: 136,
+              child: JHDisplayText(
+                text: text_2,
+                style: TextStyle(color: Colors.grey.shade500),
+              ),
             ),
           ),
         ),

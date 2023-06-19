@@ -90,7 +90,10 @@ class _SplashContentState extends State<SplashContent>
                 delay: Duration(milliseconds: 300),
                 child: Container(
                   padding: EdgeInsets.only(top: 300),
-                  margin: EdgeInsets.symmetric(horizontal: 40),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 12,
+                  ),
                   child: JHDisplayText(
                     text: widget.text,
                     fontSize: 17,
