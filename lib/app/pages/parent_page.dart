@@ -6,6 +6,7 @@ import 'package:parental_control/app/pages/edit_child_page.dart';
 import 'package:parental_control/app/pages/notification_page.dart';
 import 'package:parental_control/app/pages/setting_page.dart';
 import 'package:parental_control/common_widgets/child_horizontal_view.dart';
+import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/jh_empty_content.dart';
 import 'package:parental_control/common_widgets/jh_feature_widget.dart';
 import 'package:parental_control/common_widgets/jh_header.dart';
@@ -123,9 +124,10 @@ class _ParentPageState extends State<ParentPage>
       headerSliverBuilder: (context, value) {
         return [
           SliverAppBar(
+            toolbarHeight: value ? 75 : 100,
             flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
             backgroundColor: Colors.white,
-            expandedHeight: !value ? 110 : 90,
+            expandedHeight: !value ? 120 : 100,
             shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
@@ -137,9 +139,12 @@ class _ParentPageState extends State<ParentPage>
               children: [
                 !value
                     ? SizedBox.shrink()
-                    : Icon(
-                        Icons.menu,
-                        color: CustomColors.indigoDark,
+                    : JHDisplayText(
+                        text: 'Welcome',
+                        style: TextStyle(
+                          color: CustomColors.indigoDark,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(side: BorderSide.none),

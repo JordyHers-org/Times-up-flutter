@@ -35,12 +35,10 @@ class JHInfoRow extends StatelessWidget {
           ),
           icon: icon_1,
           iconColor: CustomColors.indigoDark,
-          child: SizedBox(
-            width: 150,
-            child: Text(
-              text_1,
-              style: TextStyle(color: Colors.grey.shade500),
-            ),
+          child: JHDisplayText(
+            text: text_1,
+            fontSize: 12,
+            style: TextStyle(color: Colors.grey.shade500),
           ),
         ),
         InfoBox(
@@ -53,12 +51,10 @@ class JHInfoRow extends StatelessWidget {
           ),
           icon: icon_2,
           iconColor: CustomColors.indigoDark,
-          child: SizedBox(
-            width: 136,
-            child: JHDisplayText(
-              text: text_2,
-              style: TextStyle(color: Colors.grey.shade500),
-            ),
+          child: JHDisplayText(
+            text: text_2,
+            fontSize: 12,
+            style: TextStyle(color: Colors.grey.shade500),
           ),
         ),
       ],
