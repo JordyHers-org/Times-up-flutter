@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 
@@ -60,10 +61,10 @@ class AppUsageInfo {
   Duration get usage => _usage;
 
   /// The start of the interval
-  DateTime get startDate => _startDate;
+  Timestamp get startDate => _startDate;
 
   /// The end of the interval
-  DateTime get endDate => _endDate;
+  Timestamp get endDate => _endDate;
 
   @override
   String toString() {
