@@ -48,7 +48,7 @@ class JHSummaryTile extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
             ],
-          ).p4,
+          ).p16,
           JHCustomProgressBar(progress: progressValue / 100),
         ],
       ),
