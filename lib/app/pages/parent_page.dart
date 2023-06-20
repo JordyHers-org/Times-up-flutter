@@ -65,7 +65,7 @@ class _ParentPageState extends State<ParentPage>
   int currentIndex = 0;
 
   late bool _isShowCaseActivated;
-  Duration _averageUsage = Duration(minutes: 1);
+  Duration _averageUsage = Duration();
 
   final GlobalKey _settingsKey = GlobalKey();
   final GlobalKey _childListKey = GlobalKey();
