@@ -1,3 +1,6 @@
+import 'package:intl/intl.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
+
 extension ParseResult on String {
   String t() {
     var parts = split(':');
@@ -64,4 +67,57 @@ extension TimeStringParsing on String {
 
     return totalTimeInSeconds;
   }
+}
+
+String formatDateTime(DateTime dateTime) {
+  final formatter = DateFormat('MMMM d');
+  return ' Today, ${formatter.format(dateTime)}';
+}
+
+Duration sumDurations(List<Duration> durations) {
+  return durations.reduce((value, element) => value + element);
+}
+
+Duration getMedian(List<Duration> durations) {
+  durations.sort();
+  var length = durations.length;
+
+  if (length % 2 == 1) {
+    return durations[length ~/ 2];
+  } else {
+    var firstDuration = durations[length ~/ 2];
+    var secondDuration = durations[length ~/ 2 - 1];
+    return Duration(
+      milliseconds:
+          (firstDuration.inMilliseconds + secondDuration.inMilliseconds) ~/ 2,
+    );
+  }
+}
+
+Duration calculateAverage(List<Duration> durations) {
+  var totalDuration = durations.reduce((value, element) => value + element);
+  var length = durations.length;
+
+  return Duration(milliseconds: totalDuration.inMilliseconds ~/ length);
+}
+
+double calculatePercentage(Duration duration) {
+  var value = duration.toString().replaceAll('.000000', '');
+  var parts = value.split(':');
+  var hours = int.parse(parts[1]);
+  var minutes = int.parse(parts[2]);
+  var parsedDuration = Duration(
+    hours: hours,
+    minutes: minutes,
+  );
+
+  final totalDuration = Duration(hours: 2);
+  final milliseconds = parsedDuration.inMilliseconds;
+  final totalMilliseconds = totalDuration.inMilliseconds;
+
+  var res = (milliseconds / totalMilliseconds) * 100;
+
+  JHLogger.$.w(duration);
+  JHLogger.$.w(res);
+  return res;
 }
