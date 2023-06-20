@@ -12,7 +12,7 @@ class JHSummaryTile extends StatelessWidget {
     Key? key,
     required this.title,
     required this.time,
-    this.progressValue = 0.75,
+    this.progressValue = 75,
   });
 
   @override
@@ -45,7 +45,7 @@ class JHSummaryTile extends StatelessWidget {
               ),
             ],
           ).p4,
-          JHCustomProgressBar(progress: progressValue),
+          JHCustomProgressBar(progress: progressValue / 100),
         ],
       ),
     );

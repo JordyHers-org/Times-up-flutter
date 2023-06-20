@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:parental_control/app/config/geo_full.dart';
+import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/app/pages/child_details_page.dart';
 import 'package:parental_control/app/pages/edit_child_page.dart';
 import 'package:parental_control/app/pages/notification_page.dart';
@@ -15,6 +16,7 @@ import 'package:parental_control/common_widgets/jh_loading_widget.dart';
 import 'package:parental_control/common_widgets/jh_summary_tile.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
+import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
@@ -31,20 +33,24 @@ class ParentPage extends StatefulWidget {
     required this.auth,
     required this.geo,
     required this.database,
+    required this.appUsage,
   }) : super(key: key);
 
   final AuthBase auth;
   final GeoLocatorService geo;
   final Database database;
+  final AppUsageService? appUsage;
 
   static Widget create(BuildContext context, AuthBase auth) {
     final database = Provider.of<Database>(context, listen: false);
     final geo = Provider.of<GeoLocatorService>(context, listen: false);
+    final appUsage = Provider.of<AppUsageService>(context, listen: false);
 
     return ParentPage(
       auth: auth,
       database: database,
       geo: geo,
+      appUsage: appUsage,
     );
   }
 
@@ -58,6 +64,7 @@ class _ParentPageState extends State<ParentPage>
   int currentIndex = 0;
 
   late bool _isShowCaseActivated;
+  Duration _averageUsage = Duration(minutes: 1);
 
   final GlobalKey _settingsKey = GlobalKey();
   final GlobalKey _childListKey = GlobalKey();
@@ -66,6 +73,7 @@ class _ParentPageState extends State<ParentPage>
   @override
   void initState() {
     super.initState();
+    _getAverageUsage();
     _setShowCaseView();
     _scrollController = ScrollController();
   }
@@ -74,12 +82,6 @@ class _ParentPageState extends State<ParentPage>
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void _startShowCase() {
-    return ShowCaseWidget.of(context).startShowCase(
-      [_settingsKey, _childListKey, _addKey],
-    );
   }
 
   @override
@@ -195,9 +197,9 @@ class _ParentPageState extends State<ParentPage>
                     subtitle: 'Click on it to have the full report',
                   ).p8,
                   JHSummaryTile(
-                    title: 'Today, April 6 ',
-                    time: '1 hr 5 min',
-                    progressValue: 0.15,
+                    title: formatDateTime(DateTime.now()),
+                    time: _averageUsage.toString().t(),
+                    progressValue: calculatePercentage(_averageUsage),
                   ),
                   HeaderWidget(
                     title: 'Information Section',
@@ -321,5 +323,16 @@ class _ParentPageState extends State<ParentPage>
     setState(() {
       currentIndex = BottomNavigationData.items.keys.toList()[value];
     });
+  }
+
+  void _startShowCase() {
+    return ShowCaseWidget.of(context).startShowCase(
+      [_settingsKey, _childListKey, _addKey],
+    );
+  }
+
+  Future<void> _getAverageUsage() async {
+    _averageUsage =
+        (await widget.appUsage?.getChildrenAppUsageAverage(widget.database))!;
   }
 }
