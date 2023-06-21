@@ -68,6 +68,15 @@ class _SetChildPageState extends State<SetChildPage> {
         JHLogger.$.e('ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {
+      setState(() {
+        appState = AppState.complete;
+      });
+      await showAlertDialog(
+        context,
+        title: 'No Such file in Database',
+        content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
+        defaultActionText: 'OK',
+      );
       JHLogger.$.e(e.toString());
     }
   }
@@ -89,6 +98,7 @@ class _SetChildPageState extends State<SetChildPage> {
         ),
       ),
       TextField(
+        textCapitalization: TextCapitalization.characters,
         enabled: appState == AppState.loading ? false : true,
         focusNode: _keyFocusNode,
         controller: _key,
