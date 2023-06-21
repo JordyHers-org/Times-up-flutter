@@ -65,7 +65,7 @@ class _ParentPageState extends State<ParentPage>
   int currentIndex = 0;
 
   late bool _isShowCaseActivated;
-  Duration _averageUsage = Duration();
+  Duration _averageUsage = Duration(seconds: 1);
 
   final GlobalKey _settingsKey = GlobalKey();
   final GlobalKey _childListKey = GlobalKey();
@@ -120,122 +120,137 @@ class _ParentPageState extends State<ParentPage>
   }
 
   Widget _buildDashboard(Database database, AuthBase auth) {
-    return NestedScrollView(
-      controller: _scrollController,
-      physics: BouncingScrollPhysics(),
-      headerSliverBuilder: (context, value) {
-        return [
-          SliverAppBar(
-            toolbarHeight: value ? 75 : 100,
-            flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
-            backgroundColor: Colors.white,
-            expandedHeight: !value ? 120 : 100,
-            shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-            ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                !value
-                    ? SizedBox.shrink()
-                    : JHDisplayText(
-                        text: 'Welcome',
-                        style: TextStyle(
-                          color: CustomColors.indigoDark,
-                          fontWeight: FontWeight.w900,
+    return StreamBuilder<List<ChildModel?>>(
+      stream: database.childrenStream(),
+      builder: (context, AsyncSnapshot<List<ChildModel?>> snapshot) {
+        final data = snapshot.data;
+
+        if (snapshot.hasData) {
+          return NestedScrollView(
+            controller: _scrollController,
+            physics: BouncingScrollPhysics(),
+            headerSliverBuilder: (context, value) {
+              return [
+                SliverAppBar(
+                  toolbarHeight: value ? 75 : 100,
+                  flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
+                  backgroundColor: Colors.white,
+                  expandedHeight: !value ? 120 : 100,
+                  shape: ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                  ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      !value
+                          ? SizedBox.shrink()
+                          : JHDisplayText(
+                              text: 'Welcome',
+                              style: TextStyle(
+                                color: CustomColors.indigoDark,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(side: BorderSide.none),
+                        onPressed: () => SettingsPage.show(context, auth),
+                        child: Showcase(
+                          key: _settingsKey,
+                          textColor: Colors.indigo,
+                          description: 'change the settings here',
+                          showArrow: true,
+                          child: CircleAvatar(
+                            child: Icon(Icons.person),
+                          ),
                         ),
                       ),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(side: BorderSide.none),
-                  onPressed: () => SettingsPage.show(context, auth),
-                  child: Showcase(
-                    key: _settingsKey,
-                    textColor: Colors.indigo,
-                    description: 'change the settings here',
-                    showArrow: true,
-                    child: CircleAvatar(
-                      child: Icon(Icons.person),
-                    ),
+                    ],
                   ),
+                  pinned: true,
+                  floating: true,
                 ),
-              ],
-            ),
-            pinned: true,
-            floating: true,
-          ),
-        ];
-      },
-      body: Scaffold(
-        floatingActionButton: Showcase(
-          key: _addKey,
-          textColor: Colors.indigo,
-          description: 'Add a new child here ',
-          child: FloatingActionButton(
-            onPressed: () => EditChildPage.show(
-              context,
-              database: Provider.of<Database>(context, listen: false),
-            ),
-            child: const Icon(Icons.add),
-            backgroundColor: CustomColors.indigoLight,
-          ),
-        ),
-        body: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  HeaderWidget(
-                    title: 'My Children',
-                    subtitle: 'Choose child to get more info - scroll right ',
-                    trailing: IconButton(
-                      icon: Icon(Icons.info_outline),
-                      onPressed: () => _startShowCase(),
+              ];
+            },
+            body: Scaffold(
+              floatingActionButton: Showcase(
+                key: _addKey,
+                textColor: Colors.indigo,
+                description: 'Add a new child here ',
+                child: FloatingActionButton(
+                  onPressed: () => EditChildPage.show(
+                    context,
+                    database: Provider.of<Database>(context, listen: false),
+                  ),
+                  child: const Icon(Icons.add),
+                  backgroundColor: CustomColors.indigoLight,
+                ),
+              ),
+              body: CustomScrollView(
+                physics: BouncingScrollPhysics(),
+                slivers: <Widget>[
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        HeaderWidget(
+                          title: 'My Children',
+                          subtitle:
+                              'Choose child to get more info - scroll right ',
+                          trailing: IconButton(
+                            icon: Icon(Icons.info_outline),
+                            onPressed: () => _startShowCase(),
+                          ),
+                        ).p8,
+                        _buildChildrenList(database),
+                        HeaderWidget(
+                          title: 'Get to see our child live app usage',
+                          subtitle: 'Click on it to have the full report',
+                        ).p8,
+                        JHSummaryTile(
+                          title: formatDateTime(DateTime.now()),
+                          time: data != null && data.isNotEmpty
+                              ? _averageUsage.toString().t()
+                              : '0h 0m',
+                          progressValue: data != null && data.isNotEmpty
+                              ? calculatePercentage(_averageUsage)
+                              : 0,
+                        ),
+                        HeaderWidget(
+                          title: 'Information Section',
+                          subtitle: 'Get tips on how to use the app.',
+                        ).p8,
+                        JHInfoRow(
+                          icon_1: Icons.auto_graph_outlined,
+                          icon_2: Icons.message_outlined,
+                          text_1: MockData.text_1,
+                          text_2: MockData.text_2,
+                        ).p4,
+                        JHInfoRow(
+                          icon_1: Icons.lightbulb_rounded,
+                          icon_2: Icons.volume_up_outlined,
+                          text_1: MockData.text_3,
+                          text_2: MockData.text_4,
+                        ).p4,
+                        JHFeatureWidget(
+                          child: Png.google,
+                          icon: Icons.timelapse_sharp,
+                        ),
+                        JHFeatureWidget(
+                          child: Png.facebook,
+                          icon: Icons.timelapse_sharp,
+                        ),
+                      ],
                     ),
-                  ).p8,
-                  _buildChildrenList(database),
-                  HeaderWidget(
-                    title: 'Get to see our child live app usage',
-                    subtitle: 'Click on it to have the full report',
-                  ).p8,
-                  JHSummaryTile(
-                    title: formatDateTime(DateTime.now()),
-                    time: _averageUsage.toString().t(),
-                    progressValue: calculatePercentage(_averageUsage),
-                  ),
-                  HeaderWidget(
-                    title: 'Information Section',
-                    subtitle: 'Get tips on how to use the app.',
-                  ).p8,
-                  JHInfoRow(
-                    icon_1: Icons.auto_graph_outlined,
-                    icon_2: Icons.message_outlined,
-                    text_1: MockData.text_1,
-                    text_2: MockData.text_2,
-                  ).p4,
-                  JHInfoRow(
-                    icon_1: Icons.lightbulb_rounded,
-                    icon_2: Icons.volume_up_outlined,
-                    text_1: MockData.text_3,
-                    text_2: MockData.text_4,
-                  ).p4,
-                  JHFeatureWidget(
-                    child: Png.google,
-                    icon: Icons.timelapse_sharp,
-                  ),
-                  JHFeatureWidget(
-                    child: Png.facebook,
-                    icon: Icons.timelapse_sharp,
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+        return LoadingWidget();
+      },
     );
   }
 
@@ -248,7 +263,7 @@ class _ParentPageState extends State<ParentPage>
         height: 165.0,
         child: StreamBuilder<List<ChildModel?>>(
           stream: database.childrenStream(),
-          builder: (context, AsyncSnapshot snapshot) {
+          builder: (context, AsyncSnapshot<List<ChildModel?>> snapshot) {
             final data = snapshot.data;
             if (snapshot.hasData) {
               if (data != null && data.isNotEmpty) {
