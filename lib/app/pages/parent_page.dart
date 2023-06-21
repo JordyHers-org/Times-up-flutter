@@ -154,9 +154,8 @@ class _ParentPageState extends State<ParentPage>
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(side: BorderSide.none),
-                        onPressed: () => SettingsPage.show(context, auth),
+                      GestureDetector(
+                        onTap: () => SettingsPage.show(context, auth),
                         child: Showcase(
                           key: _settingsKey,
                           textColor: Colors.indigo,
