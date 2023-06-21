@@ -4,6 +4,7 @@ import 'package:parental_control/app/config/screencontroller_config.dart';
 import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:parental_control/services/notification_service.dart';
 import 'package:parental_control/theme/theme.dart';
 import 'package:parental_control/utils/app_strings.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,9 @@ void main() {
         Provider<AuthBase>(create: (context) => Auth()),
         Provider<AppUsageService>(create: (context) => AppUsageService()),
         Provider<GeoLocatorService>(create: (context) => GeoLocatorService()),
+        Provider<NotificationService>(
+          create: (context) => NotificationService(),
+        ),
       ],
       child: TimesUpApp(),
     ),
