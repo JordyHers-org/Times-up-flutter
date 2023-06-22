@@ -104,14 +104,16 @@ Duration calculateAverage(List<Duration> durations) {
 double calculatePercentage(Duration duration) {
   var value = duration.toString().replaceAll('.000000', '');
   var parts = value.split(':');
+  var days = int.parse(parts[0]);
   var hours = int.parse(parts[1]);
   var minutes = int.parse(parts[2]);
   var parsedDuration = Duration(
+    days: days,
     hours: hours,
     minutes: minutes,
   );
 
-  final totalDuration = Duration(hours: 2);
+  final totalDuration = Duration(days: 30, hours: 2);
   final milliseconds = parsedDuration.inMilliseconds;
   final totalMilliseconds = totalDuration.inMilliseconds;
 

@@ -120,15 +120,16 @@ class FireStoreDatabase implements Database {
   @override
   Future<void> liveUpdateChild(ChildModel model, value) async {
     await apps.getAppUsageService();
-    var point = await geo.getInitialLocation();
-    var currentLocation = GeoPoint(point.latitude, point.longitude);
+    //TODO: UNCOMMENT THIS TO UPDATE LOCATION
+    //var point = await geo.getInitialLocation();
+    //var currentLocation = GeoPoint(point.latitude, point.longitude);
 
     _child = ChildModel(
       id: model.id,
       name: model.name,
       email: model.email,
       token: model.token,
-      position: currentLocation,
+      position: model.position,
       appsUsageModel: apps.info,
       image: model.image,
     );

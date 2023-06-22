@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/app/config/screencontroller_config.dart';
+import 'package:parental_control/app/lifecycle/life_cycle.dart';
 import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
@@ -18,7 +19,9 @@ void main() {
       providers: [
         Provider<AuthBase>(create: (context) => Auth()),
         Provider<AppUsageService>(create: (context) => AppUsageService()),
-        Provider<GeoLocatorService>(create: (context) => GeoLocatorService()),
+        Provider<GeoLocatorService>(
+          create: (context) => GeoLocatorService()..getInitialLocation(),
+        ),
         Provider<NotificationService>(
           create: (context) => NotificationService(),
         ),
@@ -33,19 +36,30 @@ class TimesUpApp extends StatefulWidget {
   State<TimesUpApp> createState() => _TimesUpAppState();
 }
 
-class _TimesUpAppState extends State<TimesUpApp> {
+class _TimesUpAppState extends State<TimesUpApp> with WidgetsBindingObserver {
+  late JHAppLifeCycleObserver appLifeCycleObserver;
+
+  @override
+  void initState() {
+    super.initState();
+    appLifeCycleObserver = JHAppLifeCycleObserver();
+    WidgetsBinding.instance.addObserver(appLifeCycleObserver);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(appLifeCycleObserver);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final geoService = Provider.of<GeoLocatorService>(context, listen: false);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: Strings.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      home: FutureBuilder(
-        future: geoService.getInitialLocation(),
-        builder: (context, _) => ScreensController(),
-      ),
+      home: ScreensController(),
     );
   }
 }

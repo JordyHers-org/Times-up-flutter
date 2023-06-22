@@ -9,7 +9,6 @@ import 'package:parental_control/app/pages/setting_page.dart';
 import 'package:parental_control/common_widgets/child_horizontal_view.dart';
 import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/jh_empty_content.dart';
-import 'package:parental_control/common_widgets/jh_feature_widget.dart';
 import 'package:parental_control/common_widgets/jh_header.dart';
 import 'package:parental_control/common_widgets/jh_header_widget.dart';
 import 'package:parental_control/common_widgets/jh_info_row_widget.dart';
@@ -232,14 +231,24 @@ class _ParentPageState extends State<ParentPage>
                           text_1: MockData.text_3,
                           text_2: MockData.text_4,
                         ).p4,
-                        JHFeatureWidget(
-                          child: Png.google,
-                          icon: Icons.timelapse_sharp,
-                        ),
-                        JHFeatureWidget(
-                          child: Png.facebook,
-                          icon: Icons.timelapse_sharp,
-                        ),
+                        // SizedBox(
+                        //   height: double.maxFinite,
+                        //   child: ListView.builder(
+                        //     physics: BouncingScrollPhysics(),
+                        //     scrollDirection: Axis.vertical,
+                        //     itemCount: data![1]?.appsUsageModel.length,
+                        //     itemBuilder: (context, index) {
+                        //       return JHFeatureWidget(
+                        //         title:
+                        //             data[1]?.appsUsageModel[index].packageName,
+                        //         child: Image.memory(
+                        //           (data[1]?.appsUsageModel[index].appIcon)!,
+                        //           height: 30,
+                        //         ).p4,
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

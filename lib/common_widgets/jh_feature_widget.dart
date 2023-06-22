@@ -14,7 +14,7 @@ class JHFeatureWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.07,
+      height: 80,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -29,29 +29,32 @@ class JHFeatureWidget extends StatelessWidget {
       ),
       padding: EdgeInsets.all(15.0),
       margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(width: 10),
-          if (child != null) child ?? SizedBox.shrink(),
-          title != null
-              ? JHDisplayText(
-                  text: title!,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    color: CustomColors.indigoLight,
-                  ),
-                )
-              : SizedBox.shrink(),
-          Spacer(),
-          if (icon != null)
-            Icon(
-              icon,
-              size: 22,
-            ),
-          SizedBox.shrink(),
-        ],
+      child: SizedBox(
+        width: 200,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(width: 10),
+            if (child != null) child ?? SizedBox.shrink(),
+            title != null
+                ? JHDisplayText(
+                    text: title!,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: CustomColors.indigoLight,
+                    ),
+                  )
+                : SizedBox.shrink(),
+            Spacer(),
+            if (icon != null)
+              Icon(
+                icon,
+                size: 22,
+              ),
+            SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }

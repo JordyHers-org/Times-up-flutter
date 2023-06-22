@@ -37,7 +37,7 @@ class ChildPage extends StatefulWidget {
   _ChildPageState createState() => _ChildPageState();
 }
 
-class _ChildPageState extends State<ChildPage> {
+class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
   void sendLocalToBloCNotification(BuildContext context) {
     var childSideBloc = context.read<ChildSideBloc>();
     childSideBloc.add(GetNotifications());
@@ -51,11 +51,11 @@ class _ChildPageState extends State<ChildPage> {
   }
 
   @override
-  void initState() {
-    Timer.periodic(const Duration(seconds: 15), (timer) {
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    Timer.periodic(const Duration(minutes: 5), (timer) {
       widget.database?.liveUpdateChild(widget.child!, timer.tick);
     });
-    super.initState();
+    super.didChangeAppLifecycleState(state);
   }
 
   @override
@@ -267,6 +267,7 @@ class _ChildPageState extends State<ChildPage> {
       itemCount: appUsage.info.length,
       itemBuilder: (context, index) {
         return ListTile(
+          leading: Image.memory(appUsage.info[index].appIcon),
           title: JHDisplayText(
             text: appUsage.info[index].appName,
             style: TextStyle(fontSize: 15),

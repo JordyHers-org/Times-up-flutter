@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
@@ -68,7 +69,8 @@ class AppUsageInfo {
   @override
   String toString() {
     return 'App Usage: $packageName - $appName, '
-        'duration: $usage [${startDate}, $endDate]';
+        'duration: $usage [${Timestamp.fromDate(startDate)},'
+        ' ${Timestamp.fromDate(endDate)}]';
   }
 }
 

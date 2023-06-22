@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:installed_apps/app_info.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
@@ -13,9 +14,11 @@ abstract class AppService {
 
 class AppUsageService implements AppService {
   List<AppUsageInfo> _info = <AppUsageInfo>[];
+  List<AppInfo> _appInfo = <AppInfo>[];
   Duration _averageDuration = Duration(minutes: 1);
 
   List<AppUsageInfo> get info => _info;
+  List<AppInfo> get appInfo => _appInfo;
   Duration get averageDuration => _averageDuration;
 
   @override
