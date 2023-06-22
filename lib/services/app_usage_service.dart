@@ -14,7 +14,7 @@ abstract class AppService {
 
 class AppUsageService implements AppService {
   List<AppUsageInfo> _info = <AppUsageInfo>[];
-  List<AppInfo> _appInfo = <AppInfo>[];
+  final List<AppInfo> _appInfo = <AppInfo>[];
   Duration _averageDuration = Duration(minutes: 1);
 
   List<AppUsageInfo> get info => _info;

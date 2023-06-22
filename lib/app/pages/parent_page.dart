@@ -240,7 +240,8 @@ class _ParentPageState extends State<ParentPage>
                         //     itemBuilder: (context, index) {
                         //       return JHFeatureWidget(
                         //         title:
-                        //             data[1]?.appsUsageModel[index].packageName,
+                        //             data[1]?.appsUsageModel[index].
+                        //             packageName,
                         //         child: Image.memory(
                         //           (data[1]?.appsUsageModel[index].appIcon)!,
                         //           height: 30,
