@@ -1,12 +1,11 @@
-//
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:flutter/services.dart';
+import 'package:installed_apps/installed_apps.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 
-/// Custom Exception for the plugin,
-/// thrown whenever the plugin is used on platforms other than Android
 class AppUsageException implements Exception {
   final String _cause;
 
@@ -20,6 +19,7 @@ class AppUsageException implements Exception {
 
 class AppUsageInfo {
   late String _packageName, _appName;
+  late Uint8List? _appIcon;
   late Duration _usage;
   var _startDate, _endDate;
 
@@ -27,12 +27,14 @@ class AppUsageInfo {
     String name,
     double usageInSeconds,
     this._startDate,
-    this._endDate,
-  ) {
+    this._endDate, {
+    Uint8List? appIcon,
+  }) {
     var tokens = name.split('.');
     _packageName = name;
     _appName = tokens.last;
     _usage = Duration(seconds: usageInSeconds.toInt());
+    _appIcon = appIcon;
   }
 
   factory AppUsageInfo.fromMap(Map<String, dynamic> data) => AppUsageInfo(
@@ -40,6 +42,7 @@ class AppUsageInfo {
         data['usage'].toString().p(),
         data['startDate'],
         data['endDate'],
+        appIcon: base64Decode(data['appIcon'] ?? ''),
       );
 
   Map<String, dynamic> toMap() => {
@@ -47,23 +50,20 @@ class AppUsageInfo {
         'usage': _usage.toString(),
         'startDate': _startDate,
         'endDate': _endDate,
+        'appIcon': base64Encode(_appIcon!),
       };
 
-  /// The name of the application
   String get appName => _appName;
 
-  /// The name of the application package
   String get packageName => _packageName;
 
-  /// The amount of time the application has been used
-  /// in the specified interval
   Duration get usage => _usage;
 
-  /// The start of the interval
   DateTime get startDate => _startDate;
 
-  /// The end of the interval
   DateTime get endDate => _endDate;
+
+  Uint8List? get appIcon => _appIcon;
 
   @override
   String toString() {
@@ -82,18 +82,18 @@ class AppUsage {
     required bool useMock,
   }) async {
     if (Platform.isAndroid || useMock) {
-      /// Convert dates to ms since epoch
       var end = endDate.millisecondsSinceEpoch;
       var start = startDate.millisecondsSinceEpoch;
-
-      /// Set parameters
       var interval = <String, int>{'start': start, 'end': end};
-
-      /// Get result and parse it as a Map of <String, double>
       var usage = await _methodChannel.invokeMethod('getUsage', interval);
+      var _appInfo = await InstalledApps.getInstalledApps(
+        true,
+        true,
+      );
 
-      // Convert to list of AppUsageInfo
       var result = <AppUsageInfo>[];
+      var listApps = <AppUsageInfo>[];
+
       for (String key in usage.keys) {
         var temp = List<double>.from(usage[key]);
         if (temp[0] > 0) {
@@ -108,7 +108,23 @@ class AppUsage {
         }
       }
 
-      return result;
+      for (var app in _appInfo) {
+        for (var element in result) {
+          if (element.packageName.contains(app.packageName!)) {
+            listApps.add(
+              AppUsageInfo(
+                app.name!,
+                element.usage.inMilliseconds.toDouble(),
+                element.startDate,
+                element.endDate,
+                appIcon: app.icon!,
+              ),
+            );
+          }
+        }
+      }
+
+      return listApps;
     }
     throw AppUsageException('AppUsage API exclusively available on Android!');
   }
