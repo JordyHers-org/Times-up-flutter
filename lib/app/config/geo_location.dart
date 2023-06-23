@@ -75,7 +75,6 @@ class _GeoState extends State<Geo> {
     );
   }
 
-  //TODO:Make function async
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
     if (data['position'] == null) return [];
     allMarkers.clear();
