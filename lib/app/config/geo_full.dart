@@ -64,11 +64,10 @@ class _GeoFullState extends State<GeoFull> {
   }
 
   Future<Uint8List> _getChildMarkerImage(String data) async {
-    JHLogger.$.d(data);
     var bytes = (await NetworkAssetBundle(Uri.parse(data)).load(data))
         .buffer
         .asUint8List();
-    JHLogger.$.e(bytes);
+
     return bytes;
   }
 
@@ -134,7 +133,7 @@ class _GeoFullState extends State<GeoFull> {
             ),
             zoom: 15,
           ),
-          mapType: MapType.normal,
+          mapType: MapType.terrain,
           myLocationEnabled: true,
           markers: Set<Marker>.of(allMarkers),
           onMapCreated: (GoogleMapController controller) {
