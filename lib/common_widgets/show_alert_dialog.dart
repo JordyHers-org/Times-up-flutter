@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'jh_display_text.dart';
-
 Future<dynamic> showAlertDialog(
   BuildContext context, {
   required String title,
@@ -18,16 +16,16 @@ Future<dynamic> showAlertDialog(
       actions: [
         if (cancelActionText != null)
           OutlinedButton(
-            child: JHDisplayText(
-              text: cancelActionText,
+            child: Text(
+              cancelActionText,
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             onPressed: () => Navigator.of(context).pop(false),
           ),
         OutlinedButton(
           style: OutlinedButton.styleFrom(backgroundColor: Colors.indigo),
-          child: JHDisplayText(
-            text: defaultActionText,
+          child: Text(
+            defaultActionText,
             style: TextStyle(
               color: Theme.of(context).indicatorColor,
             ),

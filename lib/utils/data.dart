@@ -57,12 +57,12 @@ class BottomNavigationData {
 class MockData {
   static String text_1 = 'Get to know how to read and interpret the graphs '
       'that is a summary of how your child uses his device';
-  static String text_2 = 'Get to know how to send messages and notifications'
-      'to your child device';
-  static String text_3 = 'Get to know all the tips and tricks to monitor'
-      ' your child';
-  static String text_4 = 'Get to know how to control what your child '
-      'is listening to anytime anywhere.';
+  static String text_2 = 'Get to know how to read and interpret the graphs '
+      'that is a summary of how your child uses his device';
+  static String text_3 = 'Get to know how to read and interpret the graphs '
+      'that is a summary of how your child uses his device';
+  static String text_4 = 'Get to know how to read and interpret the graphs '
+      'that is a summary of how your child uses his device';
 }
 
 class Png {

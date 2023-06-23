@@ -77,18 +77,20 @@ class _GeoFullState extends State<GeoFull> {
     await FirebaseFirestore.instance
         .collection(APIPath.children(_currentUser.uid))
         .get()
-        .then((document) {
-      if (document.docs.isNotEmpty) {
-        for (var i = 0; i < document.docs.length; i++) {
-          childLocationsList.add(document.docs[i].data);
-          _initMarker(document.docs[i].data());
-          _getChildMarkerImage(document.docs[i].data());
-          debugPrint(
-            'This is the list of children ${childLocationsList.length}',
-          );
+        .then(
+      (document) {
+        if (document.docs.isNotEmpty) {
+          for (var i = 0; i < document.docs.length; i++) {
+            childLocationsList.add(document.docs[i].data);
+            _initMarker(document.docs[i].data());
+            _getChildMarkerImage(document.docs[i].data());
+            debugPrint(
+              'This is the list of children ${childLocationsList.length}',
+            );
+          }
         }
-      }
-    });
+      },
+    );
   }
 
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
@@ -118,28 +120,31 @@ class _GeoFullState extends State<GeoFull> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      child: Center(
-        child: GoogleMap(
-          key: Keys.googleMapKeys,
-          initialCameraPosition: CameraPosition(
-            target: LatLng(
-              widget.initialPosition.latitude,
-              widget.initialPosition.longitude,
+    return SafeArea(
+      child: Container(
+        height: double.infinity,
+        child: Center(
+          child: GoogleMap(
+            key: Keys.googleMapKeys,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(
+                widget.initialPosition.latitude,
+                widget.initialPosition.longitude,
+              ),
+              zoom: 15,
             ),
-            zoom: 15,
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            markers: Set<Marker>.of(allMarkers),
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              if (allMarkers.isEmpty) return;
+              setState(() {
+                markers[MarkerId(allMarkers.first.markerId.value)] =
+                    allMarkers.first;
+              });
+            },
           ),
-          mapType: MapType.normal,
-          myLocationEnabled: true,
-          markers: Set<Marker>.of(allMarkers),
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-            setState(() {
-              markers[MarkerId(allMarkers.first.markerId.value)] =
-                  allMarkers.first;
-            });
-          },
         ),
       ),
     );

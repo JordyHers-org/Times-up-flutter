@@ -5,12 +5,14 @@ class JHDisplayText extends StatelessWidget {
   final String text;
   final TextStyle style;
   final double? fontSize;
+  final double? maxFontSize;
 
   const JHDisplayText({
     Key? key,
     required this.text,
     required this.style,
     this.fontSize,
+    this.maxFontSize,
   }) : super(key: key);
 
   @override
@@ -19,8 +21,9 @@ class JHDisplayText extends StatelessWidget {
       text,
       style: style,
       maxLines: 10,
-      minFontSize: fontSize ?? 10,
-      maxFontSize: fontSize ?? 21,
+      textScaleFactor: 1,
+      minFontSize: fontSize ?? 13,
+      maxFontSize: maxFontSize ?? 35,
     );
   }
 }

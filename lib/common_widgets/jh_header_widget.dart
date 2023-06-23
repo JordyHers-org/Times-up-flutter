@@ -18,7 +18,7 @@ class HeaderWidget extends StatelessWidget {
     return ListTile(
       title: JHDisplayText(
         text: title,
-        style: TextStyle(color: Colors.indigo),
+        style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.w500),
       ),
       subtitle: JHDisplayText(
         text: subtitle,

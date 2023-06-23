@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/common_widgets/jh_progress_bar.dart';
+import 'package:parental_control/common_widgets/jh_size_config.dart';
 import 'package:parental_control/theme/theme.dart';
 
 import 'jh_display_text.dart';
@@ -17,10 +18,13 @@ class JHSummaryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    JHSizeConfig().init(context);
     return Container(
       margin: EdgeInsets.all(10),
-      height: 150,
-      width: 400,
+      constraints: BoxConstraints(
+        maxHeight: 170,
+        minHeight: 150,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
@@ -40,7 +44,7 @@ class JHSummaryTile extends StatelessWidget {
             children: [
               JHDisplayText(
                 text: time,
-                fontSize: 35,
+                fontSize: 25,
                 style: TextStyle(color: Colors.black),
               ),
             ],
