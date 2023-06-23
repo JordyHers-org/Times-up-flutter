@@ -23,7 +23,7 @@ class MapMarker extends StatelessWidget {
                   imageUrl,
                 ),
               ),
-              color: Colors.red,
+              color: Colors.white,
               border: Border.all(
                 color: Colors.white,
               ),

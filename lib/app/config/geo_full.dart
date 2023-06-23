@@ -5,11 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parental_control/common_widgets/jh_pin_marker.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/services/convert_service.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:parental_control/services/marker_generator_service.dart';
 import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -57,11 +56,6 @@ class _GeoFullState extends State<GeoFull> {
   final Completer<GoogleMapController> _controller = Completer();
   late List<Marker> allMarkers = [];
 
-  List<Widget> markerWidgets() {
-    JHLogger.$.e(widget.locations);
-    return widget.locations.map((l) => MapMarker(l['image'])).toList();
-  }
-
   @override
   void initState() {
     _init();
@@ -79,11 +73,14 @@ class _GeoFullState extends State<GeoFull> {
     }).generate(context);
   }
 
+  List<Widget> markerWidgets() {
+    return widget.locations.map((l) => MapMarker(l['image'])).toList();
+  }
+
   void mapBitmapsToMarkers(
     List<Uint8List> bitmaps,
     List<Map<String, dynamic>> data,
   ) {
-    JHLogger.$.w(data);
     bitmaps.asMap().forEach((i, bmp) {
       allMarkers.add(
         Marker(
