@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
@@ -47,9 +48,8 @@ class GeoFull extends StatefulWidget {
 class _GeoFullState extends State<GeoFull> {
   final Completer<GoogleMapController> _controller = Completer();
 
-  List<Marker> allMarkers = [];
+  late List<Marker> allMarkers = [];
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  var childLocationsList = [];
   late User _currentUser;
   var imageData;
 
@@ -63,37 +63,33 @@ class _GeoFullState extends State<GeoFull> {
     super.initState();
   }
 
-  Future<Uint8List> _getChildMarkerImage(Map<String, dynamic> data) async {
-    var bytes =
-        (await NetworkAssetBundle(Uri.parse(data['image'])).load(data['image']))
-            .buffer
-            .asUint8List();
-
+  Future<Uint8List> _getChildMarkerImage(String data) async {
+    JHLogger.$.d(data);
+    var bytes = (await NetworkAssetBundle(Uri.parse(data)).load(data))
+        .buffer
+        .asUint8List();
+    JHLogger.$.e(bytes);
     return bytes;
   }
 
   void _getAllChildLocations() async {
-    childLocationsList = [];
     await FirebaseFirestore.instance
         .collection(APIPath.children(_currentUser.uid))
         .get()
-        .then((document) {
+        .then((document) async {
       if (document.docs.isNotEmpty) {
-        for (var i = 0; i < document.docs.length; i++) {
-          childLocationsList.add(document.docs[i].data);
-          _initMarker(document.docs[i].data());
-          _getChildMarkerImage(document.docs[i].data());
-          debugPrint(
-            'This is the list of children ${childLocationsList.length}',
-          );
+        for (var element in document.docs) {
+          await _initMarker(element.data());
         }
       }
     });
   }
 
   Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
-    if (data['position'] == null) return [];
-    allMarkers.clear();
+    if (data['position'] == null) {
+      allMarkers.clear();
+      return [];
+    }
 
     allMarkers.add(
       Marker(
@@ -102,8 +98,8 @@ class _GeoFullState extends State<GeoFull> {
           snippet: data['name'],
         ),
         markerId: MarkerId(data['id']),
-        icon: BitmapDescriptor.defaultMarkerWithHue(
-          BitmapDescriptor.hueMagenta,
+        icon: BitmapDescriptor.fromBytes(
+          await _getChildMarkerImage(data['image']),
         ),
         draggable: false,
         position: LatLng(
@@ -112,6 +108,14 @@ class _GeoFullState extends State<GeoFull> {
         ),
       ),
     );
+    if (allMarkers.isEmpty) return [];
+    if (!mounted) return [];
+    setState(() {
+      markers[MarkerId(
+        allMarkers.first.markerId.value,
+      )] = allMarkers.first;
+    });
+    JHLogger.$.d(allMarkers.length);
 
     return allMarkers;
   }
@@ -135,9 +139,10 @@ class _GeoFullState extends State<GeoFull> {
           markers: Set<Marker>.of(allMarkers),
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
+            if (allMarkers.isEmpty) return;
             setState(() {
-              markers[MarkerId(allMarkers.first.markerId.value)] =
-                  allMarkers.first;
+              final markerId = MarkerId(allMarkers.first.markerId.value);
+              markers[markerId] = allMarkers.first;
             });
           },
         ),
