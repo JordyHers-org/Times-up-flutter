@@ -18,7 +18,9 @@ class AppUsageService implements AppService {
   Duration _averageDuration = Duration(minutes: 1);
 
   List<AppUsageInfo> get info => _info;
+
   List<AppInfo> get appInfo => _appInfo;
+
   Duration get averageDuration => _averageDuration;
 
   @override
