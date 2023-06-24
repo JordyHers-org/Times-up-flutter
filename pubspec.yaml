@@ -48,6 +48,7 @@ dependencies:
   app_usage: ^2.0.0
   google_fonts: ^4.0.3
   image_picker: ^0.8.5+3
+  after_layout: ^1.2.0
 
   # UI Component Packages:
   line_awesome_flutter: ^2.0.0
