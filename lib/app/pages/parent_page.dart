@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:parental_control/app/config/geo_full.dart';
@@ -17,6 +18,7 @@ import 'package:parental_control/common_widgets/jh_summary_tile.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
 import 'package:parental_control/services/app_usage_service.dart';
+import 'package:parental_control/services/api_path.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
@@ -62,7 +64,7 @@ class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   int currentIndex = 0;
-
+  late var values = <Map<String, dynamic>>[];
   late bool _isShowCaseActivated;
   Duration _averageUsage = Duration(seconds: 1);
 
@@ -74,6 +76,7 @@ class _ParentPageState extends State<ParentPage>
   void initState() {
     super.initState();
     _getAverageUsage();
+    _getAllChildLocations();
     _setShowCaseView();
     _scrollController = ScrollController();
   }
@@ -327,6 +330,7 @@ class _ParentPageState extends State<ParentPage>
                 position: position,
                 database: database,
                 auth: auth,
+                locations: values,
               )
             : LoadingWidget();
       },
@@ -346,6 +350,19 @@ class _ParentPageState extends State<ParentPage>
                 .startShowCase([_settingsKey, _childListKey, _addKey]),
           )
         : null;
+  }
+
+  Future<void> _getAllChildLocations() async {
+    await FirebaseFirestore.instance
+        .collection(APIPath.children(widget.auth.currentUser!.uid))
+        .get()
+        .then((document) {
+      if (document.docs.isNotEmpty) {
+        for (var element in document.docs) {
+          values.add(element.data());
+        }
+      }
+    });
   }
 
   void _setIndex(int value) {

@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:parental_control/services/api_path.dart';
+import 'package:parental_control/common_widgets/jh_pin_marker.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:parental_control/services/marker_generator_service.dart';
 import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -18,14 +17,22 @@ class GeoFull extends StatefulWidget {
   final Database database;
   final AuthBase auth;
   final GeoLocatorService geo;
+  final List<Map<String, dynamic>> locations;
 
-  GeoFull(this.initialPosition, this.database, this.auth, this.geo);
+  GeoFull(
+    this.initialPosition,
+    this.database,
+    this.auth,
+    this.geo,
+    this.locations,
+  );
 
   static Widget create(
     BuildContext context, {
     required Position position,
     required Database database,
     required AuthBase auth,
+    required List<Map<String, dynamic>> locations,
   }) {
     final geoService = Provider.of<GeoLocatorService>(
       context,
@@ -37,6 +44,7 @@ class GeoFull extends StatefulWidget {
       database,
       auth,
       geoService,
+      locations,
     );
   }
 
@@ -46,74 +54,50 @@ class GeoFull extends StatefulWidget {
 
 class _GeoFullState extends State<GeoFull> {
   final Completer<GoogleMapController> _controller = Completer();
-
-  List<Marker> allMarkers = [];
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  var childLocationsList = [];
-  late User _currentUser;
-  var imageData;
+  late List<Marker> allMarkers = [];
 
   @override
   void initState() {
-    _currentUser = widget.auth.currentUser!;
-    widget.geo.getCurrentLocation.listen((position) {
-      _centerScreen(position);
-    });
-    _getAllChildLocations();
+    _init();
     super.initState();
   }
 
-  Future<Uint8List> _getChildMarkerImage(Map<String, dynamic> data) async {
-    var bytes =
-        (await NetworkAssetBundle(Uri.parse(data['image'])).load(data['image']))
-            .buffer
-            .asUint8List();
-
-    return bytes;
-  }
-
-  void _getAllChildLocations() async {
-    childLocationsList = [];
-    await FirebaseFirestore.instance
-        .collection(APIPath.children(_currentUser.uid))
-        .get()
-        .then((document) {
-      if (document.docs.isNotEmpty) {
-        for (var i = 0; i < document.docs.length; i++) {
-          childLocationsList.add(document.docs[i].data);
-          _initMarker(document.docs[i].data());
-          _getChildMarkerImage(document.docs[i].data());
-          debugPrint(
-            'This is the list of children ${childLocationsList.length}',
-          );
-        }
-      }
+  void _init() {
+    widget.geo.getCurrentLocation.listen((position) {
+      _centerScreen(position);
     });
+    MarkerGenerator(markerWidgets(), (bitmaps) {
+      setState(() {
+        mapBitmapsToMarkers(bitmaps, widget.locations);
+      });
+    }).generate(context);
   }
 
-  Future<List<Marker>> _initMarker(Map<String, dynamic> data) async {
-    if (data['position'] == null) return [];
-    allMarkers.clear();
+  List<Widget> markerWidgets() {
+    return widget.locations.map((l) => MapMarker(l['image'])).toList();
+  }
 
-    allMarkers.add(
-      Marker(
-        infoWindow: InfoWindow(
-          title: data['id'],
-          snippet: data['name'],
+  void mapBitmapsToMarkers(
+    List<Uint8List> bitmaps,
+    List<Map<String, dynamic>> data,
+  ) {
+    bitmaps.asMap().forEach((i, bmp) {
+      allMarkers.add(
+        Marker(
+          infoWindow: InfoWindow(
+            title: data[i]['id'],
+            snippet: data[i]['name'],
+          ),
+          draggable: false,
+          markerId: MarkerId(data[i]['id']),
+          position: LatLng(
+            data[i]['position'].latitude,
+            data[i]['position'].longitude,
+          ),
+          icon: BitmapDescriptor.fromBytes(bmp),
         ),
-        markerId: MarkerId(data['id']),
-        icon: BitmapDescriptor.defaultMarkerWithHue(
-          BitmapDescriptor.hueMagenta,
-        ),
-        draggable: false,
-        position: LatLng(
-          data['position'].latitude,
-          data['position'].longitude,
-        ),
-      ),
-    );
-
-    return allMarkers;
+      );
+    });
   }
 
   @override
@@ -128,17 +112,13 @@ class _GeoFullState extends State<GeoFull> {
               widget.initialPosition.latitude,
               widget.initialPosition.longitude,
             ),
-            zoom: 15,
+            zoom: 13,
           ),
           mapType: MapType.normal,
           myLocationEnabled: true,
           markers: Set<Marker>.of(allMarkers),
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
-            setState(() {
-              markers[MarkerId(allMarkers.first.markerId.value)] =
-                  allMarkers.first;
-            });
           },
         ),
       ),
