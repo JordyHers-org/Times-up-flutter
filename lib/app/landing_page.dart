@@ -64,21 +64,18 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Provider<AuthBase> _buildChildSide(
+  Provider<Database> _buildChildSide(
     AuthBase auth,
     User user,
     GeoLocatorService geoService,
     BuildContext context,
   ) {
-    return Provider<AuthBase>(
-      create: (_) => Auth(),
-      child: Provider<Database>(
-        create: (_) => FireStoreDatabase(auth: auth, uid: user.uid),
-        child: FutureProvider(
-          initialData: geoService.getCurrentLocation,
-          create: (context) => geoService.getInitialLocation(),
-          child: SetChildPage.create(context),
-        ),
+    return Provider<Database>(
+      create: (_) => FireStoreDatabase(auth: auth, uid: user.uid),
+      child: FutureProvider(
+        initialData: geoService.getCurrentLocation,
+        create: (context) => geoService.getInitialLocation(),
+        child: SetChildPage.create(context),
       ),
     );
   }
