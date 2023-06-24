@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
 import 'package:parental_control/common_widgets/jh_bar_chart.dart';
+import 'package:parental_control/common_widgets/jh_battery_widget.dart';
 import 'package:parental_control/common_widgets/jh_custom_button.dart';
 import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/jh_empty_content.dart';
@@ -125,31 +126,40 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     _buildProfile(model),
-                    GestureDetector(
-                      onLongPress: () {
-                        Clipboard.setData(
-                          ClipboardData(text: model.id.toString()),
-                        ).then((value) {
-                          final snackBar = SnackBar(
-                            content: const Text('Code Copied!'),
-                          );
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        JHBatteryWidget(
+                          level: 0.75,
+                        ).p4,
+                        GestureDetector(
+                          onLongPress: () {
+                            Clipboard.setData(
+                              ClipboardData(text: model.id.toString()),
+                            ).then((value) {
+                              final snackBar = SnackBar(
+                                content: const Text('Code Copied!'),
+                              );
 
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        });
-                      },
-                      onDoubleTap: () async {
-                        await Share.share(
-                          "Enter this code on child's device:\n${model.id}",
-                        );
-                      },
-                      child: JHDisplayText(
-                        text: model.id,
-                        fontSize: 22,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent,
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            });
+                          },
+                          onDoubleTap: () async {
+                            await Share.share(
+                              "Enter this code on child's device:\n${model.id}",
+                            );
+                          },
+                          child: JHDisplayText(
+                            text: model.id,
+                            fontSize: 22,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepOrangeAccent,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ).hP16,
                   ],
                 ).p16,
