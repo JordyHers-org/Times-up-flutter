@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:design_library/scr/component/jh_bar_chart.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:parental_control/app/helpers/parsing_extension.dart';
-import 'package:parental_control/common_widgets/jh_bar_chart.dart';
 import 'package:parental_control/common_widgets/jh_custom_button.dart';
 import 'package:parental_control/common_widgets/jh_display_text.dart';
 import 'package:parental_control/common_widgets/jh_empty_content.dart';
