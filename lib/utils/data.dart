@@ -19,7 +19,7 @@ class TabData {
     {
       'text': 'Send notifications to your child when time '
           ' limit is reached or when he has to go to bed.',
-      'title': 'Control and Monitor',
+      'title': 'Control and \nMonitor',
       'icon': Icons.lock_reset,
     },
     {

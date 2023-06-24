@@ -102,24 +102,26 @@ class _GeoFullState extends State<GeoFull> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      child: Center(
-        child: GoogleMap(
-          key: Keys.googleMapKeys,
-          initialCameraPosition: CameraPosition(
-            target: LatLng(
-              widget.initialPosition.latitude,
-              widget.initialPosition.longitude,
+    return SafeArea(
+      child: Container(
+        height: double.infinity,
+        child: Center(
+          child: GoogleMap(
+            key: Keys.googleMapKeys,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(
+                widget.initialPosition.latitude,
+                widget.initialPosition.longitude,
+              ),
+              zoom: 15,
             ),
-            zoom: 13,
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            markers: Set<Marker>.of(allMarkers),
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
           ),
-          mapType: MapType.normal,
-          myLocationEnabled: true,
-          markers: Set<Marker>.of(allMarkers),
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
         ),
       ),
     );
