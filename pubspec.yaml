@@ -9,7 +9,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.0 <3.5.0"
+  sdk: ">=3.0.1 <4.0.0"
 
 dependencies:
   flutter:
@@ -48,6 +48,10 @@ dependencies:
   app_usage: ^2.0.0
   google_fonts: ^4.0.3
   image_picker: ^0.8.5+3
+  design_library:
+    git:
+      url: https://github.com/JordyHers-org/design_library.git
+      branch: master
 
   # UI Component Packages:
   line_awesome_flutter: ^2.0.0
