@@ -135,7 +135,7 @@ class SignInPage extends StatelessWidget {
       return Center(child: CircularProgressIndicator());
     }
     return Image.asset(
-      'images/splash_svg/clip-sign-up.png',
+      'images/png/sign-up.png',
     );
   }
 }

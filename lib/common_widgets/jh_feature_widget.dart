@@ -5,11 +5,17 @@ import 'jh_display_text.dart';
 
 class JHFeatureWidget extends StatelessWidget {
   final String? title;
+  final String? subtitle;
   final Widget? child;
   final IconData? icon;
 
-  const JHFeatureWidget({Key? key, this.title, this.icon, this.child})
-      : super(key: key);
+  const JHFeatureWidget({
+    Key? key,
+    this.title,
+    this.icon,
+    this.child,
+    this.subtitle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +42,12 @@ class JHFeatureWidget extends StatelessWidget {
           children: [
             SizedBox(width: 10),
             if (child != null) child ?? SizedBox.shrink(),
+            if (child != null) SizedBox(width: 20),
             title != null
                 ? JHDisplayText(
                     text: title!,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: FontWeight.w800,
                       color: CustomColors.indigoLight,
                     ),

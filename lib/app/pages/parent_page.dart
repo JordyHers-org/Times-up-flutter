@@ -17,8 +17,8 @@ import 'package:parental_control/common_widgets/jh_loading_widget.dart';
 import 'package:parental_control/common_widgets/jh_summary_tile.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
-import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/api_path.dart';
+import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
@@ -130,18 +130,21 @@ class _ParentPageState extends State<ParentPage>
         if (snapshot.hasData) {
           return NestedScrollView(
             controller: _scrollController,
-            physics: BouncingScrollPhysics(),
             headerSliverBuilder: (context, value) {
               return [
                 SliverAppBar(
-                  toolbarHeight: value ? 75 : 100,
+                  elevation: 0.5,
+                  shadowColor: CustomColors.indigoLight,
+                  toolbarHeight: value ? 75 : 90,
                   flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
                   backgroundColor: Colors.white,
                   expandedHeight: !value ? 120 : 100,
                   shape: ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
+                    side: BorderSide(
+                      width: 1,
+                      color: !value
+                          ? Colors.white
+                          : CustomColors.indigoLight.withOpacity(0.5),
                     ),
                   ),
                   title: Row(
@@ -189,74 +192,58 @@ class _ParentPageState extends State<ParentPage>
                   backgroundColor: CustomColors.indigoLight,
                 ),
               ),
-              body: CustomScrollView(
-                physics: BouncingScrollPhysics(),
-                slivers: <Widget>[
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        HeaderWidget(
-                          title: 'My Children',
-                          subtitle:
-                              'Choose child to get more info - scroll right ',
-                          trailing: IconButton(
-                            icon: Icon(Icons.info_outline),
-                            onPressed: () => _startShowCase(),
+              body: ScrollConfiguration(
+                behavior: const ScrollBehavior().copyWith(overscroll: false),
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          HeaderWidget(
+                            title: 'My Children',
+                            subtitle:
+                                'Choose child to get more info - scroll right ',
+                            trailing: IconButton(
+                              icon: Icon(Icons.info_outline),
+                              onPressed: () => _startShowCase(),
+                            ),
+                          ).p8,
+                          _buildChildrenList(database),
+                          HeaderWidget(
+                            title: 'Get to see our child live app usage',
+                            subtitle: 'Click on it to have the full report',
+                          ).p8,
+                          JHSummaryTile(
+                            title: formatDateTime(DateTime.now()),
+                            time: data != null && data.isNotEmpty
+                                ? _averageUsage.toString().t()
+                                : '0h 0m',
+                            progressValue: data != null && data.isNotEmpty
+                                ? calculatePercentage(_averageUsage)
+                                : 0,
                           ),
-                        ).p8,
-                        _buildChildrenList(database),
-                        HeaderWidget(
-                          title: 'Get to see our child live app usage',
-                          subtitle: 'Click on it to have the full report',
-                        ).p8,
-                        JHSummaryTile(
-                          title: formatDateTime(DateTime.now()),
-                          time: data != null && data.isNotEmpty
-                              ? _averageUsage.toString().t()
-                              : '0h 0m',
-                          progressValue: data != null && data.isNotEmpty
-                              ? calculatePercentage(_averageUsage)
-                              : 0,
-                        ),
-                        HeaderWidget(
-                          title: 'Information Section',
-                          subtitle: 'Get tips on how to use the app.',
-                        ).p8,
-                        JHInfoRow(
-                          icon_1: Icons.auto_graph_outlined,
-                          icon_2: Icons.message_outlined,
-                          text_1: MockData.text_1,
-                          text_2: MockData.text_2,
-                        ).p4,
-                        JHInfoRow(
-                          icon_1: Icons.lightbulb_rounded,
-                          icon_2: Icons.volume_up_outlined,
-                          text_1: MockData.text_3,
-                          text_2: MockData.text_4,
-                        ).p4,
-                        // SizedBox(
-                        //   height: double.maxFinite,
-                        //   child: ListView.builder(
-                        //     physics: BouncingScrollPhysics(),
-                        //     scrollDirection: Axis.vertical,
-                        //     itemCount: data![1]?.appsUsageModel.length,
-                        //     itemBuilder: (context, index) {
-                        //       return JHFeatureWidget(
-                        //         title:
-                        //             data[1]?.appsUsageModel[index].
-                        //             packageName,
-                        //         child: Image.memory(
-                        //           (data[1]?.appsUsageModel[index].appIcon)!,
-                        //           height: 30,
-                        //         ).p4,
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-                      ],
+                          HeaderWidget(
+                            title: 'Information Section',
+                            subtitle: 'Get tips on how to use the app.',
+                          ).p8,
+                          JHInfoRow(
+                            icon_1: Icons.auto_graph_outlined,
+                            icon_2: Icons.message_outlined,
+                            text_1: MockData.text_1,
+                            text_2: MockData.text_2,
+                          ).p4,
+                          JHInfoRow(
+                            icon_1: Icons.lightbulb_rounded,
+                            icon_2: Icons.volume_up_outlined,
+                            text_1: MockData.text_3,
+                            text_2: MockData.text_4,
+                          ).p4,
+                          Image.asset('images/png/home_page.png').p4,
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
