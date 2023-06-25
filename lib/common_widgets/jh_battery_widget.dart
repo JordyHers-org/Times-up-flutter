@@ -25,12 +25,6 @@ class JHBatteryWidget extends StatelessWidget {
                 color: CustomColors.greenPrimary,
                 borderRadius: BorderRadius.circular(3),
               ),
-              child: Center(
-                child: Text(
-                  '${(level! * 100).toInt()} %',
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
-                ),
-              ),
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -41,7 +35,14 @@ class JHBatteryWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
-            )
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                '${(level! * 100).toInt()} %',
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+              ),
+            ),
           ],
         ),
       ),

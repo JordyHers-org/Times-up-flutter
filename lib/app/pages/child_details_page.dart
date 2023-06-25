@@ -86,6 +86,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   child: Image.network(model.image!),
                 ).p4
               ],
+              elevation: 0.5,
+              shadowColor: CustomColors.indigoLight,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 color: CustomColors.indigoPrimary,
@@ -97,9 +99,11 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               backgroundColor: Colors.white,
               expandedHeight: 50,
               shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+                side: BorderSide(
+                  width: 1,
+                  color: !value
+                      ? Colors.white
+                      : CustomColors.indigoLight.withOpacity(0.5),
                 ),
               ),
               pinned: true,
@@ -148,7 +152,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       ),
                     ).p4,
                     JHBatteryWidget(
-                      level: 0.90,
+                      level: 0,
                     ).p4,
                   ],
                 ).p16,
