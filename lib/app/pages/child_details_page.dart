@@ -113,7 +113,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         },
         body: CustomScrollView(
           scrollBehavior: const ScrollBehavior(
-              androidOverscrollIndicator: AndroidOverscrollIndicator.stretch),
+            androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
+          ),
           slivers: <Widget>[
             SliverList(
               delegate: SliverChildListDelegate([
@@ -152,7 +153,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       ),
                     ).p4,
                     JHBatteryWidget(
-                      level: 0,
+                      level: 1,
                     ).p4,
                   ],
                 ).p16,

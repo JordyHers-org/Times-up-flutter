@@ -194,8 +194,9 @@ class _ParentPageState extends State<ParentPage>
               ),
               body: CustomScrollView(
                 scrollBehavior: const ScrollBehavior(
-                    androidOverscrollIndicator:
-                        AndroidOverscrollIndicator.stretch),
+                  androidOverscrollIndicator:
+                      AndroidOverscrollIndicator.stretch,
+                ),
                 slivers: <Widget>[
                   SliverList(
                     delegate: SliverChildListDelegate(
@@ -239,25 +240,7 @@ class _ParentPageState extends State<ParentPage>
                           text_1: MockData.text_3,
                           text_2: MockData.text_4,
                         ).p4,
-                        // SizedBox(
-                        //   height: double.maxFinite,
-                        //   child: ListView.builder(
-                        //     physics: BouncingScrollPhysics(),
-                        //     scrollDirection: Axis.vertical,
-                        //     itemCount: data![1]?.appsUsageModel.length,
-                        //     itemBuilder: (context, index) {
-                        //       return JHFeatureWidget(
-                        //         title:
-                        //             data[1]?.appsUsageModel[index].
-                        //             packageName,
-                        //         child: Image.memory(
-                        //           (data[1]?.appsUsageModel[index].appIcon)!,
-                        //           height: 30,
-                        //         ).p4,
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
+                        Image.asset('images/png/home_page.png').p4,
                       ],
                     ),
                   ),

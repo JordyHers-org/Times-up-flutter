@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_empty_content.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/notification_model/notification_model.dart';
@@ -68,7 +67,50 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildStreamNotification(context);
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, value) {
+        return [
+          SliverAppBar(
+            elevation: 0.5,
+            shadowColor: CustomColors.indigoLight,
+            title: JHDisplayText(
+              text: 'Notifications',
+              style: TextStyle(
+                color: CustomColors.indigoDark,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            iconTheme: IconThemeData(color: Colors.red),
+            backgroundColor: Colors.white,
+            expandedHeight: 50,
+            shape: ContinuousRectangleBorder(
+              side: BorderSide(
+                width: 1,
+                color: !value
+                    ? Colors.white
+                    : CustomColors.indigoLight.withOpacity(0.5),
+              ),
+            ),
+            pinned: true,
+            floating: true,
+          )
+        ];
+      },
+      body: CustomScrollView(
+        scrollBehavior: const ScrollBehavior(
+          androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
+        ),
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildListDelegate([
+              SingleChildScrollView(
+                child: Container(child: _buildStreamNotification(context)),
+              ),
+            ]),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildStreamNotification(BuildContext context) {
@@ -80,7 +122,8 @@ class _NotificationPageState extends State<NotificationPage> {
 
           return data!.isNotEmpty
               ? ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Dismissible(
@@ -142,12 +185,10 @@ class _NotificationPageState extends State<NotificationPage> {
                     );
                   },
                 )
-              : JHEmptyContent(
-                  message: 'This side of the app will display the list of'
-                      ' Notifications',
-                  title: 'Notification page',
-                  fontSizeMessage: 13,
-                  fontSizeTitle: 23,
+              : Column(
+                  children: [
+                    Image.asset('images/png/notifications.png'),
+                  ],
                 );
         } else if (snapshot.hasData) {
           return ErrorWidget(snapshot.error!);
