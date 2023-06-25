@@ -17,8 +17,8 @@ import 'package:parental_control/common_widgets/jh_loading_widget.dart';
 import 'package:parental_control/common_widgets/jh_summary_tile.dart';
 import 'package:parental_control/common_widgets/show_logger.dart';
 import 'package:parental_control/models/child_model/child_model.dart';
-import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/api_path.dart';
+import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/auth.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
@@ -130,18 +130,21 @@ class _ParentPageState extends State<ParentPage>
         if (snapshot.hasData) {
           return NestedScrollView(
             controller: _scrollController,
-            physics: BouncingScrollPhysics(),
             headerSliverBuilder: (context, value) {
               return [
                 SliverAppBar(
-                  toolbarHeight: value ? 75 : 100,
+                  elevation: 0.5,
+                  shadowColor: CustomColors.indigoLight,
+                  toolbarHeight: value ? 75 : 90,
                   flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
                   backgroundColor: Colors.white,
                   expandedHeight: !value ? 120 : 100,
                   shape: ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
+                    side: BorderSide(
+                      width: 1,
+                      color: !value
+                          ? Colors.white
+                          : CustomColors.indigoLight.withOpacity(0.5),
                     ),
                   ),
                   title: Row(
@@ -190,7 +193,9 @@ class _ParentPageState extends State<ParentPage>
                 ),
               ),
               body: CustomScrollView(
-                physics: BouncingScrollPhysics(),
+                scrollBehavior: const ScrollBehavior(
+                    androidOverscrollIndicator:
+                        AndroidOverscrollIndicator.stretch),
                 slivers: <Widget>[
                   SliverList(
                     delegate: SliverChildListDelegate(

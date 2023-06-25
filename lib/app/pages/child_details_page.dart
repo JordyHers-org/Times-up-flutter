@@ -78,18 +78,14 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
   Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
     if (model != null) {
       return NestedScrollView(
-        physics: BouncingScrollPhysics(),
         headerSliverBuilder: (context, value) {
           return [
             SliverAppBar(
-              title: JHDisplayText(
-                text: model.name,
-                fontSize: 22,
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  color: CustomColors.indigoLight,
-                ),
-              ),
+              actions: [
+                ClipOval(
+                  child: Image.network(model.image!),
+                ).p4
+              ],
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 color: CustomColors.indigoPrimary,
@@ -112,7 +108,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
           ];
         },
         body: CustomScrollView(
-          physics: BouncingScrollPhysics(),
+          scrollBehavior: const ScrollBehavior(
+              androidOverscrollIndicator: AndroidOverscrollIndicator.stretch),
           slivers: <Widget>[
             SliverList(
               delegate: SliverChildListDelegate([
@@ -124,42 +121,35 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    _buildProfile(model),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        JHBatteryWidget(
-                          level: 0.75,
-                        ).p4,
-                        GestureDetector(
-                          onLongPress: () {
-                            Clipboard.setData(
-                              ClipboardData(text: model.id.toString()),
-                            ).then((value) {
-                              final snackBar = SnackBar(
-                                content: const Text('Code Copied!'),
-                              );
+                    GestureDetector(
+                      onLongPress: () {
+                        Clipboard.setData(
+                          ClipboardData(text: model.id.toString()),
+                        ).then((value) {
+                          final snackBar = SnackBar(
+                            content: const Text('Code Copied!'),
+                          );
 
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            });
-                          },
-                          onDoubleTap: () async {
-                            await Share.share(
-                              "Enter this code on child's device:\n${model.id}",
-                            );
-                          },
-                          child: JHDisplayText(
-                            text: model.id,
-                            fontSize: 22,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrangeAccent,
-                            ),
-                          ),
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        });
+                      },
+                      onDoubleTap: () async {
+                        await Share.share(
+                          "Enter this code on child's device:\n${model.id}",
+                        );
+                      },
+                      child: JHDisplayText(
+                        text: model.id,
+                        fontSize: 30,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepOrangeAccent,
                         ),
-                      ],
-                    ).hP16,
+                      ),
+                    ).p4,
+                    JHBatteryWidget(
+                      level: 0.90,
+                    ).p4,
                   ],
                 ).p16,
                 Column(
@@ -182,60 +172,64 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   ],
                 ),
                 SizedBox(height: 18),
-                GestureDetector(
-                  onTap: () => showCustomBottomSheet(
-                    context,
-                    child: _AppUsedList(
-                      model: model,
-                    ),
-                  ),
-                  child: JHFeatureWidget(
-                    title: 'Most Used Apps',
-                    icon: Icons.bar_chart_rounded,
-                  ),
-                ),
                 HeaderWidget(
                   title: 'Send notifications to your Child\'s device',
                   subtitle: 'Push the button ',
                 ).p8,
-                SizedBox(height: 8),
-                Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      JHCustomButton(
-                        title: ' Bed Time',
-                        backgroundColor: Colors.indigo,
-                        onPress: () async => await _sendNotification(
-                          context,
-                          model,
-                          'Hey Go to bed Now',
-                        ),
+                GestureDetector(
+                  onTap: () => showCustomBottomSheet(
+                    context,
+                    child: Container(
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Spacer(),
+                          JHCustomButton(
+                            title: ' Bed Time',
+                            backgroundColor: Colors.indigo,
+                            onPress: () async => await _sendNotification(
+                              context,
+                              model,
+                              'Hey Go to bed Now',
+                            ),
+                          ),
+                          JHCustomButton(
+                            title: 'Homework Time',
+                            backgroundColor: CustomColors.indigoLight,
+                            onPress: () async => await _sendNotification(
+                              context,
+                              model,
+                              'Homework Time',
+                            ),
+                          ),
+                          Spacer(),
+                        ],
                       ),
-                      JHCustomButton(
-                        title: 'Homework Time',
-                        backgroundColor: CustomColors.indigoLight,
-                        onPress: () async => await _sendNotification(
-                          context,
-                          model,
-                          'Homework Time',
-                        ),
-                      ),
-                      JHCustomButton(
-                        title: 'Delete Child',
-                        backgroundColor: Colors.transparent,
-                        borderColor: Colors.red,
-                        textColor: Colors.red,
-                        onPress: () async => _confirmDelete(
-                          context,
-                          widget.childModel,
-                        ),
-                      ),
-                    ],
+                      height: 200,
+                    ),
                   ),
-                  height: 250,
+                  child: JHFeatureWidget(
+                    title: 'Send Notification',
+                    icon: Icons.wifi_tethering_error_sharp,
+                  ),
                 ),
+                SizedBox(height: 8),
+                _AppUsedList(
+                  model: model,
+                ),
+                SizedBox(height: 50),
+                JHCustomButton(
+                  title: 'Delete Child',
+                  backgroundColor: Colors.transparent,
+                  borderColor: Colors.red,
+                  textColor: Colors.red,
+                  onPress: () async => _confirmDelete(
+                    context,
+                    widget.childModel,
+                  ),
+                ),
+                SizedBox(height: 40),
               ]),
             )
           ],
@@ -247,35 +241,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         message: ' Here is the kids details page',
       );
     }
-  }
-
-  Widget _buildProfile(ChildModel model) {
-    return Container(
-      width: 120,
-      height: 140,
-      padding: EdgeInsets.all(3),
-      child: Container(
-        alignment: Alignment.topLeft,
-        child: model.image == null
-            ? Container(
-                height: 120,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  color: Colors.black.withOpacity(0.10),
-                ),
-              )
-            : Container(
-                alignment: Alignment.topLeft,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(model.image!),
-                  ),
-                ),
-              ),
-      ),
-    );
   }
 
   Future<void> _confirmDelete(BuildContext context, ChildModel model) async {
@@ -334,31 +299,17 @@ class _AppUsedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: const ScrollBehavior().copyWith(overscroll: false),
-      child: ListView(
-        physics: ScrollPhysics(),
-        children: [
-          Column(
+    return SingleChildScrollView(
+      child: Container(
+        child: ScrollConfiguration(
+          behavior: const ScrollBehavior().copyWith(overscroll: false),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 6,
-                    width: 67,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey,
-                    ),
-                  )
-                ],
-              ).p8,
               HeaderWidget(
                 title: 'Summary of used apps',
-                subtitle: 'Dismiss when done',
-              ).p8,
+                subtitle: 'Click for more details',
+              ),
               model.appsUsageModel.isNotEmpty
                   ? ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
@@ -366,7 +317,7 @@ class _AppUsedList extends StatelessWidget {
                       itemCount: model.appsUsageModel.length,
                       itemBuilder: (context, index) {
                         return Column(
-                          mainAxisSize: MainAxisSize.max,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             ListTile(
                               leading:
@@ -407,8 +358,8 @@ class _AppUsedList extends StatelessWidget {
                       fontSizeTitle: 23,
                     ),
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
