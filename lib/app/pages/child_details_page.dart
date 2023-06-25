@@ -111,133 +111,137 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             )
           ];
         },
-        body: CustomScrollView(
-          scrollBehavior: const ScrollBehavior(
-            androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
-          ),
-          slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildListDelegate([
-                HeaderWidget(
-                  title: 'Enter this code on the child\'s device',
-                  subtitle: 'Long press to copy or double tap to share ',
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    GestureDetector(
-                      onLongPress: () {
-                        Clipboard.setData(
-                          ClipboardData(text: model.id.toString()),
-                        ).then((value) {
-                          final snackBar = SnackBar(
-                            content: const Text('Code Copied!'),
-                          );
+        body: ScrollConfiguration(
+          behavior: const ScrollBehavior().copyWith(overscroll: false),
+          child: CustomScrollView(
+            // scrollBehavior: const ScrollBehavior(
+            //   androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
+            // ),
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  HeaderWidget(
+                    title: 'Enter this code on the child\'s device',
+                    subtitle: 'Long press to copy or double tap to share ',
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      GestureDetector(
+                        onLongPress: () {
+                          Clipboard.setData(
+                            ClipboardData(text: model.id.toString()),
+                          ).then((value) {
+                            final snackBar = SnackBar(
+                              content: const Text('Code Copied!'),
+                            );
 
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        });
-                      },
-                      onDoubleTap: () async {
-                        await Share.share(
-                          "Enter this code on child's device:\n${model.id}",
-                        );
-                      },
-                      child: JHDisplayText(
-                        text: model.id,
-                        fontSize: 30,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent,
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          });
+                        },
+                        onDoubleTap: () async {
+                          await Share.share(
+                            "Enter this code on child's device:\n${model.id}",
+                          );
+                        },
+                        child: JHDisplayText(
+                          text: model.id,
+                          fontSize: 30,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepOrangeAccent,
+                          ),
                         ),
+                      ).p4,
+                      JHBatteryWidget(
+                        level: 1,
+                      ).p4,
+                    ],
+                  ).p16,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 18),
+                        height: 205,
+                        width: double.infinity,
+                        child: model.appsUsageModel.isNotEmpty
+                            ? JHAppUsageChart(
+                                isEmpty: false,
+                                name: model.name,
+                              )
+                            : JHAppUsageChart(
+                                isEmpty: true,
+                                name: model.name,
+                              ),
                       ),
-                    ).p4,
-                    JHBatteryWidget(
-                      level: 1,
-                    ).p4,
-                  ],
-                ).p16,
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 18),
-                      height: 205,
-                      width: double.infinity,
-                      child: model.appsUsageModel.isNotEmpty
-                          ? JHAppUsageChart(
-                              isEmpty: false,
-                              name: model.name,
-                            )
-                          : JHAppUsageChart(
-                              isEmpty: true,
-                              name: model.name,
+                    ],
+                  ),
+                  SizedBox(height: 18),
+                  HeaderWidget(
+                    title: 'Send notifications to your Child\'s device',
+                    subtitle: 'Push the button ',
+                  ).p8,
+                  GestureDetector(
+                    onTap: () => showCustomBottomSheet(
+                      context,
+                      child: Container(
+                        decoration: BoxDecoration(color: Colors.white),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Spacer(),
+                            JHCustomButton(
+                              title: ' Bed Time',
+                              backgroundColor: Colors.indigo,
+                              onPress: () async => await _sendNotification(
+                                context,
+                                model,
+                                'Hey Go to bed Now',
+                              ),
                             ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 18),
-                HeaderWidget(
-                  title: 'Send notifications to your Child\'s device',
-                  subtitle: 'Push the button ',
-                ).p8,
-                GestureDetector(
-                  onTap: () => showCustomBottomSheet(
-                    context,
-                    child: Container(
-                      decoration: BoxDecoration(color: Colors.white),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Spacer(),
-                          JHCustomButton(
-                            title: ' Bed Time',
-                            backgroundColor: Colors.indigo,
-                            onPress: () async => await _sendNotification(
-                              context,
-                              model,
-                              'Hey Go to bed Now',
+                            JHCustomButton(
+                              title: 'Homework Time',
+                              backgroundColor: CustomColors.indigoLight,
+                              onPress: () async => await _sendNotification(
+                                context,
+                                model,
+                                'Homework Time',
+                              ),
                             ),
-                          ),
-                          JHCustomButton(
-                            title: 'Homework Time',
-                            backgroundColor: CustomColors.indigoLight,
-                            onPress: () async => await _sendNotification(
-                              context,
-                              model,
-                              'Homework Time',
-                            ),
-                          ),
-                          Spacer(),
-                        ],
+                            Spacer(),
+                          ],
+                        ),
+                        height: 200,
                       ),
-                      height: 200,
+                    ),
+                    child: JHFeatureWidget(
+                      title: 'Send Notification',
+                      icon: Icons.wifi_tethering_error_sharp,
                     ),
                   ),
-                  child: JHFeatureWidget(
-                    title: 'Send Notification',
-                    icon: Icons.wifi_tethering_error_sharp,
+                  SizedBox(height: 8),
+                  _AppUsedList(
+                    model: model,
                   ),
-                ),
-                SizedBox(height: 8),
-                _AppUsedList(
-                  model: model,
-                ),
-                SizedBox(height: 50),
-                JHCustomButton(
-                  title: 'Delete Child',
-                  backgroundColor: Colors.transparent,
-                  borderColor: Colors.red,
-                  textColor: Colors.red,
-                  onPress: () async => _confirmDelete(
-                    context,
-                    widget.childModel,
+                  SizedBox(height: 50),
+                  JHCustomButton(
+                    title: 'Delete Child',
+                    backgroundColor: Colors.transparent,
+                    borderColor: Colors.red,
+                    textColor: Colors.red,
+                    onPress: () async => _confirmDelete(
+                      context,
+                      widget.childModel,
+                    ),
                   ),
-                ),
-                SizedBox(height: 40),
-              ]),
-            )
-          ],
+                  SizedBox(height: 40),
+                ]),
+              )
+            ],
+          ),
         ),
       );
     } else {

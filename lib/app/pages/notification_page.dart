@@ -96,19 +96,19 @@ class _NotificationPageState extends State<NotificationPage> {
           )
         ];
       },
-      body: CustomScrollView(
-        scrollBehavior: const ScrollBehavior(
-          androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
+      body: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildListDelegate([
+                SingleChildScrollView(
+                  child: Container(child: _buildStreamNotification(context)),
+                ),
+              ]),
+            ),
+          ],
         ),
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildListDelegate([
-              SingleChildScrollView(
-                child: Container(child: _buildStreamNotification(context)),
-              ),
-            ]),
-          ),
-        ],
       ),
     );
   }
