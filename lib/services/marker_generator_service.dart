@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class MarkerGenerator {
-
   MarkerGenerator(this.markerWidgets, this.callback);
   final Function(List<Uint8List>) callback;
   final List<Widget> markerWidgets;
@@ -36,7 +35,6 @@ class MarkerGenerator {
 }
 
 class _MarkerHelper extends StatefulWidget {
-
   const _MarkerHelper({
     Key? key,
     required this.markerWidgets,
@@ -88,7 +86,8 @@ class _MarkerHelperState extends State<_MarkerHelper> with AfterLayoutMixin {
     dynamic boundary = markerKey.currentContext?.findRenderObject();
     final image = await boundary.toImage(pixelRatio: 2.0);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    return byteData!.buffer.asUint8List() as Future<Uint8List>;
+    var res = byteData!.buffer.asUint8List();
+    return res as Uint8List;
   }
 }
 
