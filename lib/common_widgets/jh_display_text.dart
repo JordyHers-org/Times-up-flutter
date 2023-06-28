@@ -2,10 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class JHDisplayText extends StatelessWidget {
-  final String text;
-  final TextStyle style;
-  final double? fontSize;
-  final double? maxFontSize;
 
   const JHDisplayText({
     Key? key,
@@ -14,6 +10,10 @@ class JHDisplayText extends StatelessWidget {
     this.fontSize,
     this.maxFontSize,
   }) : super(key: key);
+  final String text;
+  final TextStyle style;
+  final double? fontSize;
+  final double? maxFontSize;
 
   @override
   Widget build(BuildContext context) {

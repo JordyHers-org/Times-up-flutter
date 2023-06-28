@@ -6,10 +6,10 @@ Future<void> showCustomBottomSheet(
 }) async {
   await showModalBottomSheet(
     backgroundColor: Colors.white,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15.0),
-        topRight: Radius.circular(15.0),
+        topLeft: Radius.circular(15),
+        topRight: Radius.circular(15),
       ),
     ),
     context: context,

@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/theme/theme.dart';
-
-import 'jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class JHHeader extends StatelessWidget {
-  final double? fontSize;
-  final double? maxFontSize;
   const JHHeader({
     Key? key,
     this.fontSize = 35,
     this.maxFontSize = 35,
   }) : super(key: key);
+  final double? fontSize;
+  final double? maxFontSize;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

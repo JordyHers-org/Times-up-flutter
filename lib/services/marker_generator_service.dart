@@ -4,10 +4,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class MarkerGenerator {
-  final Function(List<Uint8List>) callback;
-  final List<Widget> markerWidgets;
 
   MarkerGenerator(this.markerWidgets, this.callback);
+  final Function(List<Uint8List>) callback;
+  final List<Widget> markerWidgets;
 
   void generate(BuildContext context) {
     WidgetsBinding.instance
@@ -19,9 +19,9 @@ class MarkerGenerator {
   }
 
   void addOverlay(BuildContext context) {
-    var overlayState = Overlay.of(context);
+    final overlayState = Overlay.of(context);
 
-    var entry = OverlayEntry(
+    final entry = OverlayEntry(
       builder: (context) {
         return _MarkerHelper(
           markerWidgets: markerWidgets,
@@ -36,14 +36,14 @@ class MarkerGenerator {
 }
 
 class _MarkerHelper extends StatefulWidget {
-  final List<Widget> markerWidgets;
-  final Function(List<Uint8List>) callback;
 
   const _MarkerHelper({
     Key? key,
     required this.markerWidgets,
     required this.callback,
   }) : super(key: key);
+  final List<Widget> markerWidgets;
+  final Function(List<Uint8List>) callback;
 
   @override
   _MarkerHelperState createState() => _MarkerHelperState();
@@ -80,15 +80,15 @@ class _MarkerHelperState extends State<_MarkerHelper> with AfterLayoutMixin {
   }
 
   Future<List<Uint8List>> _getBitmaps(BuildContext context) async {
-    var futures = globalKeys.map((key) => _getUint8List(key));
+    final futures = globalKeys.map(_getUint8List);
     return Future.wait(futures);
   }
 
   Future<Uint8List> _getUint8List(GlobalKey markerKey) async {
     dynamic boundary = markerKey.currentContext?.findRenderObject();
-    var image = await boundary.toImage(pixelRatio: 2.0);
-    var byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    return byteData!.buffer.asUint8List();
+    final image = await boundary.toImage(pixelRatio: 2.0);
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List() as Future<Uint8List>;
   }
 }
 

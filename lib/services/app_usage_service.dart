@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:installed_apps/app_info.dart';
-import 'package:parental_control/app/helpers/parsing_extension.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
-import 'package:parental_control/models/child_model/child_model.dart';
-import 'package:parental_control/services/app_usage_local_service.dart';
-import 'package:parental_control/services/database.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/services/app_usage_local_service.dart';
+import 'package:times_up_flutter/services/database.dart';
 
 abstract class AppService {
   Future<void> getAppUsageService();
@@ -15,7 +15,7 @@ abstract class AppService {
 class AppUsageService implements AppService {
   List<AppUsageInfo> _info = <AppUsageInfo>[];
   final List<AppInfo> _appInfo = <AppInfo>[];
-  Duration _averageDuration = Duration(minutes: 1);
+  Duration _averageDuration = const Duration(minutes: 1);
 
   List<AppUsageInfo> get info => _info;
 
@@ -26,9 +26,9 @@ class AppUsageService implements AppService {
   @override
   Future<void> getAppUsageService() async {
     try {
-      var endDate = DateTime.now();
-      var startDate = endDate.subtract(Duration(hours: 1));
-      var infoList =
+      final endDate = DateTime.now();
+      final startDate = endDate.subtract(const Duration(hours: 1));
+      final infoList =
           await AppUsage.getAppUsage(startDate, endDate, useMock: false);
       _info = infoList;
     } on AppUsageException catch (exception) {
@@ -38,19 +38,19 @@ class AppUsageService implements AppService {
 
   @override
   Future<Duration?> getChildrenAppUsageAverage(Database database) async {
-    var _children = <ChildModel>[];
-    var _durations = <Duration>[];
+    var children = <ChildModel>[];
+    final durations = <Duration>[];
     try {
-      var response = await database.childrenStream().first;
+      final response = await database.childrenStream().first;
       if (response.isNotEmpty) {
-        _children = response.toList();
+        children = response.toList();
 
-        for (var listUsage in _children) {
-          for (var usage in listUsage.appsUsageModel) {
-            _durations.add(usage.usage);
+        for (final listUsage in children) {
+          for (final usage in listUsage.appsUsageModel) {
+            durations.add(usage.usage);
           }
         }
-        var averageDuration = getMedian(_durations);
+        final averageDuration = getMedian(durations);
         JHLogger.$.e(averageDuration);
         _averageDuration = averageDuration;
         return averageDuration;
@@ -65,9 +65,9 @@ class AppUsageService implements AppService {
   @override
   Future<Duration?> getChildAppUsagePerDay(BuildContext context) async {
     try {
-      var endDate = DateTime.now();
-      var startDate = endDate.subtract(Duration(hours: 1));
-      var infoList =
+      final endDate = DateTime.now();
+      final startDate = endDate.subtract(const Duration(hours: 1));
+      final infoList =
           await AppUsage.getAppUsage(startDate, endDate, useMock: false);
       _info = infoList;
     } on AppUsageException catch (exception) {

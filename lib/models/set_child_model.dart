@@ -1,4 +1,4 @@
-import 'package:parental_control/sign_in/validators.dart';
+import 'package:times_up_flutter/sign_in/validators.dart';
 
 class SetChildModel with EmailAndPasswordValidators {
   SetChildModel({

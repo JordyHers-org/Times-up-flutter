@@ -1,19 +1,4 @@
-include: package:pedantic/analysis_options.1.9.0.yaml
-
+include: package:very_good_analysis/analysis_options.4.0.0.yaml
 linter:
   rules:
-    - require_trailing_commas
-    - prefer_const_declarations
-    - lines_longer_than_80_chars
-    - always_declare_return_types
-    - prefer_final_fields
-    - prefer_single_quotes
-    - file_names
-    - avoid_print
-
-analyzer:
-  exclude:
-    - '**.freezed.dart'
-    - '**.g.dart'
-    - '**.gr.dart'
-    - '**/generated_plugin_registrant.dart'
+    public_member_api_docs: false

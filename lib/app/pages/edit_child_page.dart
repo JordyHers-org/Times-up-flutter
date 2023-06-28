@@ -1,27 +1,27 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:parental_control/common_widgets/show_alert_dialog.dart';
-import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
-import 'package:parental_control/models/child_model/child_model.dart';
-import 'package:parental_control/services/database.dart';
 import 'package:path/path.dart' as path;
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
+import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/services/database.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../common_widgets/jh_display_text.dart';
 
 enum AppState { loading, complete }
 
 class EditChildPage extends StatefulWidget {
-  final Database? database;
-  final ChildModel? model;
-
-  const EditChildPage({Key? key, required this.database, this.model})
+  const EditChildPage({required this.database, Key? key, this.model})
       : assert(database != null),
         super(key: key);
+  final Database? database;
+  final ChildModel? model;
 
   static Future<void> show(
     BuildContext context, {
@@ -29,7 +29,7 @@ class EditChildPage extends StatefulWidget {
     ChildModel? model,
   }) async {
     await Navigator.of(context).push(
-      MaterialPageRoute(
+      MaterialPageRoute<EditChildPage>(
         builder: (context) => EditChildPage(database: database, model: model),
         fullscreenDialog: true,
       ),
@@ -48,7 +48,7 @@ class _EditChildPageState extends State<EditChildPage> {
   String? _imageURL;
   late String id;
   XFile? _imageFile;
-  var uuid = Uuid();
+  Uuid uuid = const Uuid();
   AppState appState = AppState.complete;
   bool isSavedPressed = false;
 
@@ -57,9 +57,8 @@ class _EditChildPageState extends State<EditChildPage> {
     if (widget.model != null) {
       _name = widget.model!.name;
       _email = widget.model!.email;
-      _imageURL = widget.model!.image!;
+      _imageURL = widget.model!.image;
     }
-
     super.initState();
   }
 
@@ -73,7 +72,7 @@ class _EditChildPageState extends State<EditChildPage> {
   }
 
   Future<void> _getLocalImage() async {
-    var imageFile = await _picker.pickImage(
+    final imageFile = await _picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 50,
       maxWidth: 200,
@@ -95,12 +94,12 @@ class _EditChildPageState extends State<EditChildPage> {
 
       id = uuid.v4().substring(0, 8).toUpperCase();
       try {
-        var fileExtension = path.extension(localFile.path);
+        final fileExtension = path.extension(localFile.path);
         JHLogger.$.d(fileExtension);
 
         final firebaseStorageRef = FirebaseStorage.instance
             .ref()
-            .child('Child/"${id}"/$id$fileExtension');
+            .child('Child/"$id"/$id$fileExtension');
 
         await firebaseStorageRef
             .putFile(File(localFile.path))
@@ -109,7 +108,7 @@ class _EditChildPageState extends State<EditChildPage> {
           // ignore: return_of_invalid_type_from_catch_error
           return false;
         });
-        var url = await firebaseStorageRef.getDownloadURL();
+        final url = await firebaseStorageRef.getDownloadURL();
         _imageURL = url;
         JHLogger.$.d('download url: $url');
       } catch (e) {
@@ -123,12 +122,14 @@ class _EditChildPageState extends State<EditChildPage> {
           allNames.remove(widget.model!.name);
         }
         if (allNames.contains(_name)) {
-          await showAlertDialog(
-            context,
-            title: ' Name already used',
-            content: 'Please choose a different job name',
-            defaultActionText: 'OK',
-          );
+          if (mounted) {
+            await showAlertDialog(
+              context,
+              title: ' Name already used',
+              content: 'Please choose a different job name',
+              defaultActionText: 'OK',
+            );
+          }
         } else {
           final child = ChildModel(
             id: id,
@@ -145,11 +146,13 @@ class _EditChildPageState extends State<EditChildPage> {
               );
         }
       } on FirebaseException catch (e) {
-        await showExceptionAlertDialog(
-          context,
-          title: 'Operation failed',
-          exception: e,
-        );
+        if (mounted) {
+          await showExceptionAlertDialog(
+            context,
+            title: 'Operation failed',
+            exception: e,
+          );
+        }
       }
     }
   }
@@ -159,18 +162,18 @@ class _EditChildPageState extends State<EditChildPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        elevation: 2.0,
+        elevation: 2,
         title: JHDisplayText(
           text: widget.model == null ? 'New Child' : 'Edit Child',
-          style: TextStyle(fontSize: 15),
+          style: const TextStyle(fontSize: 15),
         ),
         centerTitle: true,
         actions: [
           GestureDetector(
-            onTap: () async => await _submit(_imageFile),
-            child: Align(
+            onTap: () async => _submit(_imageFile),
+            child: const Align(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8),
                 child: JHDisplayText(
                   text: 'Save',
                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -188,16 +191,16 @@ class _EditChildPageState extends State<EditChildPage> {
     return !isSavedPressed
         ? SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16),
                   child: _buildForm(),
                 ),
               ),
             ),
           )
-        : Center(child: CircularProgressIndicator());
+        : const Center(child: CircularProgressIndicator());
   }
 
   Widget _buildForm() {
@@ -213,31 +216,32 @@ class _EditChildPageState extends State<EditChildPage> {
   List<Widget> _buildFormChildren() {
     return [
       Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
-            SizedBox(height: 8),
-            appState == AppState.complete
-                ? _showImage()
-                : Container(
-                    height: 90,
-                    color: Colors.black.withOpacity(0.14),
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
+            const SizedBox(height: 8),
+            if (appState == AppState.complete)
+              _showImage()
+            else
+              Container(
+                height: 90,
+                color: Colors.black.withOpacity(0.14),
+                child: const Center(child: CircularProgressIndicator()),
+              ),
             ButtonTheme(
               child: ElevatedButton(
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context).primaryColor,
                   ),
                 ),
-                onPressed: () => _getLocalImage(),
-                child: JHDisplayText(
+                onPressed: _getLocalImage,
+                child: const JHDisplayText(
                   text: 'add picture',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -247,18 +251,18 @@ class _EditChildPageState extends State<EditChildPage> {
         ),
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'Child name'),
+        decoration: const InputDecoration(labelText: 'Child name'),
         initialValue: _name,
         validator: (value) => value!.isNotEmpty ? null : "Name can't be empty",
-        onSaved: (value) => _name = value!,
+        onSaved: (value) => _name = value,
         enabled: appState == AppState.complete ? true : false,
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'Email'),
+        decoration: const InputDecoration(labelText: 'Email'),
         initialValue: _email,
         validator: (value) => value!.isNotEmpty ? null : "Email can't be empty",
-        onSaved: (value) => _email = value!,
         enabled: appState == AppState.complete ? true : false,
+        onSaved: (value) => _email = value,
       ),
     ];
   }

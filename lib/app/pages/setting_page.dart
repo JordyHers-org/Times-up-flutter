@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:parental_control/common_widgets/jh_display_text.dart';
-import 'package:parental_control/common_widgets/show_alert_dialog.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class SettingsPage extends StatelessWidget {
-  SettingsPage({
+  const SettingsPage({
     Key? key,
     this.title,
     this.name,
@@ -24,7 +24,6 @@ class SettingsPage extends StatelessWidget {
   static Future<void> show(BuildContext context, AuthBase auth) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
-        fullscreenDialog: false,
         builder: (context) => SettingsPage(context: context, auth: auth),
       ),
     );
@@ -55,7 +54,7 @@ class SettingsPage extends StatelessWidget {
   Widget buildItems(BuildContext context) {
     return Expanded(
       child: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: <Widget>[
           ProfileListItem(
             icon: LineAwesomeIcons.history,
@@ -91,21 +90,20 @@ class SettingsPage extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Column(
-              mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.chevron_left,
                         size: 33,
                       ),
                     ),
                     IconButton(
                       onPressed: () => confirmSignOut(context, auth),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.logout,
                         size: 23,
                       ),
@@ -115,7 +113,7 @@ class SettingsPage extends StatelessWidget {
                 buildItems(context),
                 ListTile(
                   leading: IconButton(
-                    icon: Icon(Icons.contact_support_sharp),
+                    icon: const Icon(Icons.contact_support_sharp),
                     onPressed: () {},
                   ),
                   title: JHDisplayText(
@@ -134,10 +132,6 @@ class SettingsPage extends StatelessWidget {
 }
 
 class ProfileListItem extends StatelessWidget {
-  final IconData? icon;
-  final String? text;
-  final bool hasNavigation;
-  final Function onPressed;
 
   const ProfileListItem({
     Key? key,
@@ -146,6 +140,10 @@ class ProfileListItem extends StatelessWidget {
     required this.onPressed,
     this.hasNavigation = true,
   }) : super(key: key);
+  final IconData? icon;
+  final String? text;
+  final bool hasNavigation;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -153,12 +151,12 @@ class ProfileListItem extends StatelessWidget {
       onTap: () => onPressed,
       child: Container(
         height: 55,
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: 10,
         ).copyWith(
           bottom: 20,
         ),
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
         child: Row(
@@ -167,12 +165,12 @@ class ProfileListItem extends StatelessWidget {
               icon,
               size: 25,
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             JHDisplayText(
               text: text ?? '',
               style: TextStyles.body,
             ),
-            Spacer(),
+            const Spacer(),
             if (hasNavigation)
               Icon(
                 Icons.chevron_right,

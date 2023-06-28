@@ -1,41 +1,45 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:parental_control/app/config/geo_full.dart';
-import 'package:parental_control/app/helpers/parsing_extension.dart';
-import 'package:parental_control/app/pages/child_details_page.dart';
-import 'package:parental_control/app/pages/edit_child_page.dart';
-import 'package:parental_control/app/pages/notification_page.dart';
-import 'package:parental_control/app/pages/setting_page.dart';
-import 'package:parental_control/common_widgets/child_horizontal_view.dart';
-import 'package:parental_control/common_widgets/jh_display_text.dart';
-import 'package:parental_control/common_widgets/jh_empty_content.dart';
-import 'package:parental_control/common_widgets/jh_header.dart';
-import 'package:parental_control/common_widgets/jh_header_widget.dart';
-import 'package:parental_control/common_widgets/jh_info_row_widget.dart';
-import 'package:parental_control/common_widgets/jh_loading_widget.dart';
-import 'package:parental_control/common_widgets/jh_summary_tile.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
-import 'package:parental_control/models/child_model/child_model.dart';
-import 'package:parental_control/services/api_path.dart';
-import 'package:parental_control/services/app_usage_service.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
-import 'package:parental_control/services/notification_service.dart';
-import 'package:parental_control/services/shared_preferences.dart';
-import 'package:parental_control/theme/theme.dart';
-import 'package:parental_control/utils/data.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:times_up_flutter/app/config/geo_full.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/app/pages/child_details_page.dart';
+import 'package:times_up_flutter/app/pages/edit_child_page.dart';
+import 'package:times_up_flutter/app/pages/notification_page.dart';
+import 'package:times_up_flutter/app/pages/setting_page.dart';
+import 'package:times_up_flutter/common_widgets/child_horizontal_view.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
+import 'package:times_up_flutter/common_widgets/jh_header.dart';
+import 'package:times_up_flutter/common_widgets/jh_header_widget.dart';
+import 'package:times_up_flutter/common_widgets/jh_info_row_widget.dart';
+import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
+import 'package:times_up_flutter/common_widgets/jh_summary_tile.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/services/api_path.dart';
+import 'package:times_up_flutter/services/app_usage_service.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/services/geo_locator_service.dart';
+import 'package:times_up_flutter/services/notification_service.dart';
+import 'package:times_up_flutter/services/shared_preferences.dart';
+import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/utils/data.dart';
+
+typedef ValueList = List<Map<String, dynamic>>;
 
 class ParentPage extends StatefulWidget {
   const ParentPage({
-    Key? key,
     required this.auth,
     required this.geo,
     required this.database,
     required this.appUsage,
+    Key? key,
   }) : super(key: key);
 
   final AuthBase auth;
@@ -62,11 +66,11 @@ class ParentPage extends StatefulWidget {
 
 class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
-  late ScrollController _scrollController;
   int currentIndex = 0;
-  late var values = <Map<String, dynamic>>[];
+  Duration _averageUsage = const Duration(seconds: 1);
+  late ScrollController _scrollController;
+  late ValueList values = <Map<String, dynamic>>[];
   late bool _isShowCaseActivated;
-  Duration _averageUsage = Duration(seconds: 1);
 
   final GlobalKey _settingsKey = GlobalKey();
   final GlobalKey _childListKey = GlobalKey();
@@ -104,7 +108,7 @@ class _ParentPageState extends State<ParentPage>
     AuthBase auth,
     Database database,
   ) {
-    var children = <Widget>[
+    final children = <Widget>[
       _buildDashboard(database, auth),
       _buildNotificationPage(auth),
       _buildMapFullScreen(database, auth),
@@ -136,12 +140,12 @@ class _ParentPageState extends State<ParentPage>
                   elevation: 0.5,
                   shadowColor: CustomColors.indigoLight,
                   toolbarHeight: value ? 75 : 90,
-                  flexibleSpace: !value ? JHHeader().hP16 : SizedBox.shrink(),
+                  flexibleSpace:
+                      !value ? const JHHeader().hP16 : const SizedBox.shrink(),
                   backgroundColor: Colors.white,
                   expandedHeight: !value ? 120 : 100,
                   shape: ContinuousRectangleBorder(
                     side: BorderSide(
-                      width: 1,
                       color: !value
                           ? Colors.white
                           : CustomColors.indigoLight.withOpacity(0.5),
@@ -150,23 +154,23 @@ class _ParentPageState extends State<ParentPage>
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      !value
-                          ? SizedBox.shrink()
-                          : JHDisplayText(
-                              text: 'Welcome',
-                              style: TextStyle(
-                                color: CustomColors.indigoDark,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
+                      if (!value)
+                        const SizedBox.shrink()
+                      else
+                        JHDisplayText(
+                          text: 'Welcome',
+                          style: TextStyle(
+                            color: CustomColors.indigoDark,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
                       GestureDetector(
                         onTap: () => SettingsPage.show(context, auth),
                         child: Showcase(
                           key: _settingsKey,
                           textColor: Colors.indigo,
                           description: 'change the settings here',
-                          showArrow: true,
-                          child: CircleAvatar(
+                          child: const CircleAvatar(
                             child: Icon(Icons.person),
                           ),
                         ),
@@ -188,8 +192,8 @@ class _ParentPageState extends State<ParentPage>
                     context,
                     database: Provider.of<Database>(context, listen: false),
                   ),
-                  child: const Icon(Icons.add),
                   backgroundColor: CustomColors.indigoLight,
+                  child: const Icon(Icons.add),
                 ),
               ),
               body: ScrollConfiguration(
@@ -204,12 +208,12 @@ class _ParentPageState extends State<ParentPage>
                             subtitle:
                                 'Choose child to get more info - scroll right ',
                             trailing: IconButton(
-                              icon: Icon(Icons.info_outline),
-                              onPressed: () => _startShowCase(),
+                              icon: const Icon(Icons.info_outline),
+                              onPressed: _startShowCase,
                             ),
                           ).p8,
                           _buildChildrenList(database),
-                          HeaderWidget(
+                          const HeaderWidget(
                             title: 'Get to see our child live app usage',
                             subtitle: 'Click on it to have the full report',
                           ).p8,
@@ -222,7 +226,7 @@ class _ParentPageState extends State<ParentPage>
                                 ? calculatePercentage(_averageUsage)
                                 : 0,
                           ),
-                          HeaderWidget(
+                          const HeaderWidget(
                             title: 'Information Section',
                             subtitle: 'Get tips on how to use the app.',
                           ).p8,
@@ -248,7 +252,7 @@ class _ParentPageState extends State<ParentPage>
             ),
           );
         }
-        return LoadingWidget();
+        return const LoadingWidget();
       },
     );
   }
@@ -258,8 +262,8 @@ class _ParentPageState extends State<ParentPage>
       textColor: Colors.indigo,
       description: 'Tap on the child to display info',
       key: _childListKey,
-      child: Container(
-        height: 165.0,
+      child: SizedBox(
+        height: 165,
         child: StreamBuilder<List<ChildModel?>>(
           stream: database.childrenStream(),
           builder: (context, AsyncSnapshot<List<ChildModel?>> snapshot) {
@@ -267,7 +271,7 @@ class _ParentPageState extends State<ParentPage>
             if (snapshot.hasData) {
               if (data != null && data.isNotEmpty) {
                 return ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
@@ -280,26 +284,22 @@ class _ParentPageState extends State<ParentPage>
                   },
                 );
               } else {
-                return JHEmptyContent(
+                return const JHEmptyContent(
                   child: Icon(Icons.info_outline_rounded),
                 );
               }
             } else if (snapshot.hasError) {
               JHLogger.$.e(snapshot.error);
-              return JHEmptyContent(
+              return const JHEmptyContent(
                 title: 'Something went wrong ',
-                message: 'Can\'t load items right now',
+                message: "Can't load items right now",
               );
             }
             return ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 3,
               itemBuilder: (context, index) {
-                return Kids(
-                  image_location: null,
-                  image_caption: null,
-                  onPressed: null,
-                );
+                return const Kids();
               },
             );
           },
@@ -319,24 +319,24 @@ class _ParentPageState extends State<ParentPage>
                 auth: auth,
                 locations: values,
               )
-            : LoadingWidget();
+            : const LoadingWidget();
       },
     );
   }
 
   Future<void> _setShowCaseView() async {
-    var isVisited = await SharedPreference().getDisplayShowCase();
+    final isVisited = await SharedPreference().getDisplayShowCase();
     setState(() {
       _isShowCaseActivated = isVisited;
       SharedPreference().setDisplayShowCase();
     });
 
-    _isShowCaseActivated == false
-        ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) => ShowCaseWidget.of(context)
-                .startShowCase([_settingsKey, _childListKey, _addKey]),
-          )
-        : null;
+    if (!_isShowCaseActivated) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => ShowCaseWidget.of(context)
+            .startShowCase([_settingsKey, _childListKey, _addKey]),
+      );
+    }
   }
 
   Future<void> _getAllChildLocations() async {
@@ -345,7 +345,7 @@ class _ParentPageState extends State<ParentPage>
         .get()
         .then((document) {
       if (document.docs.isNotEmpty) {
-        for (var element in document.docs) {
+        for (final element in document.docs) {
           values.add(element.data());
         }
       }

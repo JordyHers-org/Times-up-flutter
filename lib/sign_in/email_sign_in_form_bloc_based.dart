@@ -1,16 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_form_submit_button.dart';
-import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
-
-import 'email_sign_in_bloc.dart';
-import 'email_sign_in_model.dart';
+import 'package:times_up_flutter/common_widgets/jh_form_submit_button.dart';
+import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/sign_in/email_sign_in_bloc.dart';
+import 'package:times_up_flutter/sign_in/email_sign_in_model.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class EmailSignInFormBlocBased extends StatefulWidget {
-  EmailSignInFormBlocBased({Key? key, required this.bloc}) : super(key: key);
+  const EmailSignInFormBlocBased({Key? key, required this.bloc}) : super(key: key);
   final EmailSignInBloc bloc;
 
   static Widget create(BuildContext context) {
@@ -95,8 +94,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
 
   List<Widget> _buildChildren(EmailSignInModel model) {
     return [
-      model.formType == EmailSignInFormType.register
-          ? TextField(
+      if (model.formType == EmailSignInFormType.register) TextField(
               focusNode: _nameFocusNode,
               controller: _nameController,
               textInputAction: TextInputAction.next,
@@ -112,10 +110,8 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
                     model.showErrorTextName ? model.inValidNameErrorText : null,
                 enabled: model.isLoading == false,
               ),
-            )
-          : Opacity(opacity: 0),
-      model.formType == EmailSignInFormType.register
-          ? TextField(
+            ) else const Opacity(opacity: 0),
+      if (model.formType == EmailSignInFormType.register) TextField(
               focusNode: _surnameFocusNode,
               controller: _surnameController,
               textInputAction: TextInputAction.next,
@@ -132,12 +128,11 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
                     : null,
                 enabled: model.isLoading == false,
               ),
-            )
-          : Opacity(opacity: 0),
+            ) else const Opacity(opacity: 0),
       _buildEmailTextField(model),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8),
       _buildPasswordTextField(model),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8),
       FormSubmitButton(
         onPressed: () => model.canSubmitRegister || model.canSubmitSignIn
             ? _submit(model)
@@ -145,7 +140,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         color: CustomColors.greenPrimary,
         text: model.primaryButtonText,
       ),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8),
       OutlinedButton(
         onPressed: () => !model.isLoading ? _toggleFormType(model) : null,
         child: Text(model.secondaryButtonText),
@@ -199,7 +194,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
           final model = snapshot.data;
 
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,

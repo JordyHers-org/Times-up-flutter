@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Kids extends StatelessWidget {
+
+  const Kids({Key? key, this.image_location, this.image_caption, this.onPressed}) : super(key: key);
   final String? image_location;
   final String? image_caption;
   final VoidCallback? onPressed;
-
-  Kids({this.image_location, this.image_caption, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +13,10 @@ class Kids extends StatelessWidget {
       onTap: onPressed,
       child: image_location != null || image_caption != null
           ? Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(vertical: 10),
               padding: const EdgeInsets.symmetric(horizontal: 4),
               height: 130,
-              width: 130.0,
+              width: 130,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -37,11 +37,11 @@ class Kids extends StatelessWidget {
           : Container(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               height: 200,
-              width: 150.0,
+              width: 150,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     height: 110,
                     decoration: BoxDecoration(
@@ -49,7 +49,7 @@ class Kids extends StatelessWidget {
                       color: Colors.black.withOpacity(0.10),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),

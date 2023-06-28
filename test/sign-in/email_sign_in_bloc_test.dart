@@ -1,8 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:parental_control/sign_in/email_sign_in_bloc.dart';
-import 'package:parental_control/sign_in/email_sign_in_model.dart';
+import 'package:times_up_flutter/sign_in/email_sign_in_bloc.dart';
+import 'package:times_up_flutter/sign_in/email_sign_in_model.dart';
 
 import '../helpers/test_helpers.mocks.dart';
 

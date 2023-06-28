@@ -7,7 +7,7 @@ Future<dynamic> showAlertDialog(
   required String defaultActionText,
   String? cancelActionText,
 }) async {
-  var value = await showDialog(
+  final value = await showDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(

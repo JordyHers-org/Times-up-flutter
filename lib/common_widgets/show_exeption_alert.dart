@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/show_alert_dialog.dart';
+import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 
 Future<void> showExceptionAlertDialog(
   BuildContext context, {

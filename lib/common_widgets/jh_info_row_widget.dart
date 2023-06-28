@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_info_bottom_sheet.dart';
-import 'package:parental_control/common_widgets/jh_info_box.dart';
-import 'package:parental_control/common_widgets/show_bottom_sheet.dart';
-import 'package:parental_control/theme/theme.dart';
-import 'package:parental_control/utils/data.dart';
-
-import 'jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_info_bottom_sheet.dart';
+import 'package:times_up_flutter/common_widgets/jh_info_box.dart';
+import 'package:times_up_flutter/common_widgets/show_bottom_sheet.dart';
+import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/utils/data.dart';
 
 class JHInfoRow extends StatelessWidget {
-  final IconData icon_1;
-  final IconData icon_2;
-  final String text_1;
-  final String text_2;
   const JHInfoRow({
     Key? key,
     required this.icon_1,
@@ -19,6 +14,10 @@ class JHInfoRow extends StatelessWidget {
     required this.text_1,
     required this.text_2,
   }) : super(key: key);
+  final IconData icon_1;
+  final IconData icon_2;
+  final String text_1;
+  final String text_2;
 
   @override
   Widget build(BuildContext context) {

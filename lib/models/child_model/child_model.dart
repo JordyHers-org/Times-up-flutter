@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:parental_control/services/app_usage_local_service.dart';
+import 'package:times_up_flutter/services/app_usage_local_service.dart';
 
 part 'child_model.freezed.dart';
 part 'child_model.g.dart';

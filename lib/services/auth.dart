@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
 
 abstract class AuthBase {
   User? get currentUser;
@@ -53,7 +53,7 @@ class Auth implements AuthBase {
     final userCredential = await _firebaseAuth.signInWithCredential(
       EmailAuthProvider.credential(email: email, password: password),
     );
-    JHLogger.$.v('$email');
+    JHLogger.$.v(email);
     return userCredential.user!;
   }
 
@@ -62,7 +62,7 @@ class Auth implements AuthBase {
     try {
       await _firebaseMessaging.getToken().then((token) {
         _token = token!;
-        JHLogger.$.v('$_token');
+        JHLogger.$.v(_token);
       });
     } catch (e) {
       JHLogger.$.e(e);
@@ -153,9 +153,9 @@ class Auth implements AuthBase {
   Future<void> signOut() async {
     final googleSignIn = GoogleSignIn();
     final facebookLogin = FacebookLogin();
-    final auth_provider = _firebaseAuth.currentUser!.providerData[0].providerId;
+    final authProvider = _firebaseAuth.currentUser!.providerData[0].providerId;
 
-    switch (auth_provider) {
+    switch (authProvider) {
       case 'google.com':
         await googleSignIn.signOut();
         break;

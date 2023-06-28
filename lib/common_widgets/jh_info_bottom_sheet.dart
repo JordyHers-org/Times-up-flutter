@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_display_text.dart';
-import 'package:parental_control/common_widgets/jh_header_widget.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_header_widget.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class JHBottomSheet extends StatelessWidget {
-  final String message;
-  final Widget child;
   const JHBottomSheet({
     Key? key,
     required this.message,
     required this.child,
   }) : super(key: key);
+  final String message;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: const ScrollBehavior().copyWith(overscroll: false),
       child: ListView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -35,13 +34,13 @@ class JHBottomSheet extends StatelessWidget {
                   )
                 ],
               ).p8,
-              HeaderWidget(
+              const HeaderWidget(
                 title: 'Discover new tips',
                 subtitle: 'Find out what you may not know yet',
               ).p8,
-              Container(
-                child: child,
+              SizedBox(
                 height: 200,
+                child: child,
               ).p16,
               Container(
                 child: JHDisplayText(

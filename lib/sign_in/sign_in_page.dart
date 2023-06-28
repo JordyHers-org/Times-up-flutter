@@ -1,18 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/sign_in/sign_in_button.dart';
-import 'package:parental_control/sign_in/sign_in_manager.dart';
-import 'package:parental_control/sign_in/social_sign_in_button.dart';
-import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
-
-import 'email_sign_in_page.dart';
+import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/sign_in/email_sign_in_page.dart';
+import 'package:times_up_flutter/sign_in/sign_in_button.dart';
+import 'package:times_up_flutter/sign_in/sign_in_manager.dart';
+import 'package:times_up_flutter/sign_in/social_sign_in_button.dart';
+import 'package:times_up_flutter/utils/constants.dart';
 
 class SignInPage extends StatelessWidget {
-  SignInPage({
+  const SignInPage({
     Key? key,
     required this.manager,
     required this.isLoading,
@@ -72,7 +71,7 @@ class SignInPage extends StatelessWidget {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
           fullscreenDialog: true,
-          builder: (context) => EmailSignInPage(),
+          builder: (context) => const EmailSignInPage(),
         ),
       );
     } on Exception catch (e) {
@@ -90,15 +89,15 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(height: 180.0, child: _buildHeader()),
-            SizedBox(height: 28.0),
+            SizedBox(height: 180, child: _buildHeader()),
+            const SizedBox(height: 28),
             SocialSignInButton(
               assetName: 'images/google-logo.png',
               text: 'Sign in With Google',
@@ -106,15 +105,15 @@ class SignInPage extends StatelessWidget {
               color: Colors.white,
               onPressed: () => isLoading ? null : _signInWithGoogle(context),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8),
             SocialSignInButton(
               assetName: 'images/facebook-logo.png',
               text: 'Sign in With Facebook',
               textColor: Colors.white,
-              color: Color(0xFF334D92),
+              color: const Color(0xFF334D92),
               onPressed: () => isLoading ? null : _signInWithFacebook(context),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8),
             SignInButton(
               key: Keys.emailKeys,
               text: 'Sign in With email',
@@ -122,8 +121,8 @@ class SignInPage extends StatelessWidget {
               color: Colors.teal[700],
               onPressed: () => isLoading ? null : _signInWithEmail(context),
             ),
-            SizedBox(height: 8.0),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8),
+            const SizedBox(height: 8),
           ],
         ),
       ),
@@ -132,7 +131,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildHeader() {
     if (isLoading) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
     return Image.asset(
       'images/png/sign-up.png',

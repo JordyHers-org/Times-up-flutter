@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class JHCustomProgressBar extends StatelessWidget {
-  final double progress;
 
   const JHCustomProgressBar({Key? key, required this.progress})
       : super(key: key);
+  final double progress;
 
   @override
   Widget build(BuildContext context) {

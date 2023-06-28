@@ -5,12 +5,11 @@ import 'dart:io' show Platform;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';
-import 'package:parental_control/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
 
 class AppUsageException implements Exception {
-  final String _cause;
-
   AppUsageException(this._cause);
+  final String _cause;
 
   @override
   String toString() {
@@ -19,11 +18,6 @@ class AppUsageException implements Exception {
 }
 
 class AppUsageInfo {
-  late String _packageName, _appName;
-  late Uint8List? _appIcon;
-  late Duration _usage;
-  var _startDate, _endDate;
-
   AppUsageInfo(
     String name,
     double usageInSeconds,
@@ -31,7 +25,7 @@ class AppUsageInfo {
     this._endDate, {
     Uint8List? appIcon,
   }) {
-    var tokens = name.split('.');
+    final tokens = name.split('.');
     _packageName = name;
     _appName = tokens.last;
     _usage = Duration(seconds: usageInSeconds.toInt());
@@ -39,12 +33,16 @@ class AppUsageInfo {
   }
 
   factory AppUsageInfo.fromMap(Map<String, dynamic> data) => AppUsageInfo(
-        data['appName'],
+        data['appName'] as String,
         data['usage'].toString().p(),
-        data['startDate'],
-        data['endDate'],
-        appIcon: base64Decode(data['appIcon'] ?? ''),
+        data['startDate'] as DateTime,
+        data['endDate'] as DateTime,
+        appIcon: base64Decode(data['appIcon'] as String),
       );
+  late String _packageName, _appName;
+  late Uint8List? _appIcon;
+  late Duration _usage;
+  DateTime _startDate, _endDate;
 
   Map<String, dynamic> toMap() => {
         'appName': _appName,
@@ -84,20 +82,21 @@ class AppUsage {
     required bool useMock,
   }) async {
     if (Platform.isAndroid || useMock) {
-      var end = endDate.millisecondsSinceEpoch;
-      var start = startDate.millisecondsSinceEpoch;
-      var interval = <String, int>{'start': start, 'end': end};
-      var usage = await _methodChannel.invokeMethod('getUsage', interval);
-      var _appInfo = await InstalledApps.getInstalledApps(
+      final end = endDate.millisecondsSinceEpoch;
+      final start = startDate.millisecondsSinceEpoch;
+      final interval = <String, int>{'start': start, 'end': end};
+      final usage = await _methodChannel.invokeMethod('getUsage', interval)
+          as Map<String, dynamic>;
+      final appInfo = await InstalledApps.getInstalledApps(
         true,
         true,
       );
 
-      var result = <AppUsageInfo>[];
-      var listApps = <AppUsageInfo>[];
+      final result = <AppUsageInfo>[];
+      final listApps = <AppUsageInfo>[];
 
-      for (String key in usage.keys) {
-        var temp = List<double>.from(usage[key]);
+      for (final key in usage.keys) {
+        final temp = List<double>.from(usage[key] as Iterable<dynamic>);
         if (temp[0] > 0) {
           result.add(
             AppUsageInfo(
@@ -110,8 +109,8 @@ class AppUsage {
         }
       }
 
-      for (var app in _appInfo) {
-        for (var element in result) {
+      for (final app in appInfo) {
+        for (final element in result) {
           if (element.packageName.contains(app.packageName!)) {
             listApps.add(
               AppUsageInfo(

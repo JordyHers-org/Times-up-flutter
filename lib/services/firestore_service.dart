@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
 
 class FirestoreService {
   FirestoreService._();
@@ -32,7 +32,7 @@ class FirestoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference =
-        FirebaseFirestore.instance.collection(path).doc(data['id']);
+        FirebaseFirestore.instance.collection(path).doc(data['id'] as String?);
     JHLogger.$.d('$path: $data');
 
     await reference.set(data);
@@ -71,7 +71,7 @@ class FirestoreService {
     var query = FirebaseFirestore.instance.collection(path);
 
     if (queryBuilder != null) {
-      query = queryBuilder(query);
+      query = queryBuilder(query) as CollectionReference<Map<String, dynamic>>;
     }
     final snapshots = query.snapshots();
     return snapshots.map((snapshot) {
@@ -95,7 +95,7 @@ class FirestoreService {
   }) {
     var query = FirebaseFirestore.instance.collection(path);
     if (queryBuilder != null) {
-      query = queryBuilder(query);
+      query = queryBuilder(query) as CollectionReference<Map<String, dynamic>>;
     }
     final snapshots = query.snapshots();
     return snapshots.map((snapshot) {
@@ -114,7 +114,7 @@ class FirestoreService {
     required String path,
     required T Function(Map<String, dynamic> data, String documentId) builder,
   }) {
-    var query = FirebaseFirestore.instance.collection(path);
+    final query = FirebaseFirestore.instance.collection(path);
     final snapshots = query.snapshots();
     return snapshots.map((snapshot) {
       final result = snapshot.docs
@@ -131,7 +131,7 @@ class FirestoreService {
     required T Function(Map<String, dynamic> data, String documentID) builder,
   }) {
     final reference = FirebaseFirestore.instance.doc(path);
-    var snapshots = reference.snapshots();
+    final snapshots = reference.snapshots();
     return snapshots.map((snapshot) => builder(snapshot.data()!, snapshot.id));
   }
 }

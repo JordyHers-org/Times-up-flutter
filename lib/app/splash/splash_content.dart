@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_display_text.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class SplashContent extends StatefulWidget {
-  final String text, title;
-  final IconData icon;
 
   const SplashContent({
     Key? key,
@@ -12,6 +10,8 @@ class SplashContent extends StatefulWidget {
     required this.title,
     required this.icon,
   }) : super(key: key);
+  final String text, title;
+  final IconData icon;
   @override
   _SplashContentState createState() => _SplashContentState();
 }
@@ -30,7 +30,7 @@ class _SplashContentState extends State<SplashContent>
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: Offset(0, 1),
+      begin: const Offset(0, 1),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
@@ -51,12 +51,10 @@ class _SplashContentState extends State<SplashContent>
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 10.0,
+            horizontal: 10,
             vertical: 30,
           ),
           child: Stack(
@@ -67,13 +65,13 @@ class _SplashContentState extends State<SplashContent>
                   size: 230,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _SlideText(
                 slideAnimation: _slideAnimation,
-                delay: Duration(milliseconds: 200),
+                delay: const Duration(milliseconds: 200),
                 child: Container(
-                  padding: EdgeInsets.only(top: 160),
-                  margin: EdgeInsets.symmetric(horizontal: 40),
+                  padding: const EdgeInsets.only(top: 160),
+                  margin: const EdgeInsets.symmetric(horizontal: 40),
                   child: JHDisplayText(
                     text: widget.title,
                     fontSize: 30,
@@ -84,13 +82,13 @@ class _SplashContentState extends State<SplashContent>
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _SlideText(
                 slideAnimation: _slideAnimation,
-                delay: Duration(milliseconds: 300),
+                delay: const Duration(milliseconds: 300),
                 child: Container(
-                  padding: EdgeInsets.only(top: 250),
-                  margin: EdgeInsets.symmetric(horizontal: 40),
+                  padding: const EdgeInsets.only(top: 250),
+                  margin: const EdgeInsets.symmetric(horizontal: 40),
                   child: JHDisplayText(
                     text: widget.text,
                     fontSize: 17,
@@ -111,9 +109,6 @@ class _SplashContentState extends State<SplashContent>
 }
 
 class _SlideText extends StatelessWidget {
-  final Widget? child;
-  final Animation<Offset>? slideAnimation;
-  final Duration? delay;
 
   const _SlideText({
     Key? key,
@@ -121,6 +116,9 @@ class _SlideText extends StatelessWidget {
     this.slideAnimation,
     this.delay,
   }) : super(key: key);
+  final Widget? child;
+  final Animation<Offset>? slideAnimation;
+  final Duration? delay;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +130,7 @@ class _SlideText extends StatelessWidget {
         child: _DelayedDisplay(
           delay: delay!,
           child: Transform.translate(
-            offset: Offset(0, 90),
+            offset: const Offset(0, 90),
             child: child,
           ),
         ),
@@ -142,14 +140,14 @@ class _SlideText extends StatelessWidget {
 }
 
 class _DelayedDisplay extends StatefulWidget {
-  final Widget child;
-  final Duration delay;
 
   const _DelayedDisplay({
     Key? key,
     required this.child,
     required this.delay,
   }) : super(key: key);
+  final Widget child;
+  final Duration delay;
 
   @override
   _DelayedDisplayState createState() => _DelayedDisplayState();

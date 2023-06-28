@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/services/auth.dart';
+import 'package:times_up_flutter/services/auth.dart';
 
 class SignInManager {
   SignInManager({required this.auth, required this.isLoading});

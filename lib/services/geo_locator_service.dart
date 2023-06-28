@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
 
-final LocationSettings locationSettings = LocationSettings(
+const LocationSettings locationSettings = LocationSettings(
   accuracy: LocationAccuracy.high,
   distanceFilter: 100,
 );

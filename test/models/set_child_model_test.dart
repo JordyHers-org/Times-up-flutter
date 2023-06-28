@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:parental_control/models/set_child_model.dart';
+import 'package:times_up_flutter/models/set_child_model.dart';
 
 void main() {
   test('SetChildModel Constructor', () {
