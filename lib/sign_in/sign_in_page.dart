@@ -12,9 +12,9 @@ import 'package:times_up_flutter/utils/constants.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({
-    Key? key,
     required this.manager,
     required this.isLoading,
+    Key? key,
   }) : super(key: key);
   final SignInManager manager;
   final bool isLoading;
@@ -88,7 +88,7 @@ class SignInPage extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(16),

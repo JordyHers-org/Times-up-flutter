@@ -8,11 +8,11 @@ import 'package:times_up_flutter/utils/data.dart';
 
 class JHInfoRow extends StatelessWidget {
   const JHInfoRow({
-    Key? key,
     required this.icon_1,
     required this.icon_2,
     required this.text_1,
     required this.text_2,
+    Key? key,
   }) : super(key: key);
   final IconData icon_1;
   final IconData icon_2;

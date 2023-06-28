@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class JHCustomMarker extends StatelessWidget {
-
-  const JHCustomMarker({Key? key, required this.markerUrl}) : super(key: key);
+  const JHCustomMarker({
+    required this.markerUrl,
+    Key? key,
+  }) : super(key: key);
   final String markerUrl;
 
   @override

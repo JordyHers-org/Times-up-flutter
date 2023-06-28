@@ -4,12 +4,14 @@ import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 
 class FormSubmitButton extends JHCustomRaisedButton {
-  FormSubmitButton({Key? key, 
+  FormSubmitButton({
     required String text,
     required VoidCallback onPressed,
+    Key? key,
     Color? color,
   }) : super(
-          key: key, child: JHDisplayText(
+          key: key,
+          child: JHDisplayText(
             text: text,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),

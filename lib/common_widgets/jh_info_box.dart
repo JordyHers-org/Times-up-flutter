@@ -5,13 +5,12 @@ import 'package:times_up_flutter/theme/theme.dart';
 typedef TriggerFunction = void Function()?;
 
 class InfoBox extends StatelessWidget {
-
   const InfoBox({
-    Key? key,
     required this.icon,
     required this.iconColor,
     required this.child,
     required this.onPress,
+    Key? key,
   }) : super(key: key);
   final IconData icon;
   final Color iconColor;

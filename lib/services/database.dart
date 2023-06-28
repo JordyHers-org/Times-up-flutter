@@ -49,7 +49,7 @@ class FireStoreDatabase implements Database {
 
   ChildModel get currentChild => _child!;
 
-  final _service = FirestoreService.instance;
+  final _service = FireStoreService.instance;
   AppUsageService apps = AppUsageService();
   GeoLocatorService geo = GeoLocatorService();
 
@@ -120,7 +120,7 @@ class FireStoreDatabase implements Database {
   @override
   Future<void> liveUpdateChild(ChildModel model, int value) async {
     await apps.getAppUsageService();
-    //TODO: UNCOMMENT THIS TO UPDATE LOCATION
+    // TODO(jordy): UNCOMMENT THIS TO UPDATE LOCATION
     //var point = await geo.getInitialLocation();
     //var currentLocation = GeoPoint(point.latitude, point.longitude);
 

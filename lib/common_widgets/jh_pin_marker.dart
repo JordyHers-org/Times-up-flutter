@@ -63,11 +63,11 @@ class MapMarker extends StatelessWidget {
 class CustomClipPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    final path = Path();
-    path.lineTo(size.width / 3, 0);
-    path.lineTo(size.width / 2, size.height / 3);
-    path.lineTo(size.width - size.width / 3, 0);
-    path.close();
+    final path = Path()
+      ..lineTo(size.width / 3, 0)
+      ..lineTo(size.width / 2, size.height / 3)
+      ..lineTo(size.width - size.width / 3, 0)
+      ..close();
     return path;
   }
 

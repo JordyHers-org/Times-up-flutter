@@ -276,8 +276,8 @@ class _ParentPageState extends State<ParentPage>
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Kids(
-                      image_location: data[index]?.image,
-                      image_caption: data[index]?.name,
+                      imageLocation: data[index]?.image,
+                      imageCaption: data[index]?.name,
                       onPressed: () =>
                           ChildDetailsPage.show(context, data[index]!),
                     );

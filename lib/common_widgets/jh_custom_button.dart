@@ -5,17 +5,17 @@ import 'package:times_up_flutter/theme/theme.dart';
 
 class JHCustomButton extends StatelessWidget {
   const JHCustomButton({
-    Key? key,
     required this.backgroundColor,
     required this.onPress,
     required this.title,
+    Key? key,
     this.borderColor = Colors.transparent,
     this.textColor = Colors.white,
   }) : super(key: key);
   final Color backgroundColor;
   final Color borderColor;
   final Color textColor;
-  final Function() onPress;
+  final void Function() onPress;
   final String title;
 
   @override

@@ -20,10 +20,10 @@ void main() {
   });
 
   test(
-    'When email is updated'
-    'AND password is updated'
-    'AND submit is called'
-    'THEN modelstream emits the correct event',
+    'When email is updated '
+    'AND password is updated '
+    'AND submit is called '
+    'THEN model stream emits the correct event',
     () async {
       when(mockAuth.signInWithEmailAndPassword(any, any))
           .thenThrow(PlatformException(code: 'ERROR'));
@@ -32,9 +32,9 @@ void main() {
         isInstanceOf<Future<EmailSignInModel>>(),
       );
 
-      bloc.updateEmail('test@email.com');
-
-      bloc.updatePassword('password');
+      bloc
+        ..updateEmail('test@email.com')
+        ..updatePassword('password');
 
       try {
         await bloc.submit();

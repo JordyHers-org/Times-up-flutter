@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'child_model.dart';
 
 // **************************************************************************
@@ -14,8 +16,10 @@ _$_ChildModel _$$_ChildModelFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String?,
       token: json['token'] as String?,
       appsUsageModel: (json['appsUsageModel'] as List<dynamic>?)
-              ?.map((e) => const AppUsageInfoConverter()
-                  .fromJson(e as Map<String, dynamic>),)
+              ?.map(
+                (e) => const AppUsageInfoConverter()
+                    .fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           const <AppUsageInfo>[],
       position:

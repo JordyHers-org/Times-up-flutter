@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
 class Kids extends StatelessWidget {
-
-  const Kids({Key? key, this.image_location, this.image_caption, this.onPressed}) : super(key: key);
-  final String? image_location;
-  final String? image_caption;
+  const Kids({
+    this.imageLocation,
+    this.imageCaption,
+    Key? key,
+    this.onPressed,
+  }) : super(key: key);
+  final String? imageLocation;
+  final String? imageCaption;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      child: image_location != null || image_caption != null
+      child: imageLocation != null || imageCaption != null
           ? Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -25,7 +29,7 @@ class Kids extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.14),
                       image: DecorationImage(
-                        image: NetworkImage(image_location!),
+                        image: NetworkImage(imageLocation!),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.all(Radius.circular(16)),

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
@@ -8,12 +10,12 @@ import 'package:times_up_flutter/theme/theme.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
+    required this.auth,
     Key? key,
     this.title,
     this.name,
     this.email,
     this.context,
-    required this.auth,
   }) : super(key: key);
   final BuildContext? context;
   final AuthBase auth;
@@ -23,7 +25,7 @@ class SettingsPage extends StatelessWidget {
 
   static Future<void> show(BuildContext context, AuthBase auth) async {
     await Navigator.of(context).push(
-      MaterialPageRoute(
+      MaterialPageRoute<SettingsPage>(
         builder: (context) => SettingsPage(context: context, auth: auth),
       ),
     );
@@ -132,12 +134,11 @@ class SettingsPage extends StatelessWidget {
 }
 
 class ProfileListItem extends StatelessWidget {
-
   const ProfileListItem({
+    required this.onPressed,
     Key? key,
     this.icon,
     this.text,
-    required this.onPressed,
     this.hasNavigation = true,
   }) : super(key: key);
   final IconData? icon;

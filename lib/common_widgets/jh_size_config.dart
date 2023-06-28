@@ -1,3 +1,5 @@
+// ignore_for_file: use_late_for_private_fields_and_variables
+
 import 'package:flutter/material.dart';
 
 class JHSizeConfig {
@@ -19,7 +21,7 @@ class JHSizeConfig {
 double getProportionateScreenHeight(double inputHeight) {
   final screenHeight = JHSizeConfig.screenHeight;
   // 512 is the layout height that designer use
-  return (inputHeight / 512.0) * screenHeight!.toDouble();
+  return (inputHeight / 512.0) * screenHeight!;
 }
 
 // Get the proportionate height as per screen size

@@ -4,7 +4,7 @@ Future<void> showCustomBottomSheet(
   BuildContext context, {
   required Widget child,
 }) async {
-  await showModalBottomSheet(
+  await showModalBottomSheet<Widget>(
     backgroundColor: Colors.white,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(

@@ -1,16 +1,18 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 
 class SplashContent extends StatefulWidget {
-
   const SplashContent({
-    Key? key,
     required this.text,
     required this.title,
     required this.icon,
+    Key? key,
   }) : super(key: key);
-  final String text, title;
+  final String text;
+  final String title;
   final IconData icon;
   @override
   _SplashContentState createState() => _SplashContentState();
@@ -109,7 +111,6 @@ class _SplashContentState extends State<SplashContent>
 }
 
 class _SlideText extends StatelessWidget {
-
   const _SlideText({
     Key? key,
     this.child,
@@ -140,11 +141,10 @@ class _SlideText extends StatelessWidget {
 }
 
 class _DelayedDisplay extends StatefulWidget {
-
   const _DelayedDisplay({
-    Key? key,
     required this.child,
     required this.delay,
+    Key? key,
   }) : super(key: key);
   final Widget child;
   final Duration delay;

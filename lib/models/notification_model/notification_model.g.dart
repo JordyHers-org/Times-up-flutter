@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'notification_model.dart';
 
 // **************************************************************************
@@ -15,7 +17,8 @@ _$_NotificationModel _$$_NotificationModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$_NotificationModelToJson(
-        _$_NotificationModel instance,) =>
+  _$_NotificationModel instance,
+) =>
     <String, dynamic>{
       'title': instance.title,
       'body': instance.body,

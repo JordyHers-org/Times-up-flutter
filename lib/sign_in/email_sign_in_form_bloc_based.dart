@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +11,10 @@ import 'package:times_up_flutter/sign_in/email_sign_in_model.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 
 class EmailSignInFormBlocBased extends StatefulWidget {
-  const EmailSignInFormBlocBased({Key? key, required this.bloc}) : super(key: key);
+  const EmailSignInFormBlocBased({
+    required this.bloc,
+    Key? key,
+  }) : super(key: key);
   final EmailSignInBloc bloc;
 
   static Widget create(BuildContext context) {
@@ -39,7 +44,6 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   final FocusNode _nameFocusNode = FocusNode();
   final FocusNode _surnameFocusNode = FocusNode();
 
-  ///void Dispose Method
   @override
   void dispose() {
     _emailController.dispose();
@@ -55,11 +59,12 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
     super.dispose();
   }
 
-  /// Submit function is called when the button is pressed
   Future<void>? _submit(EmailSignInModel model) async {
     try {
       await widget.bloc.submit();
-      Navigator.of(context).pop();
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     } on FirebaseAuthException catch (e) {
       await showExceptionAlertDialog(
         context,
@@ -76,7 +81,6 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
     FocusScope.of(context).requestFocus(newFocus);
   }
 
-  ///This function switches the state of the button
   void _toggleFormType(EmailSignInModel model) {
     widget.bloc.toggleFormType();
     setState(() {
@@ -94,41 +98,47 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
 
   List<Widget> _buildChildren(EmailSignInModel model) {
     return [
-      if (model.formType == EmailSignInFormType.register) TextField(
-              focusNode: _nameFocusNode,
-              controller: _nameController,
-              textInputAction: TextInputAction.next,
-              onChanged: (name) => widget.bloc.updateName(name),
-              onEditingComplete: () {
-                if (model.nameValidator.isValid(model.name) == true) {
-                  FocusScope.of(context).requestFocus(_surnameFocusNode);
-                }
-              },
-              decoration: InputDecoration(
-                labelText: 'Name',
-                errorText:
-                    model.showErrorTextName ? model.inValidNameErrorText : null,
-                enabled: model.isLoading == false,
-              ),
-            ) else const Opacity(opacity: 0),
-      if (model.formType == EmailSignInFormType.register) TextField(
-              focusNode: _surnameFocusNode,
-              controller: _surnameController,
-              textInputAction: TextInputAction.next,
-              onChanged: (surname) => widget.bloc.updateSurname(surname),
-              onEditingComplete: () {
-                if (model.surnameValidator.isValid(model.surname) == true) {
-                  FocusScope.of(context).requestFocus(_emailFocusNode);
-                }
-              },
-              decoration: InputDecoration(
-                labelText: 'Surname',
-                errorText: model.showErrorTextSurname
-                    ? model.inValidSurnameErrorText
-                    : null,
-                enabled: model.isLoading == false,
-              ),
-            ) else const Opacity(opacity: 0),
+      if (model.formType == EmailSignInFormType.register)
+        TextField(
+          focusNode: _nameFocusNode,
+          controller: _nameController,
+          textInputAction: TextInputAction.next,
+          onChanged: (name) => widget.bloc.updateName(name),
+          onEditingComplete: () {
+            if (model.nameValidator.isValid(model.name) == true) {
+              FocusScope.of(context).requestFocus(_surnameFocusNode);
+            }
+          },
+          decoration: InputDecoration(
+            labelText: 'Name',
+            errorText:
+                model.showErrorTextName ? model.inValidNameErrorText : null,
+            enabled: model.isLoading == false,
+          ),
+        )
+      else
+        const Opacity(opacity: 0),
+      if (model.formType == EmailSignInFormType.register)
+        TextField(
+          focusNode: _surnameFocusNode,
+          controller: _surnameController,
+          textInputAction: TextInputAction.next,
+          onChanged: (surname) => widget.bloc.updateSurname(surname),
+          onEditingComplete: () {
+            if (model.surnameValidator.isValid(model.surname) == true) {
+              FocusScope.of(context).requestFocus(_emailFocusNode);
+            }
+          },
+          decoration: InputDecoration(
+            labelText: 'Surname',
+            errorText: model.showErrorTextSurname
+                ? model.inValidSurnameErrorText
+                : null,
+            enabled: model.isLoading == false,
+          ),
+        )
+      else
+        const Opacity(opacity: 0),
       _buildEmailTextField(model),
       const SizedBox(height: 8),
       _buildPasswordTextField(model),

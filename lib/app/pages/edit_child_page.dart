@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, depend_on_referenced_packages, lines_longer_than_80_chars, tighten_type_of_initializing_formals
 
 import 'dart:io';
 
@@ -18,7 +18,7 @@ enum AppState { loading, complete }
 
 class EditChildPage extends StatefulWidget {
   const EditChildPage({required this.database, Key? key, this.model})
-      : assert(database != null),
+      : assert(database != null, 'Database should be initialized first !'),
         super(key: key);
   final Database? database;
   final ChildModel? model;
@@ -103,7 +103,7 @@ class _EditChildPageState extends State<EditChildPage> {
 
         await firebaseStorageRef
             .putFile(File(localFile.path))
-            .catchError((onError) {
+            .catchError((Function onError) {
           JHLogger.$.e(onError);
           // ignore: return_of_invalid_type_from_catch_error
           return false;
@@ -255,13 +255,13 @@ class _EditChildPageState extends State<EditChildPage> {
         initialValue: _name,
         validator: (value) => value!.isNotEmpty ? null : "Name can't be empty",
         onSaved: (value) => _name = value,
-        enabled: appState == AppState.complete ? true : false,
+        enabled: appState == AppState.complete || false,
       ),
       TextFormField(
         decoration: const InputDecoration(labelText: 'Email'),
         initialValue: _email,
         validator: (value) => value!.isNotEmpty ? null : "Email can't be empty",
-        enabled: appState == AppState.complete ? true : false,
+        enabled: appState == AppState.complete || false,
         onSaved: (value) => _email = value,
       ),
     ];

@@ -16,7 +16,7 @@ void main() {
       id: '',
     );
     when(notificationService.configureFirebaseMessaging())
-        .thenReturn(notification);
+        .thenAnswer((_) => notification);
     notificationService.configureFirebaseMessaging();
 
     verify(notificationService.configureFirebaseMessaging()).called(1);

@@ -5,9 +5,9 @@ import 'package:times_up_flutter/theme/theme.dart';
 
 class JHBottomSheet extends StatelessWidget {
   const JHBottomSheet({
-    Key? key,
     required this.message,
     required this.child,
+    Key? key,
   }) : super(key: key);
   final String message;
   final Widget child;
@@ -42,14 +42,12 @@ class JHBottomSheet extends StatelessWidget {
                 height: 200,
                 child: child,
               ).p16,
-              Container(
-                child: JHDisplayText(
-                  text: message,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                    color: CustomColors.indigoLight,
-                  ),
+              JHDisplayText(
+                text: message,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: CustomColors.indigoLight,
                 ),
               ).hP50,
             ],

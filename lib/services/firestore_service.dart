@@ -1,12 +1,16 @@
+// ignore_for_file: inference_failure_on_function_return_type
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 
-class FirestoreService {
-  FirestoreService._();
+typedef QueryBuilder<T> = T Function(Map<String, dynamic> data);
 
-  static final instance = FirestoreService._();
+class FireStoreService {
+  FireStoreService._();
+
+  static final instance = FireStoreService._();
 
   Future<void> setData({
     required String path,
@@ -50,8 +54,6 @@ class FirestoreService {
 
   Future<void> deleteData({required String path, String? image}) async {
     final reference = FirebaseFirestore.instance.doc(path);
-
-    /// Deleting the child's picture
     if (image != null) {
       final storageReference = FirebaseStorage.instance.refFromURL(image);
       await storageReference.delete();
@@ -64,7 +66,7 @@ class FirestoreService {
 
   Stream<List<T>> collectionStream<T>({
     required String path,
-    required T Function(Map<String, dynamic> data) builder,
+    required QueryBuilder<T> builder,
     Function(Query query)? queryBuilder,
     int Function(T lhs, T rhs)? sort,
   }) {

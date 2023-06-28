@@ -6,17 +6,19 @@ import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 
 class JHAppUsageChart extends StatefulWidget {
-
-  const JHAppUsageChart({Key? key, required this.isEmpty, required this.name})
-      : super(key: key);
-  final List<Color> availableColors = const [
-    Colors.purpleAccent,
-    Colors.yellow,
-    Colors.lightBlue,
-    Colors.orange,
-    Colors.pink,
-    Colors.redAccent,
-  ];
+  const JHAppUsageChart({
+    required this.isEmpty,
+    required this.name,
+    Key? key,
+  }) : super(key: key);
+  List<Color> get availableColors => const [
+        Colors.purpleAccent,
+        Colors.yellow,
+        Colors.lightBlue,
+        Colors.orange,
+        Colors.pink,
+        Colors.redAccent,
+      ];
   final bool isEmpty;
   final String name;
 
@@ -192,7 +194,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
           tooltipBgColor: Colors.blueGrey,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
             String weekDay;
-            switch (group.x.toInt()) {
+            switch (group.x) {
               case 0:
                 weekDay = 'Monday';
                 break;

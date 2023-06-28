@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_bool_literals_in_conditional_expressions, library_private_types_in_public_api, lines_longer_than_80_chars
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,12 +53,15 @@ class _SetChildPageState extends State<SetChildPage> {
       );
       JHLogger.$.d('RESPONSE : $response');
       try {
-        await Navigator.of(context).pushReplacement(
-          MaterialPageRoute<void>(
-            fullscreenDialog: true,
-            builder: (context) => ChildPage.create(context, database, response),
-          ),
-        );
+        if (mounted) {
+          await Navigator.of(context).pushReplacement(
+            MaterialPageRoute<ChildPage>(
+              fullscreenDialog: true,
+              builder: (context) =>
+                  ChildPage.create(context, database, response),
+            ),
+          );
+        }
       } catch (e) {
         setState(() {
           appState = AppState.complete;
@@ -95,7 +100,7 @@ class _SetChildPageState extends State<SetChildPage> {
         controller: _nameController,
         textInputAction: TextInputAction.next,
         onEditingComplete: () {
-          if (model?.name.isValid(model.name) == true) {
+          if (model?.name.isValid(model.name) ?? true) {
             FocusScope.of(context).requestFocus(_keyFocusNode);
           }
         },

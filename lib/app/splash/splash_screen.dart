@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:times_up_flutter/app/landing_page.dart';
@@ -9,7 +11,6 @@ import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/utils/data.dart';
 
 class SplashScreen extends StatefulWidget {
-
   const SplashScreen({Key? key, this.context}) : super(key: key);
   final BuildContext? context;
 
@@ -59,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       SharedPreference().setVisitingFlag();
                       SharedPreference().setParentDevice();
                       Navigator.of(context).pushReplacement(
-                        CupertinoPageRoute(
+                        CupertinoPageRoute<LandingPage>(
                           builder: (context) => const LandingPage(),
                         ),
                       );
@@ -73,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       SharedPreference().setVisitingFlag();
                       SharedPreference().setChildDevice();
                       Navigator.of(context).pushReplacement(
-                        CupertinoPageRoute(
+                        CupertinoPageRoute<LandingPage>(
                           builder: (context) => const LandingPage(),
                         ),
                       );

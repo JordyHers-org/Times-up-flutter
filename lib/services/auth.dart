@@ -142,10 +142,8 @@ class Auth implements AuthBase {
       case FacebookLoginStatus.error:
         throw FirebaseAuthException(
           code: 'ERROR_FACEBOOK_LOGIN_FAILED',
-          message: response.error?.developerMessage!,
+          message: response.error?.developerMessage,
         );
-      default:
-        throw UnimplementedError();
     }
   }
 
