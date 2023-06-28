@@ -13,4 +13,4 @@ case $FLAVOR in
 esac
 
 
-dart format --fix lib/firebase_options.dart
+dart format --fix lib/firebase_options_dev.dart
