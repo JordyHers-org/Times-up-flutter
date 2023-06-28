@@ -3,3 +3,12 @@ linter:
   rules:
     public_member_api_docs: false
     sort_pub_dependencies: false
+
+analyzer:
+  exclude:
+    - '**.freezed.dart'
+    - '**.g.dart'
+    - '**.gr.dart'
+    - '**/generated_plugin_registrant.dart'
+    - '**/firebase_options_dev.dart'
+    - '**/firebase_options.dart'
