@@ -61,24 +61,28 @@ class _SetChildPageState extends State<SetChildPage> {
         setState(() {
           appState = AppState.complete;
         });
-        await showAlertDialog(
-          context,
-          title: 'No Such file in Database',
-          content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
-          defaultActionText: 'OK',
-        );
+        if (mounted) {
+          await showAlertDialog(
+            context,
+            title: 'No Such file in Database',
+            content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
+            defaultActionText: 'OK',
+          );
+        }
         JHLogger.$.e('ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {
       setState(() {
         appState = AppState.complete;
       });
-      await showAlertDialog(
-        context,
-        title: 'No Such file in Database',
-        content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
-        defaultActionText: 'OK',
-      );
+      if (mounted) {
+        await showAlertDialog(
+          context,
+          title: 'Error ❌',
+          content: e.toString(),
+          defaultActionText: 'OK',
+        );
+      }
       JHLogger.$.e(e.toString());
     }
   }

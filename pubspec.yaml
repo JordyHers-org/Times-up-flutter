@@ -47,7 +47,7 @@ dependencies:
   flutter_local_notifications: ^14.0.0-dev.2
 
   # Utility Packages:
-  intl: ^0.18.0
+  intl: ^0.17.0
   uuid: ^3.0.6
   app_usage: ^2.0.0
   google_fonts: ^4.0.3

@@ -86,7 +86,7 @@ class AppUsage {
       final start = startDate.millisecondsSinceEpoch;
       final interval = <String, int>{'start': start, 'end': end};
       final usage = await _methodChannel.invokeMethod('getUsage', interval)
-          as Map<String, dynamic>;
+          as Map<dynamic, dynamic>;
       final appInfo = await InstalledApps.getInstalledApps(
         true,
         true,
@@ -100,7 +100,7 @@ class AppUsage {
         if (temp[0] > 0) {
           result.add(
             AppUsageInfo(
-              key,
+              key.toString(),
               temp[0],
               DateTime.fromMillisecondsSinceEpoch(temp[1].round() * 1000),
               DateTime.fromMillisecondsSinceEpoch(temp[2].round() * 1000),

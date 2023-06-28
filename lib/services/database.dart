@@ -179,7 +179,6 @@ class FireStoreDatabase implements Database {
         JHLogger.$.e(' NO SUCH FILE ON DATABASE ');
       }
     });
-    JHLogger.$.d(' NO SUCH FILE ON DATABASE ');
     return _child!;
   }
 }
