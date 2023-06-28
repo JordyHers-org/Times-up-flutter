@@ -5,9 +5,10 @@ import 'package:times_up_flutter/common_widgets/jh_size_config.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 
 class JHSummaryTile extends StatelessWidget {
-  const JHSummaryTile({Key? key, 
+  const JHSummaryTile({
     required this.title,
     required this.time,
+    Key? key,
     this.progressValue = 75,
   }) : super(key: key);
   final String title;

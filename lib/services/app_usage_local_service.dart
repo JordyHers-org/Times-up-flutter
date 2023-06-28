@@ -35,14 +35,16 @@ class AppUsageInfo {
   factory AppUsageInfo.fromMap(Map<String, dynamic> data) => AppUsageInfo(
         data['appName'] as String,
         data['usage'].toString().p(),
-        data['startDate'] as DateTime,
-        data['endDate'] as DateTime,
+        data['startDate'],
+        data['endDate'],
         appIcon: base64Decode(data['appIcon'] as String),
       );
-  late String _packageName, _appName;
+  late String _packageName;
+  late String _appName;
   late Uint8List? _appIcon;
   late Duration _usage;
-  DateTime _startDate, _endDate;
+  dynamic _startDate;
+  dynamic _endDate;
 
   Map<String, dynamic> toMap() => {
         'appName': _appName,
@@ -58,9 +60,9 @@ class AppUsageInfo {
 
   Duration get usage => _usage;
 
-  DateTime get startDate => _startDate;
+  DateTime get startDate => _startDate as DateTime;
 
-  DateTime get endDate => _endDate;
+  DateTime get endDate => _endDate as DateTime;
 
   Uint8List? get appIcon => _appIcon;
 
@@ -118,7 +120,7 @@ class AppUsage {
                 element.usage.inMilliseconds.toDouble(),
                 element.startDate,
                 element.endDate,
-                appIcon: app.icon!,
+                appIcon: app.icon,
               ),
             );
           }
