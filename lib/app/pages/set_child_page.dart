@@ -1,12 +1,11 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions, library_private_types_in_public_api, lines_longer_than_80_chars
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:design_library/design_library.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
 import 'package:times_up_flutter/app/pages/child_page.dart';
-import 'package:times_up_flutter/common_widgets/jh_form_submit_button.dart';
-import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/services/database.dart';

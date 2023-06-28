@@ -1,6 +1,5 @@
+import 'package:design_library/design_library.dart';
 import 'package:flutter/material.dart';
-import 'package:times_up_flutter/common_widgets/jh_custom_raised_button.dart';
-import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 
 class SocialSignInButton extends JHCustomRaisedButton {
   SocialSignInButton({

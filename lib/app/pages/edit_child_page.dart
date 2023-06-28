@@ -2,12 +2,11 @@
 
 import 'dart:io';
 
+import 'package:design_library/design_library.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
-import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';

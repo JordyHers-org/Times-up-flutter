@@ -2,14 +2,13 @@
 
 import 'dart:async';
 
+import 'package:design_library/design_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/app/bloc/child_side_bloc.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
 import 'package:times_up_flutter/app/pages/set_child_page.dart';
-import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
-import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/app_usage_service.dart';

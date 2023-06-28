@@ -4,27 +4,18 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:design_library/design_library.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
-import 'package:times_up_flutter/common_widgets/jh_bar_chart.dart';
-import 'package:times_up_flutter/common_widgets/jh_battery_widget.dart';
-import 'package:times_up_flutter/common_widgets/jh_custom_button.dart';
-import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
-import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
-import 'package:times_up_flutter/common_widgets/jh_feature_widget.dart';
-import 'package:times_up_flutter/common_widgets/jh_header_widget.dart';
-import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
-import 'package:times_up_flutter/common_widgets/show_bottom_sheet.dart';
 import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/database.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({

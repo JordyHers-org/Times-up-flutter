@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:design_library/design_library.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -11,14 +12,6 @@ import 'package:times_up_flutter/app/pages/child_details_page.dart';
 import 'package:times_up_flutter/app/pages/edit_child_page.dart';
 import 'package:times_up_flutter/app/pages/notification_page.dart';
 import 'package:times_up_flutter/app/pages/setting_page.dart';
-import 'package:times_up_flutter/common_widgets/child_horizontal_view.dart';
-import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
-import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
-import 'package:times_up_flutter/common_widgets/jh_header.dart';
-import 'package:times_up_flutter/common_widgets/jh_header_widget.dart';
-import 'package:times_up_flutter/common_widgets/jh_info_row_widget.dart';
-import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
-import 'package:times_up_flutter/common_widgets/jh_summary_tile.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/services/api_path.dart';
@@ -28,7 +21,6 @@ import 'package:times_up_flutter/services/database.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
 import 'package:times_up_flutter/services/notification_service.dart';
 import 'package:times_up_flutter/services/shared_preferences.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/utils/data.dart';
 
 typedef ValueList = List<Map<String, dynamic>>;
@@ -235,12 +227,16 @@ class _ParentPageState extends State<ParentPage>
                             icon_2: Icons.message_outlined,
                             text_1: MockData.text_1,
                             text_2: MockData.text_2,
+                            childInfo1: Png.info1,
+                            childInfo2: Png.info2,
                           ).p4,
                           JHInfoRow(
                             icon_1: Icons.lightbulb_rounded,
                             icon_2: Icons.volume_up_outlined,
                             text_1: MockData.text_3,
                             text_2: MockData.text_4,
+                            childInfo1: Png.info1,
+                            childInfo2: Png.info2,
                           ).p4,
                           Image.asset('images/png/home_page.png').p4,
                         ],

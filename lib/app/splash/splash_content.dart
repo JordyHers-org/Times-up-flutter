@@ -1,8 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:design_library/design_library.dart';
 import 'package:flutter/material.dart';
-import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 
 class SplashContent extends StatefulWidget {
   const SplashContent({

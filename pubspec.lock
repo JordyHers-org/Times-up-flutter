@@ -297,6 +297,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.8"
+  design_library:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "3af1f64a02ada0a43f6de70da441f1697db548b0"
+      url: "https://github.com/JordyHers-org/design_library.git"
+    source: git
+    version: "0.0.1"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -1579,5 +1588,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.19.6 <3.0.0"
   flutter: ">=3.7.0-0"

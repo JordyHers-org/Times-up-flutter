@@ -1,12 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:design_library/design_library.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
-import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/services/auth.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({

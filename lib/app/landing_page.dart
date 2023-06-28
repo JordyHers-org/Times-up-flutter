@@ -1,10 +1,10 @@
+import 'package:design_library/design_library.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:times_up_flutter/app/pages/parent_page.dart';
 import 'package:times_up_flutter/app/pages/set_child_page.dart';
-import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/database.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';

@@ -1,13 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:design_library/design_library.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:times_up_flutter/app/landing_page.dart';
 import 'package:times_up_flutter/app/splash/splash_content.dart';
-import 'package:times_up_flutter/common_widgets/jh_custom_button.dart';
-import 'package:times_up_flutter/common_widgets/jh_size_config.dart';
 import 'package:times_up_flutter/services/shared_preferences.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/utils/data.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -1,14 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:design_library/design_library.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:times_up_flutter/common_widgets/jh_form_submit_button.dart';
 import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/sign_in/email_sign_in_bloc.dart';
 import 'package:times_up_flutter/sign_in/email_sign_in_model.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 
 class EmailSignInFormBlocBased extends StatefulWidget {
   const EmailSignInFormBlocBased({

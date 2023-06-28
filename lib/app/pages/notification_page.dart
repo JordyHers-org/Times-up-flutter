@@ -1,16 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:design_library/design_library.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
-import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
 import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/database.dart';
 import 'package:times_up_flutter/services/notification_service.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 
 enum AppState { loaded, empty }
 
