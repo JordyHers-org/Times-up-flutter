@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 
 class Kids extends StatelessWidget {
-  final String? image_location;
-  final String? image_caption;
+  const Kids({
+    this.imageLocation,
+    this.imageCaption,
+    Key? key,
+    this.onPressed,
+  }) : super(key: key);
+  final String? imageLocation;
+  final String? imageCaption;
   final VoidCallback? onPressed;
-
-  Kids({this.image_location, this.image_caption, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      child: image_location != null || image_caption != null
+      child: imageLocation != null || imageCaption != null
           ? Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(vertical: 10),
               padding: const EdgeInsets.symmetric(horizontal: 4),
               height: 130,
-              width: 130.0,
+              width: 130,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -25,7 +29,7 @@ class Kids extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.14),
                       image: DecorationImage(
-                        image: NetworkImage(image_location!),
+                        image: NetworkImage(imageLocation!),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -37,11 +41,11 @@ class Kids extends StatelessWidget {
           : Container(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               height: 200,
-              width: 150.0,
+              width: 150,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     height: 110,
                     decoration: BoxDecoration(
@@ -49,7 +53,7 @@ class Kids extends StatelessWidget {
                       color: Colors.black.withOpacity(0.10),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),

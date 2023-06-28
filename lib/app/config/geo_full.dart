@@ -4,28 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:parental_control/common_widgets/jh_pin_marker.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
-import 'package:parental_control/services/marker_generator_service.dart';
-import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/common_widgets/jh_pin_marker.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/services/geo_locator_service.dart';
+import 'package:times_up_flutter/services/marker_generator_service.dart';
+import 'package:times_up_flutter/utils/constants.dart';
 
 class GeoFull extends StatefulWidget {
+  const GeoFull(
+    this.initialPosition,
+    this.database,
+    this.auth,
+    this.geo,
+    this.locations, {
+    Key? key,
+  }) : super(key: key);
   final Position initialPosition;
   final Database database;
   final AuthBase auth;
   final GeoLocatorService geo;
   final List<Map<String, dynamic>> locations;
-
-  GeoFull(
-    this.initialPosition,
-    this.database,
-    this.auth,
-    this.geo,
-    this.locations,
-  );
 
   static Widget create(
     BuildContext context, {
@@ -63,9 +63,7 @@ class _GeoFullState extends State<GeoFull> {
   }
 
   void _init() {
-    widget.geo.getCurrentLocation.listen((position) {
-      _centerScreen(position);
-    });
+    widget.geo.getCurrentLocation.listen(_centerScreen);
     MarkerGenerator(markerWidgets(), (bitmaps) {
       setState(() {
         mapBitmapsToMarkers(bitmaps, widget.locations);
@@ -74,7 +72,9 @@ class _GeoFullState extends State<GeoFull> {
   }
 
   List<Widget> markerWidgets() {
-    return widget.locations.map((l) => MapMarker(l['image'])).toList();
+    return widget.locations
+        .map((l) => MapMarker(l['image'].toString()))
+        .toList();
   }
 
   void mapBitmapsToMarkers(
@@ -85,14 +85,15 @@ class _GeoFullState extends State<GeoFull> {
       allMarkers.add(
         Marker(
           infoWindow: InfoWindow(
-            title: data[i]['id'],
-            snippet: data[i]['name'],
+            title: data[i]['id'] as String,
+            snippet: data[i]['name'] as String,
           ),
-          draggable: false,
-          markerId: MarkerId(data[i]['id']),
+          markerId: MarkerId(data[i]['id'] as String),
           position: LatLng(
-            data[i]['position'].latitude,
-            data[i]['position'].longitude,
+            // ignore: avoid_dynamic_calls
+            data[i]['position'].latitude as double,
+            // ignore: avoid_dynamic_calls
+            data[i]['position'].longitude as double,
           ),
           icon: BitmapDescriptor.fromBytes(bmp),
         ),
@@ -103,7 +104,7 @@ class _GeoFullState extends State<GeoFull> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
+      child: SizedBox(
         height: double.infinity,
         child: Center(
           child: GoogleMap(
@@ -115,12 +116,9 @@ class _GeoFullState extends State<GeoFull> {
               ),
               zoom: 15,
             ),
-            mapType: MapType.normal,
             myLocationEnabled: true,
             markers: Set<Marker>.of(allMarkers),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
+            onMapCreated: _controller.complete,
           ),
         ),
       ),
@@ -133,7 +131,7 @@ class _GeoFullState extends State<GeoFull> {
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: LatLng(position.latitude, position.longitude),
-          zoom: 16.0,
+          zoom: 16,
         ),
       ),
     );

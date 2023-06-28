@@ -1,4 +1,3 @@
-class Strings{
-
-  static const String appName= "Time's Up";
+class Strings {
+  static const String appName = "Time's Up";
 }

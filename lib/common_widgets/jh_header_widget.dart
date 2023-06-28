@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-
-import 'jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 
 class HeaderWidget extends StatelessWidget {
+  const HeaderWidget({
+    required this.title,
+    required this.subtitle,
+    Key? key,
+    this.trailing = const SizedBox.shrink(),
+  }) : super(key: key);
   final String title;
   final String subtitle;
   final Widget trailing;
-  const HeaderWidget({
-    Key? key,
-    required this.title,
-    required this.subtitle,
-    this.trailing = const SizedBox.shrink(),
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,8 @@ class HeaderWidget extends StatelessWidget {
       title: JHDisplayText(
         text: title,
         fontSize: 17,
-        style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.w500),
+        style:
+            const TextStyle(color: Colors.indigo, fontWeight: FontWeight.w500),
       ),
       subtitle: JHDisplayText(
         text: subtitle,

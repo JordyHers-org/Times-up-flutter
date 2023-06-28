@@ -37,3 +37,6 @@ master:
 
 ready:
 	fvm flutter analyze && fvm flutter test
+
+shell:
+	./scripts/env.sh

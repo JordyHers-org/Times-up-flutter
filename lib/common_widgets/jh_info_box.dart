@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_size_config.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:times_up_flutter/common_widgets/jh_size_config.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 typedef TriggerFunction = void Function()?;
 
 class InfoBox extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
-  final Widget child;
-  final TriggerFunction onPress;
-
   const InfoBox({
-    Key? key,
     required this.icon,
     required this.iconColor,
     required this.child,
     required this.onPress,
+    Key? key,
   }) : super(key: key);
+  final IconData icon;
+  final Color iconColor;
+  final Widget child;
+  final TriggerFunction onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +32,6 @@ class InfoBox extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
                   backgroundColor: CustomColors.indigoLight.withOpacity(0.6),

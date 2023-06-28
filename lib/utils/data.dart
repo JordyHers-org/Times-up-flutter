@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class TabData {
   static List<Map<String, dynamic>> items = [
@@ -33,19 +33,19 @@ class TabData {
 
 class BottomNavigationData {
   static Map<int, BottomNavigationBarItem> items = {
-    0: BottomNavigationBarItem(
+    0: const BottomNavigationBarItem(
       label: 'Dashboard',
       icon: Icon(
         Icons.dashboard_customize_outlined,
       ),
     ),
-    1: BottomNavigationBarItem(
+    1: const BottomNavigationBarItem(
       label: 'Notification',
       icon: Icon(
         Icons.notifications_on_outlined,
       ),
     ),
-    2: BottomNavigationBarItem(
+    2: const BottomNavigationBarItem(
       label: 'Location',
       icon: Icon(
         Icons.location_history,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
 
 class JHAppLifeCycleObserver extends WidgetsBindingObserver {
   @override

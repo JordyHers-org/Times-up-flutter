@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_display_text.dart';
-import 'package:parental_control/common_widgets/jh_size_config.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_size_config.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class JHCustomButton extends StatelessWidget {
-  final Color backgroundColor;
-  final Color borderColor;
-  final Color textColor;
-  final Function() onPress;
-  final String title;
   const JHCustomButton({
-    Key? key,
     required this.backgroundColor,
     required this.onPress,
     required this.title,
+    Key? key,
     this.borderColor = Colors.transparent,
     this.textColor = Colors.white,
   }) : super(key: key);
+  final Color backgroundColor;
+  final Color borderColor;
+  final Color textColor;
+  final void Function() onPress;
+  final String title;
 
   @override
   Widget build(BuildContext context) {

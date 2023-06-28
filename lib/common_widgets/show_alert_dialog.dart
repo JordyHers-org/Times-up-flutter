@@ -1,3 +1,5 @@
+// ignore_for_file: inference_failure_on_function_invocation
+
 import 'package:flutter/material.dart';
 
 Future<dynamic> showAlertDialog(
@@ -7,7 +9,7 @@ Future<dynamic> showAlertDialog(
   required String defaultActionText,
   String? cancelActionText,
 }) async {
-  var value = await showDialog(
+  final value = await showDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(

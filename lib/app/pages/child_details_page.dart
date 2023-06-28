@@ -1,32 +1,37 @@
+// ignore: lines_longer_than_80_chars
+// ignore_for_file: library_private_types_in_public_api,use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:parental_control/app/helpers/parsing_extension.dart';
-import 'package:parental_control/common_widgets/jh_bar_chart.dart';
-import 'package:parental_control/common_widgets/jh_battery_widget.dart';
-import 'package:parental_control/common_widgets/jh_custom_button.dart';
-import 'package:parental_control/common_widgets/jh_display_text.dart';
-import 'package:parental_control/common_widgets/jh_empty_content.dart';
-import 'package:parental_control/common_widgets/jh_feature_widget.dart';
-import 'package:parental_control/common_widgets/jh_header_widget.dart';
-import 'package:parental_control/common_widgets/show_alert_dialog.dart';
-import 'package:parental_control/common_widgets/show_bottom_sheet.dart';
-import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/models/child_model/child_model.dart';
-import 'package:parental_control/models/notification_model/notification_model.dart';
-import 'package:parental_control/services/database.dart';
-import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/common_widgets/jh_bar_chart.dart';
+import 'package:times_up_flutter/common_widgets/jh_battery_widget.dart';
+import 'package:times_up_flutter/common_widgets/jh_custom_button.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
+import 'package:times_up_flutter/common_widgets/jh_feature_widget.dart';
+import 'package:times_up_flutter/common_widgets/jh_header_widget.dart';
+import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
+import 'package:times_up_flutter/common_widgets/show_bottom_sheet.dart';
+import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/models/notification_model/notification_model.dart';
+import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({
     required this.database,
     required this.childModel,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final Database database;
   final ChildModel childModel;
@@ -34,8 +39,7 @@ class ChildDetailsPage extends StatefulWidget {
   static Future<void> show(BuildContext context, ChildModel model) async {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
-      MaterialPageRoute(
-        fullscreenDialog: false,
+      MaterialPageRoute<ChildDetailsPage>(
         builder: (context) =>
             ChildDetailsPage(database: database, childModel: model),
       ),
@@ -89,18 +93,17 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               elevation: 0.5,
               shadowColor: CustomColors.indigoLight,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 color: CustomColors.indigoPrimary,
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              iconTheme: IconThemeData(color: Colors.red),
+              iconTheme: const IconThemeData(color: Colors.red),
               backgroundColor: Colors.white,
               expandedHeight: 50,
               shape: ContinuousRectangleBorder(
                 side: BorderSide(
-                  width: 1,
                   color: !value
                       ? Colors.white
                       : CustomColors.indigoLight.withOpacity(0.5),
@@ -114,27 +117,23 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         body: ScrollConfiguration(
           behavior: const ScrollBehavior().copyWith(overscroll: false),
           child: CustomScrollView(
-            // scrollBehavior: const ScrollBehavior(
-            //   androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
-            // ),
             slivers: <Widget>[
               SliverList(
                 delegate: SliverChildListDelegate([
-                  HeaderWidget(
-                    title: 'Enter this code on the child\'s device',
+                  const HeaderWidget(
+                    title: "Enter this code on the child's device",
                     subtitle: 'Long press to copy or double tap to share ',
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
                     children: [
                       GestureDetector(
                         onLongPress: () {
                           Clipboard.setData(
-                            ClipboardData(text: model.id.toString()),
+                            ClipboardData(text: model.id),
                           ).then((value) {
-                            final snackBar = SnackBar(
-                              content: const Text('Code Copied!'),
+                            const snackBar = SnackBar(
+                              content: Text('Code Copied!'),
                             );
 
                             ScaffoldMessenger.of(context)
@@ -149,13 +148,13 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                         child: JHDisplayText(
                           text: model.id,
                           fontSize: 30,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.deepOrangeAccent,
                           ),
                         ),
                       ).p4,
-                      JHBatteryWidget(
+                      const JHBatteryWidget(
                         level: 1,
                       ).p4,
                     ],
@@ -179,24 +178,25 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 18),
-                  HeaderWidget(
-                    title: 'Send notifications to your Child\'s device',
+                  const SizedBox(height: 18),
+                  const HeaderWidget(
+                    title: "Send notifications to your Child's device",
                     subtitle: 'Push the button ',
                   ).p8,
                   GestureDetector(
                     onTap: () => showCustomBottomSheet(
                       context,
                       child: Container(
-                        decoration: BoxDecoration(color: Colors.white),
+                        decoration: const BoxDecoration(color: Colors.white),
+                        height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Spacer(),
+                            const Spacer(),
                             JHCustomButton(
                               title: ' Bed Time',
                               backgroundColor: Colors.indigo,
-                              onPress: () async => await _sendNotification(
+                              onPress: () async => _sendNotification(
                                 context,
                                 model,
                                 'Hey Go to bed Now',
@@ -205,28 +205,27 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                             JHCustomButton(
                               title: 'Homework Time',
                               backgroundColor: CustomColors.indigoLight,
-                              onPress: () async => await _sendNotification(
+                              onPress: () async => _sendNotification(
                                 context,
                                 model,
                                 'Homework Time',
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                           ],
                         ),
-                        height: 200,
                       ),
                     ),
-                    child: JHFeatureWidget(
+                    child: const JHFeatureWidget(
                       title: 'Send Notification',
                       icon: Icons.wifi_tethering_error_sharp,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   _AppUsedList(
                     model: model,
                   ),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   JHCustomButton(
                     title: 'Delete Child',
                     backgroundColor: Colors.transparent,
@@ -237,7 +236,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       widget.childModel,
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                 ]),
               )
             ],
@@ -245,7 +244,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         ),
       );
     } else {
-      return JHEmptyContent(
+      return const JHEmptyContent(
         title: 'Nothing Here',
         message: ' Here is the kids details page',
       );
@@ -261,6 +260,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       cancelActionText: 'Cancel',
     );
     if (didConfirmDelete == true) {
+      if (!mounted) return;
       await _deleteUserPictureAndChild(context, model);
       Navigator.of(context).pop();
     }
@@ -282,13 +282,14 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         ),
         model,
       );
+      if (!mounted) return;
       await showAlertDialog(
         context,
         title: 'Successful',
         content: 'Notification sent to ${model.name}',
         defaultActionText: 'OK',
       );
-      debugPrint('Notification sent to device');
+      JHLogger.$.d('Notification sent to device');
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,
@@ -300,74 +301,68 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
 }
 
 class _AppUsedList extends StatelessWidget {
-  final ChildModel model;
   const _AppUsedList({
-    Key? key,
     required this.model,
+    Key? key,
   }) : super(key: key);
+  final ChildModel model;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Container(
-        child: ScrollConfiguration(
-          behavior: const ScrollBehavior().copyWith(overscroll: false),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              HeaderWidget(
-                title: 'Summary of used apps',
-                subtitle: 'Click for more details',
+      child: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: Column(
+          children: [
+            const HeaderWidget(
+              title: 'Summary of used apps',
+              subtitle: 'Click for more details',
+            ),
+            if (model.appsUsageModel.isNotEmpty)
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: model.appsUsageModel.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: model.appsUsageModel[index].appIcon != null
+                            ? Image.memory(
+                                model.appsUsageModel[index].appIcon!,
+                                height: 35,
+                              )
+                            : const Icon(Icons.android),
+                        title: Text(
+                          model.appsUsageModel[index].appName,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: CustomColors.indigoDark,
+                          ),
+                        ),
+                        trailing: Text(
+                          model.appsUsageModel[index].usage.toString().t(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.indigo,
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                },
+              )
+            else
+              const JHEmptyContent(
+                message: 'Seems like you have not set up the child device \n',
+                title: 'Set up the child device',
+                fontSizeMessage: 12,
+                fontSizeTitle: 23,
               ),
-              model.appsUsageModel.isNotEmpty
-                  ? ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: model.appsUsageModel.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ListTile(
-                              leading:
-                                  model.appsUsageModel[index].appIcon != null
-                                      ? Image.memory(
-                                          model.appsUsageModel[index].appIcon!,
-                                          height: 35,
-                                        )
-                                      : Icon(Icons.android),
-                              title: Text(
-                                '${model.appsUsageModel[index].appName}',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.indigoDark,
-                                ),
-                              ),
-                              trailing: Text(
-                                model.appsUsageModel[index].usage
-                                    .toString()
-                                    .t(),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.indigo,
-                                ),
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                    )
-                  : JHEmptyContent(
-                      message:
-                          'Seems like you have not set up the child device \n',
-                      title: 'Set up the child device',
-                      fontSizeMessage: 12,
-                      fontSizeTitle: 23,
-                    ),
-            ],
-          ),
+          ],
         ),
       ),
     );

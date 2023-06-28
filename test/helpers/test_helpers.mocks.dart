@@ -15,17 +15,17 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i8;
 import 'package:geolocator/geolocator.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:parental_control/models/child_model/child_model.dart' as _i3;
-import 'package:parental_control/models/notification_model/notification_model.dart'
+import 'package:times_up_flutter/models/child_model/child_model.dart' as _i3;
+import 'package:times_up_flutter/models/notification_model/notification_model.dart'
     as _i12;
-import 'package:parental_control/services/app_usage_local_service.dart' as _i18;
-import 'package:parental_control/services/app_usage_service.dart' as _i6;
-import 'package:parental_control/services/auth.dart' as _i5;
-import 'package:parental_control/services/database.dart' as _i11;
-import 'package:parental_control/services/geo_locator_service.dart' as _i7;
-import 'package:parental_control/services/notification_service.dart' as _i19;
-import 'package:parental_control/sign_in/email_sign_in_bloc.dart' as _i16;
-import 'package:parental_control/sign_in/email_sign_in_model.dart' as _i17;
+import 'package:times_up_flutter/services/app_usage_local_service.dart' as _i18;
+import 'package:times_up_flutter/services/app_usage_service.dart' as _i6;
+import 'package:times_up_flutter/services/auth.dart' as _i5;
+import 'package:times_up_flutter/services/database.dart' as _i11;
+import 'package:times_up_flutter/services/geo_locator_service.dart' as _i7;
+import 'package:times_up_flutter/services/notification_service.dart' as _i19;
+import 'package:times_up_flutter/sign_in/email_sign_in_bloc.dart' as _i16;
+import 'package:times_up_flutter/sign_in/email_sign_in_model.dart' as _i17;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

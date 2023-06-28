@@ -1,7 +1,9 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
-import 'package:parental_control/models/notification_model/notification_model.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
@@ -29,17 +31,17 @@ class NotificationService {
   NotificationModel _setNotifications(Map<String, dynamic> message) {
     final notification = message['notification'];
     final data = message['data'];
-    final String title = notification['title'];
-    final String body = notification['body'];
-    final String mMessage = data['Message'];
-    final _not = NotificationModel(
+    final title = notification['title'] as String;
+    final body = notification['body'] as String;
+    final mMessage = data['Message'] as String;
+    final not = NotificationModel(
       id: null,
       title: title,
       body: body,
       message: mMessage,
     );
 
-    return _not;
+    return not;
   }
 
   /// this function calls the Firebase Push notification
@@ -47,8 +49,8 @@ class NotificationService {
   void configureFirebaseMessaging() {
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
-        var notification = message.notification;
-        var android = message.notification?.android;
+        final notification = message.notification;
+        final android = message.notification?.android;
 
         // If `onMessage` is triggered with a notification, construct our own
         // local notification to show to users using the created channel.

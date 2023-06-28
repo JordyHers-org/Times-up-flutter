@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:parental_control/app/config/geo_full.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
-import 'package:parental_control/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/app/config/geo_full.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/services/geo_locator_service.dart';
+import 'package:times_up_flutter/utils/constants.dart';
 
 import '../../helpers/test_helpers.mocks.dart';
 import '../../mocks.dart';
@@ -83,7 +83,7 @@ void main() {
       final gesture =
           await tester.startGesture(tester.getCenter(googleMapFinder));
       await gesture.panZoomStart(
-        const Offset(1.0, 1.0),
+        const Offset(1, 1),
       );
       await tester.pump();
 
