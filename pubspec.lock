@@ -502,6 +502,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_any_logo:
+    dependency: "direct main"
+    description:
+      name: flutter_any_logo
+      sha256: f2e2eead15311ee8562670f74202196c1d61629961df82456d96c97fa9537214
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -1579,5 +1587,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.19.2 <3.0.0"
   flutter: ">=3.7.0-0"

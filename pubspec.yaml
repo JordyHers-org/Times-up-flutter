@@ -55,6 +55,7 @@ dependencies:
   # UI Component Packages:
   line_awesome_flutter: ^2.0.0
   showcaseview: ^2.0.3
+  flutter_any_logo: ^1.0.5
 
   # Testing Packages:
   mockito: ^5.0.0

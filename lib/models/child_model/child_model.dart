@@ -17,6 +17,7 @@ class ChildModel with _$ChildModel {
     required final String email,
     required final String? image,
     final String? token,
+    final String? batteryLevel,
     @Default(<AppUsageInfo>[])
     @AppUsageInfoConverter()
         List<AppUsageInfo> appsUsageModel,

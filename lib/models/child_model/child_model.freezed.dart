@@ -25,6 +25,7 @@ mixin _$ChildModel {
   String get email => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   String? get token => throw _privateConstructorUsedError;
+  String? get batteryLevel => throw _privateConstructorUsedError;
   @AppUsageInfoConverter()
   List<AppUsageInfo> get appsUsageModel => throw _privateConstructorUsedError;
   @GeoPointConverter()
@@ -48,6 +49,7 @@ abstract class $ChildModelCopyWith<$Res> {
       String email,
       String? image,
       String? token,
+      String? batteryLevel,
       @AppUsageInfoConverter() List<AppUsageInfo> appsUsageModel,
       @GeoPointConverter() GeoPoint? position});
 }
@@ -70,6 +72,7 @@ class _$ChildModelCopyWithImpl<$Res, $Val extends ChildModel>
     Object? email = null,
     Object? image = freezed,
     Object? token = freezed,
+    Object? batteryLevel = freezed,
     Object? appsUsageModel = null,
     Object? position = freezed,
   }) {
@@ -93,6 +96,10 @@ class _$ChildModelCopyWithImpl<$Res, $Val extends ChildModel>
       token: freezed == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
+              as String?,
+      batteryLevel: freezed == batteryLevel
+          ? _value.batteryLevel
+          : batteryLevel // ignore: cast_nullable_to_non_nullable
               as String?,
       appsUsageModel: null == appsUsageModel
           ? _value.appsUsageModel
@@ -120,6 +127,7 @@ abstract class _$$_ChildModelCopyWith<$Res>
       String email,
       String? image,
       String? token,
+      String? batteryLevel,
       @AppUsageInfoConverter() List<AppUsageInfo> appsUsageModel,
       @GeoPointConverter() GeoPoint? position});
 }
@@ -140,6 +148,7 @@ class __$$_ChildModelCopyWithImpl<$Res>
     Object? email = null,
     Object? image = freezed,
     Object? token = freezed,
+    Object? batteryLevel = freezed,
     Object? appsUsageModel = null,
     Object? position = freezed,
   }) {
@@ -164,6 +173,10 @@ class __$$_ChildModelCopyWithImpl<$Res>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String?,
+      batteryLevel: freezed == batteryLevel
+          ? _value.batteryLevel
+          : batteryLevel // ignore: cast_nullable_to_non_nullable
+              as String?,
       appsUsageModel: null == appsUsageModel
           ? _value._appsUsageModel
           : appsUsageModel // ignore: cast_nullable_to_non_nullable
@@ -186,6 +199,7 @@ class _$_ChildModel implements _ChildModel {
       required this.email,
       required this.image,
       this.token,
+      this.batteryLevel,
       @AppUsageInfoConverter()
           final List<AppUsageInfo> appsUsageModel = const <AppUsageInfo>[],
       @GeoPointConverter()
@@ -205,6 +219,8 @@ class _$_ChildModel implements _ChildModel {
   final String? image;
   @override
   final String? token;
+  @override
+  final String? batteryLevel;
   final List<AppUsageInfo> _appsUsageModel;
   @override
   @JsonKey()
@@ -221,7 +237,7 @@ class _$_ChildModel implements _ChildModel {
 
   @override
   String toString() {
-    return 'ChildModel(id: $id, name: $name, email: $email, image: $image, token: $token, appsUsageModel: $appsUsageModel, position: $position)';
+    return 'ChildModel(id: $id, name: $name, email: $email, image: $image, token: $token, batteryLevel: $batteryLevel, appsUsageModel: $appsUsageModel, position: $position)';
   }
 
   @override
@@ -234,6 +250,8 @@ class _$_ChildModel implements _ChildModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.token, token) || other.token == token) &&
+            (identical(other.batteryLevel, batteryLevel) ||
+                other.batteryLevel == batteryLevel) &&
             const DeepCollectionEquality()
                 .equals(other._appsUsageModel, _appsUsageModel) &&
             (identical(other.position, position) ||
@@ -242,8 +260,16 @@ class _$_ChildModel implements _ChildModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email, image, token,
-      const DeepCollectionEquality().hash(_appsUsageModel), position);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      email,
+      image,
+      token,
+      batteryLevel,
+      const DeepCollectionEquality().hash(_appsUsageModel),
+      position);
 
   @JsonKey(ignore: true)
   @override
@@ -266,6 +292,7 @@ abstract class _ChildModel implements ChildModel {
       required final String email,
       required final String? image,
       final String? token,
+      final String? batteryLevel,
       @AppUsageInfoConverter() final List<AppUsageInfo> appsUsageModel,
       @GeoPointConverter() final GeoPoint? position}) = _$_ChildModel;
 
@@ -282,6 +309,8 @@ abstract class _ChildModel implements ChildModel {
   String? get image;
   @override
   String? get token;
+  @override
+  String? get batteryLevel;
   @override
   @AppUsageInfoConverter()
   List<AppUsageInfo> get appsUsageModel;

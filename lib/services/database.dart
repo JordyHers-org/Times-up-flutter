@@ -33,8 +33,9 @@ abstract class Database {
   Future<ChildModel> getUserCurrentChild(
     String name,
     String key,
-    GeoPoint latLong,
-  );
+    GeoPoint latLong, {
+    String? battery,
+  });
 }
 
 class FireStoreDatabase implements Database {
@@ -132,6 +133,7 @@ class FireStoreDatabase implements Database {
       position: model.position,
       appsUsageModel: apps.info,
       image: model.image,
+      batteryLevel: model.batteryLevel,
     );
 
     await updateChild(_child!);
@@ -141,8 +143,9 @@ class FireStoreDatabase implements Database {
   Future<ChildModel> getUserCurrentChild(
     String name,
     String key,
-    GeoPoint latLong,
-  ) async {
+    GeoPoint latLong, {
+    String? battery,
+  }) async {
     final user = auth?.currentUser?.uid;
     final token = await auth?.setToken();
     await apps.getAppUsageService();
@@ -151,6 +154,7 @@ class FireStoreDatabase implements Database {
     String currentChild;
     String email;
     String image;
+
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user)
@@ -171,6 +175,7 @@ class FireStoreDatabase implements Database {
           position: latLong,
           appsUsageModel: apps.info,
           token: token,
+          batteryLevel: battery,
         );
 
         await setChild(_child!);
