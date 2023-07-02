@@ -110,7 +110,7 @@ double calculatePercentage(Duration duration) {
     hours: hours,
     minutes: minutes,
   );
-  var totalDuration = const Duration(days: 1, hours: 2);
+  var totalDuration = const Duration(days: 3, hours: 10);
 
   if (parsedDuration.inDays > 60) {
     totalDuration = const Duration(days: 340, hours: 2);
