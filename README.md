@@ -4,19 +4,19 @@
 
 
 
- ## NEW FEATURES 
- 
-Time's Up is a mobile application developed using `flutter` to monitor the time kids 
+## NEW FEATURES
+
+Time's Up is a mobile application developed using `flutter` to monitor the time kids
 spend on screen.So far the app is only available on Android. The app can't run on iOS devices.
 The application has for sole purpose to track and record the data from the child's
 device and send it to parents. The application does not violate the `privacy policies`
-settled for user, and doesn't collect data for third parties companies. 
+settled for user, and doesn't collect data for third parties companies.
 
- ####  🚀 V2.0.0 
- 
- ##### Planned Features: 
-- App Icons 📱  
-- App Usage Metrics 📈 
+####  🚀 V2.0.0
+
+##### Planned Features:
+- App Icons 📱
+- App Usage Metrics 📈
 - Setting page (Update Profile) 🚹
 - Contact Us page📩
 - Dark Mode 🌘
@@ -25,7 +25,7 @@ settled for user, and doesn't collect data for third parties companies.
 - Marker image (Child's Picture) on Map 🗺
 - Email follow up for weekly report 📨
 - Location Tracking 📍
-- Notification 🔔 
+- Notification 🔔
 
 
 ## Screenshot
@@ -44,7 +44,7 @@ to control pages is [BLoC](https://bloclibrary.dev/#/). It is the perfect tool i
 Specific ENUMS cases.
 
 
-## Packages 
+## Packages
 
 - [firebase auth](https://pub.dev/packages/firebase_auth) for authentication
 - [provider](https://pub.dev/packages/provider) for state management
@@ -55,10 +55,10 @@ Specific ENUMS cases.
 - [shared_preferences](https://pub.dev/packages/shared_preferences) for String and bool caching
 - [share_plus](https://pub.dev/packages/share_plus) for sharing Child's code
 
-## Contribution 
+## Contribution
 
 To contribute to the project you can join the discord server:
-Jordyhers https://discord.gg/WaF54U9x 
+Jordyhers https://discord.gg/WaF54U9x
 
 
 ## License 

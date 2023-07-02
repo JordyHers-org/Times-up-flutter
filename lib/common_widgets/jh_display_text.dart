@@ -2,16 +2,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class JHDisplayText extends StatelessWidget {
+  const JHDisplayText({
+    required this.text,
+    required this.style,
+    Key? key,
+    this.fontSize,
+    this.maxFontSize,
+  }) : super(key: key);
   final String text;
   final TextStyle style;
   final double? fontSize;
-
-  const JHDisplayText({
-    Key? key,
-    required this.text,
-    required this.style,
-    this.fontSize,
-  }) : super(key: key);
+  final double? maxFontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,9 @@ class JHDisplayText extends StatelessWidget {
       text,
       style: style,
       maxLines: 10,
-      minFontSize: fontSize ?? 10,
-      maxFontSize: fontSize ?? 21,
+      textScaleFactor: 1,
+      minFontSize: fontSize ?? 13,
+      maxFontSize: maxFontSize ?? 35,
     );
   }
 }

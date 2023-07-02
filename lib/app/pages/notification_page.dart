@@ -1,30 +1,29 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_empty_content.dart';
-import 'package:parental_control/common_widgets/show_exeption_alert.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
-import 'package:parental_control/models/notification_model/notification_model.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/notification_service.dart';
-import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
+import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
+import 'package:times_up_flutter/models/notification_model/notification_model.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/services/notification_service.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
-import '../../common_widgets/jh_display_text.dart';
-
-enum AppState { Loaded, Empty }
+enum AppState { loaded, empty }
 
 class NotificationPage extends StatefulWidget {
-  final AuthBase auth;
-  final NotificationService? notification;
-  final Database? database;
-
   const NotificationPage({
-    Key? key,
     required this.auth,
+    Key? key,
     this.notification,
     this.database,
   }) : super(key: key);
+  final AuthBase auth;
+  final NotificationService? notification;
+  final Database? database;
 
   static Widget create(
     BuildContext context,
@@ -45,7 +44,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  AppState appState = AppState.Empty;
+  AppState appState = AppState.empty;
 
   Future<void> _delete(BuildContext context, NotificationModel model) async {
     try {
@@ -68,7 +67,49 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildStreamNotification(context);
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, value) {
+        return [
+          SliverAppBar(
+            elevation: 0.5,
+            shadowColor: CustomColors.indigoLight,
+            title: JHDisplayText(
+              text: 'Notifications',
+              style: TextStyle(
+                color: CustomColors.indigoDark,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            iconTheme: const IconThemeData(color: Colors.red),
+            backgroundColor: Colors.white,
+            expandedHeight: 50,
+            shape: ContinuousRectangleBorder(
+              side: BorderSide(
+                color: !value
+                    ? Colors.white
+                    : CustomColors.indigoLight.withOpacity(0.5),
+              ),
+            ),
+            pinned: true,
+            floating: true,
+          )
+        ];
+      },
+      body: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildListDelegate([
+                SingleChildScrollView(
+                  child: Container(child: _buildStreamNotification(context)),
+                ),
+              ]),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildStreamNotification(BuildContext context) {
@@ -80,17 +121,18 @@ class _NotificationPageState extends State<NotificationPage> {
 
           return data!.isNotEmpty
               ? ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Dismissible(
                       background: Card(
                         color: Colors.red,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.delete_forever,
                                 color: Colors.white,
@@ -102,26 +144,21 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       key: ValueKey<int>(index),
                       onDismissed: (DismissDirection direction) async {
-                        JHLogger.$.w(
-                          'DATA TO BE DELETED IS ${data[index].id}',
-                        );
                         await _delete(context, data[index]);
                         setState(() {
-                          JHLogger.$.d(' Notification deleted');
                           data.removeAt(index);
-                          appState = AppState.Empty;
-                          JHLogger.$.d(appState);
+                          appState = AppState.empty;
                         });
                       },
                       direction: DismissDirection.endToStart,
                       child: Card(
                         color: CustomColors.indigoLight,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: ListTile(
                             title: JHDisplayText(
                               text: data[index].title ?? 'No title available',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                                 fontSize: 16,
@@ -130,7 +167,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             trailing: JHDisplayText(
                               text:
                                   data[index].message ?? 'No message available',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                                 fontSize: 16,
@@ -142,19 +179,17 @@ class _NotificationPageState extends State<NotificationPage> {
                     );
                   },
                 )
-              : JHEmptyContent(
-                  message: 'This side of the app will display the list of'
-                      ' Notifications',
-                  title: 'Notification page',
-                  fontSizeMessage: 13,
-                  fontSizeTitle: 23,
+              : Column(
+                  children: [
+                    Image.asset('images/png/notifications.png'),
+                  ],
                 );
         } else if (snapshot.hasData) {
           return ErrorWidget(snapshot.error!);
         } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(
+            child: LoadingWidget(),
+          ).vP36;
         }
       },
     );

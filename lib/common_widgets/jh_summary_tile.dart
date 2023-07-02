@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/jh_progress_bar.dart';
-import 'package:parental_control/theme/theme.dart';
-
-import 'jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_progress_bar.dart';
+import 'package:times_up_flutter/common_widgets/jh_size_config.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class JHSummaryTile extends StatelessWidget {
+  const JHSummaryTile({
+    required this.title,
+    required this.time,
+    Key? key,
+    this.progressValue = 75,
+  }) : super(key: key);
   final String title;
   final String time;
   final double progressValue;
-  const JHSummaryTile({
-    Key? key,
-    required this.title,
-    required this.time,
-    this.progressValue = 0.75,
-  });
 
   @override
   Widget build(BuildContext context) {
+    JHSizeConfig().init(context);
     return Container(
-      margin: EdgeInsets.all(10),
-      height: 150,
-      width: 400,
+      margin: const EdgeInsets.all(10),
+      constraints: const BoxConstraints(
+        maxHeight: 170,
+        minHeight: 150,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
@@ -40,12 +43,12 @@ class JHSummaryTile extends StatelessWidget {
             children: [
               JHDisplayText(
                 text: time,
-                fontSize: 35,
-                style: TextStyle(color: Colors.black),
+                fontSize: 25,
+                style: const TextStyle(color: Colors.black),
               ),
             ],
-          ).p4,
-          JHCustomProgressBar(progress: progressValue),
+          ).p16,
+          JHCustomProgressBar(progress: progressValue / 100),
         ],
       ),
     );

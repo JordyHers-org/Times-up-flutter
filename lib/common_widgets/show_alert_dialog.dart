@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: inference_failure_on_function_invocation
 
-import 'jh_display_text.dart';
+import 'package:flutter/material.dart';
 
 Future<dynamic> showAlertDialog(
   BuildContext context, {
@@ -9,7 +9,7 @@ Future<dynamic> showAlertDialog(
   required String defaultActionText,
   String? cancelActionText,
 }) async {
-  var value = await showDialog(
+  final value = await showDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
@@ -18,16 +18,16 @@ Future<dynamic> showAlertDialog(
       actions: [
         if (cancelActionText != null)
           OutlinedButton(
-            child: JHDisplayText(
-              text: cancelActionText,
+            child: Text(
+              cancelActionText,
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             onPressed: () => Navigator.of(context).pop(false),
           ),
         OutlinedButton(
           style: OutlinedButton.styleFrom(backgroundColor: Colors.indigo),
-          child: JHDisplayText(
-            text: defaultActionText,
+          child: Text(
+            defaultActionText,
             style: TextStyle(
               color: Theme.of(context).indicatorColor,
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 
 class JHEmptyContent extends StatelessWidget {
   const JHEmptyContent({

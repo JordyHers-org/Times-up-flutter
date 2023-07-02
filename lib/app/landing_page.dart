@@ -1,20 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/app/pages/parent_page.dart';
-import 'package:parental_control/app/pages/set_child_page.dart';
-import 'package:parental_control/common_widgets/jh_loading_widget.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
-import 'package:parental_control/services/shared_preferences.dart';
-import 'package:parental_control/sign_in/sign_in_page.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:times_up_flutter/app/pages/parent_page.dart';
+import 'package:times_up_flutter/app/pages/set_child_page.dart';
+import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/services/geo_locator_service.dart';
+import 'package:times_up_flutter/services/shared_preferences.dart';
+import 'package:times_up_flutter/sign_in/sign_in_page.dart';
 
 enum AppSide { parent, child }
 
 class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
   @override
+  // ignore: library_private_types_in_public_api
   _LandingPageState createState() => _LandingPageState();
 }
 
@@ -28,9 +31,9 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _setFlagParentOrChild() async {
-    var _isParent = await SharedPreference().getParentOrChild();
+    final isParent = await SharedPreference().getParentOrChild();
     setState(() {
-      _isParent ? _side = AppSide.parent : _side = AppSide.child;
+      isParent ? _side = AppSide.parent : _side = AppSide.child;
     });
   }
 
@@ -51,11 +54,9 @@ class _LandingPageState extends State<LandingPage> {
               return _buildParentSide(user, geoService, auth);
             case AppSide.child:
               return _buildChildSide(auth, user, geoService, context);
-            default:
-              return LoadingWidget();
           }
         }
-        return Scaffold(
+        return const Scaffold(
           body: Center(
             child: LoadingWidget(),
           ),
@@ -64,21 +65,18 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Provider<AuthBase> _buildChildSide(
+  Provider<Database> _buildChildSide(
     AuthBase auth,
     User user,
     GeoLocatorService geoService,
     BuildContext context,
   ) {
-    return Provider<AuthBase>(
-      create: (_) => Auth(),
-      child: Provider<Database>(
-        create: (_) => FireStoreDatabase(auth: auth, uid: user.uid),
-        child: FutureProvider(
-          initialData: geoService.getCurrentLocation,
-          create: (context) => geoService.getInitialLocation(),
-          child: SetChildPage.create(context),
-        ),
+    return Provider<Database>(
+      create: (_) => FireStoreDatabase(auth: auth, uid: user.uid),
+      child: FutureProvider(
+        initialData: geoService.getCurrentLocation,
+        create: (context) => geoService.getInitialLocation(),
+        child: SetChildPage.create(context),
       ),
     );
   }
@@ -97,7 +95,6 @@ class _LandingPageState extends State<LandingPage> {
           builder: Builder(
             builder: (context) => ParentPage.create(context, auth),
           ),
-          autoPlay: false,
         ),
       ),
     );

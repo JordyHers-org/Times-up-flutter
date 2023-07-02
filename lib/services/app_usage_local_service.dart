@@ -1,16 +1,15 @@
-//
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' show Platform;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:parental_control/app/helpers/parsing_extension.dart';
+import 'package:installed_apps/installed_apps.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
 
-/// Custom Exception for the plugin,
-/// thrown whenever the plugin is used on platforms other than Android
 class AppUsageException implements Exception {
-  final String _cause;
-
   AppUsageException(this._cause);
+  final String _cause;
 
   @override
   String toString() {
@@ -19,56 +18,59 @@ class AppUsageException implements Exception {
 }
 
 class AppUsageInfo {
-  late String _packageName, _appName;
-  late Duration _usage;
-  var _startDate, _endDate;
-
   AppUsageInfo(
     String name,
     double usageInSeconds,
     this._startDate,
-    this._endDate,
-  ) {
-    var tokens = name.split('.');
+    this._endDate, {
+    Uint8List? appIcon,
+  }) {
+    final tokens = name.split('.');
     _packageName = name;
     _appName = tokens.last;
     _usage = Duration(seconds: usageInSeconds.toInt());
+    _appIcon = appIcon;
   }
 
   factory AppUsageInfo.fromMap(Map<String, dynamic> data) => AppUsageInfo(
-        data['appName'],
+        data['appName'] as String,
         data['usage'].toString().p(),
         data['startDate'],
         data['endDate'],
+        appIcon: base64Decode(data['appIcon'] as String),
       );
+  late String _packageName;
+  late String _appName;
+  late Uint8List? _appIcon;
+  late Duration _usage;
+  dynamic _startDate;
+  dynamic _endDate;
 
   Map<String, dynamic> toMap() => {
         'appName': _appName,
         'usage': _usage.toString(),
         'startDate': _startDate,
         'endDate': _endDate,
+        'appIcon': base64Encode(_appIcon!),
       };
 
-  /// The name of the application
   String get appName => _appName;
 
-  /// The name of the application package
   String get packageName => _packageName;
 
-  /// The amount of time the application has been used
-  /// in the specified interval
   Duration get usage => _usage;
 
-  /// The start of the interval
-  DateTime get startDate => _startDate;
+  DateTime get startDate => _startDate as DateTime;
 
-  /// The end of the interval
-  DateTime get endDate => _endDate;
+  DateTime get endDate => _endDate as DateTime;
+
+  Uint8List? get appIcon => _appIcon;
 
   @override
   String toString() {
     return 'App Usage: $packageName - $appName, '
-        'duration: $usage [$startDate, $endDate]';
+        'duration: $usage [${Timestamp.fromDate(startDate)},'
+        ' ${Timestamp.fromDate(endDate)}]';
   }
 }
 
@@ -82,24 +84,25 @@ class AppUsage {
     required bool useMock,
   }) async {
     if (Platform.isAndroid || useMock) {
-      /// Convert dates to ms since epoch
-      var end = endDate.millisecondsSinceEpoch;
-      var start = startDate.millisecondsSinceEpoch;
+      final end = endDate.millisecondsSinceEpoch;
+      final start = startDate.millisecondsSinceEpoch;
+      final interval = <String, int>{'start': start, 'end': end};
+      final usage = await _methodChannel.invokeMethod('getUsage', interval)
+          as Map<dynamic, dynamic>;
+      final appInfo = await InstalledApps.getInstalledApps(
+        true,
+        true,
+      );
 
-      /// Set parameters
-      var interval = <String, int>{'start': start, 'end': end};
+      final result = <AppUsageInfo>[];
+      final listApps = <AppUsageInfo>[];
 
-      /// Get result and parse it as a Map of <String, double>
-      var usage = await _methodChannel.invokeMethod('getUsage', interval);
-
-      // Convert to list of AppUsageInfo
-      var result = <AppUsageInfo>[];
-      for (String key in usage.keys) {
-        var temp = List<double>.from(usage[key]);
+      for (final key in usage.keys) {
+        final temp = List<double>.from(usage[key] as Iterable<dynamic>);
         if (temp[0] > 0) {
           result.add(
             AppUsageInfo(
-              key,
+              key.toString(),
               temp[0],
               DateTime.fromMillisecondsSinceEpoch(temp[1].round() * 1000),
               DateTime.fromMillisecondsSinceEpoch(temp[2].round() * 1000),
@@ -108,7 +111,23 @@ class AppUsage {
         }
       }
 
-      return result;
+      for (final app in appInfo) {
+        for (final element in result) {
+          if (element.packageName.contains(app.packageName!)) {
+            listApps.add(
+              AppUsageInfo(
+                app.name!,
+                element.usage.inMilliseconds.toDouble(),
+                element.startDate,
+                element.endDate,
+                appIcon: app.icon,
+              ),
+            );
+          }
+        }
+      }
+
+      return listApps;
     }
     throw AppUsageException('AppUsage API exclusively available on Android!');
   }
