@@ -31,8 +31,11 @@ abstract class Database {
   );
 
   Future<ChildModel> getUserCurrentChild(
-      String name, String key, GeoPoint latLong,
-      {String? battery});
+    String name,
+    String key,
+    GeoPoint latLong, {
+    String? battery,
+  });
 }
 
 class FireStoreDatabase implements Database {
