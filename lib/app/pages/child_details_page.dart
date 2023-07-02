@@ -154,8 +154,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           ),
                         ),
                       ).p4,
-                      const JHBatteryWidget(
-                        level: 1,
+                      JHBatteryWidget(
+                        level: double.parse(model.batteryLevel ?? '0.0') / 100,
                       ).p4,
                     ],
                   ).p16,

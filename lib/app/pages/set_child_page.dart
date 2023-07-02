@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions, library_private_types_in_public_api, lines_longer_than_80_chars
 
+import 'package:battery_plus/battery_plus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,11 +46,13 @@ class _SetChildPageState extends State<SetChildPage> {
     final database = Provider.of<Database>(context, listen: false);
     final geo = Provider.of<GeoLocatorService>(context, listen: false);
     final position = await geo.getInitialLocation();
+    final battery = await Battery().batteryLevel;
     try {
       final response = await database.getUserCurrentChild(
         name,
         key,
         GeoPoint(position.latitude, position.longitude),
+        battery: battery.toString(),
       );
       JHLogger.$.d('RESPONSE : $response');
       try {
