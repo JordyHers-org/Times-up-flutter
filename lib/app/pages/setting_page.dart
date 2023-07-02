@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_any_logo/flutter_logo.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
@@ -114,12 +115,9 @@ class SettingsPage extends StatelessWidget {
                 ),
                 buildItems(context),
                 ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.contact_support_sharp),
-                    onPressed: () {},
-                  ),
+                  trailing: AnyLogo.tech.jordyHers.image(height: 25),
                   title: JHDisplayText(
-                    text: 'Copyright© JordyHers',
+                    text: 'Copyright© Jordyhers',
                     style:
                         TextStyle(color: CustomColors.indigoDark, fontSize: 12),
                   ),
