@@ -20,6 +20,7 @@ import 'package:times_up_flutter/common_widgets/jh_info_row_widget.dart';
 import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
 import 'package:times_up_flutter/common_widgets/jh_summary_tile.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/l10n/l10n.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/services/api_path.dart';
 import 'package:times_up_flutter/services/app_usage_service.dart';
@@ -158,7 +159,7 @@ class _ParentPageState extends State<ParentPage>
                         const SizedBox.shrink()
                       else
                         JHDisplayText(
-                          text: 'Welcome',
+                          text: AppLocalizations.of(context).welcome,
                           style: TextStyle(
                             color: CustomColors.indigoDark,
                             fontWeight: FontWeight.w900,
@@ -169,7 +170,8 @@ class _ParentPageState extends State<ParentPage>
                         child: Showcase(
                           key: _settingsKey,
                           textColor: Colors.indigo,
-                          description: 'change the settings here',
+                          description: AppLocalizations.of(context)
+                              .changeTheSettingsHere,
                           child: const CircleAvatar(
                             child: Icon(Icons.person),
                           ),
@@ -186,7 +188,7 @@ class _ParentPageState extends State<ParentPage>
               floatingActionButton: Showcase(
                 key: _addKey,
                 textColor: Colors.indigo,
-                description: 'Add a new child here ',
+                description: AppLocalizations.of(context).addNewChildHere,
                 child: FloatingActionButton(
                   onPressed: () => EditChildPage.show(
                     context,

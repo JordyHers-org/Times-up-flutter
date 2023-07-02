@@ -1,7 +1,7 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
+    "welcome": "Welcome",
+    "changeTheSettingsHere": "change the settings here",
+    "addNewChildHere": "Add a new child here "
+
 }

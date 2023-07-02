@@ -1,7 +1,8 @@
 {
     "@@locale": "es",
-    "counterAppBarTitle": "Contador",
-    "@counterAppBarTitle": {
-        "description": "Texto mostrado en la AppBar de la página del contador"
-    }
+    "welcome": "Hola !",
+    "changeTheSettingsHere": "Cambiar la configuración aquí",
+    "addNewChildHere": "Añadir un nuevo niño[a] aquí"
+
+
 }

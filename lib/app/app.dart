@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:times_up_flutter/app/config/screencontroller_config.dart';
+import 'package:times_up_flutter/l10n/l10n.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/utils/app_strings.dart';
 
@@ -18,6 +19,8 @@ class _TimesUpAppState extends State<TimesUpApp> with WidgetsBindingObserver {
       title: Strings.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: const ScreensController(),
     );
   }
