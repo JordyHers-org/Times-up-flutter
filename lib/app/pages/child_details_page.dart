@@ -145,7 +145,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                         },
                         onDoubleTap: () async {
                           await Share.share(
-                            "${AppLocalizations.of(context).enterThisCodeOnChildDevice}  \n${model.id}",
+                            '${AppLocalizations.of(context).enterThisCodeOnChildDevice}'
+                            ' \n${model.id}',
                           );
                         },
                         child: JHDisplayText(
