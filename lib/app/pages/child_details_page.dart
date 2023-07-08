@@ -122,8 +122,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               SliverList(
                 delegate: SliverChildListDelegate([
                   HeaderWidget(
-                    title: AppLocalizations.of(context)
-                        .enterThisCodeOnTheChildDevice,
+                    title: AppLocalizations.of(context).enterThisCode,
                     subtitle: AppLocalizations.of(context)
                         .longPressToCopyOrDoubleTapToShare,
                   ),
