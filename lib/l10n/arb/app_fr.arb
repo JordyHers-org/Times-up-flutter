@@ -2,6 +2,10 @@
   "@@locale": "fr",
   "welcome": "Bienvenue",
   "changeTheSettingsHere": "Modifier les paramètres ici",
-  "addNewChildHere": "Ajoute un enfant ici"
-
+  "addNewChildHere": "Ajoute un enfant ici",
+  "operationFailed": "Operation failed",
+  "enterThisCodeOnTheChildDevice": "Enter this code on the child's device",
+  "longPressToCopyOrDoubleTapToShare": "Long press to copy or double tap to share",
+  "enterThisCodeOnChildDevice": "Enter this code on child's device: ",
+  "sendNotificationToYourChildDevice": "Send notifications to your Child's device"
 }
