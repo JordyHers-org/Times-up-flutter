@@ -134,8 +134,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           Clipboard.setData(
                             ClipboardData(text: model.id),
                           ).then((value) {
-                            const snackBar = SnackBar(
-                              content: Text('Code Copied!'),
+                            final snackBar = SnackBar(
+                              content:
+                                  Text(AppLocalizations.of(context).copyText),
                             );
 
                             ScaffoldMessenger.of(context)
