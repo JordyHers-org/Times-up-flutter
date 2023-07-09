@@ -51,6 +51,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "737237983254-5p83n6ae8t89foqbj4rarar2ua0raacn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hershel.parental_control",
+            "certificate_hash": "5503c1c8230c25450ee26a3d38550423368e2134"
+          }
+        },
+        {
           "client_id": "737237983254-683he00o55lqf7dfit86cc0ei68nsg1k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
