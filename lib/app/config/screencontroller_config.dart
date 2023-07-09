@@ -18,15 +18,15 @@ class ScreensController extends StatefulWidget {
 }
 
 class _ScreensControllerState extends State<ScreensController> {
-  bool? _isVisited;
+  bool? _hasVisited;
 
   Future<void> _setFlagValue() async {
     final isVisited = await SharedPreference().getVisitingFlag();
     setState(() {
-      _isVisited = isVisited;
+      _hasVisited = isVisited;
     });
   }
-
+  
   @override
   void initState() {
     _setFlagValue();
@@ -38,9 +38,9 @@ class _ScreensControllerState extends State<ScreensController> {
     return Scaffold(
       body: Stack(
         children: [
-          if (_isVisited == null)
+          if (_hasVisited == null)
             const CircularProgressIndicator()
-          else if (_isVisited!)
+          else if (_hasVisited!)
             const LandingPage()
           else
             const SplashScreen(),
