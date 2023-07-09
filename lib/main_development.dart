@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:times_up_flutter/app/app.dart';
 import 'package:times_up_flutter/bootstrap.dart';
 import 'package:times_up_flutter/firebase_options_dev.dart';
@@ -10,12 +11,13 @@ import 'package:times_up_flutter/services/app_usage_service.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
 import 'package:times_up_flutter/services/notification_service.dart';
+import 'package:times_up_flutter/services/internet_connectivity_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   await bootstrap(
     () => MultiProvider(
       providers: [
@@ -26,6 +28,11 @@ Future<void> main() async {
         ),
         Provider<NotificationService>(
           create: (context) => NotificationService(),
+        ),
+        ChangeNotifierProvider<InternetConnectivityService>(
+          create: (context) => InternetConnectivityService()
+            ..checkConnectionStatus()
+            ..getInitialConnectionStatus(),
         ),
       ],
       child: const TimesUpApp(),

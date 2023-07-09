@@ -1,15 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:internet_connectivity_checker/internet_connectivity_checker.dart';
-import 'package:parental_control/app/splash/splash_screen.dart';
-import 'package:parental_control/services/internet_service.dart';
-import 'package:parental_control/services/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/common_widgets/jh_internet_connection_widget.dart';
+import 'package:times_up_flutter/services/internet_connectivity_service.dart';
 
-import '../../main.dart';
+import '../../services/shared_preferences.dart';
 import '../landing_page.dart';
+import '../splash/splash_screen.dart';
 
 // ignore: must_be_immutable
 class ScreensController extends StatefulWidget {
@@ -22,12 +19,11 @@ class ScreensController extends StatefulWidget {
 
 class _ScreensControllerState extends State<ScreensController> {
   bool? _isVisited;
-  bool? isInternetConnected;
 
   Future<void> _setFlagValue() async {
     final isVisited = await SharedPreference().getVisitingFlag();
     setState(() {
-      _hasVisited = isVisited;
+      _isVisited = isVisited;
     });
   }
 
@@ -35,38 +31,30 @@ class _ScreensControllerState extends State<ScreensController> {
   void initState() {
     _setFlagValue();
     super.initState();
-    final internet = Provider.of<InternetService>(context, listen: false);
-
-    if (internet.isInternetConnected != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-              'Internet is ${Provider.of<InternetService>(context, listen: false).isInternetConnected! ? 'online' : 'offline'}'),
-        ),
-      );
-    }
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<InternetService>(context, listen: false)
-                      .isInternetConnected !=
-                  null &&
-              true
-          ? ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.green,
-                content: Text(
-                    'Internet is ${Provider.of<InternetService>(context, listen: false).isInternetConnected! ? 'online' : 'offline'}'),
-              ),
-            )
-          : null;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return _isVisited == null
-        ? CircularProgressIndicator()
-        : _isVisited!
-            ? LandingPage()
-            : SplashScreen();
+    return Scaffold(
+      body: Stack(
+        children: [
+          if (_isVisited == null)
+            const CircularProgressIndicator()
+          else if (_isVisited!)
+            const LandingPage()
+          else
+            const SplashScreen(),
+          Consumer<InternetConnectivityService>(builder: (_, value, __) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 32),
+              alignment: Alignment.bottomCenter,
+              child: JHInternetConnectionWidget(
+                internetConnected: value.isInternetConnected,
+              ),
+            );
+          }),
+        ],
+      ),
+    );
   }
 }
