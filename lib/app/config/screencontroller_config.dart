@@ -1,11 +1,13 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/app/landing_page.dart';
 import 'package:times_up_flutter/common_widgets/jh_internet_connection_widget.dart';
 import 'package:times_up_flutter/services/internet_connectivity_service.dart';
+import 'package:times_up_flutter/services/shared_preferences.dart';
 
-import '../../services/shared_preferences.dart';
-import '../landing_page.dart';
+// ignore: always_use_package_imports
 import '../splash/splash_screen.dart';
 
 // ignore: must_be_immutable
@@ -26,7 +28,7 @@ class _ScreensControllerState extends State<ScreensController> {
       _hasVisited = isVisited;
     });
   }
-  
+
   @override
   void initState() {
     _setFlagValue();
@@ -44,15 +46,17 @@ class _ScreensControllerState extends State<ScreensController> {
             const LandingPage()
           else
             const SplashScreen(),
-          Consumer<InternetConnectivityService>(builder: (_, value, __) {
-            return Container(
-              margin: const EdgeInsets.only(bottom: 32),
-              alignment: Alignment.bottomCenter,
-              child: JHInternetConnectionWidget(
-                internetConnected: value.isInternetConnected,
-              ),
-            );
-          }),
+          Consumer<InternetConnectivityService>(
+            builder: (_, value, __) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: 32),
+                alignment: Alignment.bottomCenter,
+                child: JHInternetConnectionWidget(
+                  internetConnected: value.isInternetConnected,
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

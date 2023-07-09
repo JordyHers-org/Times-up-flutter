@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:provider/provider.dart';
 
 class InternetConnectivityService extends ChangeNotifier {
   bool? isInternetConnected = true;
@@ -11,7 +9,7 @@ class InternetConnectivityService extends ChangeNotifier {
   late StreamSubscription<InternetConnectionStatus> connectivityStream;
   InternetConnectionChecker internetConnectionChecker =
       InternetConnectionChecker();
-      
+
   final Duration backOnlineDuration = const Duration(seconds: 2);
 
   Future<void> getInitialConnectionStatus() async {
