@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:parental_control/common_widgets/custom_raised_button.dart';
-import 'package:parental_control/theme/theme.dart';
+import 'package:times_up_flutter/common_widgets/jh_custom_raised_button.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
-class SignInButton extends CustomRaisedButton {
-  SignInButton(
-      {required String text,
-      Color? color,
-      Color? textColor,
-      VoidCallback? onPressed,
-      Key? key})
-      : super(
-            child: Text(
-              text,
-              style: TextStyle(color: textColor, fontSize: 15.0),
-            ),
-            color: color ?? CustomColors.indigoLight,
-            onPressed: onPressed ?? () {});
+class SignInButton extends JHCustomRaisedButton {
+  SignInButton({
+    required String text,
+    Key? key,
+    Color? color,
+    Color? textColor,
+    VoidCallback? onPressed,
+  }) : super(
+          key: key,
+          child: JHDisplayText(
+            text: text,
+            style: TextStyle(color: textColor, fontSize: 15),
+          ),
+          color: color ?? CustomColors.indigoLight,
+          onPressed: onPressed ?? () {},
+        );
 }

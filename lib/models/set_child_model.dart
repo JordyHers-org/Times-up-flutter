@@ -1,4 +1,4 @@
-import 'package:parental_control/sign_in/validators.dart';
+import 'package:times_up_flutter/sign_in/validators.dart';
 
 class SetChildModel with EmailAndPasswordValidators {
   SetChildModel({
@@ -10,13 +10,12 @@ class SetChildModel with EmailAndPasswordValidators {
   final String email;
 
   SetChildModel copyWith({
-    required String name,
-    required String email,
+    required String? name,
+    required String? email,
   }) {
     return SetChildModel(
       email: email ?? this.email,
       name: name ?? this.name,
     );
   }
-// model.copyWith(email:email)
 }

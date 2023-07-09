@@ -1,3 +1,5 @@
+// ignore_for_file: one_member_abstracts
+
 abstract class StringValidator {
   bool isValid(String value);
 }
@@ -12,7 +14,7 @@ class NonEmptyStringValidator implements StringValidator {
   }
 }
 
-class EmailAndPasswordValidators {
+mixin EmailAndPasswordValidators {
   final StringValidator emailValidator = NonEmptyStringValidator();
   final StringValidator passwordValidator = NonEmptyStringValidator();
   final StringValidator nameValidator = NonEmptyStringValidator();

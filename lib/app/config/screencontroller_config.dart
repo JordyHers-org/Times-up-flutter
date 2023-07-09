@@ -13,7 +13,10 @@ import '../landing_page.dart';
 
 // ignore: must_be_immutable
 class ScreensController extends StatefulWidget {
+  const ScreensController({Key? key}) : super(key: key);
+
   @override
+  // ignore: library_private_types_in_public_api
   _ScreensControllerState createState() => _ScreensControllerState();
 }
 
@@ -21,12 +24,10 @@ class _ScreensControllerState extends State<ScreensController> {
   bool? _isVisited;
   bool? isInternetConnected;
 
-  ///_setFlagValue for the user when he entered the app
-  ///To Display a Splash Screen
   Future<void> _setFlagValue() async {
-    var isVisited = await SharedPreference().getVisitingFlag();
+    final isVisited = await SharedPreference().getVisitingFlag();
     setState(() {
-      _isVisited = isVisited;
+      _hasVisited = isVisited;
     });
   }
 

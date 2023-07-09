@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/services/auth.dart';
+import 'package:times_up_flutter/services/auth.dart';
 
 class SignInManager {
   SignInManager({required this.auth, required this.isLoading});
@@ -20,11 +20,9 @@ class SignInManager {
     }
   }
 
-  Future<User> signInAnonymously() async =>
-      await _signIn(auth.signInAnonymously);
+  Future<User> signInAnonymously() async => _signIn(auth.signInAnonymously);
 
-  Future<User> signInWithGoogle() async => await _signIn(auth.signInWithGoogle);
+  Future<User> signInWithGoogle() async => _signIn(auth.signInWithGoogle);
 
-  Future<User> signInWithFacebook() async =>
-      await _signIn(auth.signInWithFacebook);
+  Future<User> signInWithFacebook() async => _signIn(auth.signInWithFacebook);
 }

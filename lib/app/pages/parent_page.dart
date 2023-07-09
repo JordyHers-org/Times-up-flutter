@@ -1,49 +1,77 @@
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:parental_control/app/config/geo_full.dart';
-import 'package:parental_control/app/config/geo_location.dart';
-import 'package:parental_control/app/pages/child_details_page.dart';
-import 'package:parental_control/app/pages/edit_child_page.dart';
-import 'package:parental_control/app/pages/notification_page.dart';
-import 'package:parental_control/app/pages/setting_page.dart';
-import 'package:parental_control/common_widgets/child_horizontal_view.dart';
-import 'package:parental_control/common_widgets/empty_content.dart';
-import 'package:parental_control/common_widgets/feature_widget.dart';
-import 'package:parental_control/common_widgets/loading_map.dart';
-import 'package:parental_control/models/child_model.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
-import 'package:parental_control/services/notification_service.dart';
-import 'package:parental_control/services/shared_preferences.dart';
-import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:times_up_flutter/app/config/geo_full.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/app/pages/child_details_page.dart';
+import 'package:times_up_flutter/app/pages/edit_child_page.dart';
+import 'package:times_up_flutter/app/pages/notification_page.dart';
+import 'package:times_up_flutter/app/pages/setting_page.dart';
+import 'package:times_up_flutter/common_widgets/child_horizontal_view.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
+import 'package:times_up_flutter/common_widgets/jh_header.dart';
+import 'package:times_up_flutter/common_widgets/jh_header_widget.dart';
+import 'package:times_up_flutter/common_widgets/jh_info_row_widget.dart';
+import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
+import 'package:times_up_flutter/common_widgets/jh_summary_tile.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/services/api_path.dart';
+import 'package:times_up_flutter/services/app_usage_service.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/services/geo_locator_service.dart';
+import 'package:times_up_flutter/services/notification_service.dart';
+import 'package:times_up_flutter/services/shared_preferences.dart';
+import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/utils/data.dart';
 
-enum MapScreenState { Full, Small }
+typedef ValueList = List<Map<String, dynamic>>;
 
 class ParentPage extends StatefulWidget {
-  const ParentPage({Key? key, this.auth}) : super(key: key);
+  const ParentPage({
+    required this.auth,
+    required this.geo,
+    required this.database,
+    required this.appUsage,
+    Key? key,
+  }) : super(key: key);
 
-  final AuthBase? auth;
+  final AuthBase auth;
+  final GeoLocatorService geo;
+  final Database database;
+  final AppUsageService? appUsage;
+
   static Widget create(BuildContext context, AuthBase auth) {
-    return ParentPage(auth: auth);
+    final database = Provider.of<Database>(context, listen: false);
+    final geo = Provider.of<GeoLocatorService>(context, listen: false);
+    final appUsage = Provider.of<AppUsageService>(context, listen: false);
+
+    return ParentPage(
+      auth: auth,
+      database: database,
+      geo: geo,
+      appUsage: appUsage,
+    );
   }
 
   @override
   _ParentPageState createState() => _ParentPageState();
 }
 
-class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateMixin {
-  late Geo geo;
-
-  ///  Variables
-  late TabController _tabController;
+class _ParentPageState extends State<ParentPage>
+    with SingleTickerProviderStateMixin {
+  int currentIndex = 0;
+  Duration _averageUsage = const Duration(seconds: 1);
+  late ScrollController _scrollController;
+  late ValueList values = <Map<String, dynamic>>[];
   late bool _isShowCaseActivated;
-  late GeoLocatorService geoService;
-  MapScreenState mapScreenState = MapScreenState.Small;
 
-  /// Here we declare the GlobalKeys to enable Showcase
   final GlobalKey _settingsKey = GlobalKey();
   final GlobalKey _childListKey = GlobalKey();
   final GlobalKey _addKey = GlobalKey();
@@ -51,225 +79,227 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    geoService = Provider.of<GeoLocatorService>(context, listen: false);
-    _tabController = TabController(length: 2, vsync: this);
+    _getAverageUsage();
+    _getAllChildLocations();
     _setShowCaseView();
+    _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     super.dispose();
-    _tabController.dispose();
-  }
-
-  /// This function takes care of the ShowCase logic
-  Future<void> _setShowCaseView() async {
-    var isVisited = await SharedPreference().getDisplayShowCase();
-    setState(() {
-      _isShowCaseActivated = isVisited;
-      SharedPreference().setDisplayShowCase();
-    });
-
-    _isShowCaseActivated == false
-        ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) => ShowCaseWidget.of(context).startShowCase([_settingsKey, _childListKey, _addKey]))
-        : null;
   }
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    final database = Provider.of<Database>(context, listen: false);
-
-    return mapScreenState == MapScreenState.Small
-        ? Scaffold(
-            body: _buildParentPageContent(context, auth, database),
-            floatingActionButton: Showcase(
-              key: _addKey,
-              textColor: Colors.indigo,
-              description: 'Add a new child here ',
-              child: FloatingActionButton(
-                onPressed: () => EditChildPage.show(context, database: Provider.of<Database>(context, listen: false)),
-                child: const Icon(Icons.add),
-              ),
-            ),
-          )
-        : _buildMapFullScreen(database);
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: _setIndex,
+        items: BottomNavigationData.items.values.toList(),
+      ),
+      body: _buildParentPageContent(context, widget.auth, widget.database),
+    );
   }
 
-  Widget _buildParentPageContent(BuildContext context, AuthBase auth, Database database) {
-    return NestedScrollView(
-      headerSliverBuilder: (context, value) {
-        return [
-          SliverAppBar(
-            backgroundColor: CustomColors.indigoDark,
-            expandedHeight: MediaQuery.of(context).size.height * 0.12,
-            shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Time's Up",
-                  style: TextStyle(fontWeight: FontWeight.w800, color: CustomColors.indigoLight, fontSize: 22),
-                ),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(side: BorderSide.none),
-                  onPressed: () => SettingsPage.show(context, auth),
-                  child: Showcase(
-                    key: _settingsKey,
-                    textColor: Colors.indigo,
-                    description: 'change the settings here',
-                    showArrow: true,
-                    child: Icon(
-                      Icons.settings,
-                      color: Colors.white,
+  Widget _buildParentPageContent(
+    BuildContext context,
+    AuthBase auth,
+    Database database,
+  ) {
+    final children = <Widget>[
+      _buildDashboard(database, auth),
+      _buildNotificationPage(auth),
+      _buildMapFullScreen(database, auth),
+    ];
+    return children[currentIndex];
+  }
+
+  Widget _buildNotificationPage(AuthBase auth) {
+    return Provider<NotificationService>(
+      create: (_) => NotificationService(),
+      builder: (context, __) {
+        return NotificationPage.create(context, auth);
+      },
+    );
+  }
+
+  Widget _buildDashboard(Database database, AuthBase auth) {
+    return StreamBuilder<List<ChildModel?>>(
+      stream: database.childrenStream(),
+      builder: (context, AsyncSnapshot<List<ChildModel?>> snapshot) {
+        final data = snapshot.data;
+
+        if (snapshot.hasData) {
+          return NestedScrollView(
+            controller: _scrollController,
+            headerSliverBuilder: (context, value) {
+              return [
+                SliverAppBar(
+                  elevation: 0.5,
+                  shadowColor: CustomColors.indigoLight,
+                  toolbarHeight: value ? 75 : 90,
+                  flexibleSpace:
+                      !value ? const JHHeader().hP16 : const SizedBox.shrink(),
+                  backgroundColor: Colors.white,
+                  expandedHeight: !value ? 120 : 100,
+                  shape: ContinuousRectangleBorder(
+                    side: BorderSide(
+                      color: !value
+                          ? Colors.white
+                          : CustomColors.indigoLight.withOpacity(0.5),
                     ),
                   ),
-                )
-              ],
-            ),
-            pinned: true,
-            floating: true,
-            bottom: TabBar(
-              indicatorPadding: EdgeInsets.all(4.0),
-              physics: BouncingScrollPhysics(),
-              controller: _tabController,
-              // give the indicator a decoration (color and border radius)
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.white,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (!value)
+                        const SizedBox.shrink()
+                      else
+                        JHDisplayText(
+                          text: 'Welcome',
+                          style: TextStyle(
+                            color: CustomColors.indigoDark,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      GestureDetector(
+                        onTap: () => SettingsPage.show(context, auth),
+                        child: Showcase(
+                          key: _settingsKey,
+                          textColor: Colors.indigo,
+                          description: 'change the settings here',
+                          child: const CircleAvatar(
+                            child: Icon(Icons.person),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  pinned: true,
+                  floating: true,
+                ),
+              ];
+            },
+            body: Scaffold(
+              floatingActionButton: Showcase(
+                key: _addKey,
+                textColor: Colors.indigo,
+                description: 'Add a new child here ',
+                child: FloatingActionButton(
+                  onPressed: () => EditChildPage.show(
+                    context,
+                    database: Provider.of<Database>(context, listen: false),
+                  ),
+                  backgroundColor: CustomColors.indigoLight,
+                  child: const Icon(Icons.add),
+                ),
               ),
-
-              labelColor: Colors.indigo,
-              unselectedLabelColor: Colors.white,
-              tabs: [
-                // first tab [you can add an icon using the icon property]
-                Tab(
-                  text: 'Control',
-                ),
-
-                // second tab [you can add an icon using the icon property]
-                Tab(
-                  text: 'Notifications',
-                ),
-              ],
-            ),
-          ),
-        ];
-      },
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          /// Tab bar view here
-          Expanded(
-            child: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: _tabController,
-              children: [
-                // first tab bar view widget
-                CustomScrollView(
-                  physics: BouncingScrollPhysics(),
+              body: ScrollConfiguration(
+                behavior: const ScrollBehavior().copyWith(overscroll: false),
+                child: CustomScrollView(
                   slivers: <Widget>[
                     SliverList(
                       delegate: SliverChildListDelegate(
                         [
-                          ListTile(
-                            title: Text(
-                              'My Children',
-                              style: TextStyle(color: Colors.indigo),
-                            ),
-                            subtitle: Text(
-                              'Choose child to get more infos - scroll right ',
-                              style: TextStyle(color: Colors.grey.shade400),
-                            ),
-                            trailing: Icon(
-                              Icons.info_outline_rounded,
-                              color: Colors.deepOrangeAccent.shade100,
+                          HeaderWidget(
+                            title: 'My Children',
+                            subtitle:
+                                'Choose child to get more info - scroll right ',
+                            trailing: IconButton(
+                              icon: const Icon(Icons.info_outline),
+                              onPressed: _startShowCase,
                             ),
                           ).p8,
-                          SizedBox(height: 3),
                           _buildChildrenList(database),
-                          _header(),
-                          Container(
-                            margin: EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              color: Colors.black.withOpacity(0.14),
-                            ),
-                            child: GestureDetector(
-                              onLongPress: () => setState(() {
-                                mapScreenState = MapScreenState.Full;
-                              }),
-                              child: Consumer<Position?>(builder: (_, position, __) {
-                                return (position != null) ? Geo(position, database) : LoadingMap();
-                              }),
-                            ),
+                          const HeaderWidget(
+                            title: 'Get to see our child live app usage',
+                            subtitle: 'Click on it to have the full report',
+                          ).p8,
+                          JHSummaryTile(
+                            title: formatDateTime(DateTime.now()),
+                            time: data != null && data.isNotEmpty
+                                ? _averageUsage.toString().t()
+                                : '0h 0m',
+                            progressValue: data != null && data.isNotEmpty
+                                ? calculatePercentage(_averageUsage)
+                                : 0,
                           ),
-                          const SizedBox(height: 8),
-                          FeatureWidget(
-                            title: '-- 00 h:00 min --',
-                            icon: Icons.access_alarm,
-                          ),
+                          const HeaderWidget(
+                            title: 'Information Section',
+                            subtitle: 'Get tips on how to use the app.',
+                          ).p8,
+                          JHInfoRow(
+                            icon_1: Icons.auto_graph_outlined,
+                            icon_2: Icons.message_outlined,
+                            text_1: MockData.text_1,
+                            text_2: MockData.text_2,
+                          ).p4,
+                          JHInfoRow(
+                            icon_1: Icons.lightbulb_rounded,
+                            icon_2: Icons.volume_up_outlined,
+                            text_1: MockData.text_3,
+                            text_2: MockData.text_4,
+                          ).p4,
+                          Image.asset('images/png/home_page.png').p4,
                         ],
                       ),
                     ),
                   ],
                 ),
-
-                Provider<NotificationService>(
-                  create: (_) => NotificationService(),
-                  builder: (context, __) => NotificationPage.create(context, widget.auth!),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
-      ),
+          );
+        }
+        return const LoadingWidget();
+      },
     );
   }
 
   Widget _buildChildrenList(Database database) {
     return Showcase(
       textColor: Colors.indigo,
-      description: 'Tap on the child to display infos',
+      description: 'Tap on the child to display info',
       key: _childListKey,
-      child: Container(
-        decoration: CustomDecoration.withShadowDecoration,
-        height: 160.0,
+      child: SizedBox(
+        height: 165,
         child: StreamBuilder<List<ChildModel?>>(
           stream: database.childrenStream(),
-          builder: (context, AsyncSnapshot snapshot) {
+          builder: (context, AsyncSnapshot<List<ChildModel?>> snapshot) {
             final data = snapshot.data;
             if (snapshot.hasData) {
               if (data != null && data.isNotEmpty) {
                 return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Kids(
-                        image_location: data[index]?.image,
-                        image_caption: data[index]?.name,
-                        onPressed: () => ChildDetailsPage.show(context, data[index]!));
+                      imageLocation: data[index]?.image,
+                      imageCaption: data[index]?.name,
+                      onPressed: () =>
+                          ChildDetailsPage.show(context, data[index]!),
+                    );
                   },
                 );
               } else {
-                return EmptyContent();
+                return const JHEmptyContent(
+                  child: Icon(Icons.info_outline_rounded),
+                );
               }
             } else if (snapshot.hasError) {
-              print(snapshot.error);
-              return EmptyContent(
+              JHLogger.$.e(snapshot.error);
+              return const JHEmptyContent(
                 title: 'Something went wrong ',
-                message: 'Can\'t load items right now',
+                message: "Can't load items right now",
               );
             }
             return ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 3,
               itemBuilder: (context, index) {
-                return Kids(image_location: null, image_caption: null, onPressed: null);
+                return const Kids();
               },
             );
           },
@@ -278,39 +308,64 @@ class _ParentPageState extends State<ParentPage> with SingleTickerProviderStateM
     );
   }
 
-  Widget _header() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 20.0),
-          child: Text(
-            "Follow your child's location ",
-            style: TextStyle(color: CustomColors.indigoLight),
-          ),
-        ),
-        Text(
-          'Long Press the map to open the full screen mode',
-          style: TextStyle(color: CustomColors.greenPrimary),
-        ),
-      ],
-    ).p16;
+  Widget _buildMapFullScreen(Database database, AuthBase auth) {
+    return Consumer<Position?>(
+      builder: (context, position, __) {
+        return position != null
+            ? GeoFull.create(
+                context,
+                position: position,
+                database: database,
+                auth: auth,
+                locations: values,
+              )
+            : const LoadingWidget();
+      },
+    );
   }
 
-  Widget _buildMapFullScreen(database) {
-    return Scaffold(
-      body: Consumer<Position>(builder: (_, position, __) {
-        return (position != null) ? GeoFull(position, database) : Center(child: CircularProgressIndicator());
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            mapScreenState = MapScreenState.Small;
-          });
-        },
-        child: Icon(Icons.arrow_back_ios),
-      ),
+  Future<void> _setShowCaseView() async {
+    final isVisited = await SharedPreference().getDisplayShowCase();
+    setState(() {
+      _isShowCaseActivated = isVisited;
+      SharedPreference().setDisplayShowCase();
+    });
+
+    if (!_isShowCaseActivated) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => ShowCaseWidget.of(context)
+            .startShowCase([_settingsKey, _childListKey, _addKey]),
+      );
+    }
+  }
+
+  Future<void> _getAllChildLocations() async {
+    await FirebaseFirestore.instance
+        .collection(APIPath.children(widget.auth.currentUser!.uid))
+        .get()
+        .then((document) {
+      if (document.docs.isNotEmpty) {
+        for (final element in document.docs) {
+          values.add(element.data());
+        }
+      }
+    });
+  }
+
+  void _setIndex(int value) {
+    setState(() {
+      currentIndex = BottomNavigationData.items.keys.toList()[value];
+    });
+  }
+
+  void _startShowCase() {
+    return ShowCaseWidget.of(context).startShowCase(
+      [_settingsKey, _childListKey, _addKey],
     );
+  }
+
+  Future<void> _getAverageUsage() async {
+    _averageUsage =
+        (await widget.appUsage?.getChildrenAppUsageAverage(widget.database))!;
   }
 }

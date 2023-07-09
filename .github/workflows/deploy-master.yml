@@ -1,0 +1,76 @@
+name: Deploy Master
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: 3.7.12
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Generate
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+  test:
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: 3.7.12
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Generate
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Run Tests
+        run: flutter test
+
+  analyze:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: 3.7.12
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Generate
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Format
+        run:  dart fix --dry-run --apply
+
+      - name: Analyze
+        run: flutter analyze
+
+
+
+

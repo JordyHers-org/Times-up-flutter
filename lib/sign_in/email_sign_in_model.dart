@@ -1,17 +1,18 @@
-import 'package:parental_control/sign_in/validators.dart';
+import 'package:times_up_flutter/sign_in/validators.dart';
 
 /// This enum takes care of the different states of the sign in form
 enum EmailSignInFormType { signIn, register }
 
 class EmailSignInModel with EmailAndPasswordValidators {
-  EmailSignInModel(
-      {this.name = '',
-      this.surname = '',
-      this.email = '',
-      this.password = '',
-      this.formType = EmailSignInFormType.signIn,
-      this.isLoading = false,
-      this.submitted = false});
+  EmailSignInModel({
+    this.name = '',
+    this.surname = '',
+    this.email = '',
+    this.password = '',
+    this.formType = EmailSignInFormType.signIn,
+    this.isLoading = false,
+    this.submitted = false,
+  });
 
   String get primaryButtonText {
     return formType == EmailSignInFormType.signIn
@@ -53,16 +54,15 @@ class EmailSignInModel with EmailAndPasswordValidators {
 
   bool get showErrorTexPassword {
     return submitted && !passwordValidator.isValid(password);
-    ;
   }
 
   final String name;
   final String surname;
   final String email;
   final String password;
-  final EmailSignInFormType formType;
   final bool isLoading;
   final bool submitted;
+  final EmailSignInFormType formType;
 
   EmailSignInModel copyWith({
     String? name,
