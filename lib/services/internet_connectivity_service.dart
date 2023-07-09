@@ -1,25 +1,31 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:provider/provider.dart';
 
 class InternetConnectivityService extends ChangeNotifier {
   bool? isInternetConnected = true;
   bool isDialogVisible = false;
-  Stream<InternetConnectionStatus> connectivityStream =
-      InternetConnectionChecker().onStatusChange;
+  late StreamSubscription<InternetConnectionStatus> connectivityStream;
+  InternetConnectionChecker internetConnectionChecker =
+      InternetConnectionChecker();
+      
+  final Duration backOnlineDuration = const Duration(seconds: 2);
 
   Future<void> getInitialConnectionStatus() async {
-    isInternetConnected = await InternetConnectionChecker().hasConnection;
+    isInternetConnected = await internetConnectionChecker.hasConnection;
     notifyListeners();
   }
 
   Future<void> checkConnectionStatus() async {
-    connectivityStream.listen((event) {
+    connectivityStream =
+        internetConnectionChecker.onStatusChange.listen((event) {
       if (event == InternetConnectionStatus.connected) {
         isInternetConnected = null;
         notifyListeners();
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(backOnlineDuration, () {
           isInternetConnected = true;
           notifyListeners();
         });
@@ -28,5 +34,11 @@ class InternetConnectivityService extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    connectivityStream.cancel();
+    super.dispose();
   }
 }
