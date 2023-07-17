@@ -3,7 +3,6 @@ description: Times up help parent monitor the time their kids spend on screen.
 version: 1.0.0+1
 publish_to: none
 
-
 environment:
   sdk: ">=2.16.0 <3.5.0"
 
@@ -14,9 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
-      sdk: flutter
+    sdk: flutter
   flutter_svg: ^2.0.4
-
 
   # Authentication Packages:
   firebase_auth: ^4.2.2
@@ -33,7 +31,6 @@ dependencies:
   firebase_storage: ^11.1.0
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
-
 
   # Location Packages:
   geolocator: ^9.0.2
@@ -91,8 +88,7 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-      - images/facebook-logo.png
-      - images/google-logo.png
-      - images/splash_svg/
-      - images/png/
-
+    - images/facebook-logo.png
+    - images/google-logo.png
+    - images/splash_svg/
+    - images/png/

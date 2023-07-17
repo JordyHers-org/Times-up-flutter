@@ -76,6 +76,8 @@ Duration sumDurations(List<Duration> durations) {
 }
 
 Duration getMedian(List<Duration> durations) {
+  if (durations.isEmpty) return const Duration(milliseconds: 1000);
+
   durations.sort();
   final length = durations.length;
 
