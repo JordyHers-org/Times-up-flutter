@@ -45,6 +45,8 @@ jobs:
 
       - name: Run Tests
         run: flutter test
+
+      - name:  Test Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
           path: '/coverage/lcov.info'
