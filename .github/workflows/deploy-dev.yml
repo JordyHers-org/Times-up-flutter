@@ -71,6 +71,11 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage.cobertura.xml
+
 
 
 
