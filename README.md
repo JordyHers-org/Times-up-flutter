@@ -56,9 +56,9 @@ Specific ENUMS cases.
 - [share_plus](https://pub.dev/packages/share_plus) for sharing Child's code
 
 ## Contribution
-
-To contribute to the project you can join the discord server:
-Jordyhers https://discord.gg/WaF54U9x
+To have access to fireabse and all necessary credentials and 
+To contribute to the project join the discord server:
+Jordyhers [Discord- JordyHers](https://discord.gg/e4ppDx9Zcy)
 
 
 ## License 
