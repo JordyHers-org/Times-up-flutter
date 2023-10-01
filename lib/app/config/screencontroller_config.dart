@@ -1,8 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:times_up_flutter/app/landing_page.dart';
-import 'package:times_up_flutter/app/splash/splash_screen.dart';
+import 'package:times_up_flutter/common_widgets/jh_internet_connection_widget.dart';
+import 'package:times_up_flutter/services/internet_connectivity_service.dart';
 import 'package:times_up_flutter/services/shared_preferences.dart';
 
+// ignore: always_use_package_imports
+import '../splash/splash_screen.dart';
+
+// ignore: must_be_immutable
 class ScreensController extends StatefulWidget {
   const ScreensController({Key? key}) : super(key: key);
 
@@ -29,13 +37,28 @@ class _ScreensControllerState extends State<ScreensController> {
 
   @override
   Widget build(BuildContext context) {
-    switch (_hasVisited) {
-      case true:
-        return const LandingPage();
-      case false:
-        return const SplashScreen();
-      default:
-        return const CircularProgressIndicator();
-    }
+    return Scaffold(
+      body: Stack(
+        children: [
+          if (_hasVisited == null)
+            const CircularProgressIndicator()
+          else if (_hasVisited!)
+            const LandingPage()
+          else
+            const SplashScreen(),
+          Consumer<InternetConnectivityService>(
+            builder: (_, value, __) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: 32),
+                alignment: Alignment.bottomCenter,
+                child: JHInternetConnectionWidget(
+                  internetConnected: value.isInternetConnected,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
