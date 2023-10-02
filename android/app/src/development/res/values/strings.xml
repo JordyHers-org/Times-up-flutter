@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="facebook_app_id">6746336095484104</string>
-<string name="fb_login_protocol_scheme">fb6746336095484104</string>
-<string name="facebook_client_token">2772de78dadd5b448b905e1f0da26451</string>
-    <!-- <string name="app_name">Parental Control</string>
-    <string name="facebook_app_id">176011390810650</string>
-    <string name="fb_login_protocol_scheme">fb176011390810650</string> -->
+<string name="facebook_app_id">176011390810650</string>
+<string name="fb_login_protocol_scheme">fb176011390810650</string>
+<string name="facebook_client_token">7747884d502137dfa05db2bcb1234f77</string>
 </resources>
