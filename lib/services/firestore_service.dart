@@ -42,6 +42,14 @@ class FireStoreService {
     await reference.set(data);
   }
 
+  Future<void> sendEmail({
+    required String path,
+    required Map<String, dynamic> data,
+  }) async {
+    await FirebaseFirestore.instance.collection(path).doc().set(data);
+    JHLogger.$.d('Welcome email sent to ${data['to']}');
+  }
+
   Future<void> saveToken({
     required String path,
     required Map<String, dynamic> data,
