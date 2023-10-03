@@ -11,7 +11,11 @@ import 'package:times_up_flutter/services/geo_locator_service.dart';
 abstract class Database {
   Future<void> setChild(ChildModel model);
 
-  Future<void> liveUpdateChild(ChildModel model, int tick);
+  Future<void> liveUpdateChild(
+    ChildModel model,
+    int tick,
+    AppUsageService apps,
+  );
 
   Future<void> updateChild(ChildModel model);
 
@@ -33,6 +37,7 @@ abstract class Database {
   Future<ChildModel> getUserCurrentChild(
     String name,
     String key,
+    AppUsageService apps,
     GeoPoint latLong, {
     String? battery,
   });
@@ -51,7 +56,7 @@ class FireStoreDatabase implements Database {
   ChildModel get currentChild => _child!;
 
   final _service = FireStoreService.instance;
-  AppUsageService apps = AppUsageService();
+
   GeoLocatorService geo = GeoLocatorService();
 
   @override
@@ -119,7 +124,8 @@ class FireStoreDatabase implements Database {
       );
 
   @override
-  Future<void> liveUpdateChild(ChildModel model, int value) async {
+  Future<void> liveUpdateChild(
+      ChildModel model, int value, AppUsageService apps) async {
     await apps.getAppUsageService();
     // TODO(jordy): UNCOMMENT THIS TO UPDATE LOCATION
     //var point = await geo.getInitialLocation();
@@ -143,6 +149,7 @@ class FireStoreDatabase implements Database {
   Future<ChildModel> getUserCurrentChild(
     String name,
     String key,
+    AppUsageService apps,
     GeoPoint latLong, {
     String? battery,
   }) async {
