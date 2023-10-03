@@ -87,9 +87,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
           return [
             SliverAppBar(
               actions: [
-                ClipOval(
-                  child: Image.network(model.image!),
-                ).p4
+                if (model.image != null)
+                  ClipOval(
+                    child: Image.network(model.image!),
+                  ).p4
+                else
+                  const SizedBox.shrink()
               ],
               elevation: 0.5,
               shadowColor: CustomColors.indigoLight,
