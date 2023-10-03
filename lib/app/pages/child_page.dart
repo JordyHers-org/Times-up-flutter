@@ -16,9 +16,15 @@ import 'package:times_up_flutter/services/app_usage_service.dart';
 import 'package:times_up_flutter/services/database.dart';
 
 class ChildPage extends StatefulWidget {
-  const ChildPage({Key? key, this.database, this.child}) : super(key: key);
+  const ChildPage({
+    required this.appUsage,
+    Key? key,
+    this.database,
+    this.child,
+  }) : super(key: key);
   final Database? database;
   final ChildModel? child;
+  final AppUsageService appUsage;
 
   static Widget create(
     BuildContext context,
@@ -31,7 +37,11 @@ class ChildPage extends StatefulWidget {
       create: (_) => ChildSideBloc(),
       child: FutureBuilder(
         future: appUsage.getAppUsageService(),
-        builder: (_, snapshot) => ChildPage(database: database, child: child),
+        builder: (_, snapshot) => ChildPage(
+          database: database,
+          child: child,
+          appUsage: appUsage,
+        ),
       ),
     );
   }
@@ -54,14 +64,14 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     Timer.periodic(const Duration(minutes: 5), (timer) {
-      widget.database?.liveUpdateChild(widget.child!, timer.tick);
+      widget.database
+          ?.liveUpdateChild(widget.child!, timer.tick, widget.appUsage);
     });
     super.didChangeAppLifecycleState(state);
   }
 
   @override
   Widget build(BuildContext context) {
-    final appUsage = Provider.of<AppUsageService>(context);
     return Scaffold(
       drawer: Drawer(
         child: Column(
@@ -167,7 +177,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
         centerTitle: true,
       ),
       //ignore: non_null
-      body: appUsage.info.isEmpty
+      body: widget.appUsage.info.isEmpty
           ? const JHEmptyContent(
               title: 'This is the child page',
               message: 'Nothing to show at the moment',
@@ -183,7 +193,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
                   } else if (state is ChildSideNotification) {
                     return _buildNotification();
                   } else if (state is ChildSideAppList) {
-                    return _buildAppList(appUsage);
+                    return _buildAppList(widget.appUsage);
                   } else {
                     return _buildInitialInput(context);
                   }
