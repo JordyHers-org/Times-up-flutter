@@ -309,7 +309,10 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
   }
 
   Future<void> _refresh(
-      ChildModel? model, BuildContext context, Database database) async {
+    ChildModel? model,
+    BuildContext context,
+    Database database,
+  ) async {
     final geo = Provider.of<GeoLocatorService>(context, listen: false);
     final apps = Provider.of<AppUsageService>(context, listen: false);
     final position = await geo.getInitialLocation();

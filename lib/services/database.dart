@@ -183,7 +183,7 @@ class FireStoreDatabase implements Database {
     final token = await auth.setToken();
     await apps.getAppUsageService();
     await setTokenOnFireStore(
-      {'id': user, 'childId': key, 'device_token': '$token'},
+      {'id': user, 'childId': key, 'device_token': token},
     );
 
     String currentChild;
