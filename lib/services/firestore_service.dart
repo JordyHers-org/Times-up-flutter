@@ -60,6 +60,7 @@ class FireStoreService {
     await reference.set(data);
   }
 
+
   Future<void> deleteData({required String path, String? image}) async {
     final reference = FirebaseFirestore.instance.doc(path);
     if (image != null) {

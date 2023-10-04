@@ -1,0 +1,13 @@
+{
+  "@@locale": "tr",
+  "welcome": "Hoş Geldiniz",
+  "changeTheSettingsHere": "Buradaki ayarları değiştir",
+  "addNewChildHere": "Buraya yeni bir çocuk ekleyin",
+  "operationFailed": "Operation failed",
+  "enterThisCode": "Enter this code on the child's device",
+  "longPressToCopyOrDoubleTapToShare": "Long press to copy or double tap to share",
+  "enterThisCodeOnChildDevice": "Enter this code on child's device: ",
+  "sendNotificationToYourChildDevice": "Send notifications to your Child's device",
+  "copyText" : "Code Copied!"
+
+}
