@@ -42,16 +42,6 @@ class FireStoreService {
     await reference.set(data);
   }
 
-  Future<void> saveToken({
-    required String path,
-    required Map<String, dynamic> data,
-  }) async {
-    final reference = FirebaseFirestore.instance.collection(path).doc();
-    JHLogger.$.d('$path: $data');
-
-    await reference.set(data);
-  }
-
   Future<void> deleteData({required String path, String? image}) async {
     final reference = FirebaseFirestore.instance.doc(path);
     if (image != null) {
