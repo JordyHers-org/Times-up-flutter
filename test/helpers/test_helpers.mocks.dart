@@ -10,7 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart'
     as _i14;
 import 'package:firebase_messaging/firebase_messaging.dart' as _i8;
-import 'package:flutter/src/widgets/navigator.dart' as _i15;
+import 'package:flutter/material.dart' as _i15;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i7;
 import 'package:geolocator/geolocator.dart' as _i4;
@@ -444,7 +444,6 @@ class MockDatabase extends _i1.Mock implements _i10.Database {
       ) as _i9.Future<void>);
   @override
   _i9.Future<_i3.ChildModel> getUserCurrentChild(
-    String? name,
     String? key,
     _i11.AppUsageService? apps,
     _i13.GeoPoint? latLong, {
@@ -454,7 +453,6 @@ class MockDatabase extends _i1.Mock implements _i10.Database {
         Invocation.method(
           #getUserCurrentChild,
           [
-            name,
             key,
             apps,
             latLong,
@@ -466,7 +464,6 @@ class MockDatabase extends _i1.Mock implements _i10.Database {
           Invocation.method(
             #getUserCurrentChild,
             [
-              name,
               key,
               apps,
               latLong,
@@ -480,7 +477,6 @@ class MockDatabase extends _i1.Mock implements _i10.Database {
           Invocation.method(
             #getUserCurrentChild,
             [
-              name,
               key,
               apps,
               latLong,
@@ -1325,7 +1321,6 @@ class MockFireStoreDatabase extends _i1.Mock implements _i10.FireStoreDatabase {
       ) as _i9.Future<void>);
   @override
   _i9.Future<_i3.ChildModel> getUserCurrentChild(
-    String? name,
     String? key,
     _i11.AppUsageService? apps,
     _i13.GeoPoint? latLong, {
@@ -1335,7 +1330,6 @@ class MockFireStoreDatabase extends _i1.Mock implements _i10.FireStoreDatabase {
         Invocation.method(
           #getUserCurrentChild,
           [
-            name,
             key,
             apps,
             latLong,
@@ -1347,7 +1341,6 @@ class MockFireStoreDatabase extends _i1.Mock implements _i10.FireStoreDatabase {
           Invocation.method(
             #getUserCurrentChild,
             [
-              name,
               key,
               apps,
               latLong,
@@ -1361,7 +1354,6 @@ class MockFireStoreDatabase extends _i1.Mock implements _i10.FireStoreDatabase {
           Invocation.method(
             #getUserCurrentChild,
             [
-              name,
               key,
               apps,
               latLong,
@@ -1420,11 +1412,21 @@ class MockNotificationService extends _i1.Mock
         returnValueForMissingStub: _i9.Future<void>.value(),
       ) as _i9.Future<void>);
   @override
-  void configureFirebaseMessaging() => super.noSuchMethod(
+  _i9.Future<void> initialize() => (super.noSuchMethod(
+        Invocation.method(
+          #initialize,
+          [],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
+  @override
+  _i9.Future<void> configureFirebaseMessaging() => (super.noSuchMethod(
         Invocation.method(
           #configureFirebaseMessaging,
           [],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
 }
