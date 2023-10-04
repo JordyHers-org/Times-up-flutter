@@ -35,7 +35,6 @@ abstract class Database {
   );
 
   Future<ChildModel> getUserCurrentChild(
-    String name,
     String key,
     AppUsageService apps,
     GeoPoint latLong, {
@@ -150,7 +149,6 @@ class FireStoreDatabase implements Database {
 
   @override
   Future<ChildModel> getUserCurrentChild(
-    String name,
     String key,
     AppUsageService apps,
     GeoPoint latLong, {
@@ -159,7 +157,9 @@ class FireStoreDatabase implements Database {
     final user = auth?.currentUser?.uid;
     final token = await auth?.setToken();
     await apps.getAppUsageService();
-    await setTokenOnFireStore({'childId': key, 'device_token': '$token'});
+    await setTokenOnFireStore(
+      {'id': user, 'childId': key, 'device_token': '$token'},
+    );
 
     String currentChild;
     String email;
