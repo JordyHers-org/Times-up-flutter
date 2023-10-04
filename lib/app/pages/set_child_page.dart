@@ -51,7 +51,6 @@ class _SetChildPageState extends State<SetChildPage> {
     final battery = await Battery().batteryLevel;
     try {
       final response = await database.getUserCurrentChild(
-        name,
         key,
         apps,
         GeoPoint(position.latitude, position.longitude),
