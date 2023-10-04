@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/models/email_model.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/api_path.dart';
 import 'package:times_up_flutter/services/app_usage_service.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/firestore_service.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
+import 'package:times_up_flutter/utils/constants.dart';
 
 abstract class Database {
   Future<void> setChild(ChildModel model);
@@ -34,6 +36,8 @@ abstract class Database {
     ChildModel model,
   );
 
+  Future<void> sendEmail({required EmailModel email});
+
   Future<ChildModel> getUserCurrentChild(
     String key,
     AppUsageService apps,
@@ -45,11 +49,24 @@ abstract class Database {
 class FireStoreDatabase implements Database {
   FireStoreDatabase({
     required this.uid,
-    this.auth,
-  });
+    required this.auth,
+  }) {
+    if (auth.isFirstLogin) {
+      sendEmail(
+        email: EmailModel(
+          emailIds: [auth.currentUser!.email!],
+          subject: EmailConstants.subject,
+          text: EmailConstants.text,
+          html: EmailConstants.html(
+            auth.currentUser!.displayName ?? auth.currentUser!.email!,
+          ),
+        ),
+      ).then((value) => auth.setFirstLogin(isFirstLogin: false));
+    }
+  }
 
   final String uid;
-  final AuthBase? auth;
+  final AuthBase auth;
   ChildModel? _child;
 
   ChildModel get currentChild => _child!;
@@ -78,6 +95,14 @@ class FireStoreDatabase implements Database {
     await _service.setNotificationFunction(
       path: APIPath.notificationsStream(uid, child.id),
       data: notification.toJson(),
+    );
+  }
+
+  @override
+  Future<void> sendEmail({required EmailModel email}) async {
+    await _service.sendEmail(
+      path: APIPath.mail(),
+      data: email.toJson(),
     );
   }
 
@@ -154,8 +179,8 @@ class FireStoreDatabase implements Database {
     GeoPoint latLong, {
     String? battery,
   }) async {
-    final user = auth?.currentUser?.uid;
-    final token = await auth?.setToken();
+    final user = auth.currentUser?.uid;
+    final token = await auth.setToken();
     await apps.getAppUsageService();
     await setTokenOnFireStore(
       {'id': user, 'childId': key, 'device_token': '$token'},
