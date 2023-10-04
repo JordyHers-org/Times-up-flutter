@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
 
 extension ParseResult on String {
   String t() {
@@ -104,6 +105,7 @@ Duration calculateAverage(List<Duration> durations) {
 double calculatePercentage(Duration duration) {
   final value = duration.toString().replaceAll('.000000', '');
   final parts = value.split(':');
+
   final days = int.parse(parts[0]);
   final hours = int.parse(parts[1]);
   final minutes = int.parse(parts[2]);
@@ -114,7 +116,10 @@ double calculatePercentage(Duration duration) {
   );
   var totalDuration = const Duration(days: 3, hours: 10);
 
-  if (parsedDuration.inDays > 60) {
+  if (parsedDuration.inDays > 1000 && parsedDuration.inDays < 150000) {
+    totalDuration = const Duration(days: 13000, hours: 2);
+  }
+  if (parsedDuration.inDays > 60 && parsedDuration.inDays < 100) {
     totalDuration = const Duration(days: 340, hours: 2);
   }
   if (parsedDuration.inDays > 30 && parsedDuration.inDays < 60) {
@@ -129,6 +134,6 @@ double calculatePercentage(Duration duration) {
   final totalMilliseconds = totalDuration.inMilliseconds;
 
   final res = (milliseconds / totalMilliseconds) * 100;
-
+  JHLogger.$.d(parsedDuration);
   return res;
 }
