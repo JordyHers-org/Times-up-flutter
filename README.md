@@ -21,11 +21,11 @@
    ```
 
 2. **Install Flutter Version**
-   Install FVM via Homebrew and use Flutter version 3.7.12.
+   Open the Command Prompt as Administrator. Install FVM via Homebrew and use Flutter via FVM. The required Flutter version will be installed.
    ```bash
    
    brew install fvm
-   fvm install 3.7.12
+   fvm flutter pub get
    ```
 
 3. **Request Firebase Options File**
@@ -34,7 +34,7 @@
 
    ```
 
-3. **Extra** <br/>
+4. **Extra** <br/>
    For child's pictures feel free to use any of the pictures available.
    
 
