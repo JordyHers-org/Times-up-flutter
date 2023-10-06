@@ -120,7 +120,7 @@ Specific ENUMS cases.
 - [share_plus](https://pub.dev/packages/share_plus) for sharing Child's code
 
 ## Contributors
-To have access to fireabse and all necessary credentials and 
+To have access to firebase and all necessary credentials and 
 To contribute to the project join the discord server:
 Jordyhers [Discord- JordyHers](https://discord.gg/e4ppDx9Zcy)
 
