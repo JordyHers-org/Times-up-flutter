@@ -25,6 +25,9 @@ deploy:
 generate:
 	 fvm flutter packages pub run build_runner build --delete-conflicting-outputs
 
+build-apk:
+	 fvm flutter clean && fvm flutter pub get && fvm flutter build apk --flavor development -t lib/main_development.dart
+
 #This command runs fastlane
 release:
 	fastlane release
