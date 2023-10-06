@@ -29,17 +29,20 @@
    ```
 
 3. **Request Firebase Options File**
-   Request the Firebase options file from the Project Owner and place it in the appropriate location.
+   ```bash
+      Request the Firebase options file from the Project Owner and place it in the appropriate location.
 
-3. **Extra**
+   ```
+
+3. **Extra** <br/>
    For child's pictures feel free to use any of the pictures available.
    
+
 | | | |
 |-|-|-|
-| ![neymar](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/c04ab191-c498-4ca1-bdab-84111babe6b3) | ![momo](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/db2f3dd2-2a09-4e82-b26b-50f860679f3f) | ![gareth](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/8faee404-8fb4-497d-abaf-82576df91621) 
-| ![titi](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/48ab9c3d-e180-482f-a295-54a00b76607b) | ![bruyne](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fa620a3e-2450-4434-b84d-70afbacdc2ec) | ![kylian](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/bb6c2be5-b8fc-4178-8794-2c0e6e1349db) 
-| ![leo](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/9a093894-06af-487e-8ca1-edf35c9ece03) | ![sally](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/31155608-2cc2-4e3e-815c-07f90aa1c27a) | ![harry](https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/c9302548-564c-490a-b0a5-feb74d2113cf) |
-
+| <img width="215" alt="Neymar" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/c04ab191-c498-4ca1-bdab-84111babe6b3"> | <img width="215" alt="Momo" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/db2f3dd2-2a09-4e82-b26b-50f860679f3f"> | <img width="215" alt="Gareth" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/8faee404-8fb4-497d-abaf-82576df91621"> 
+| <img width="215" alt="Titi" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/48ab9c3d-e180-482f-a295-54a00b76607b"> | <img width="215" alt="Bruyne" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fa620a3e-2450-4434-b84d-70afbacdc2ec"> | <img width="215" alt="Kylian" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/bb6c2be5-b8fc-4178-8794-2c0e6e1349db"> 
+| <img width="215" alt="Leo" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/9a093894-06af-487e-8ca1-edf35c9ece03"> | <img width="215" alt="Sally" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/31155608-2cc2-4e3e-815c-07f90aa1c27a"> | <img width="215" alt="Harry" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/c9302548-564c-490a-b0a5-feb74d2113cf"> |
 
 
 ### Branch Naming Conventions
@@ -67,7 +70,7 @@ Example: `feat(#23) : implement login button`
 ---
 
 
-## NEW FEATURES
+## NEW FEATURES 🚀 v2.0.0
 
 Time's Up is a mobile application developed using `flutter` to monitor the time kids
 spend on screen.So far the app is only available on Android. The app can't run on iOS devices.
@@ -75,9 +78,6 @@ The application has for sole purpose to track and record the data from the child
 device and send it to parents. The application does not violate the `privacy policies`
 settled for user, and doesn't collect data for third parties companies.
 
-####  🚀 V2.0.0
-
-##### Planned Features:
 - App Icons 📱
 - App Usage Metrics 📈
 - Setting page (Update Profile) 🚹
@@ -98,7 +98,6 @@ settled for user, and doesn't collect data for third parties companies.
 | <img width="215" alt="v2.0.0" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/1354eed0-dc20-4083-9b24-fe7fc26649fd"> | <img width="215" alt="v2.0.0" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/496fcdb6-adf9-48d3-9413-b4e2c781a3d7"> 
 
 
-## Video Demo
 
 
 ## Presentation Layer
@@ -120,13 +119,13 @@ Specific ENUMS cases.
 - [shared_preferences](https://pub.dev/packages/shared_preferences) for String and bool caching
 - [share_plus](https://pub.dev/packages/share_plus) for sharing Child's code
 
-## Contribution
+## Contributors
 To have access to fireabse and all necessary credentials and 
 To contribute to the project join the discord server:
 Jordyhers [Discord- JordyHers](https://discord.gg/e4ppDx9Zcy)
 
+<img width="429" alt="Screenshot 2023-10-06 at 10 57 07" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/f3623f25-0cb7-49f0-8e5c-d6008b56d248">
 
-## License 
 
 
 
