@@ -10,6 +10,7 @@ import 'package:times_up_flutter/common_widgets/jh_form_submit_button.dart';
 import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/services/app_usage_service.dart';
 import 'package:times_up_flutter/services/database.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
 
@@ -45,12 +46,13 @@ class _SetChildPageState extends State<SetChildPage> {
   Future<void> _submit(String name, String key, BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final geo = Provider.of<GeoLocatorService>(context, listen: false);
+    final apps = Provider.of<AppUsageService>(context, listen: false);
     final position = await geo.getInitialLocation();
     final battery = await Battery().batteryLevel;
     try {
       final response = await database.getUserCurrentChild(
-        name,
         key,
+        apps,
         GeoPoint(position.latitude, position.longitude),
         battery: battery.toString(),
       );

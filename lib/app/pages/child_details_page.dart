@@ -21,6 +21,7 @@ import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_bottom_sheet.dart';
 import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/l10n/l10n.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/database.dart';
@@ -60,7 +61,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,
-        title: 'Operation failed',
+        title: AppLocalizations.of(context).operationFailed,
         exception: e,
       );
     }
@@ -86,9 +87,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
           return [
             SliverAppBar(
               actions: [
-                ClipOval(
-                  child: Image.network(model.image!),
-                ).p4
+                if (model.image != null)
+                  ClipOval(
+                    child: Image.network(model.image!),
+                  ).p4
+                else
+                  const SizedBox.shrink()
               ],
               elevation: 0.5,
               shadowColor: CustomColors.indigoLight,
@@ -120,9 +124,10 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             slivers: <Widget>[
               SliverList(
                 delegate: SliverChildListDelegate([
-                  const HeaderWidget(
-                    title: "Enter this code on the child's device",
-                    subtitle: 'Long press to copy or double tap to share ',
+                  HeaderWidget(
+                    title: AppLocalizations.of(context).enterThisCode,
+                    subtitle: AppLocalizations.of(context)
+                        .longPressToCopyOrDoubleTapToShare,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,8 +137,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                           Clipboard.setData(
                             ClipboardData(text: model.id),
                           ).then((value) {
-                            const snackBar = SnackBar(
-                              content: Text('Code Copied!'),
+                            final snackBar = SnackBar(
+                              content:
+                                  Text(AppLocalizations.of(context).copyText),
                             );
 
                             ScaffoldMessenger.of(context)
@@ -142,7 +148,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                         },
                         onDoubleTap: () async {
                           await Share.share(
-                            "Enter this code on child's device:\n${model.id}",
+                            '${AppLocalizations.of(context).enterThisCode}'
+                            ' \n${model.id}',
                           );
                         },
                         child: JHDisplayText(
@@ -179,8 +186,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     ],
                   ),
                   const SizedBox(height: 18),
-                  const HeaderWidget(
-                    title: "Send notifications to your Child's device",
+                  HeaderWidget(
+                    title: AppLocalizations.of(context)
+                        .sendNotificationToYourChildDevice,
                     subtitle: 'Push the button ',
                   ).p8,
                   GestureDetector(

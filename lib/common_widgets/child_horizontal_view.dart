@@ -24,17 +24,34 @@ class Kids extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.14),
-                      image: DecorationImage(
-                        image: NetworkImage(imageLocation!),
-                        fit: BoxFit.cover,
+                  if (imageLocation != null)
+                    Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.14),
+                        image: DecorationImage(
+                          image: NetworkImage(imageLocation!),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
                       ),
-                      borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    ),
-                  ),
+                    )
+                  else
+                    Container(
+                      height: 120,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.14),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        size: 40,
+                      ),
+                    )
                 ],
               ),
             )

@@ -10,5 +10,6 @@ class APIPath {
   static String notificationsStream(String uid, String childId) =>
       'users/$uid/notifications/';
 
+  static String mail() => 'mail/';
   static String deviceToken() => 'DeviceTokens/';
 }

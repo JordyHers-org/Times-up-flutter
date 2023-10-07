@@ -87,7 +87,7 @@ class _LandingPageState extends State<LandingPage> {
     AuthBase auth,
   ) {
     return Provider<Database>(
-      create: (_) => FireStoreDatabase(uid: user.uid),
+      create: (_) => FireStoreDatabase(auth: auth, uid: user.uid,),
       child: FutureProvider(
         initialData: null,
         create: (context) => geoService.getInitialLocation(),
