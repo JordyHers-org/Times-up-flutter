@@ -2,8 +2,68 @@
 <img width="1023" alt="Screenshot 2023-06-06 at 08 22 55" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fb33eb58-8fad-4f75-a2c5-9c892525c294">
 
 
+## NEW FEATURES 🚀 v2.0.0
 
-## Tech Stack
+Time's Up is a mobile application developed using `flutter` to monitor the time kids
+spend on screen.So far the app is only available on Android. The app can't run on iOS devices.
+The application has for sole purpose to track and record the data from the child's
+device and send it to parents. The application does not violate the `privacy policies`
+settled for user, and doesn't collect data for third parties companies.
+
+- App Icons 📱
+- App Usage Metrics 📈
+- Setting page (Update Profile) 🚹
+- Contact Us page📩
+- Dark Mode 🌘
+- Customize Notification 📳
+- Battery Level 📶
+- Marker image (Child's Picture) on Map 🗺
+- Email follow up for weekly report 📨
+- Location Tracking 📍
+- Notification 🔔
+
+
+## Application Feature: Parent Side
+
+
+
+| | | |
+|-|-|-|
+| <img width="215" alt="Onboarding" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/cfdd94f2-9e59-40c4-a618-f8d5ca24fb71"> | <img width="215" alt="Sign_in_page" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/f93770ee-5516-4851-adc5-4ef71938316b"> | <img width="215" alt="child_list_page" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fa161844-7cc7-4189-bab3-230d3da41dd4"> 
+| <img width="215" alt="ChildDetailsPage" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/2bc18783-d2c3-4cc3-8c59-4e04fabd256b"> | <img width="215" alt="ChildNotificationRemoval" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/f6be1a2e-9218-4eec-b3bb-426dce5cf1ab"> | <img width="215" alt="GuidedTour" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/9e14dda2-6694-4719-9eea-ec8cbb465de9"> 
+| <img width="215" alt="NotificationSending" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/32a04552-a2a2-4806-b861-59c2eda0273d"> | <img width="215" alt="ChildLocation" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/5e12904a-9d70-448f-ae2f-908e1574c8e8"> | <img width="215" alt="settings_page" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/01b33fb7-f7d9-4b6c-80b1-a0d9ab489780"> |
+
+## Application Feature: Child Side
+
+
+
+| | |
+|-|-|
+| <img width="215" alt="Onboarding" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/ad9134b9-1eb7-4b42-ab19-de04244e8c25"> | <img width="215" alt="Onboarding" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/52576c8a-46de-4caf-9126-75589ca39e28"> |  
+| <img width="215" alt="SetUpChild" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/240a90e4-54d5-49aa-89eb-985c887b3604"> | <img width="215" alt="AppUsageList" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/6afa03ea-0195-4b64-b394-531397897252"> | 
+
+
+
+## Presentation Layer
+
+This layer holds all the widgets, along with their controllers.Widgets do not communicate directly with <br>
+the repository.Instead, they watch some controllers that extend the `StateNotifier`.The busineess Logic used <br>
+to control pages is [BLoC](https://bloclibrary.dev/#/). It is the perfect tool in this use case as BLoC allows to emit states using <br>
+Specific ENUMS cases.
+
+
+## Packages
+
+- [firebase auth](https://pub.dev/packages/firebase_auth) for authentication
+- [provider](https://pub.dev/packages/provider) for state management
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc) for Child's page management
+- [easy location](https://pub.dev/packages/easy_location) for tracking locations
+- [geo_locator](https://pub.dev/packages/geo_locator) for Lat and long values
+- [cached_network_image](https://pub.dev/packages/cached_network_image) for caching images
+- [shared_preferences](https://pub.dev/packages/shared_preferences) for String and bool caching
+- [share_plus](https://pub.dev/packages/share_plus) for sharing Child's code
+
+  ## Tech Stack
 
 - **Front End**: Flutter
 - **Back End**: Firebase (Firestore, Cloud Functions)
@@ -68,56 +128,6 @@ Example: `feature/23-implement-login-button`
 Example: `feat(#23) : implement login button`
 
 ---
-
-
-## NEW FEATURES 🚀 v2.0.0
-
-Time's Up is a mobile application developed using `flutter` to monitor the time kids
-spend on screen.So far the app is only available on Android. The app can't run on iOS devices.
-The application has for sole purpose to track and record the data from the child's
-device and send it to parents. The application does not violate the `privacy policies`
-settled for user, and doesn't collect data for third parties companies.
-
-- App Icons 📱
-- App Usage Metrics 📈
-- Setting page (Update Profile) 🚹
-- Contact Us page📩
-- Dark Mode 🌘
-- Customize Notification 📳
-- Battery Level 📶
-- Marker image (Child's Picture) on Map 🗺
-- Email follow up for weekly report 📨
-- Location Tracking 📍
-- Notification 🔔
-
-
-## Screenshot
-
-|  v2.0.0 | v2.0.0 |
-| ------------- |------------- |
-| <img width="215" alt="v2.0.0" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/1354eed0-dc20-4083-9b24-fe7fc26649fd"> | <img width="215" alt="v2.0.0" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/496fcdb6-adf9-48d3-9413-b4e2c781a3d7"> 
-
-
-
-
-## Presentation Layer
-
-This layer holds all the widgets, along with their controllers.Widgets do not communicate directly with <br>
-the repository.Instead, they watch some controllers that extend the `StateNotifier`.The busineess Logic used <br>
-to control pages is [BLoC](https://bloclibrary.dev/#/). It is the perfect tool in this use case as BLoC allows to emit states using <br>
-Specific ENUMS cases.
-
-
-## Packages
-
-- [firebase auth](https://pub.dev/packages/firebase_auth) for authentication
-- [provider](https://pub.dev/packages/provider) for state management
-- [flutter_bloc](https://pub.dev/packages/flutter_bloc) for Child's page management
-- [easy location](https://pub.dev/packages/easy_location) for tracking locations
-- [geo_locator](https://pub.dev/packages/geo_locator) for Lat and long values
-- [cached_network_image](https://pub.dev/packages/cached_network_image) for caching images
-- [shared_preferences](https://pub.dev/packages/shared_preferences) for String and bool caching
-- [share_plus](https://pub.dev/packages/share_plus) for sharing Child's code
 
 ## Contributors
 To have access to firebase and all necessary credentials and 
