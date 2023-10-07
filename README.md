@@ -1,7 +1,6 @@
 
 <img width="1023" alt="Screenshot 2023-06-06 at 08 22 55" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fb33eb58-8fad-4f75-a2c5-9c892525c294">
 
-
 ## NEW FEATURES 🚀 v2.0.0
 
 Time's Up is a mobile application developed using `flutter` to monitor the time kids
