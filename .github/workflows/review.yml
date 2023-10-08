@@ -6,6 +6,7 @@ on:
       - dev
       - test
       - stage
+      - master
     types:
       - opened
       - synchronize
