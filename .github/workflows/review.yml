@@ -92,14 +92,14 @@ jobs:
 
       - name: Test Report
         uses: dorny/test-reporter@v1
+        permissions:
+          id-token: write
+          contents: read
+          checks: write
         if: success() || failure()
         with:
           name: "Unit Tests"
           reporter: 'flutter-json'
-          permissions:
-            id-token: write
-            contents: read
-            checks: write
           path: 'reports/test-results.json'
 
       - name: Check genhtml installation
