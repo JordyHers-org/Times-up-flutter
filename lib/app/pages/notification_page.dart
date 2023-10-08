@@ -92,7 +92,7 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
             pinned: true,
             floating: true,
-          ),
+          )
         ];
       },
       body: ScrollConfiguration(
