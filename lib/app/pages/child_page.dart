@@ -175,7 +175,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
                 Icons.exit_to_app,
                 color: Colors.indigo,
               ),
-            )
+            ),
           ],
           backgroundColor: Colors.white,
           title: const JHDisplayText(

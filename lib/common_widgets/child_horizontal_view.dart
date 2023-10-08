@@ -51,7 +51,7 @@ class Kids extends StatelessWidget {
                         Icons.person,
                         size: 40,
                       ),
-                    )
+                    ),
                 ],
               ),
             )

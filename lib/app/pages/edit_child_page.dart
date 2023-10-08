@@ -181,7 +181,7 @@ class _EditChildPageState extends State<EditChildPage> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
       body: _buildContents(),
@@ -247,7 +247,7 @@ class _EditChildPageState extends State<EditChildPage> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

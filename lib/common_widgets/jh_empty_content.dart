@@ -39,7 +39,7 @@ class JHEmptyContent extends StatelessWidget {
               fontSize: fontSizeMessage,
               color: Colors.grey.shade400,
             ),
-          )
+          ),
         ],
       ),
     );

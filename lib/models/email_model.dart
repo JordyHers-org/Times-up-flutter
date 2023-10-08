@@ -18,7 +18,7 @@ class EmailModel {
         'subject': subject,
         'text': text,
         'html': html,
-      }
+      },
     };
   }
 }

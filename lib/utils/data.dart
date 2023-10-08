@@ -50,7 +50,7 @@ class BottomNavigationData {
       icon: Icon(
         Icons.location_history,
       ),
-    )
+    ),
   };
 }
 
