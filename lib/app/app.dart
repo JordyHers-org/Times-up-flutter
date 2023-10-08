@@ -27,7 +27,7 @@ class _TimesUpAppState extends State<TimesUpApp> with WidgetsBindingObserver {
       darkTheme: AppTheme.darkTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const ScreensController(),
+      home: ScreensController.create(context),
     );
   }
 }
