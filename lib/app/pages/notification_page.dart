@@ -86,7 +86,7 @@ class _NotificationPageState extends State<NotificationPage> {
             shape: ContinuousRectangleBorder(
               side: BorderSide(
                 color: !value
-                    ? Colors.white
+                    ? Theme.of(context).scaffoldBackgroundColor
                     : CustomColors.indigoLight.withOpacity(0.5),
               ),
             ),
@@ -126,13 +126,13 @@ class _NotificationPageState extends State<NotificationPage> {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Dismissible(
-                      background: const Card(
+                      background: Card(
                         color: Colors.red,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.delete_forever,
                                 color: Colors.white,

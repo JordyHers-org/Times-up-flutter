@@ -13,6 +13,7 @@ Future<dynamic> showAlertDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) => AlertDialog(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       title: Text(title),
       content: Text(content),
       actions: [

@@ -73,16 +73,22 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       stream: widget.database.childStream(childId: widget.childModel.id),
       builder: (context, snapshot) {
         final child = snapshot.data;
-        final themeData = Theme.of(context);
+
         return Scaffold(
-          body: _buildContentTemporary(context, child, themeData),
+          body: _buildContentTemporary(
+            context,
+            child,
+          ),
         );
       },
     );
   }
 
   Widget _buildContentTemporary(
-      BuildContext context, ChildModel? model, ThemeData themeData,) {
+    BuildContext context,
+    ChildModel? model,
+  ) {
+    final themeData = Theme.of(context);
     if (model != null) {
       return NestedScrollView(
         headerSliverBuilder: (context, value) {
@@ -111,7 +117,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               shape: ContinuousRectangleBorder(
                 side: BorderSide(
                   color: !value
-                      ? Colors.white
+                      ? themeData.scaffoldBackgroundColor
                       : CustomColors.indigoLight.withOpacity(0.5),
                 ),
               ),
@@ -372,8 +378,8 @@ class _AppUsedList extends StatelessWidget {
               const JHEmptyContent(
                 message: 'Seems like you have not set up the child device \n',
                 title: 'Set up the child device',
-                fontSizeMessage: 12,
-                fontSizeTitle: 23,
+                fontSizeMessage: 8,
+                fontSizeTitle: 12,
               ),
           ],
         ),

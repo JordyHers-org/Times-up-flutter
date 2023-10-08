@@ -96,6 +96,7 @@ class _ParentPageState extends State<ParentPage>
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         currentIndex: currentIndex,
         onTap: _setIndex,
         items: BottomNavigationData.items.values.toList(),
@@ -250,7 +251,9 @@ class _ParentPageState extends State<ParentPage>
                             text_1: MockData.text_3,
                             text_2: MockData.text_4,
                           ).p4,
-                          Image.asset('images/png/home_page.png').p4,
+                          Image.asset(
+                            'images/png/home_page.png',
+                          ).p4,
                         ],
                       ),
                     ),

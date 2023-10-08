@@ -14,6 +14,7 @@ import 'package:times_up_flutter/theme/theme_notifier.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
     required this.auth,
+    required this.themeNotifier,
     Key? key,
     this.title,
     this.name,
@@ -21,15 +22,22 @@ class SettingsPage extends StatelessWidget {
     this.context,
   }) : super(key: key);
   final BuildContext? context;
+  final ThemeNotifier themeNotifier;
   final AuthBase auth;
   final String? title;
   final String? name;
   final String? email;
 
   static Future<void> show(BuildContext context, AuthBase auth) async {
+    final themeProvider = Provider.of<ThemeNotifier>(context, listen: false);
+
     await Navigator.of(context).push(
       MaterialPageRoute<SettingsPage>(
-        builder: (context) => SettingsPage(context: context, auth: auth),
+        builder: (context) => SettingsPage(
+          context: context,
+          auth: auth,
+          themeNotifier: themeProvider,
+        ),
       ),
     );
   }
@@ -73,12 +81,8 @@ class SettingsPage extends StatelessWidget {
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.moon,
-            onPressed: () {
-              Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
-            },
-            text: Provider.of<ThemeNotifier>(context, listen: false).isDarkMode
-                ? 'Dark mode'
-                : 'Light mode',
+            onPressed: themeNotifier.toggleTheme,
+            text: themeNotifier.isDarkMode ? 'Dark mode' : 'Light mode',
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.user_shield,
@@ -124,8 +128,7 @@ class SettingsPage extends StatelessWidget {
                   trailing: AnyLogo.tech.jordyHers.image(height: 25),
                   title: const JHDisplayText(
                     text: 'Copyright© Jordyhers',
-                    style:
-                        TextStyle(color: Colors.indigo, fontSize: 12),
+                    style: TextStyle(color: Colors.indigo, fontSize: 12),
                   ),
                 )
               ],

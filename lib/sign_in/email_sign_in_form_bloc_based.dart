@@ -116,7 +116,14 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       const SizedBox(height: 8),
       OutlinedButton(
         onPressed: () => !model.isLoading ? _toggleFormType(model) : null,
-        child: Text(model.secondaryButtonText),
+        child: Text(
+          model.secondaryButtonText,
+          style: TextStyle(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey
+                : CustomColors.indigoDark,
+          ),
+        ),
       ),
     ];
   }
