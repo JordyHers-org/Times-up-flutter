@@ -126,18 +126,18 @@ class _NotificationPageState extends State<NotificationPage> {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Dismissible(
-                      background: Card(
+                      background: const Card(
                         color: Colors.red,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
+                            children: [
                               Icon(
                                 Icons.delete_forever,
                                 color: Colors.white,
                                 size: 25,
-                              )
+                              ),
                             ],
                           ),
                         ),

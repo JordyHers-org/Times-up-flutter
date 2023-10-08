@@ -26,7 +26,7 @@ class JHSummaryTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Theme.of(context).dividerColor)
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         children: [

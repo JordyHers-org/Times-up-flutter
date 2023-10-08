@@ -82,7 +82,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
   }
 
   Widget _buildContentTemporary(
-      BuildContext context, ChildModel? model, ThemeData themeData) {
+      BuildContext context, ChildModel? model, ThemeData themeData,) {
     if (model != null) {
       return NestedScrollView(
         headerSliverBuilder: (context, value) {
