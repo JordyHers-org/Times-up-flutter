@@ -73,14 +73,16 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       stream: widget.database.childStream(childId: widget.childModel.id),
       builder: (context, snapshot) {
         final child = snapshot.data;
+        final themeData = Theme.of(context);
         return Scaffold(
-          body: _buildContentTemporary(context, child),
+          body: _buildContentTemporary(context, child, themeData),
         );
       },
     );
   }
 
-  Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
+  Widget _buildContentTemporary(
+      BuildContext context, ChildModel? model, ThemeData themeData) {
     if (model != null) {
       return NestedScrollView(
         headerSliverBuilder: (context, value) {
@@ -104,7 +106,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 },
               ),
               iconTheme: const IconThemeData(color: Colors.red),
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: themeData.scaffoldBackgroundColor,
               expandedHeight: 50,
               shape: ContinuousRectangleBorder(
                 side: BorderSide(
@@ -196,7 +198,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       context,
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Theme.of(context).scaffoldBackgroundColor),
+                          color: themeData.scaffoldBackgroundColor,
+                        ),
                         height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -318,6 +321,7 @@ class _AppUsedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     return SingleChildScrollView(
       child: ScrollConfiguration(
         behavior: const ScrollBehavior().copyWith(overscroll: false),
@@ -348,7 +352,7 @@ class _AppUsedList extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).dividerColor,
+                            color: themeData.dividerColor,
                           ),
                         ),
                         trailing: Text(
@@ -356,7 +360,7 @@ class _AppUsedList extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Theme.of(context).dividerColor,
+                            color: themeData.dividerColor,
                           ),
                         ),
                       )

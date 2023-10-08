@@ -38,9 +38,7 @@ Future<void> main() async {
             ..getInitialConnectionStatus(),
         ),
         ChangeNotifierProvider<ThemeNotifier>(
-            create: (context) => ThemeNotifier()
-                ..toggleTheme
-        ),
+            create: (context) => ThemeNotifier()..toggleTheme()),
       ],
       child: const TimesUpApp(),
     ),
