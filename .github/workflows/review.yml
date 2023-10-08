@@ -1,0 +1,123 @@
+name: PR Review
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - test
+      - stage
+    types:
+      - opened
+      - synchronize
+
+  workflow_dispatch:
+
+concurrency:
+  group: review-${{ github.base_ref }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  branch-naming-check:
+    name: Branch Naming Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check branch naming
+        run: |
+          branch_name="${{ github.event.pull_request.head.ref }}"
+          regex="^(feature|bugfix|hotfix|chore|merge|MERGE)\/[a-zA-Z0-9\-]+$"
+          
+          if [[ ! $branch_name =~ $regex && "$branch_name" != "master" && "$branch_name" != "dev" ]]; then
+            echo "error: Branch name does not follow naming convention"
+            echo "Please follow the correct format: <category>/<description-in-kebab-case>"
+            echo "Example: feature/sc-3000-create-new-button-component or chore/my-feature"
+            exit 1
+          fi
+
+  review:
+    name: Review Flutter PR
+    runs-on: ubuntu-latest
+    needs: [branch-naming-check]
+    env:
+      FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 0
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.7.12"
+          channel: "stable"
+          cache: true
+
+      - name: Flutter Version
+        run: flutter --version
+
+      - uses: w9jds/setup-firebase@main
+        with:
+          tools-version: 11.21.0
+          firebase_token: ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Prepare firebase
+        run: |
+          dart pub global activate flutterfire_cli
+
+      - name: Print firebase cli logs
+        run: cat firebase-debug.log
+        if:  failure()
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Check format lib
+        run: dart format --set-exit-if-changed .
+
+      - name: Generate
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: |
+            mkdir reports
+            flutter test --reporter=json > reports/test-results.json
+        if: success() || failure()
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: "Unit Tests"
+          reporter: 'flutter-json'
+          path: 'reports/test-results.json'
+
+      - name: Check genhtml installation
+        run: |
+          if ! command -v genhtml &> /dev/null; then
+            echo "genhtml not found. Installing lcov package..."
+            sudo apt-get update
+            sudo apt-get install lcov
+          fi
+        continue-on-error: true
+
+      - name: Check sed installation
+        run: |
+          if ! command -v sed &> /dev/null; then
+            echo "sed not found. Installing sed..."
+            sudo apt-get update
+            sudo apt-get install sed
+          fi
+        continue-on-error: true
+
+#      - name: Run Coverage Script
+#        run: ./scripts/coverage.sh
