@@ -160,7 +160,8 @@ class _EditChildPageState extends State<EditChildPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
+      backgroundColor:
+          Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
       appBar: AppBar(
         elevation: 2,
         title: JHDisplayText(
