@@ -78,7 +78,9 @@ class _SplashContentState extends State<SplashContent>
                     text: widget.title,
                     fontSize: 30,
                     style: TextStyle(
-                      color: CustomColors.indigoDark,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : CustomColors.indigoLight,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -95,7 +97,9 @@ class _SplashContentState extends State<SplashContent>
                     text: widget.text,
                     fontSize: 17,
                     style: TextStyle(
-                      color: Colors.black.withOpacity(0.5),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? CustomColors.indigoLight
+                          : Colors.black.withOpacity(0.5),
                       fontWeight: FontWeight.w400,
                       height: 1.2,
                     ),

@@ -89,7 +89,8 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration:
+          BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -116,7 +117,7 @@ class SignInPage extends StatelessWidget {
             const SizedBox(height: 8),
             SignInButton(
               key: Keys.emailKeys,
-              text: 'Sign in With email',
+              text: ' Sign in With email',
               textColor: Colors.white,
               color: Colors.teal[700],
               onPressed: () => isLoading ? null : _signInWithEmail(context),

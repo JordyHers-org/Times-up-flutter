@@ -1,7 +1,6 @@
 
 <img width="1023" alt="Screenshot 2023-06-06 at 08 22 55" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fb33eb58-8fad-4f75-a2c5-9c892525c294">
 
-
 ## NEW FEATURES 🚀 v2.0.0
 
 Time's Up is a mobile application developed using `flutter` to monitor the time kids
@@ -69,9 +68,7 @@ settled for user, and doesn't collect data for third parties companies.
 ## Quick Start and Run
 
 1. **Read The Branch naming convention**
-   ```bash
-   [how_to_create_a_branch.pdf](https://github.com/JordyHers-org/Times-up-flutter/files/12828818/how_to_create_a_branch.pdf)
-   ```
+   > <a href="https://docs.google.com/viewer?url=https://github.com/JordyHers-org/Times-up-flutter/files/12828818/how_to_create_a_branch.pdf">How to name a branch</a>
 
 2. **Fork and Clone the Project**
    ```bash
@@ -80,7 +77,7 @@ settled for user, and doesn't collect data for third parties companies.
    ```
 
 3. **Install Flutter Version**
-   Install FVM via Homebrew and use Flutter version 3.7.12.
+   > Install FVM via Homebrew and use Flutter version 3.7.12.
    ```bash
    
    brew install fvm
@@ -88,15 +85,10 @@ settled for user, and doesn't collect data for third parties companies.
    ```
 
 4. **Request Firebase Options File**
-   ```bash
-      Request the Firebase options file from the Project Owner and place it in the appropriate location.
-
-   ```
+   > Request the Firebase options file from the Project Owner and place it in the appropriate location.
 
 5. **Extra**
-   ```
-   For child's pictures feel free to use any of the pictures available.
-   ```
+   > For child's pictures feel free to use any of the pictures available.
 
 | | | |
 |-|-|-|

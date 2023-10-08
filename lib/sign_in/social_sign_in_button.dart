@@ -20,10 +20,7 @@ class SocialSignInButton extends JHCustomRaisedButton {
                 text: text,
                 style: TextStyle(color: textColor, fontSize: 15),
               ),
-              Opacity(
-                opacity: 0,
-                child: Image.asset(assetName),
-              ),
+              const SizedBox.shrink(),
             ],
           ),
           color: color ?? Colors.indigo,

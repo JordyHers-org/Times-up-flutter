@@ -5,7 +5,7 @@ Future<void> showCustomBottomSheet(
   required Widget child,
 }) async {
   await showModalBottomSheet<Widget>(
-    backgroundColor: Colors.white,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(15),

@@ -8,12 +8,12 @@ class MapMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 90,
+      width: 50,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            height: 70,
+            height: 45,
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
@@ -27,8 +27,8 @@ class MapMarker extends StatelessWidget {
                 color: Colors.white,
               ),
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
               ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomColors {
   static Color indigoPrimary = const Color(0xFF283593);
   static Color indigoDark = const Color(0xFF1a237e);
+  static Color indigoDarker = const Color(0xff050738);
   static Color greenPrimary = const Color(0xFF00C853);
   static Color indigoLight = const Color(0xFF9fa8da);
 }
@@ -42,13 +43,15 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     primarySwatch: buildMaterialColor(CustomColors.indigoDark),
     primaryColor: CustomColors.indigoDark,
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: CustomColors.indigoDarker,
     appBarTheme: AppBarTheme(backgroundColor: CustomColors.indigoDark),
-    brightness: Brightness.light,
-    cardTheme: const CardTheme(color: Colors.white),
+    brightness: Brightness.dark,
+    cardTheme: CardTheme(color: CustomColors.indigoDark),
     iconTheme: IconThemeData(color: CustomColors.indigoLight),
+    dividerColor: CustomColors.indigoLight,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: CustomColors.indigoLight,
+      foregroundColor: CustomColors.indigoDark,
     ),
   );
 

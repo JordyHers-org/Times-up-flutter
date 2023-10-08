@@ -73,14 +73,22 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
       stream: widget.database.childStream(childId: widget.childModel.id),
       builder: (context, snapshot) {
         final child = snapshot.data;
+
         return Scaffold(
-          body: _buildContentTemporary(context, child),
+          body: _buildContentTemporary(
+            context,
+            child,
+          ),
         );
       },
     );
   }
 
-  Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
+  Widget _buildContentTemporary(
+    BuildContext context,
+    ChildModel? model,
+  ) {
+    final themeData = Theme.of(context);
     if (model != null) {
       return NestedScrollView(
         headerSliverBuilder: (context, value) {
@@ -92,7 +100,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     child: Image.network(model.image!),
                   ).p4
                 else
-                  const SizedBox.shrink()
+                  const SizedBox.shrink(),
               ],
               elevation: 0.5,
               shadowColor: CustomColors.indigoLight,
@@ -104,12 +112,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 },
               ),
               iconTheme: const IconThemeData(color: Colors.red),
-              backgroundColor: Colors.white,
+              backgroundColor: themeData.scaffoldBackgroundColor,
               expandedHeight: 50,
               shape: ContinuousRectangleBorder(
                 side: BorderSide(
                   color: !value
-                      ? Colors.white
+                      ? themeData.scaffoldBackgroundColor
                       : CustomColors.indigoLight.withOpacity(0.5),
                 ),
               ),
@@ -195,7 +203,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     onTap: () => showCustomBottomSheet(
                       context,
                       child: Container(
-                        decoration: const BoxDecoration(color: Colors.white),
+                        decoration: BoxDecoration(
+                          color: themeData.scaffoldBackgroundColor,
+                        ),
                         height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -317,6 +327,7 @@ class _AppUsedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     return SingleChildScrollView(
       child: ScrollConfiguration(
         behavior: const ScrollBehavior().copyWith(overscroll: false),
@@ -347,15 +358,15 @@ class _AppUsedList extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: CustomColors.indigoDark,
+                            color: themeData.dividerColor,
                           ),
                         ),
                         trailing: Text(
                           model.appsUsageModel[index].usage.toString().t(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Colors.indigo,
+                            color: themeData.dividerColor,
                           ),
                         ),
                       )
@@ -367,8 +378,8 @@ class _AppUsedList extends StatelessWidget {
               const JHEmptyContent(
                 message: 'Seems like you have not set up the child device \n',
                 title: 'Set up the child device',
-                fontSizeMessage: 12,
-                fontSizeTitle: 23,
+                fontSizeMessage: 8,
+                fontSizeTitle: 12,
               ),
           ],
         ),

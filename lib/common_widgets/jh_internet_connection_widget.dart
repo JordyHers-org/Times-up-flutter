@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 // ignore: must_be_immutable
 class JHInternetConnectionWidget extends StatefulWidget {
   JHInternetConnectionWidget({required this.internetConnected, Key? key})
@@ -18,7 +17,7 @@ class _JHInternetConnectionWidgetState
   @override
   Widget build(BuildContext context) {
     if (widget.internetConnected != null && widget.internetConnected!) {
-      return Container();
+      return const SizedBox.shrink();
     }
     return AnimatedContainer(
       duration: _duration,

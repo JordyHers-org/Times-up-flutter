@@ -14,6 +14,10 @@ import '../splash/splash_screen.dart';
 class ScreensController extends StatefulWidget {
   const ScreensController({Key? key}) : super(key: key);
 
+  static Widget create(BuildContext context) {
+    return const ScreensController();
+  }
+
   @override
   // ignore: library_private_types_in_public_api
   _ScreensControllerState createState() => _ScreensControllerState();
