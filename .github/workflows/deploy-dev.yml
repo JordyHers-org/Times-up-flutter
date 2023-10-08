@@ -1,7 +1,7 @@
 name: Deploy Dev
 
 on:
-  pull_request:
+  merge:
     branches:
       - dev
 
