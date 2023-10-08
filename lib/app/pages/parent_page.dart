@@ -34,7 +34,6 @@ import 'package:times_up_flutter/utils/data.dart';
 
 typedef ValueList = List<Map<String, dynamic>>;
 
-// TODO(jordy): message The parent page should be refactored
 class ParentPage extends StatefulWidget {
   const ParentPage({
     required this.auth,
