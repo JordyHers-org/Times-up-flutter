@@ -21,7 +21,7 @@ class JHFeatureWidget extends StatelessWidget {
     return Container(
       height: 80,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: CustomColors.indigoLight,
         borderRadius: const BorderRadius.all(Radius.circular(5)),
         boxShadow: [
           BoxShadow(
@@ -46,7 +46,7 @@ class JHFeatureWidget extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: CustomColors.indigoLight,
+                      color: CustomColors.indigoDark,
                     ),
                   ) else const SizedBox.shrink(),
             const Spacer(),
@@ -54,6 +54,7 @@ class JHFeatureWidget extends StatelessWidget {
               Icon(
                 icon,
                 size: 22,
+                color: CustomColors.indigoDark,
               ),
             const SizedBox.shrink(),
           ],
