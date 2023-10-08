@@ -131,8 +131,13 @@ class _ParentPageState extends State<ParentPage>
       stream: database.childrenStream(),
       builder: (context, AsyncSnapshot<List<ChildModel?>> snapshot) {
         final data = snapshot.data;
-
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const LoadingWidget();
+        } else if (snapshot.hasError) {
+          return const JHEmptyContent(
+            title: 'Error Occurred !',
+          );
+        } else {
           return NestedScrollView(
             controller: _scrollController,
             headerSliverBuilder: (context, value) {
@@ -254,7 +259,6 @@ class _ParentPageState extends State<ParentPage>
             ),
           );
         }
-        return const LoadingWidget();
       },
     );
   }
