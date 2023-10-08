@@ -120,7 +120,7 @@ class SettingsPage extends StatelessWidget {
                         Icons.logout,
                         size: 23,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 buildItems(context),
@@ -130,10 +130,10 @@ class SettingsPage extends StatelessWidget {
                     text: 'Copyright© Jordyhers',
                     style: TextStyle(color: Colors.indigo, fontSize: 12),
                   ),
-                )
+                ),
               ],
             ),
-          ).vP36
+          ).vP36,
         ],
       ),
     );

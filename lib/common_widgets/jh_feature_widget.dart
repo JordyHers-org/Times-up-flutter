@@ -3,7 +3,6 @@ import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 
 class JHFeatureWidget extends StatelessWidget {
-
   const JHFeatureWidget({
     Key? key,
     this.title,
@@ -41,14 +40,17 @@ class JHFeatureWidget extends StatelessWidget {
             const SizedBox(width: 10),
             if (child != null) child ?? const SizedBox.shrink(),
             if (child != null) const SizedBox(width: 20),
-            if (title != null) JHDisplayText(
-                    text: title!,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w800,
-                      color: CustomColors.indigoDark,
-                    ),
-                  ) else const SizedBox.shrink(),
+            if (title != null)
+              JHDisplayText(
+                text: title!,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w800,
+                  color: CustomColors.indigoDark,
+                ),
+              )
+            else
+              const SizedBox.shrink(),
             const Spacer(),
             if (icon != null)
               Icon(

@@ -31,7 +31,7 @@ class JHBottomSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.grey,
                     ),
-                  )
+                  ),
                 ],
               ).p8,
               const HeaderWidget(
@@ -51,7 +51,7 @@ class JHBottomSheet extends StatelessWidget {
                 ),
               ).hP50,
             ],
-          )
+          ),
         ],
       ),
     );

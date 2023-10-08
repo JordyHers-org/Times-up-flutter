@@ -123,7 +123,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               ),
               pinned: true,
               floating: true,
-            )
+            ),
           ];
         },
         body: ScrollConfiguration(
@@ -256,7 +256,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   ),
                   const SizedBox(height: 40),
                 ]),
-              )
+              ),
             ],
           ),
         ),
@@ -369,7 +369,7 @@ class _AppUsedList extends StatelessWidget {
                             color: themeData.dividerColor,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   );
                 },

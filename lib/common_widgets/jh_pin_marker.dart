@@ -53,7 +53,7 @@ class MapMarker extends StatelessWidget {
               height: 60,
               color: CustomColors.greenPrimary,
             ),
-          )
+          ),
         ],
       ),
     );

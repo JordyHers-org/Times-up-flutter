@@ -24,7 +24,7 @@ class SignInButton extends JHCustomRaisedButton {
                 text: text,
                 style: TextStyle(color: textColor, fontSize: 17),
               ),
-              const SizedBox.shrink()
+              const SizedBox.shrink(),
             ],
           ),
           color: color ?? CustomColors.indigoLight,
