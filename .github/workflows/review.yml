@@ -96,6 +96,10 @@ jobs:
         with:
           name: "Unit Tests"
           reporter: 'flutter-json'
+          permissions:
+            id-token: write
+            contents: read
+            checks: write
           path: 'reports/test-results.json'
 
       - name: Check genhtml installation
