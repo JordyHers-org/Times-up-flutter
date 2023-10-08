@@ -49,10 +49,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
-          token: ${{ secrets.GH_PAT }}
-          fetch-depth: 0
 
       - uses: subosito/flutter-action@v2
         with:
