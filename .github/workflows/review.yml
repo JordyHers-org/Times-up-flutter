@@ -17,6 +17,11 @@ concurrency:
   group: review-${{ github.base_ref }}-${{ github.head_ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
 
   branch-naming-check:
@@ -92,10 +97,6 @@ jobs:
 
       - name: Test Report
         uses: dorny/test-reporter@v1
-        permissions:
-          id-token: write
-          contents: read
-          checks: write
         if: success() || failure()
         with:
           name: "Unit Tests"
