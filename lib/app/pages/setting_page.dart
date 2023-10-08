@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_any_logo/flutter_logo.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/theme/theme_notifier.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -71,8 +73,12 @@ class SettingsPage extends StatelessWidget {
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.moon,
-            onPressed: () {},
-            text: 'Dark mode',
+            onPressed: () {
+              Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
+            },
+            text: Provider.of<ThemeNotifier>(context, listen: false).isDarkMode
+                ? 'Dark mode'
+                : 'Light mode',
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.user_shield,
@@ -116,10 +122,10 @@ class SettingsPage extends StatelessWidget {
                 buildItems(context),
                 ListTile(
                   trailing: AnyLogo.tech.jordyHers.image(height: 25),
-                  title: JHDisplayText(
+                  title: const JHDisplayText(
                     text: 'Copyright© Jordyhers',
                     style:
-                        TextStyle(color: CustomColors.indigoDark, fontSize: 12),
+                        TextStyle(color: Colors.indigo, fontSize: 12),
                   ),
                 )
               ],
@@ -142,12 +148,12 @@ class ProfileListItem extends StatelessWidget {
   final IconData? icon;
   final String? text;
   final bool hasNavigation;
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onPressed,
+      onTap: onPressed,
       child: Container(
         height: 55,
         margin: const EdgeInsets.symmetric(
@@ -171,10 +177,9 @@ class ProfileListItem extends StatelessWidget {
             ),
             const Spacer(),
             if (hasNavigation)
-              Icon(
+              const Icon(
                 Icons.chevron_right,
                 size: 25,
-                color: CustomColors.indigoDark,
               ),
           ],
         ),

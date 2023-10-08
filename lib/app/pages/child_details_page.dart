@@ -92,7 +92,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     child: Image.network(model.image!),
                   ).p4
                 else
-                  const SizedBox.shrink()
+                  const SizedBox.shrink(),
               ],
               elevation: 0.5,
               shadowColor: CustomColors.indigoLight,
@@ -104,7 +104,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 },
               ),
               iconTheme: const IconThemeData(color: Colors.red),
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               expandedHeight: 50,
               shape: ContinuousRectangleBorder(
                 side: BorderSide(
@@ -195,7 +195,8 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                     onTap: () => showCustomBottomSheet(
                       context,
                       child: Container(
-                        decoration: const BoxDecoration(color: Colors.white),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor),
                         height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -347,15 +348,15 @@ class _AppUsedList extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: CustomColors.indigoDark,
+                            color: Theme.of(context).dividerColor,
                           ),
                         ),
                         trailing: Text(
                           model.appsUsageModel[index].usage.toString().t(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Colors.indigo,
+                            color: Theme.of(context).dividerColor,
                           ),
                         ),
                       )

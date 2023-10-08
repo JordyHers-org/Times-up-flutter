@@ -11,6 +11,7 @@ import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
 import 'package:times_up_flutter/services/internet_connectivity_service.dart';
 import 'package:times_up_flutter/services/notification_service.dart';
+import 'package:times_up_flutter/theme/theme_notifier.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,10 @@ Future<void> main() async {
           create: (context) => InternetConnectivityService()
             ..checkConnectionStatus()
             ..getInitialConnectionStatus(),
+        ),
+        ChangeNotifierProvider<ThemeNotifier>(
+            create: (context) => ThemeNotifier()
+                ..toggleTheme
         ),
       ],
       child: const TimesUpApp(),

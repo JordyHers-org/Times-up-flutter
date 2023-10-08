@@ -127,6 +127,7 @@ class _ParentPageState extends State<ParentPage>
   }
 
   Widget _buildDashboard(Database database, AuthBase auth) {
+    final themeData = Theme.of(context);
     return StreamBuilder<List<ChildModel?>>(
       stream: database.childrenStream(),
       builder: (context, AsyncSnapshot<List<ChildModel?>> snapshot) {
@@ -143,13 +144,13 @@ class _ParentPageState extends State<ParentPage>
                   toolbarHeight: value ? 75 : 90,
                   flexibleSpace:
                       !value ? const JHHeader().hP16 : const SizedBox.shrink(),
-                  backgroundColor: Colors.white,
+                  backgroundColor: themeData.scaffoldBackgroundColor,
                   expandedHeight: !value ? 120 : 100,
                   shape: ContinuousRectangleBorder(
                     side: BorderSide(
                       color: !value
-                          ? Colors.white
-                          : CustomColors.indigoLight.withOpacity(0.5),
+                          ? themeData.scaffoldBackgroundColor
+                          : CustomColors.indigoDark.withOpacity(0.5),
                     ),
                   ),
                   title: Row(
@@ -160,8 +161,8 @@ class _ParentPageState extends State<ParentPage>
                       else
                         JHDisplayText(
                           text: AppLocalizations.of(context).welcome,
-                          style: TextStyle(
-                            color: CustomColors.indigoDark,
+                          style: const TextStyle(
+                            color: Colors.indigo,
                             fontWeight: FontWeight.w900,
                           ),
                         ),

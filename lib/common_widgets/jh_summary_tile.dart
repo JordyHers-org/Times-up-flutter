@@ -25,9 +25,8 @@ class JHSummaryTile extends StatelessWidget {
         minHeight: 150,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Theme.of(context).dividerColor)
       ),
       child: Column(
         children: [
@@ -35,8 +34,8 @@ class JHSummaryTile extends StatelessWidget {
             children: [
               JHDisplayText(
                 text: title,
-                style: TextStyle(color: CustomColors.indigoPrimary),
-              )
+                style: const TextStyle(color: Colors.indigo),
+              ),
             ],
           ).p16,
           Row(
@@ -44,7 +43,7 @@ class JHSummaryTile extends StatelessWidget {
               JHDisplayText(
                 text: time,
                 fontSize: 25,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(),
               ),
             ],
           ).p16,
