@@ -17,36 +17,31 @@ class SplashContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DisplayText(
-                text: "Time's Up",
-                fontSize: 35,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DisplayText(
+              text: "Time's Up",
+              fontSize: 35,
+              style: TextStyle(
+                color: CustomColors.indigoDark,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            SizedBox(height: 8),
+            Container(
+              width: MediaQuery.of(context).size.width / 1.5,
+              child: DisplayText(
+                text: text,
                 style: TextStyle(
-                  color: CustomColors.indigoDark,
-                  fontWeight: FontWeight.w800,
+                  color: Colors.black.withOpacity(0.5),
+                  fontWeight: FontWeight.w500,
+                  height: 1.5,
                 ),
               ),
-              SizedBox(height: 8),
-              Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: DisplayText(
-                  text: text,
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.5),
-                    fontWeight: FontWeight.w500,
-                    height: 1.5,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          ],
+        ).hP(10),
         Image.asset(
           image,
           height: getProportionateScreenHeight(150),

@@ -12,6 +12,7 @@ import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/database.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -182,107 +183,95 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
               ),
             ),
             SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: RichText(
-                text: TextSpan(
-                  text: "Send notifications to your Child's device",
-                  style: TextStyle(color: Colors.indigo, fontSize: 14),
-                ),
+            RichText(
+              text: TextSpan(
+                text: "Send notifications to your Child's device",
+                style: TextStyle(color: Colors.indigo, fontSize: 14),
               ),
-            ),
+            ).cP(l: 50),
             SizedBox(height: 2),
-            Padding(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: RichText(
-                text: TextSpan(
-                  text: 'Push the button ',
-                  style: TextStyle(color: Colors.grey, fontSize: 11),
-                ),
+            RichText(
+              text: TextSpan(
+                text: 'Push the button ',
+                style: TextStyle(color: Colors.grey, fontSize: 11),
               ),
-            ),
+            ).cP(l: 50),
             SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(color: Colors.white),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(75.0, 22, 75, 12),
-                    child: CustomRaisedButton(
-                      child: Text(
-                        ' Bed Time',
-                        style: TextStyle(fontSize: 17, color: Colors.white),
-                      ),
-                      borderRadius: 12,
-                      color: Colors.indigo,
-                      height: 45,
-                      onPressed: () async {
-                        try {
-                          await widget.database.setNotification(
-                            NotificationModel(
-                              id: model.id,
-                              title: ' Hey ${model.name}',
-                              body: 'Here is a new message',
-                              message: 'Go to bed now ',
-                            ),
-                            model,
-                          );
-                          await showAlertDialog(
-                            context,
-                            title: 'Successful',
-                            content: 'Notification sent to ${model.name}',
-                            defaultActionText: 'OK',
-                          );
-                          debugPrint('Notification sent to device');
-                        } on FirebaseException catch (e) {
-                          await showExceptionAlertDialog(
-                            context,
-                            title: 'An error occurred',
-                            exception: e,
-                          );
-                        }
-                      },
+                  CustomRaisedButton(
+                    child: Text(
+                      ' Bed Time',
+                      style: TextStyle(fontSize: 17, color: Colors.white),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(75.0, 12, 75, 6),
-                    child: CustomRaisedButton(
-                      child: Text(
-                        'Homework Time',
-                        style: TextStyle(fontSize: 17),
-                      ),
-                      borderRadius: 12,
-                      color: Colors.white,
-                      height: 45,
-                      onPressed: () async {
-                        try {
-                          await widget.database.setNotification(
-                            NotificationModel(
-                              id: model.id,
-                              title: ' Hey ${model.name}',
-                              body: 'Here is a new message',
-                              message: 'Homework Time',
-                            ),
-                            model,
-                          );
-                          await showAlertDialog(
-                            context,
-                            title: 'Successful',
-                            content: 'Notification sent to ${model.name}',
-                            defaultActionText: 'OK',
-                          );
-                          debugPrint('Notification sent to device');
-                        } on FirebaseException catch (e) {
-                          await showExceptionAlertDialog(
-                            context,
-                            title: 'An error occurred',
-                            exception: e,
-                          );
-                        }
-                      },
+                    borderRadius: 12,
+                    color: Colors.indigo,
+                    height: 45,
+                    onPressed: () async {
+                      try {
+                        await widget.database.setNotification(
+                          NotificationModel(
+                            id: model.id,
+                            title: ' Hey ${model.name}',
+                            body: 'Here is a new message',
+                            message: 'Go to bed now ',
+                          ),
+                          model,
+                        );
+                        await showAlertDialog(
+                          context,
+                          title: 'Successful',
+                          content: 'Notification sent to ${model.name}',
+                          defaultActionText: 'OK',
+                        );
+                        debugPrint('Notification sent to device');
+                      } on FirebaseException catch (e) {
+                        await showExceptionAlertDialog(
+                          context,
+                          title: 'An error occurred',
+                          exception: e,
+                        );
+                      }
+                    },
+                  ).cP(l: 75, t: 22, r: 75, b:12),
+                  CustomRaisedButton(
+                    child: Text(
+                      'Homework Time',
+                      style: TextStyle(fontSize: 17),
                     ),
-                  ),
+                    borderRadius: 12,
+                    color: Colors.white,
+                    height: 45,
+                    onPressed: () async {
+                      try {
+                        await widget.database.setNotification(
+                          NotificationModel(
+                            id: model.id,
+                            title: ' Hey ${model.name}',
+                            body: 'Here is a new message',
+                            message: 'Homework Time',
+                          ),
+                          model,
+                        );
+                        await showAlertDialog(
+                          context,
+                          title: 'Successful',
+                          content: 'Notification sent to ${model.name}',
+                          defaultActionText: 'OK',
+                        );
+                        debugPrint('Notification sent to device');
+                      } on FirebaseException catch (e) {
+                        await showExceptionAlertDialog(
+                          context,
+                          title: 'An error occurred',
+                          exception: e,
+                        );
+                      }
+                    },
+                  ).cP(l: 75, t: 12, r: 75, b:6),
                 ],
               ),
               height: 150,

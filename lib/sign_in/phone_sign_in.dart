@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parental_control/sign_in/phone_sign_bloc_based.dart';
+import 'package:parental_control/theme/theme.dart';
 
 class PhoneSignInPage extends StatelessWidget {
   @override
@@ -12,12 +13,9 @@ class PhoneSignInPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Card(
-            child: PhoneSignInFormBlocBased(),
-          ),
-        ),
+        child: Card(
+          child: PhoneSignInFormBlocBased(),
+        ).p16,
       ),
     );
   }

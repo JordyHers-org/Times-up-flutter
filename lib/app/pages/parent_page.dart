@@ -207,7 +207,7 @@ class _ParentPageState extends State<ParentPage>
                               Icons.info_outline_rounded,
                               color: Colors.deepOrangeAccent.shade100,
                             ),
-                          ).p8,
+                          ).tP8,
                           SizedBox(height: 3),
                           _buildChildrenList(database),
                           _header(),
@@ -314,13 +314,10 @@ class _ParentPageState extends State<ParentPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 20.0),
-          child: Text(
-            "Follow your child's location ",
-            style: TextStyle(color: CustomColors.indigoLight),
-          ),
-        ),
+        Text(
+          "Follow your child's location ",
+          style: TextStyle(color: CustomColors.indigoLight),
+        ).cP(t: 20),
         Text(
           'Long Press the map to open the full screen mode',
           style: TextStyle(color: CustomColors.greenPrimary),

@@ -199,14 +199,11 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         builder: (context, snapshot) {
           final model = snapshot.data;
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: _buildChildren(model!),
-            ),
-          );
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: _buildChildren(model!),
+          ).p16;
         },
       ),
     );

@@ -98,25 +98,22 @@ class SettingsPage extends StatelessWidget {
       ),
       body: Stack(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 18.0, left: 8, bottom: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                buildItems(context),
-                ListTile(
-                  leading: IconButton(
-                    icon: Icon(Icons.contact_support_sharp),
-                    onPressed: () {},
-                  ),
-                  trailing: Text(
-                    'Developed by Jordy-Hershel',
-                    style: TextStyle(color: Colors.redAccent, fontSize: 12),
-                  ),
-                )
-              ],
-            ),
-          )
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              buildItems(context),
+              ListTile(
+                leading: IconButton(
+                  icon: Icon(Icons.contact_support_sharp),
+                  onPressed: () {},
+                ),
+                trailing: Text(
+                  'Developed by Jordy-Hershel',
+                  style: TextStyle(color: Colors.redAccent, fontSize: 12),
+                ),
+              )
+            ],
+          ).cP(l: 8, t: 18, b: 8)
         ],
       ),
     );
