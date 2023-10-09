@@ -7,6 +7,7 @@ import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/common_widgets/show_exeption_alert.dart';
 import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/services/database.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
 
@@ -174,13 +175,10 @@ class _EditChildPageState extends State<EditChildPage> {
           GestureDetector(
             onTap: () async => await _submit(_imageFile),
             child: Align(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Save',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
+              child: Text(
+                'Save',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ).p8,
             ),
           )
         ],
@@ -192,15 +190,9 @@ class _EditChildPageState extends State<EditChildPage> {
   Widget _buildContents() {
     return !isSavedPressed
         ? SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: _buildForm(),
-                ),
-              ),
-            ),
+            child: Card(
+              child: _buildForm().p16,
+            ).p16,
           )
         : Center(child: CircularProgressIndicator());
   }
@@ -217,40 +209,37 @@ class _EditChildPageState extends State<EditChildPage> {
 
   List<Widget> _buildFormChildren() {
     return [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            SizedBox(height: 8),
-            appState == AppState.complete
-                ? _showImage()
-                : Container(
-                    height: 90,
-                    color: Colors.black.withOpacity(0.14),
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-            ButtonTheme(
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).primaryColor,
+      Column(
+        children: [
+          SizedBox(height: 8),
+          appState == AppState.complete
+              ? _showImage()
+              : Container(
+                  height: 90,
+                  color: Colors.black.withOpacity(0.14),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+          ButtonTheme(
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                onPressed: () => _getLocalImage(),
-                child: Text(
-                  'add picture',
-                  style: TextStyle(color: Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).primaryColor,
                 ),
               ),
-            )
-          ],
-        ),
-      ),
+              onPressed: () => _getLocalImage(),
+              child: Text(
+                'add picture',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          )
+        ],
+      ).p8,
       TextFormField(
         decoration: InputDecoration(labelText: 'Child name'),
         initialValue: _name,

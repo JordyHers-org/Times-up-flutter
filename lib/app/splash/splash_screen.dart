@@ -73,93 +73,88 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               Expanded(
                 flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(20),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Spacer(flex: 3),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: 40,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  Theme.of(context).primaryColor,
-                                ),
+                child: Column(
+                  children: <Widget>[
+                    Spacer(flex: 3),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 40,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor,
                               ),
-                              onPressed: () {
-                                SharedPreference().setVisitingFlag();
-                                SharedPreference().setParentDevice();
-                                debugPrint(
-                                  'The page is set to Parent => now moving ..',
-                                );
-                                Navigator.of(context).pushReplacement(
-                                  CupertinoPageRoute(
-                                    builder: (context) => LandingPage(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Parent device'.toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(10),
-                                  color: Colors.white,
+                            ),
+                            onPressed: () {
+                              SharedPreference().setVisitingFlag();
+                              SharedPreference().setParentDevice();
+                              debugPrint(
+                                'The page is set to Parent => now moving ..',
+                              );
+                              Navigator.of(context).pushReplacement(
+                                CupertinoPageRoute(
+                                  builder: (context) => LandingPage(),
                                 ),
+                              );
+                            },
+                            child: Text(
+                              'Parent device'.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: getProportionateScreenWidth(10),
+                                color: Colors.white,
                               ),
                             ),
                           ),
-
-                          ///------------------------------------
-                          Container(
-                            height: 40,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  CustomColors.greenPrimary,
-                                ),
-                              ),
-                              onPressed: () {
-                                SharedPreference().setVisitingFlag();
-                                SharedPreference().setChildDevice();
-
-                                debugPrint(
-                                  'The page is set to Child => now moving ....',
-                                );
-                                Navigator.of(context).pushReplacement(
-                                  CupertinoPageRoute(
-                                    builder: (context) => LandingPage(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                ' Child device'.toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(10),
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(flex: 1),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          splashData.length,
-                          (index) => buildDot(index: index),
                         ),
+
+                        ///------------------------------------
+                        Container(
+                          height: 40,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                CustomColors.greenPrimary,
+                              ),
+                            ),
+                            onPressed: () {
+                              SharedPreference().setVisitingFlag();
+                              SharedPreference().setChildDevice();
+
+                              debugPrint(
+                                'The page is set to Child => now moving ....',
+                              );
+                              Navigator.of(context).pushReplacement(
+                                CupertinoPageRoute(
+                                  builder: (context) => LandingPage(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              ' Child device'.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: getProportionateScreenWidth(10),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(flex: 1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        splashData.length,
+                        (index) => buildDot(index: index),
                       ),
-                      Spacer(),
-                    ],
-                  ),
-                ),
+                    ),
+                    Spacer(),
+                  ],
+                ).hP(getProportionateScreenWidth(20)),
               ),
             ],
           ),

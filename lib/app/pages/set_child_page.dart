@@ -6,6 +6,7 @@ import 'package:parental_control/common_widgets/show_alert_dialog.dart';
 import 'package:parental_control/models/set_child_model.dart';
 import 'package:parental_control/services/database.dart';
 import 'package:parental_control/services/geo_locator_service.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 enum AppState { loading, complete }
@@ -127,19 +128,13 @@ class _SetChildPageState extends State<SetChildPage> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
-                children: _buildChildren(context),
-              ),
-            ),
-          ),
-        ),
+        child: Card(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
+            children: _buildChildren(context),
+          ).p16,
+        ).p16,
       ),
     );
   }

@@ -83,19 +83,16 @@ class _NotificationPageState extends State<NotificationPage> {
                     return Dismissible(
                       background: Card(
                         color: Colors.red,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(
-                                Icons.delete_forever,
-                                color: Colors.white,
-                                size: 25,
-                              )
-                            ],
-                          ),
-                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Icon(
+                              Icons.delete_forever,
+                              color: Colors.white,
+                              size: 25,
+                            )
+                          ],
+                        ).hP8,
                       ),
                       key: ValueKey<int>(index),
                       onDismissed: (DismissDirection direction) async {
@@ -111,22 +108,19 @@ class _NotificationPageState extends State<NotificationPage> {
                       direction: DismissDirection.endToStart,
                       child: Card(
                         color: CustomColors.indigoLight,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Text(
-                              data[index].title ?? 'No title available',
-                            ),
-                            trailing: Text(
-                              data[index].message ?? 'No message available',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
+                        child: ListTile(
+                          title: Text(
+                            data[index].title ?? 'No title available',
+                          ),
+                          trailing: Text(
+                            data[index].message ?? 'No message available',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontSize: 16,
                             ),
                           ),
-                        ),
+                        ).p8,
                       ),
                     );
                   },

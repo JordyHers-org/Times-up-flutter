@@ -9,6 +9,7 @@ import 'package:parental_control/models/child_model.dart';
 import 'package:parental_control/models/notification_model.dart';
 import 'package:parental_control/services/app_usage_service.dart';
 import 'package:parental_control/services/database.dart';
+import 'package:parental_control/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class ChildPage extends StatefulWidget {
@@ -71,45 +72,42 @@ class _ChildPageState extends State<ChildPage> {
                     height: 250,
                     color: Colors.indigo,
                     child: DrawerHeader(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 6),
-                            CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(widget.child!.image!),
-                              radius: 45,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 6),
+                          CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(widget.child!.image!),
+                            radius: 45,
+                          ),
+                          SizedBox(height: 6),
+                          Text(
+                            '${widget.child!.name} ',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w800,
                             ),
-                            SizedBox(height: 6),
-                            Text(
-                              '${widget.child!.name} ',
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w800,
-                              ),
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            '${widget.child!.email} ',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
                             ),
-                            SizedBox(height: 12),
-                            Text(
-                              '${widget.child!.email} ',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                              ),
+                          ),
+                          SizedBox(height: 6),
+                          Text(
+                            '${widget.child!.id} ',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
                             ),
-                            SizedBox(height: 6),
-                            Text(
-                              '${widget.child!.id} ',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            SizedBox(height: 6),
-                          ],
-                        ),
-                      ),
+                          ),
+                          SizedBox(height: 6),
+                        ],
+                      ).hP8,
                     ),
                   )
                 : Container(),
@@ -219,20 +217,17 @@ class _ChildPageState extends State<ChildPage> {
             itemBuilder: (context, index) {
               return Card(
                 color: Colors.indigo,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text(data[index].title ?? 'No title available'),
-                    trailing: Text(
-                      data[index].message ?? 'No message available',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
+                child: ListTile(
+                  title: Text(data[index].title ?? 'No title available'),
+                  trailing: Text(
+                    data[index].message ?? 'No message available',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 16,
                     ),
                   ),
-                ),
+                ).p8,
               );
             },
           );

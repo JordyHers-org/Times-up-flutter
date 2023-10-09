@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parental_control/app/pages/parent_page.dart';
 import 'package:parental_control/common_widgets/form_submit_button.dart';
+import 'package:parental_control/theme/theme.dart';
 
 class PhoneSignInFormBlocBased extends StatefulWidget {
   PhoneSignInFormBlocBased({Key? key}) : super(key: key);
@@ -154,14 +155,11 @@ class _PhoneSignInFormBlocBasedState extends State<PhoneSignInFormBlocBased> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: _buildChildren(context),
-        ),
-      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: _buildChildren(context),
+      ).p16,
     );
   }
 }

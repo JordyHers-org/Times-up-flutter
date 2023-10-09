@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:parental_control/theme/theme.dart';
 
 class AppUsageChart extends StatefulWidget {
   final List<Color> availableColors = const [
@@ -40,70 +41,61 @@ class AppUsageChartState extends State<AppUsageChart> {
         color: Theme.of(context).primaryColor,
         child: Stack(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Text(
-                    widget.name,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  widget.name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  const Text(
-                    'App Usage Graph',
-                    style: TextStyle(
-                      color: Color(0xff379982),
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: BarChart(
-                        isPlaying ? randomData() : mainBarData(),
-                        swapAnimationDuration: animDuration,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(
-                    isPlaying ? Icons.pause : Icons.play_arrow,
-                    color: Colors.pinkAccent,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isPlaying = !isPlaying;
-                      if (isPlaying) {
-                        refreshState();
-                      }
-                    });
-                  },
                 ),
+                const SizedBox(
+                  height: 4,
+                ),
+                const Text(
+                  'App Usage Graph',
+                  style: TextStyle(
+                    color: Color(0xff379982),
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Expanded(
+                  child: BarChart(
+                    isPlaying ? randomData() : mainBarData(),
+                    swapAnimationDuration: animDuration,
+                  ).hP8,
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+              ],
+            ).p16,
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(
+                  isPlaying ? Icons.pause : Icons.play_arrow,
+                  color: Colors.pinkAccent,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isPlaying = !isPlaying;
+                    if (isPlaying) {
+                      refreshState();
+                    }
+                  });
+                },
               ),
-            )
+            ).p4
           ],
         ),
       ),
@@ -314,7 +306,7 @@ class AppUsageChartState extends State<AppUsageChart> {
         text = const Text('', style: style);
         break;
     }
-    return Padding(padding: const EdgeInsets.only(top: 16), child: text);
+    return text.tP16;
   }
 
   BarChartData randomData() {

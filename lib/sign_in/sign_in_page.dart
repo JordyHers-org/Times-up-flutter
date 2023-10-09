@@ -99,42 +99,39 @@ class SignInPage extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: CustomColors.indigoLight),
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SizedBox(height: 180.0, child: _buildHeader()),
-            SizedBox(height: 28.0),
-            SocialSignInButton(
-              assetName: 'images/google-logo.png',
-              text: 'Sign in With Google',
-              textColor: Colors.black87,
-              color: Colors.white,
-              onPressed: () => isLoading ? null : _signInWithGoogle(context),
-            ),
-            SizedBox(height: 8.0),
-            SocialSignInButton(
-              assetName: 'images/facebook-logo.png',
-              text: 'Sign in With Facebook',
-              textColor: Colors.white,
-              color: Color(0xFF334D92),
-              onPressed: () => isLoading ? null : _signInWithFacebook(context),
-            ),
-            SizedBox(height: 8.0),
-            SignInButton(
-              key: Keys.emailKeys,
-              text: 'Sign in With email',
-              textColor: Colors.white,
-              color: Colors.teal[700],
-              onPressed: () => isLoading ? null : _signInWithEmail(context),
-            ),
-            SizedBox(height: 8.0),
-            SizedBox(height: 8.0),
-          ],
-        ),
-      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          SizedBox(height: 180.0, child: _buildHeader()),
+          SizedBox(height: 28.0),
+          SocialSignInButton(
+            assetName: 'images/google-logo.png',
+            text: 'Sign in With Google',
+            textColor: Colors.black87,
+            color: Colors.white,
+            onPressed: () => isLoading ? null : _signInWithGoogle(context),
+          ),
+          SizedBox(height: 8.0),
+          SocialSignInButton(
+            assetName: 'images/facebook-logo.png',
+            text: 'Sign in With Facebook',
+            textColor: Colors.white,
+            color: Color(0xFF334D92),
+            onPressed: () => isLoading ? null : _signInWithFacebook(context),
+          ),
+          SizedBox(height: 8.0),
+          SignInButton(
+            key: Keys.emailKeys,
+            text: 'Sign in With email',
+            textColor: Colors.white,
+            color: Colors.teal[700],
+            onPressed: () => isLoading ? null : _signInWithEmail(context),
+          ),
+          SizedBox(height: 8.0),
+          SizedBox(height: 8.0),
+        ],
+      ).p16,
     );
   }
 
