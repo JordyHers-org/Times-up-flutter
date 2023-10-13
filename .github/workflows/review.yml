@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [branch-naming-check]
     env:
-      FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -64,6 +64,12 @@ jobs:
       - name: Flutter Version
         run: flutter --version
 
+      - name: Update Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Debug Firebase CLI
+        run: firebase --version
+
       - uses: w9jds/setup-firebase@main
         with:
           tools-version: 11.21.0
@@ -75,7 +81,7 @@ jobs:
 
       - name: Print firebase cli logs
         run: cat firebase-debug.log
-        if:  failure()
+        if: failure()
 
       - name: Install dependencies
         run: flutter pub get
@@ -91,8 +97,8 @@ jobs:
 
       - name: Run tests
         run: |
-            mkdir reports
-            flutter test --reporter=json > reports/test-results.json
+          mkdir reports
+          flutter test --reporter=json > reports/test-results.json
         if: success() || failure()
 
       - name: Test Report
@@ -120,6 +126,3 @@ jobs:
             sudo apt-get install sed
           fi
         continue-on-error: true
-
-#      - name: Run Coverage Script
-#        run: ./scripts/coverage.sh
