@@ -242,18 +242,18 @@ class _ParentPageState extends State<ParentPage>
                           JHInfoRow(
                             icon_1: Icons.auto_graph_outlined,
                             icon_2: Icons.message_outlined,
-                            text_1: MockData.text_1,
-                            text_2: MockData.text_2,
+                            dataOne: MockData.text_1,
+                            dataTwo: MockData.text_2,
                           ).p4,
                           JHInfoRow(
                             icon_1: Icons.lightbulb_rounded,
                             icon_2: Icons.volume_up_outlined,
-                            text_1: MockData.text_3,
-                            text_2: MockData.text_4,
+                            dataOne: MockData.text_3,
+                            dataTwo: MockData.text_4,
                           ).p4,
-                          Image.asset(
-                            'images/png/home_page.png',
-                          ).p4,
+                          const SizedBox(
+                            height: 150,
+                          ).p4
                         ],
                       ),
                     ),

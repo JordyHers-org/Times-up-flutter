@@ -189,7 +189,7 @@ class _NotificationPageState extends State<NotificationPage> {
         } else {
           return const Center(
             child: LoadingWidget(),
-          ).vP36;
+          ).vP16.vP16;
         }
       },
     );

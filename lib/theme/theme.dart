@@ -65,15 +65,29 @@ class AppTheme {
 }
 
 extension PaddingHelper on Widget {
+  Padding get p4 => Padding(padding: const EdgeInsets.all(4), child: this);
+  Padding get p8 => Padding(padding: const EdgeInsets.all(8), child: this);
   Padding get p16 => Padding(padding: const EdgeInsets.all(16), child: this);
-  Padding get p20 => Padding(padding: const EdgeInsets.all(20), child: this);
-  Padding get p8 =>
-      Padding(padding: const EdgeInsets.only(top: 8), child: this);
-  Padding get p4 => Padding(padding: const EdgeInsets.all(8), child: this);
 
   /// Set padding according to `value`
   Padding p(double value) =>
       Padding(padding: EdgeInsets.all(value), child: this);
+
+  /// Symmetric Padding
+  Padding sP(double horizontal, double vertical) => Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontal,
+          vertical: vertical,
+        ),
+        child: this,
+      );
+
+  Padding vTopP(double vertical) => Padding(
+        padding: EdgeInsets.only(
+          top: vertical,
+        ),
+        child: this,
+      );
 
   /// Horizontal Padding 16
   Padding get hP4 =>
@@ -82,20 +96,39 @@ extension PaddingHelper on Widget {
       Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: this);
   Padding get hP16 =>
       Padding(padding: const EdgeInsets.symmetric(horizontal: 16), child: this);
-
-  Padding get hP50 =>
-      Padding(padding: const EdgeInsets.symmetric(horizontal: 50), child: this);
+  Padding hP(double value) =>
+      Padding(padding: EdgeInsets.symmetric(horizontal: value), child: this);
 
   /// Vertical Padding 16
   Padding get vP16 =>
       Padding(padding: const EdgeInsets.symmetric(vertical: 16), child: this);
-
-  Padding get vP36 =>
-      Padding(padding: const EdgeInsets.symmetric(vertical: 36), child: this);
   Padding get vP8 =>
       Padding(padding: const EdgeInsets.symmetric(vertical: 8), child: this);
   Padding get vP4 =>
-      Padding(padding: const EdgeInsets.symmetric(vertical: 8), child: this);
+      Padding(padding: const EdgeInsets.symmetric(vertical: 4), child: this);
+
+  // Padding only (Top)
+  Padding get tP8 =>
+      Padding(padding: const EdgeInsets.only(top: 8), child: this);
+  Padding get tP16 =>
+      Padding(padding: const EdgeInsets.only(top: 16), child: this);
+
+  /// Padding all custom
+  Padding cP({
+    double t = 0.0,
+    double b = 0.0,
+    double l = 0.0,
+    double r = 0.0,
+  }) =>
+      Padding(
+        padding: EdgeInsets.only(
+          left: l,
+          right: r,
+          top: t,
+          bottom: b,
+        ),
+        child: this,
+      );
 }
 
 /// Other values

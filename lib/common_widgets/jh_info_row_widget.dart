@@ -6,18 +6,20 @@ import 'package:times_up_flutter/common_widgets/show_bottom_sheet.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/utils/data.dart';
 
+import 'jh_header_widget.dart';
+
 class JHInfoRow extends StatelessWidget {
   const JHInfoRow({
     required this.icon_1,
     required this.icon_2,
-    required this.text_1,
-    required this.text_2,
+    required this.dataOne,
+    required this.dataTwo,
     Key? key,
   }) : super(key: key);
   final IconData icon_1;
   final IconData icon_2;
-  final String text_1;
-  final String text_2;
+  final InfoData dataOne;
+  final InfoData dataTwo;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +30,19 @@ class JHInfoRow extends StatelessWidget {
           child: InfoBox(
             onPress: () => showCustomBottomSheet(
               context,
+              verticalPadding: 80,
+              title: const HeaderWidget(
+                title: 'Discover new tips',
+                subtitle: 'Find out what you may not know yet',
+              ).p8,
               child: JHBottomSheet(
-                message: text_1,
-                child: Png.info1,
+                message: dataOne.content,
               ),
             ),
             icon: icon_1,
             iconColor: CustomColors.indigoDark,
             child: JHDisplayText(
-              text: text_1,
+              text: dataOne.title,
               fontSize: 12,
               style: TextStyle(color: Colors.grey.shade500),
             ),
@@ -47,15 +53,19 @@ class JHInfoRow extends StatelessWidget {
           child: InfoBox(
             onPress: () => showCustomBottomSheet(
               context,
+              verticalPadding: 80,
+              title: const HeaderWidget(
+                title: 'Discover new tips',
+                subtitle: 'Find out what you may not know yet',
+              ).p8,
               child: JHBottomSheet(
-                message: text_2,
-                child: Png.info2,
+                message: dataTwo.content,
               ),
             ),
             icon: icon_2,
             iconColor: CustomColors.indigoDark,
             child: JHDisplayText(
-              text: text_2,
+              text: dataTwo.title,
               fontSize: 12,
               style: TextStyle(color: Colors.grey.shade500),
             ),

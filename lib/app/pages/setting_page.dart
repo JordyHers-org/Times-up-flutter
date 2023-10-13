@@ -89,7 +89,6 @@ class SettingsPage extends StatelessWidget {
             onPressed: () {},
             text: 'Contact us',
           ),
-          Image.asset('images/png/profile.png'),
         ],
       ),
     );
@@ -133,7 +132,7 @@ class SettingsPage extends StatelessWidget {
                 ),
               ],
             ),
-          ).vP36,
+          ).vP16.vP16,
         ],
       ),
     );
