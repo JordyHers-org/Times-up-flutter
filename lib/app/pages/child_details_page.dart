@@ -96,9 +96,13 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             SliverAppBar(
               actions: [
                 if (model.image != null)
-                  ClipOval(
-                    child: Image.network(model.image!),
-                  ).p4
+                  Row(
+                    children: [
+                      ClipOval(
+                        child: Image.network(model.image!),
+                      ).p4,
+                    ],
+                  )
                 else
                   const SizedBox.shrink(),
               ],
@@ -132,6 +136,15 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             slivers: <Widget>[
               SliverList(
                 delegate: SliverChildListDelegate([
+                  JHDisplayText(
+                    text: model.name,
+                    style: const TextStyle(
+                      color: Colors.amberAccent,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    fontSize: 32,
+                    maxFontSize: 34,
+                  ).hP16,
                   HeaderWidget(
                     title: AppLocalizations.of(context).enterThisCode,
                     subtitle: AppLocalizations.of(context)
@@ -168,17 +181,17 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                             color: Colors.deepOrangeAccent,
                           ),
                         ),
-                      ).p4,
+                      ).vTopP(4),
                       JHBatteryWidget(
                         level: double.parse(model.batteryLevel ?? '0.0') / 100,
-                      ).p4,
+                      ),
                     ],
-                  ).p16,
+                  ).hP16,
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 18),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
                         height: 205,
                         width: double.infinity,
                         child: model.appsUsageModel.isNotEmpty
@@ -192,13 +205,12 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                               ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 18),
+                  ).vTopP(20),
                   HeaderWidget(
                     title: AppLocalizations.of(context)
                         .sendNotificationToYourChildDevice,
                     subtitle: 'Push the button ',
-                  ).p8,
+                  ),
                   GestureDetector(
                     onTap: () => showCustomBottomSheet(
                       context,
@@ -239,11 +251,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       icon: Icons.wifi_tethering_error_sharp,
                     ),
                   ),
-                  const SizedBox(height: 8),
                   _AppUsedList(
                     model: model,
                   ),
-                  const SizedBox(height: 50),
                   JHCustomButton(
                     title: 'Delete Child',
                     backgroundColor: Colors.transparent,
@@ -253,8 +263,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       context,
                       widget.childModel,
                     ),
-                  ),
-                  const SizedBox(height: 40),
+                  ).vTopP(50),
                 ]),
               ),
             ],
@@ -333,10 +342,13 @@ class _AppUsedList extends StatelessWidget {
         behavior: const ScrollBehavior().copyWith(overscroll: false),
         child: Column(
           children: [
-            const HeaderWidget(
-              title: 'Summary of used apps',
-              subtitle: 'Click for more details',
-            ),
+            if (model.appsUsageModel.isNotEmpty)
+              const HeaderWidget(
+                title: 'Summary of used apps',
+                subtitle: 'Click for more details',
+              )
+            else
+              const SizedBox.shrink().vP16,
             if (model.appsUsageModel.isNotEmpty)
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
