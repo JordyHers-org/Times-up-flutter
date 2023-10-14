@@ -179,11 +179,29 @@ class _NotificationPageState extends State<NotificationPage> {
                     );
                   },
                 )
-              : Column(
-                  children: [
-                    Image.asset('images/png/notifications.png'),
-                  ],
-                );
+              : Container(
+                  margin: const EdgeInsets.all(20),
+                  height: 200,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.white)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const JHDisplayText(
+                        text: 'No Notification ! ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const JHDisplayText(
+                        text: 'Here, will appear the notifications '
+                            'sent to your kids. Do not worry if you do not see'
+                            ' anything yet.  ',
+                        style: TextStyle(color: Colors.grey),
+                      ).vTopP(20),
+                    ],
+                  ).hP(60),
+                ).vTopP(100).p16;
         } else if (snapshot.hasData) {
           return ErrorWidget(snapshot.error!);
         } else {
