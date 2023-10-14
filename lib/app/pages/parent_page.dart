@@ -253,7 +253,7 @@ class _ParentPageState extends State<ParentPage>
                           ).p4,
                           const SizedBox(
                             height: 150,
-                          ).p4
+                          ).p4,
                         ],
                       ),
                     ),
@@ -288,6 +288,14 @@ class _ParentPageState extends State<ParentPage>
                     return Kids(
                       imageLocation: data[index]?.image,
                       imageCaption: data[index]?.name,
+                      onLongPress: () {
+                        final snackBar = SnackBar(
+                          content: Text(data[index]!.name),
+                          duration: const Duration(milliseconds: 500),
+                          behavior: SnackBarBehavior.floating,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
                       onPressed: () =>
                           ChildDetailsPage.show(context, data[index]!),
                     );

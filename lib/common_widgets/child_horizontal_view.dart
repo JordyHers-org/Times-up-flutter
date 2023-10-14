@@ -5,15 +5,18 @@ class Kids extends StatelessWidget {
     this.imageLocation,
     this.imageCaption,
     Key? key,
+    this.onLongPress,
     this.onPressed,
   }) : super(key: key);
   final String? imageLocation;
   final String? imageCaption;
+  final VoidCallback? onLongPress;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onLongPress: onLongPress,
       onTap: onPressed,
       child: imageLocation != null || imageCaption != null
           ? Container(
