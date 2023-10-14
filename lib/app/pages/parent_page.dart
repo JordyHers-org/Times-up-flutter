@@ -220,12 +220,12 @@ class _ParentPageState extends State<ParentPage>
                               icon: const Icon(Icons.info_outline),
                               onPressed: _startShowCase,
                             ),
-                          ).p8,
+                          ).hP4,
                           _buildChildrenList(database),
                           const HeaderWidget(
                             title: 'Get to see our child live app usage',
                             subtitle: 'Click on it to have the full report',
-                          ).p8,
+                          ).hP4,
                           JHSummaryTile(
                             title: formatDateTime(DateTime.now()),
                             time: data != null && data.isNotEmpty
@@ -234,26 +234,24 @@ class _ParentPageState extends State<ParentPage>
                             progressValue: data != null && data.isNotEmpty
                                 ? calculatePercentage(_averageUsage)
                                 : 0,
-                          ),
+                          ).vP4,
                           const HeaderWidget(
                             title: 'Information Section',
                             subtitle: 'Get tips on how to use the app.',
-                          ).p8,
+                          ).hP4,
                           JHInfoRow(
                             icon_1: Icons.auto_graph_outlined,
                             icon_2: Icons.message_outlined,
                             dataOne: MockData.text_1,
                             dataTwo: MockData.text_2,
-                          ).p4,
+                          ).p8,
                           JHInfoRow(
                             icon_1: Icons.lightbulb_rounded,
                             icon_2: Icons.volume_up_outlined,
                             dataOne: MockData.text_3,
                             dataTwo: MockData.text_4,
-                          ).p4,
-                          const SizedBox(
-                            height: 150,
-                          ).p4
+                          ).p8,
+                          const SizedBox(height: 150),
                         ],
                       ),
                     ),
@@ -273,7 +271,7 @@ class _ParentPageState extends State<ParentPage>
       description: 'Tap on the child to display info',
       key: _childListKey,
       child: SizedBox(
-        height: 165,
+        height: 155,
         child: StreamBuilder<List<ChildModel?>>(
           stream: database.childrenStream(),
           builder: (context, AsyncSnapshot<List<ChildModel?>> snapshot) {
@@ -315,7 +313,7 @@ class _ParentPageState extends State<ParentPage>
           },
         ),
       ),
-    );
+    ).hP4;
   }
 
   Widget _buildMapFullScreen(Database database, AuthBase auth) {

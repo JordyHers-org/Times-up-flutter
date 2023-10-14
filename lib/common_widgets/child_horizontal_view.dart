@@ -14,6 +14,8 @@ class Kids extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      overlayColor:
+          MaterialStateColor.resolveWith((states) => Colors.transparent),
       onTap: onPressed,
       child: imageLocation != null || imageCaption != null
           ? Container(
