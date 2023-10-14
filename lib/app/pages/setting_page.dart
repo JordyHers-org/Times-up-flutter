@@ -5,6 +5,7 @@ import 'package:flutter_any_logo/flutter_logo.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_no_implementation.dart';
 import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/services/auth.dart';
@@ -71,22 +72,42 @@ class SettingsPage extends StatelessWidget {
         children: <Widget>[
           ProfileListItem(
             icon: LineAwesomeIcons.history,
-            onPressed: () {},
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
             text: 'Update profile',
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.language,
-            onPressed: () {},
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
             text: 'Change language',
           ),
           ProfileListItem(
-            icon: LineAwesomeIcons.moon,
-            onPressed: themeNotifier.toggleTheme,
+            onPressed: () {},
+            icon: themeNotifier.isDarkMode
+                ? LineAwesomeIcons.moon
+                : LineAwesomeIcons.sun,
+            hasNavigation: false,
             text: themeNotifier.isDarkMode ? 'Dark mode' : 'Light mode',
+            child: Switch(
+              activeColor: Colors.white,
+              inactiveThumbColor: Colors.white,
+              activeTrackColor: Colors.greenAccent,
+              inactiveTrackColor: Colors.red,
+              onChanged: (_) => themeNotifier.toggleTheme(),
+              value: themeNotifier.isDarkMode || false,
+            ),
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.user_shield,
-            onPressed: () {},
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
             text: 'Contact us',
           ),
         ],
@@ -145,16 +166,20 @@ class ProfileListItem extends StatelessWidget {
     Key? key,
     this.icon,
     this.text,
+    this.child,
     this.hasNavigation = true,
   }) : super(key: key);
   final IconData? icon;
   final String? text;
   final bool hasNavigation;
   final VoidCallback onPressed;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      overlayColor:
+          MaterialStateColor.resolveWith((states) => Colors.transparent),
       onTap: onPressed,
       child: Container(
         height: 55,
@@ -178,6 +203,7 @@ class ProfileListItem extends StatelessWidget {
               style: TextStyles.body,
             ),
             const Spacer(),
+            if (child != null) child!,
             if (hasNavigation)
               const Icon(
                 Icons.chevron_right,
