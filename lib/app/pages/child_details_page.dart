@@ -138,8 +138,10 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 delegate: SliverChildListDelegate([
                   JHDisplayText(
                     text: model.name,
-                    style: const TextStyle(
-                      color: Colors.amberAccent,
+                    style: TextStyle(
+                      color: themeData.brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.grey,
                       fontWeight: FontWeight.w700,
                     ),
                     fontSize: 32,
