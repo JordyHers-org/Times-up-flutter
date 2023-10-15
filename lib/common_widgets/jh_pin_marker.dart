@@ -8,12 +8,12 @@ class MapMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 50,
+      width: 70,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            height: 45,
+            height: 65,
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,

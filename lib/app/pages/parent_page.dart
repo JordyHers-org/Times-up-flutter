@@ -191,71 +191,81 @@ class _ParentPageState extends State<ParentPage>
                 ),
               ];
             },
-            body: Scaffold(
-              floatingActionButton: Showcase(
-                key: _addKey,
-                textColor: Colors.indigo,
-                description: AppLocalizations.of(context).addNewChildHere,
-                child: FloatingActionButton(
-                  onPressed: () => EditChildPage.show(
-                    context,
-                    database: Provider.of<Database>(context, listen: false),
-                  ),
-                  backgroundColor: CustomColors.indigoLight,
-                  child: const Icon(Icons.add),
-                ),
-              ),
-              body: ScrollConfiguration(
-                behavior: const ScrollBehavior().copyWith(overscroll: false),
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          HeaderWidget(
-                            title: 'My Children',
-                            subtitle:
-                                'Choose child to get more info - scroll right ',
-                            trailing: IconButton(
-                              icon: const Icon(Icons.info_outline),
-                              onPressed: _startShowCase,
-                            ),
-                          ).hP4,
-                          _buildChildrenList(database),
-                          const HeaderWidget(
-                            title: 'Get to see our child live app usage',
-                            subtitle: 'Click on it to have the full report',
-                          ).hP4,
-                          JHSummaryTile(
-                            title: formatDateTime(DateTime.now()),
-                            time: data != null && data.isNotEmpty
-                                ? _averageUsage.toString().t()
-                                : '0h 0m',
-                            progressValue: data != null && data.isNotEmpty
-                                ? calculatePercentage(_averageUsage)
-                                : 0,
-                          ).vP4,
-                          const HeaderWidget(
-                            title: 'Information Section',
-                            subtitle: 'Get tips on how to use the app.',
-                          ).hP4,
-                          JHInfoRow(
-                            icon_1: Icons.auto_graph_outlined,
-                            icon_2: Icons.message_outlined,
-                            dataOne: MockData.text_1,
-                            dataTwo: MockData.text_2,
-                          ).p8,
-                          JHInfoRow(
-                            icon_1: Icons.lightbulb_rounded,
-                            icon_2: Icons.volume_up_outlined,
-                            dataOne: MockData.text_3,
-                            dataTwo: MockData.text_4,
-                          ).p8,
-                          const SizedBox(height: 150),
-                        ],
-                      ),
+            body: RefreshIndicator(
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              color: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: Colors.indigo,
+              onRefresh: () => Future.wait([
+                _getAverageUsage(),
+                _getAllChildLocations(),
+                _loadingTime(),
+              ]),
+              child: Scaffold(
+                floatingActionButton: Showcase(
+                  key: _addKey,
+                  textColor: Colors.indigo,
+                  description: AppLocalizations.of(context).addNewChildHere,
+                  child: FloatingActionButton(
+                    onPressed: () => EditChildPage.show(
+                      context,
+                      database: Provider.of<Database>(context, listen: false),
                     ),
-                  ],
+                    backgroundColor: CustomColors.indigoLight,
+                    child: const Icon(Icons.add),
+                  ),
+                ),
+                body: ScrollConfiguration(
+                  behavior: const ScrollBehavior().copyWith(overscroll: false),
+                  child: CustomScrollView(
+                    slivers: <Widget>[
+                      SliverList(
+                        delegate: SliverChildListDelegate(
+                          [
+                            HeaderWidget(
+                              title: 'My Children',
+                              subtitle:
+                                  'Choose child to get more info - scroll right ',
+                              trailing: IconButton(
+                                icon: const Icon(Icons.info_outline),
+                                onPressed: _startShowCase,
+                              ),
+                            ).hP4,
+                            _buildChildrenList(database),
+                            const HeaderWidget(
+                              title: 'Get to see our child live app usage',
+                              subtitle: 'Click on it to have the full report',
+                            ).hP4,
+                            JHSummaryTile(
+                              title: formatDateTime(DateTime.now()),
+                              time: data != null && data.isNotEmpty
+                                  ? _averageUsage.toString().t()
+                                  : '0h 0m',
+                              progressValue: data != null && data.isNotEmpty
+                                  ? calculatePercentage(_averageUsage)
+                                  : 0,
+                            ).vP4,
+                            const HeaderWidget(
+                              title: 'Information Section',
+                              subtitle: 'Get tips on how to use the app.',
+                            ).hP4,
+                            JHInfoRow(
+                              icon_1: Icons.auto_graph_outlined,
+                              icon_2: Icons.message_outlined,
+                              dataOne: MockData.text_1,
+                              dataTwo: MockData.text_2,
+                            ).p8,
+                            JHInfoRow(
+                              icon_1: Icons.lightbulb_rounded,
+                              icon_2: Icons.volume_up_outlined,
+                              dataOne: MockData.text_3,
+                              dataTwo: MockData.text_4,
+                            ).p8,
+                            const SizedBox(height: 150),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -375,5 +385,9 @@ class _ParentPageState extends State<ParentPage>
   Future<void> _getAverageUsage() async {
     _averageUsage =
         (await widget.appUsage?.getChildrenAppUsageAverage(widget.database))!;
+  }
+
+  Future<void> _loadingTime() async {
+    await Future<void>.delayed(const Duration(seconds: 2));
   }
 }
