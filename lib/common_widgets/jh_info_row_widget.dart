@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
-import 'package:times_up_flutter/common_widgets/jh_header_widget.dart';
 import 'package:times_up_flutter/common_widgets/jh_info_bottom_sheet.dart';
 import 'package:times_up_flutter/common_widgets/jh_info_box.dart';
 import 'package:times_up_flutter/common_widgets/show_bottom_sheet.dart';
@@ -29,11 +28,6 @@ class JHInfoRow extends StatelessWidget {
           child: InfoBox(
             onPress: () => showCustomBottomSheet(
               context,
-              verticalPadding: 80,
-              title: const HeaderWidget(
-                title: 'Discover new tips',
-                subtitle: 'Find out what you may not know yet',
-              ).p8,
               child: JHBottomSheet(
                 message: dataOne.content,
               ),
@@ -43,7 +37,9 @@ class JHInfoRow extends StatelessWidget {
             child: JHDisplayText(
               text: dataOne.title,
               fontSize: 12,
-              style: TextStyle(color: Colors.grey.shade500),
+              style: TextStyle(
+                color: Colors.grey.shade500,
+              ),
             ),
           ),
         ),
@@ -52,21 +48,16 @@ class JHInfoRow extends StatelessWidget {
           child: InfoBox(
             onPress: () => showCustomBottomSheet(
               context,
-              verticalPadding: 80,
-              title: const HeaderWidget(
-                title: 'Discover new tips',
-                subtitle: 'Find out what you may not know yet',
-              ).p8,
-              child: JHBottomSheet(
-                message: dataTwo.content,
-              ),
+              child: JHBottomSheet(message: dataTwo.content),
             ),
             icon: icon_2,
             iconColor: CustomColors.indigoDark,
             child: JHDisplayText(
               text: dataTwo.title,
               fontSize: 12,
-              style: TextStyle(color: Colors.grey.shade500),
+              style: TextStyle(
+                color: Colors.grey.shade500,
+              ),
             ),
           ),
         ),

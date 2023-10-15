@@ -93,6 +93,8 @@ class MockData {
    Get to know how to send messages and notifications to your child's device. 
   Effectively communicating with your child through messages and notifications 
   is essential for staying connected and ensuring their safety and well-being. 
+  
+  
   Here's a guide to help you navigate this process and maintain a healthy 
   line of communication:
 
@@ -152,7 +154,9 @@ class MockData {
       '''
   Get to know how to control what your child is listening to anytime, anywhere. 
   Ensuring that your child is exposed to age-appropriate and safe audio content is 
-  crucial for their development and well-being. Here's a comprehensive guide to 
+  crucial for their development and well-being.
+  
+   Here's a comprehensive guide to 
   help you effectively control and manage what your child is listening to:
 
   - Choose Suitable Platforms: Opt for audio platforms that offer parental controls and a variety of age-appropriate content. Look for platforms that allow you to create child profiles and curate content based on your child's age and interests.

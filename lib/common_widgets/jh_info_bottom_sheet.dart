@@ -23,7 +23,7 @@ class JHBottomSheet extends StatelessWidget {
                 maxLines: 250,
                 style: TextStyle(
                   fontSize: 14,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.bold,
                   color: CustomColors.indigoLight,
                 ),
               ).hP(50),

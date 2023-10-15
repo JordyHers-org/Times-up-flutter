@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
@@ -179,29 +180,18 @@ class _NotificationPageState extends State<NotificationPage> {
                     );
                   },
                 )
-              : Container(
-                  margin: const EdgeInsets.all(20),
-                  height: 200,
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.white)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const JHDisplayText(
-                        text: 'No Notification ! ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+              : const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    JHDisplayText(
+                      text: 'No notification ! ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
                       ),
-                      const JHDisplayText(
-                        text: 'Here, will appear the notifications '
-                            'sent to your kids. Do not worry if you do not see'
-                            ' anything yet.  ',
-                        style: TextStyle(color: Colors.grey),
-                      ).vTopP(20),
-                    ],
-                  ).hP(60),
-                ).vTopP(100).p16;
+                    ),
+                    Icon(LineAwesomeIcons.info),
+                  ],
+                ).vTopP(100);
         } else if (snapshot.hasData) {
           return ErrorWidget(snapshot.error!);
         } else {

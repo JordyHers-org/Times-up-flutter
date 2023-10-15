@@ -59,14 +59,13 @@ class GeoFull extends StatefulWidget {
 }
 
 class _GeoFullState extends State<GeoFull> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final Completer<GoogleMapController> _controller = Completer();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  late bool isBottomSheetEnabled = false;
   late List<Marker> allMarkers = [];
   String childAddress = 'No Address !';
   String lightMapTheme = '';
   String darkMapTheme = '';
-  late bool isBottomSheetEnabled = false;
 
   @override
   void initState() {
@@ -179,6 +178,13 @@ class _GeoFullState extends State<GeoFull> {
             );
           },
         ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
+          ),
+        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       );
       isBottomSheetEnabled = true;
     } else {
@@ -237,7 +243,6 @@ class _GeoFullState extends State<GeoFull> {
                 } else {
                   await controller.setMapStyle(darkMapTheme);
                 }
-
                 _controller.complete;
               },
             ),
