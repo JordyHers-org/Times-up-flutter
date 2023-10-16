@@ -12,13 +12,14 @@ class JHInfoRow extends StatelessWidget {
     required this.icon_2,
     required this.dataOne,
     required this.dataTwo,
+    required this.animationController,
     Key? key,
   }) : super(key: key);
   final IconData icon_1;
   final IconData icon_2;
   final InfoData dataOne;
   final InfoData dataTwo;
-
+  final AnimationController animationController;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -28,6 +29,7 @@ class JHInfoRow extends StatelessWidget {
           child: InfoBox(
             onPress: () => showCustomBottomSheet(
               context,
+              animationController: animationController,
               child: JHBottomSheet(
                 message: dataOne.content,
               ),
@@ -48,6 +50,7 @@ class JHInfoRow extends StatelessWidget {
           child: InfoBox(
             onPress: () => showCustomBottomSheet(
               context,
+              animationController: animationController,
               child: JHBottomSheet(message: dataTwo.content),
             ),
             icon: icon_2,

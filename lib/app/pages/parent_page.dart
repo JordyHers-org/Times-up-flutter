@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:times_up_flutter/app/config/geo_full.dart';
@@ -70,6 +71,7 @@ class _ParentPageState extends State<ParentPage>
   int currentIndex = 0;
   Duration _averageUsage = const Duration(seconds: 1);
   late ScrollController _scrollController;
+  late AnimationController _animationController;
   late ValueList values = <Map<String, dynamic>>[];
   late bool _isShowCaseActivated;
 
@@ -84,11 +86,16 @@ class _ParentPageState extends State<ParentPage>
     _getAllChildLocations();
     _setShowCaseView();
     _scrollController = ScrollController();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -249,12 +256,14 @@ class _ParentPageState extends State<ParentPage>
                               subtitle: 'Get tips on how to use the app.',
                             ).hP4,
                             JHInfoRow(
+                              animationController: _animationController,
                               icon_1: Icons.auto_graph_outlined,
                               icon_2: Icons.message_outlined,
                               dataOne: MockData.text_1,
                               dataTwo: MockData.text_2,
                             ).p8,
                             JHInfoRow(
+                              animationController: _animationController,
                               icon_1: Icons.lightbulb_rounded,
                               icon_2: Icons.volume_up_outlined,
                               dataOne: MockData.text_3,
@@ -306,11 +315,22 @@ class _ParentPageState extends State<ParentPage>
                   child: Icon(Icons.info_outline_rounded),
                 );
               }
-            } else if (snapshot.hasError) {
+            } else if (snapshot.hasData) {
               JHLogger.$.e(snapshot.error);
-              return const JHEmptyContent(
-                title: 'Something went wrong ',
-                message: "Can't load items right now",
+              return const Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    JHDisplayText(
+                      text: 'Something went wrong ',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey),
+                    ),
+                    Icon(LineAwesomeIcons.info_circle),
+                  ],
+                ),
               );
             }
             return ListView.builder(

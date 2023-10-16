@@ -1,6 +1,10 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:times_up_flutter/common_widgets/jh_custom_raised_button.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 Future<dynamic> showAlertDialog(
   BuildContext context, {
@@ -14,26 +18,57 @@ Future<dynamic> showAlertDialog(
     context: context,
     builder: (context) => AlertDialog(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      title: Text(title),
-      content: Text(content),
+      content: Container(
+        height: 160,
+        width: 200,
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(25),
+          ),
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              const Icon(LineAwesomeIcons.info),
+              JHDisplayText(
+                text: title,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 8),
+              JHDisplayText(
+                text: content,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w400,
+                ),
+              ).vP16,
+              const Spacer(),
+            ],
+          ).p(10),
+        ),
+      ),
       actions: [
         if (cancelActionText != null)
-          OutlinedButton(
-            child: Text(
-              cancelActionText,
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            onPressed: () => Navigator.of(context).pop(false),
-          ),
-        OutlinedButton(
-          style: OutlinedButton.styleFrom(backgroundColor: Colors.indigo),
-          child: Text(
-            defaultActionText,
-            style: TextStyle(
-              color: Theme.of(context).indicatorColor,
+          JHCustomRaisedButton(
+            width: 100,
+            height: 40,
+            onPressed: () => Navigator.of(context).pop(),
+            color: CustomColors.indigoDark,
+            child: JHDisplayText(
+              text: cancelActionText,
+              style: const TextStyle(color: Colors.white),
             ),
           ),
+        JHCustomRaisedButton(
+          width: 100,
+          height: 40,
           onPressed: () => Navigator.of(context).pop(true),
+          color: Colors.white,
+          child: JHDisplayText(
+            text: defaultActionText,
+            style: const TextStyle(color: Colors.indigo),
+          ),
         ),
       ],
     ),

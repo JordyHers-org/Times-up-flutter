@@ -1,13 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter_any_logo/flutter_logo.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/jh_no_implementation.dart';
 import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/services/app_info_service.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/theme/theme_notifier.dart';
@@ -21,6 +21,7 @@ class SettingsPage extends StatelessWidget {
     this.name,
     this.email,
     this.context,
+    this.appInfoService,
   }) : super(key: key);
   final BuildContext? context;
   final ThemeNotifier themeNotifier;
@@ -28,16 +29,18 @@ class SettingsPage extends StatelessWidget {
   final String? title;
   final String? name;
   final String? email;
+  final AppInfoService? appInfoService;
 
   static Future<void> show(BuildContext context, AuthBase auth) async {
     final themeProvider = Provider.of<ThemeNotifier>(context, listen: false);
-
+    final appInfo = Provider.of<AppInfoService>(context, listen: false);
     await Navigator.of(context).push(
       MaterialPageRoute<SettingsPage>(
         builder: (context) => SettingsPage(
           context: context,
           auth: auth,
           themeNotifier: themeProvider,
+          appInfoService: appInfo,
         ),
       ),
     );
@@ -144,11 +147,20 @@ class SettingsPage extends StatelessWidget {
                   ],
                 ),
                 buildItems(context),
-                ListTile(
-                  trailing: AnyLogo.tech.jordyHers.image(height: 25),
-                  title: const JHDisplayText(
-                    text: 'Copyright© Jordyhers',
-                    style: TextStyle(color: Colors.indigo, fontSize: 12),
+                const Center(
+                  child: JHDisplayText(
+                    text: 'Copyright© JordyHers-org',
+                    fontSize: 8,
+                    maxFontSize: 12,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                Center(
+                  child: JHDisplayText(
+                    text: 'v${appInfoService?.appInfo.version ?? ''}',
+                    fontSize: 8,
+                    maxFontSize: 12,
+                    style: const TextStyle(color: Colors.grey),
                   ),
                 ),
               ],

@@ -58,8 +58,9 @@ class GeoFull extends StatefulWidget {
   State<StatefulWidget> createState() => _GeoFullState();
 }
 
-class _GeoFullState extends State<GeoFull> {
+class _GeoFullState extends State<GeoFull> with SingleTickerProviderStateMixin {
   final Completer<GoogleMapController> _controller = Completer();
+  late final AnimationController _animationController;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   late bool isBottomSheetEnabled = false;
   late List<Marker> allMarkers = [];
@@ -70,7 +71,17 @@ class _GeoFullState extends State<GeoFull> {
   @override
   void initState() {
     _init();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   void _init() {
@@ -119,6 +130,7 @@ class _GeoFullState extends State<GeoFull> {
           future: _getAddressName(child),
           builder: (context, snapshot) {
             return BottomSheet(
+              animationController: _animationController,
               dragHandleSize: const Size(60, 15),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               showDragHandle: true,
@@ -128,7 +140,9 @@ class _GeoFullState extends State<GeoFull> {
                   topRight: Radius.circular(15),
                 ),
               ),
-              onClosing: () {},
+              onClosing: () {
+                _dismissBottomSheet(context);
+              },
               builder: (BuildContext context) => Container(
                 height: 200,
                 width: double.maxFinite,
@@ -151,27 +165,28 @@ class _GeoFullState extends State<GeoFull> {
                         AnimatedGreenDot()
                       ],
                     ).hP8,
-                    HeaderWidget(
-                      title: 'Address',
-                      subtitle: childAddress,
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
                           height: 50,
-                          width: 200,
+                          width: 300,
                           child: HeaderWidget(
-                            title: 'Child ',
-                            subtitle: child['name'].toString(),
+                            title: 'Address',
+                            subtitle: childAddress,
                           ),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.verified,
-                          color: Colors.greenAccent,
+                          color: Colors.greenAccent.shade700,
                         ),
+                        const SizedBox(width: 4)
                       ],
-                    ).hP8
+                    ),
+                    HeaderWidget(
+                      title: 'Child ',
+                      subtitle: child['name'].toString(),
+                    ),
                   ],
                 ),
               ),
@@ -186,14 +201,18 @@ class _GeoFullState extends State<GeoFull> {
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       );
-      isBottomSheetEnabled = true;
+      isBottomSheetEnabled = !isBottomSheetEnabled;
     } else {
-      if (mounted) {
-        setState(() {
-          Navigator.of(context).pop();
-          isBottomSheetEnabled = false;
-        });
-      }
+      _dismissBottomSheet(context);
+    }
+  }
+
+  void _dismissBottomSheet(BuildContext context) {
+    if (mounted) {
+      setState(() {
+        Navigator.of(context).pop();
+        isBottomSheetEnabled = !isBottomSheetEnabled;
+      });
     }
   }
 

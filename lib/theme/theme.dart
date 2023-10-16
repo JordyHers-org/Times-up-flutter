@@ -46,7 +46,7 @@ class AppTheme {
     scaffoldBackgroundColor: CustomColors.indigoDarker,
     appBarTheme: AppBarTheme(backgroundColor: CustomColors.indigoDark),
     brightness: Brightness.dark,
-    cardTheme: CardTheme(color: CustomColors.indigoDark),
+    cardTheme: CardTheme(color: CustomColors.indigoDarker),
     iconTheme: IconThemeData(color: CustomColors.indigoLight),
     dividerColor: CustomColors.indigoLight,
     floatingActionButtonTheme: FloatingActionButtonThemeData(

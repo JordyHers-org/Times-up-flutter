@@ -6,12 +6,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:times_up_flutter/common_widgets/jh_custom_raised_button.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 import 'package:uuid/uuid.dart';
 
 enum AppState { loading, complete }
@@ -163,26 +165,17 @@ class _EditChildPageState extends State<EditChildPage> {
       backgroundColor:
           Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
       appBar: AppBar(
-        elevation: 2,
-        title: JHDisplayText(
-          text: widget.model == null ? 'New Child' : 'Edit Child',
-          style: const TextStyle(fontSize: 15),
-        ),
-        centerTitle: true,
-        actions: [
-          GestureDetector(
-            onTap: () async => _submit(_imageFile),
-            child: const Align(
-              child: Padding(
-                padding: EdgeInsets.all(8),
-                child: JHDisplayText(
-                  text: 'Save',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-            ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.indigo,
           ),
-        ],
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor:
+            Theme.of(context).scaffoldBackgroundColor.withOpacity(0.7),
+        elevation: 0,
+        centerTitle: true,
       ),
       body: _buildContents(),
     );
@@ -243,7 +236,7 @@ class _EditChildPageState extends State<EditChildPage> {
                 ),
                 onPressed: _getLocalImage,
                 child: const JHDisplayText(
-                  text: 'Add picture',
+                  text: 'Upload',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -265,6 +258,15 @@ class _EditChildPageState extends State<EditChildPage> {
         enabled: appState == AppState.complete || false,
         onSaved: (value) => _email = value,
       ),
+      JHCustomRaisedButton(
+        width: 200,
+        onPressed: () async => _submit(_imageFile),
+        color: Colors.indigo,
+        child: const JHDisplayText(
+          text: 'Save',
+          style: TextStyle(color: Colors.white),
+        ),
+      ).vTopP(24)
     ];
   }
 

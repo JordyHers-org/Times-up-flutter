@@ -7,7 +7,11 @@ import 'package:times_up_flutter/theme/theme.dart';
 class JHNoImplementationWidget extends StatelessWidget {
   const JHNoImplementationWidget({
     Key? key,
+    this.title,
+    this.content,
   }) : super(key: key);
+  final String? title;
+  final String? content;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +30,17 @@ class JHNoImplementationWidget extends StatelessWidget {
           child: Column(
             children: [
               const Icon(LineAwesomeIcons.info),
-              const JHDisplayText(
-                text: 'Oops :( ',
-                style: TextStyle(fontWeight: FontWeight.w500),
+              JHDisplayText(
+                text: title ?? 'Oops :( ',
+                style: const TextStyle(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 8),
-              const JHDisplayText(
-                text: 'Not implemented yet. We are actively working to'
-                    ' implement '
-                    ' that we will let you know soon.',
-                style: TextStyle(
+              JHDisplayText(
+                text: content ??
+                    'Not implemented yet. We are actively working to'
+                        ' implement '
+                        ' that we will let you know soon.',
+                style: const TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.w400,
                 ),
@@ -46,7 +51,7 @@ class JHNoImplementationWidget extends StatelessWidget {
                 onPressed: () => Navigator.of(context).pop(),
                 color: CustomColors.indigoDark,
                 child: const JHDisplayText(
-                  text: 'Ok',
+                  text: 'OK',
                   style: TextStyle(color: Colors.white),
                 ),
               ),

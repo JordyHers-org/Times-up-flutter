@@ -51,7 +51,10 @@ class ChildDetailsPage extends StatefulWidget {
   _ChildDetailsPageState createState() => _ChildDetailsPageState();
 }
 
-class _ChildDetailsPageState extends State<ChildDetailsPage> {
+class _ChildDetailsPageState extends State<ChildDetailsPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
   Future<void> _deleteUserPictureAndChild(
     BuildContext context,
     ChildModel model,
@@ -65,6 +68,21 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
         exception: e,
       );
     }
+  }
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -216,6 +234,7 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                   GestureDetector(
                     onTap: () => showCustomBottomSheet(
                       context,
+                      animationController: _animationController,
                       child: Container(
                         decoration: BoxDecoration(
                           color: themeData.scaffoldBackgroundColor,

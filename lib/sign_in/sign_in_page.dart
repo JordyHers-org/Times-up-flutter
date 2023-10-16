@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/show_exeption_alert.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/services/auth.dart';
@@ -97,8 +98,9 @@ class SignInPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(height: 180, child: _buildHeader()),
-            const SizedBox(height: 28),
+            const Spacer(),
+            SizedBox(height: 180, child: _buildHeader(context)),
+            const Spacer(),
             SocialSignInButton(
               assetName: 'images/google-logo.png',
               text: 'Sign in With Google',
@@ -122,20 +124,31 @@ class SignInPage extends StatelessWidget {
               color: Colors.teal[700],
               onPressed: () => isLoading ? null : _signInWithEmail(context),
             ),
-            const SizedBox(height: 8),
-            const SizedBox(height: 8),
+            const SizedBox(height: 32),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    return Image.asset(
-      'images/png/sign-up.png',
-    );
+    return Theme.of(context).brightness == Brightness.light
+        ? Image.asset(
+            'images/png/sign-up.png',
+          )
+        : const Center(
+            child: JHDisplayText(
+              text: "Time's Up",
+              fontSize: 55,
+              maxFontSize: 75,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          );
   }
 }
