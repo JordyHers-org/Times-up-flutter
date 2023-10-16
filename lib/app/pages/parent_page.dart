@@ -312,6 +312,7 @@ class _ParentPageState extends State<ParentPage>
                 );
               } else {
                 return const JHEmptyContent(
+                  fontSizeMessage: 10,
                   child: Icon(Icons.info_outline_rounded),
                 );
               }
