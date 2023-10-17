@@ -227,9 +227,7 @@ class _GeoFullState extends State<GeoFull> with SingleTickerProviderStateMixin {
           onTap: () => _showBottomSheet(context, data[i]),
           markerId: MarkerId(data[i]['id'] as String),
           position: LatLng(
-            // ignore: avoid_dynamic_calls
             data[i]['position'].latitude as double,
-            // ignore: avoid_dynamic_calls
             data[i]['position'].longitude as double,
           ),
           icon: BitmapDescriptor.fromBytes(bmp),
