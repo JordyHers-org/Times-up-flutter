@@ -76,7 +76,7 @@ settled for user, and doesn't collect data for third parties companies.
 
 
 
-## Quick Start and Run
+## How to Contribute
 
 1. **Read The Branch naming convention**
    > <a href="https://docs.google.com/viewer?url=https://github.com/JordyHers-org/Times-up-flutter/files/12828818/how_to_create_a_branch.pdf">How to name a branch</a>
