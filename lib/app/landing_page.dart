@@ -5,6 +5,7 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:times_up_flutter/app/pages/parent_page.dart';
 import 'package:times_up_flutter/app/pages/set_child_page.dart';
 import 'package:times_up_flutter/common_widgets/jh_loading_widget.dart';
+import 'package:times_up_flutter/services/app_usage_service.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/database.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
@@ -41,6 +42,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final geoService = Provider.of<GeoLocatorService>(context, listen: false);
+    final appsService = Provider.of<AppUsageService>(context, listen: false);
     return StreamBuilder<User?>(
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
@@ -53,7 +55,13 @@ class _LandingPageState extends State<LandingPage> {
             case AppSide.parent:
               return _buildParentSide(user, geoService, auth);
             case AppSide.child:
-              return _buildChildSide(auth, user, geoService, context);
+              return _buildChildSide(
+                auth,
+                user,
+                geoService,
+                appsService,
+                context,
+              );
           }
         }
         return const Scaffold(
@@ -69,14 +77,19 @@ class _LandingPageState extends State<LandingPage> {
     AuthBase auth,
     User user,
     GeoLocatorService geoService,
+    AppUsageService appUsage,
     BuildContext context,
   ) {
     return Provider<Database>(
       create: (_) => FireStoreDatabase(auth: auth, uid: user.uid),
       child: FutureProvider(
-        initialData: geoService.getCurrentLocation,
-        create: (context) => geoService.getInitialLocation(),
-        child: SetChildPage.create(context),
+        create: (context) => appUsage.getAppUsageService(),
+        initialData: appUsage.getAppUsageService(),
+        child: FutureProvider(
+          initialData: geoService.getCurrentLocation,
+          create: (context) => geoService.getInitialLocation(),
+          child: SetChildPage.create(context),
+        ),
       ),
     );
   }
@@ -87,7 +100,10 @@ class _LandingPageState extends State<LandingPage> {
     AuthBase auth,
   ) {
     return Provider<Database>(
-      create: (_) => FireStoreDatabase(auth: auth, uid: user.uid,),
+      create: (_) => FireStoreDatabase(
+        auth: auth,
+        uid: user.uid,
+      ),
       child: FutureProvider(
         initialData: null,
         create: (context) => geoService.getInitialLocation(),

@@ -5,27 +5,30 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i9;
 
-import 'package:cloud_firestore/cloud_firestore.dart' as _i13;
+import 'package:cloud_firestore/cloud_firestore.dart' as _i14;
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart'
-    as _i14;
+    as _i15;
 import 'package:firebase_messaging/firebase_messaging.dart' as _i8;
-import 'package:flutter/material.dart' as _i15;
+import 'package:flutter/material.dart' as _i16;
+import 'package:flutter/src/widgets/framework.dart' as _i22;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i7;
 import 'package:geolocator/geolocator.dart' as _i4;
+import 'package:installed_apps/app_info.dart' as _i21;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:times_up_flutter/models/child_model/child_model.dart' as _i3;
+import 'package:times_up_flutter/models/email_model.dart' as _i13;
 import 'package:times_up_flutter/models/notification_model/notification_model.dart'
     as _i12;
-import 'package:times_up_flutter/services/app_usage_local_service.dart' as _i18;
+import 'package:times_up_flutter/services/app_usage_local_service.dart' as _i19;
 import 'package:times_up_flutter/services/app_usage_service.dart' as _i11;
 import 'package:times_up_flutter/services/auth.dart' as _i5;
 import 'package:times_up_flutter/services/database.dart' as _i10;
 import 'package:times_up_flutter/services/geo_locator_service.dart' as _i6;
-import 'package:times_up_flutter/services/notification_service.dart' as _i19;
-import 'package:times_up_flutter/sign_in/email_sign_in_bloc.dart' as _i16;
-import 'package:times_up_flutter/sign_in/email_sign_in_model.dart' as _i17;
+import 'package:times_up_flutter/services/notification_service.dart' as _i20;
+import 'package:times_up_flutter/sign_in/email_sign_in_bloc.dart' as _i17;
+import 'package:times_up_flutter/sign_in/email_sign_in_model.dart' as _i18;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -163,10 +166,35 @@ class _FakeFirebaseMessaging_11 extends _i1.SmartFake
         );
 }
 
+class _FakeDuration_12 extends _i1.SmartFake implements Duration {
+  _FakeDuration_12(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [AuthBase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthBase extends _i1.Mock implements _i5.AuthBase {
+  @override
+  bool get isFirstLogin => (super.noSuchMethod(
+        Invocation.getter(#isFirstLogin),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  void setFirstLogin({bool? isFirstLogin}) => super.noSuchMethod(
+        Invocation.method(
+          #setFirstLogin,
+          [],
+          {#isFirstLogin: isFirstLogin},
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   _i9.Future<_i2.User> signInAnonymously() => (super.noSuchMethod(
         Invocation.method(
@@ -443,10 +471,21 @@ class MockDatabase extends _i1.Mock implements _i10.Database {
         returnValueForMissingStub: _i9.Future<void>.value(),
       ) as _i9.Future<void>);
   @override
+  _i9.Future<void> sendEmail({required _i13.EmailModel? email}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #sendEmail,
+          [],
+          {#email: email},
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
+  @override
   _i9.Future<_i3.ChildModel> getUserCurrentChild(
     String? key,
     _i11.AppUsageService? apps,
-    _i13.GeoPoint? latLong, {
+    _i14.GeoPoint? latLong, {
     String? battery,
   }) =>
       (super.noSuchMethod(
@@ -665,7 +704,7 @@ class MockUser extends _i1.Mock implements _i2.User {
       ) as _i9.Future<_i2.UserCredential>);
   @override
   _i9.Future<_i2.UserCredential> linkWithProvider(
-          _i14.AuthProvider? provider) =>
+          _i15.AuthProvider? provider) =>
       (super.noSuchMethod(
         Invocation.method(
           #linkWithProvider,
@@ -689,7 +728,7 @@ class MockUser extends _i1.Mock implements _i2.User {
       ) as _i9.Future<_i2.UserCredential>);
   @override
   _i9.Future<_i2.UserCredential> reauthenticateWithProvider(
-          _i14.AuthProvider? provider) =>
+          _i15.AuthProvider? provider) =>
       (super.noSuchMethod(
         Invocation.method(
           #reauthenticateWithProvider,
@@ -713,7 +752,7 @@ class MockUser extends _i1.Mock implements _i2.User {
       ) as _i9.Future<_i2.UserCredential>);
   @override
   _i9.Future<_i2.UserCredential> reauthenticateWithPopup(
-          _i14.AuthProvider? provider) =>
+          _i15.AuthProvider? provider) =>
       (super.noSuchMethod(
         Invocation.method(
           #reauthenticateWithPopup,
@@ -736,7 +775,7 @@ class MockUser extends _i1.Mock implements _i2.User {
         )),
       ) as _i9.Future<_i2.UserCredential>);
   @override
-  _i9.Future<void> reauthenticateWithRedirect(_i14.AuthProvider? provider) =>
+  _i9.Future<void> reauthenticateWithRedirect(_i15.AuthProvider? provider) =>
       (super.noSuchMethod(
         Invocation.method(
           #reauthenticateWithRedirect,
@@ -746,7 +785,7 @@ class MockUser extends _i1.Mock implements _i2.User {
         returnValueForMissingStub: _i9.Future<void>.value(),
       ) as _i9.Future<void>);
   @override
-  _i9.Future<_i2.UserCredential> linkWithPopup(_i14.AuthProvider? provider) =>
+  _i9.Future<_i2.UserCredential> linkWithPopup(_i15.AuthProvider? provider) =>
       (super.noSuchMethod(
         Invocation.method(
           #linkWithPopup,
@@ -769,7 +808,7 @@ class MockUser extends _i1.Mock implements _i2.User {
         )),
       ) as _i9.Future<_i2.UserCredential>);
   @override
-  _i9.Future<void> linkWithRedirect(_i14.AuthProvider? provider) =>
+  _i9.Future<void> linkWithRedirect(_i15.AuthProvider? provider) =>
       (super.noSuchMethod(
         Invocation.method(
           #linkWithRedirect,
@@ -965,11 +1004,11 @@ class MockUser extends _i1.Mock implements _i2.User {
 /// A class which mocks [NavigatorObserver].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNavigatorObserver extends _i1.Mock implements _i15.NavigatorObserver {
+class MockNavigatorObserver extends _i1.Mock implements _i16.NavigatorObserver {
   @override
   void didPush(
-    _i15.Route<dynamic>? route,
-    _i15.Route<dynamic>? previousRoute,
+    _i16.Route<dynamic>? route,
+    _i16.Route<dynamic>? previousRoute,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -983,8 +1022,8 @@ class MockNavigatorObserver extends _i1.Mock implements _i15.NavigatorObserver {
       );
   @override
   void didPop(
-    _i15.Route<dynamic>? route,
-    _i15.Route<dynamic>? previousRoute,
+    _i16.Route<dynamic>? route,
+    _i16.Route<dynamic>? previousRoute,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -998,8 +1037,8 @@ class MockNavigatorObserver extends _i1.Mock implements _i15.NavigatorObserver {
       );
   @override
   void didRemove(
-    _i15.Route<dynamic>? route,
-    _i15.Route<dynamic>? previousRoute,
+    _i16.Route<dynamic>? route,
+    _i16.Route<dynamic>? previousRoute,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1013,8 +1052,8 @@ class MockNavigatorObserver extends _i1.Mock implements _i15.NavigatorObserver {
       );
   @override
   void didReplace({
-    _i15.Route<dynamic>? newRoute,
-    _i15.Route<dynamic>? oldRoute,
+    _i16.Route<dynamic>? newRoute,
+    _i16.Route<dynamic>? oldRoute,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1029,8 +1068,8 @@ class MockNavigatorObserver extends _i1.Mock implements _i15.NavigatorObserver {
       );
   @override
   void didStartUserGesture(
-    _i15.Route<dynamic>? route,
-    _i15.Route<dynamic>? previousRoute,
+    _i16.Route<dynamic>? route,
+    _i16.Route<dynamic>? previousRoute,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1055,7 +1094,7 @@ class MockNavigatorObserver extends _i1.Mock implements _i15.NavigatorObserver {
 /// A class which mocks [EmailSignInBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockEmailSignInBloc extends _i1.Mock implements _i16.EmailSignInBloc {
+class MockEmailSignInBloc extends _i1.Mock implements _i17.EmailSignInBloc {
   @override
   _i5.AuthBase get auth => (super.noSuchMethod(
         Invocation.getter(#auth),
@@ -1069,11 +1108,11 @@ class MockEmailSignInBloc extends _i1.Mock implements _i16.EmailSignInBloc {
         ),
       ) as _i5.AuthBase);
   @override
-  _i9.Stream<_i17.EmailSignInModel> get modelStream => (super.noSuchMethod(
+  _i9.Stream<_i18.EmailSignInModel> get modelStream => (super.noSuchMethod(
         Invocation.getter(#modelStream),
-        returnValue: _i9.Stream<_i17.EmailSignInModel>.empty(),
-        returnValueForMissingStub: _i9.Stream<_i17.EmailSignInModel>.empty(),
-      ) as _i9.Stream<_i17.EmailSignInModel>);
+        returnValue: _i9.Stream<_i18.EmailSignInModel>.empty(),
+        returnValueForMissingStub: _i9.Stream<_i18.EmailSignInModel>.empty(),
+      ) as _i9.Stream<_i18.EmailSignInModel>);
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -1137,7 +1176,7 @@ class MockEmailSignInBloc extends _i1.Mock implements _i16.EmailSignInBloc {
     String? password,
     String? name,
     String? surname,
-    _i17.EmailSignInFormType? formType,
+    _i18.EmailSignInFormType? formType,
     bool? isLoading,
     bool? submitted,
   }) =>
@@ -1162,7 +1201,7 @@ class MockEmailSignInBloc extends _i1.Mock implements _i16.EmailSignInBloc {
 /// A class which mocks [AppUsage].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppUsage extends _i1.Mock implements _i18.AppUsage {}
+class MockAppUsage extends _i1.Mock implements _i19.AppUsage {}
 
 /// A class which mocks [FireStoreDatabase].
 ///
@@ -1174,6 +1213,18 @@ class MockFireStoreDatabase extends _i1.Mock implements _i10.FireStoreDatabase {
         returnValue: '',
         returnValueForMissingStub: '',
       ) as String);
+  @override
+  _i5.AuthBase get auth => (super.noSuchMethod(
+        Invocation.getter(#auth),
+        returnValue: _FakeAuthBase_8(
+          this,
+          Invocation.getter(#auth),
+        ),
+        returnValueForMissingStub: _FakeAuthBase_8(
+          this,
+          Invocation.getter(#auth),
+        ),
+      ) as _i5.AuthBase);
   @override
   _i6.GeoLocatorService get geo => (super.noSuchMethod(
         Invocation.getter(#geo),
@@ -1236,6 +1287,17 @@ class MockFireStoreDatabase extends _i1.Mock implements _i10.FireStoreDatabase {
             notification,
             child,
           ],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
+  @override
+  _i9.Future<void> sendEmail({required _i13.EmailModel? email}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #sendEmail,
+          [],
+          {#email: email},
         ),
         returnValue: _i9.Future<void>.value(),
         returnValueForMissingStub: _i9.Future<void>.value(),
@@ -1323,7 +1385,7 @@ class MockFireStoreDatabase extends _i1.Mock implements _i10.FireStoreDatabase {
   _i9.Future<_i3.ChildModel> getUserCurrentChild(
     String? key,
     _i11.AppUsageService? apps,
-    _i13.GeoPoint? latLong, {
+    _i14.GeoPoint? latLong, {
     String? battery,
   }) =>
       (super.noSuchMethod(
@@ -1368,7 +1430,7 @@ class MockFireStoreDatabase extends _i1.Mock implements _i10.FireStoreDatabase {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNotificationService extends _i1.Mock
-    implements _i19.NotificationService {
+    implements _i20.NotificationService {
   @override
   _i7.FlutterLocalNotificationsPlugin get flutterLocalNotificationsPlugin =>
       (super.noSuchMethod(
@@ -1429,4 +1491,63 @@ class MockNotificationService extends _i1.Mock
         returnValue: _i9.Future<void>.value(),
         returnValueForMissingStub: _i9.Future<void>.value(),
       ) as _i9.Future<void>);
+}
+
+/// A class which mocks [AppUsageService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAppUsageService extends _i1.Mock implements _i11.AppUsageService {
+  @override
+  List<_i19.AppUsageInfo> get info => (super.noSuchMethod(
+        Invocation.getter(#info),
+        returnValue: <_i19.AppUsageInfo>[],
+        returnValueForMissingStub: <_i19.AppUsageInfo>[],
+      ) as List<_i19.AppUsageInfo>);
+  @override
+  List<_i21.AppInfo> get appInfo => (super.noSuchMethod(
+        Invocation.getter(#appInfo),
+        returnValue: <_i21.AppInfo>[],
+        returnValueForMissingStub: <_i21.AppInfo>[],
+      ) as List<_i21.AppInfo>);
+  @override
+  Duration get averageDuration => (super.noSuchMethod(
+        Invocation.getter(#averageDuration),
+        returnValue: _FakeDuration_12(
+          this,
+          Invocation.getter(#averageDuration),
+        ),
+        returnValueForMissingStub: _FakeDuration_12(
+          this,
+          Invocation.getter(#averageDuration),
+        ),
+      ) as Duration);
+  @override
+  _i9.Future<void> getAppUsageService() => (super.noSuchMethod(
+        Invocation.method(
+          #getAppUsageService,
+          [],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
+  @override
+  _i9.Future<Duration?> getChildrenAppUsageAverage(_i10.Database? database) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getChildrenAppUsageAverage,
+          [database],
+        ),
+        returnValue: _i9.Future<Duration?>.value(),
+        returnValueForMissingStub: _i9.Future<Duration?>.value(),
+      ) as _i9.Future<Duration?>);
+  @override
+  _i9.Future<Duration?> getChildAppUsagePerDay(_i22.BuildContext? context) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getChildAppUsagePerDay,
+          [context],
+        ),
+        returnValue: _i9.Future<Duration?>.value(),
+        returnValueForMissingStub: _i9.Future<Duration?>.value(),
+      ) as _i9.Future<Duration?>);
 }

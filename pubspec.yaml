@@ -1,6 +1,6 @@
 name: times_up_flutter
 description: Times up help parent monitor the time their kids spend on screen.
-version: 1.0.0+1
+version: 2.0.0+1
 publish_to: none
 
 environment:
@@ -15,6 +15,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_svg: ^2.0.4
+  geocoding: ^2.1.1
 
   # Authentication Packages:
   firebase_auth: ^4.2.2
@@ -46,13 +47,14 @@ dependencies:
   app_usage: ^2.0.0
   google_fonts: ^4.0.3
   image_picker: ^0.8.5+3
-  after_layout: ^1.2.0
+
   rename: ^2.1.1
+  package_info_plus: ^3.0.0
 
   # UI Component Packages:
   line_awesome_flutter: ^2.0.0
   showcaseview: ^2.0.3
-  flutter_any_logo: ^1.0.5
+
 
   # Testing Packages:
   mockito: ^5.0.0
@@ -93,3 +95,4 @@ flutter:
     - images/google-logo.png
     - images/splash_svg/
     - images/png/
+    - assets/map_theme/

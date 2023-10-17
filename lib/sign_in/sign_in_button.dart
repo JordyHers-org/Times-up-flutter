@@ -12,9 +12,20 @@ class SignInButton extends JHCustomRaisedButton {
     VoidCallback? onPressed,
   }) : super(
           key: key,
-          child: JHDisplayText(
-            text: text,
-            style: TextStyle(color: textColor, fontSize: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Icon(
+                Icons.email,
+                color: Colors.white,
+                size: 30,
+              ),
+              JHDisplayText(
+                text: text,
+                style: TextStyle(color: textColor, fontSize: 17),
+              ),
+              const SizedBox.shrink(),
+            ],
           ),
           color: color ?? CustomColors.indigoLight,
           onPressed: onPressed ?? () {},

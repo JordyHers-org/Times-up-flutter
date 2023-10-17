@@ -23,7 +23,12 @@ class InfoBox extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
-        width: JHSizeConfig.screenWidth! * 0.45,
+        constraints: const BoxConstraints(
+          maxWidth: 200,
+          minWidth: 170,
+          maxHeight: 180,
+          minHeight: 100,
+        ),
         decoration: BoxDecoration(
           color: CustomColors.indigoLight.withOpacity(0.2),
           borderRadius: BorderRadius.circular(10),
@@ -42,7 +47,7 @@ class InfoBox extends StatelessWidget {
                   ),
                 ),
               ],
-            ).p4,
+            ).p8,
             child.p16,
           ],
         ),

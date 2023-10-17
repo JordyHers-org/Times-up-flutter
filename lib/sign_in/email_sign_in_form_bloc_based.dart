@@ -99,46 +99,9 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   List<Widget> _buildChildren(EmailSignInModel model) {
     return [
       if (model.formType == EmailSignInFormType.register)
-        TextField(
-          focusNode: _nameFocusNode,
-          controller: _nameController,
-          textInputAction: TextInputAction.next,
-          onChanged: (name) => widget.bloc.updateName(name),
-          onEditingComplete: () {
-            if (model.nameValidator.isValid(model.name) == true) {
-              FocusScope.of(context).requestFocus(_surnameFocusNode);
-            }
-          },
-          decoration: InputDecoration(
-            labelText: 'Name',
-            errorText:
-                model.showErrorTextName ? model.inValidNameErrorText : null,
-            enabled: model.isLoading == false,
-          ),
-        )
-      else
-        const Opacity(opacity: 0),
+        _buildNameField(model),
       if (model.formType == EmailSignInFormType.register)
-        TextField(
-          focusNode: _surnameFocusNode,
-          controller: _surnameController,
-          textInputAction: TextInputAction.next,
-          onChanged: (surname) => widget.bloc.updateSurname(surname),
-          onEditingComplete: () {
-            if (model.surnameValidator.isValid(model.surname) == true) {
-              FocusScope.of(context).requestFocus(_emailFocusNode);
-            }
-          },
-          decoration: InputDecoration(
-            labelText: 'Surname',
-            errorText: model.showErrorTextSurname
-                ? model.inValidSurnameErrorText
-                : null,
-            enabled: model.isLoading == false,
-          ),
-        )
-      else
-        const Opacity(opacity: 0),
+        _buildSurnameField(model),
       _buildEmailTextField(model),
       const SizedBox(height: 8),
       _buildPasswordTextField(model),
@@ -153,9 +116,55 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       const SizedBox(height: 8),
       OutlinedButton(
         onPressed: () => !model.isLoading ? _toggleFormType(model) : null,
-        child: Text(model.secondaryButtonText),
+        child: Text(
+          model.secondaryButtonText,
+          style: TextStyle(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey
+                : CustomColors.indigoDark,
+          ),
+        ),
       ),
     ];
+  }
+
+  Widget _buildSurnameField(EmailSignInModel model) {
+    return TextField(
+      focusNode: _surnameFocusNode,
+      controller: _surnameController,
+      textInputAction: TextInputAction.next,
+      onChanged: (surname) => widget.bloc.updateSurname(surname),
+      onEditingComplete: () {
+        if (model.surnameValidator.isValid(model.surname) == true) {
+          FocusScope.of(context).requestFocus(_emailFocusNode);
+        }
+      },
+      decoration: InputDecoration(
+        labelText: 'Surname',
+        errorText:
+            model.showErrorTextSurname ? model.inValidSurnameErrorText : null,
+        enabled: model.isLoading == false,
+      ),
+    );
+  }
+
+  Widget _buildNameField(EmailSignInModel model) {
+    return TextField(
+      focusNode: _nameFocusNode,
+      controller: _nameController,
+      textInputAction: TextInputAction.next,
+      onChanged: (name) => widget.bloc.updateName(name),
+      onEditingComplete: () {
+        if (model.nameValidator.isValid(model.name) == true) {
+          FocusScope.of(context).requestFocus(_surnameFocusNode);
+        }
+      },
+      decoration: InputDecoration(
+        labelText: 'Name',
+        errorText: model.showErrorTextName ? model.inValidNameErrorText : null,
+        enabled: model.isLoading == false,
+      ),
+    );
   }
 
   Widget _buildEmailTextField(EmailSignInModel model) {
@@ -202,7 +211,6 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         initialData: EmailSignInModel(),
         builder: (context, snapshot) {
           final model = snapshot.data;
-
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

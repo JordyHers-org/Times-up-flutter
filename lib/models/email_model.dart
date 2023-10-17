@@ -1,5 +1,4 @@
-class EmailModel{
-
+class EmailModel {
   EmailModel({
     required this.emailIds,
     required this.subject,
@@ -14,12 +13,12 @@ class EmailModel{
 
   Map<String, dynamic> toJson() {
     return {
-      'to' : emailIds,
-      'message' : {
-        'subject' : subject,
-        'text' : text,
-        'html' : html,
-      }
+      'to': emailIds,
+      'message': {
+        'subject': subject,
+        'text': text,
+        'html': html,
+      },
     };
   }
 }

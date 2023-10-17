@@ -51,7 +51,10 @@ class ChildDetailsPage extends StatefulWidget {
   _ChildDetailsPageState createState() => _ChildDetailsPageState();
 }
 
-class _ChildDetailsPageState extends State<ChildDetailsPage> {
+class _ChildDetailsPageState extends State<ChildDetailsPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
   Future<void> _deleteUserPictureAndChild(
     BuildContext context,
     ChildModel model,
@@ -68,19 +71,42 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
   }
 
   @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<ChildModel?>(
       stream: widget.database.childStream(childId: widget.childModel.id),
       builder: (context, snapshot) {
         final child = snapshot.data;
+
         return Scaffold(
-          body: _buildContentTemporary(context, child),
+          body: _buildContentTemporary(
+            context,
+            child,
+          ),
         );
       },
     );
   }
 
-  Widget _buildContentTemporary(BuildContext context, ChildModel? model) {
+  Widget _buildContentTemporary(
+    BuildContext context,
+    ChildModel? model,
+  ) {
+    final themeData = Theme.of(context);
     if (model != null) {
       return NestedScrollView(
         headerSliverBuilder: (context, value) {
@@ -88,11 +114,15 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             SliverAppBar(
               actions: [
                 if (model.image != null)
-                  ClipOval(
-                    child: Image.network(model.image!),
-                  ).p4
+                  Row(
+                    children: [
+                      ClipOval(
+                        child: Image.network(model.image!),
+                      ).p4,
+                    ],
+                  )
                 else
-                  const SizedBox.shrink()
+                  const SizedBox.shrink(),
               ],
               elevation: 0.5,
               shadowColor: CustomColors.indigoLight,
@@ -104,18 +134,18 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                 },
               ),
               iconTheme: const IconThemeData(color: Colors.red),
-              backgroundColor: Colors.white,
+              backgroundColor: themeData.scaffoldBackgroundColor,
               expandedHeight: 50,
               shape: ContinuousRectangleBorder(
                 side: BorderSide(
                   color: !value
-                      ? Colors.white
+                      ? themeData.scaffoldBackgroundColor
                       : CustomColors.indigoLight.withOpacity(0.5),
                 ),
               ),
               pinned: true,
               floating: true,
-            )
+            ),
           ];
         },
         body: ScrollConfiguration(
@@ -124,6 +154,17 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
             slivers: <Widget>[
               SliverList(
                 delegate: SliverChildListDelegate([
+                  JHDisplayText(
+                    text: model.name,
+                    style: TextStyle(
+                      color: themeData.brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.grey,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    fontSize: 32,
+                    maxFontSize: 34,
+                  ).hP16,
                   HeaderWidget(
                     title: AppLocalizations.of(context).enterThisCode,
                     subtitle: AppLocalizations.of(context)
@@ -160,17 +201,17 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                             color: Colors.deepOrangeAccent,
                           ),
                         ),
-                      ).p4,
+                      ).vTopP(4),
                       JHBatteryWidget(
                         level: double.parse(model.batteryLevel ?? '0.0') / 100,
-                      ).p4,
+                      ),
                     ],
-                  ).p16,
+                  ).hP16,
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 18),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
                         height: 205,
                         width: double.infinity,
                         child: model.appsUsageModel.isNotEmpty
@@ -184,18 +225,20 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                               ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 18),
+                  ).vTopP(20),
                   HeaderWidget(
                     title: AppLocalizations.of(context)
                         .sendNotificationToYourChildDevice,
                     subtitle: 'Push the button ',
-                  ).p8,
+                  ),
                   GestureDetector(
                     onTap: () => showCustomBottomSheet(
                       context,
+                      animationController: _animationController,
                       child: Container(
-                        decoration: const BoxDecoration(color: Colors.white),
+                        decoration: BoxDecoration(
+                          color: themeData.scaffoldBackgroundColor,
+                        ),
                         height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -229,11 +272,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       icon: Icons.wifi_tethering_error_sharp,
                     ),
                   ),
-                  const SizedBox(height: 8),
                   _AppUsedList(
                     model: model,
                   ),
-                  const SizedBox(height: 50),
                   JHCustomButton(
                     title: 'Delete Child',
                     backgroundColor: Colors.transparent,
@@ -243,10 +284,9 @@ class _ChildDetailsPageState extends State<ChildDetailsPage> {
                       context,
                       widget.childModel,
                     ),
-                  ),
-                  const SizedBox(height: 40),
+                  ).vTopP(50),
                 ]),
-              )
+              ),
             ],
           ),
         ),
@@ -317,15 +357,19 @@ class _AppUsedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     return SingleChildScrollView(
       child: ScrollConfiguration(
         behavior: const ScrollBehavior().copyWith(overscroll: false),
         child: Column(
           children: [
-            const HeaderWidget(
-              title: 'Summary of used apps',
-              subtitle: 'Click for more details',
-            ),
+            if (model.appsUsageModel.isNotEmpty)
+              const HeaderWidget(
+                title: 'Summary of used apps',
+                subtitle: 'Click for more details',
+              )
+            else
+              const SizedBox.shrink().vP16,
             if (model.appsUsageModel.isNotEmpty)
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -347,18 +391,18 @@ class _AppUsedList extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: CustomColors.indigoDark,
+                            color: themeData.dividerColor,
                           ),
                         ),
                         trailing: Text(
                           model.appsUsageModel[index].usage.toString().t(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Colors.indigo,
+                            color: themeData.dividerColor,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   );
                 },
@@ -367,8 +411,8 @@ class _AppUsedList extends StatelessWidget {
               const JHEmptyContent(
                 message: 'Seems like you have not set up the child device \n',
                 title: 'Set up the child device',
-                fontSizeMessage: 12,
-                fontSizeTitle: 23,
+                fontSizeMessage: 8,
+                fontSizeTitle: 12,
               ),
           ],
         ),

@@ -1,33 +1,47 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter_any_logo/flutter_logo.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_no_implementation.dart';
 import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/services/app_info_service.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/theme/theme_notifier.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
     required this.auth,
+    required this.themeNotifier,
     Key? key,
     this.title,
     this.name,
     this.email,
     this.context,
+    this.appInfoService,
   }) : super(key: key);
   final BuildContext? context;
+  final ThemeNotifier themeNotifier;
   final AuthBase auth;
   final String? title;
   final String? name;
   final String? email;
+  final AppInfoService? appInfoService;
 
   static Future<void> show(BuildContext context, AuthBase auth) async {
+    final themeProvider = Provider.of<ThemeNotifier>(context, listen: false);
+    final appInfo = Provider.of<AppInfoService>(context, listen: false);
     await Navigator.of(context).push(
       MaterialPageRoute<SettingsPage>(
-        builder: (context) => SettingsPage(context: context, auth: auth),
+        builder: (context) => SettingsPage(
+          context: context,
+          auth: auth,
+          themeNotifier: themeProvider,
+          appInfoService: appInfo,
+        ),
       ),
     );
   }
@@ -61,25 +75,44 @@ class SettingsPage extends StatelessWidget {
         children: <Widget>[
           ProfileListItem(
             icon: LineAwesomeIcons.history,
-            onPressed: () {},
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
             text: 'Update profile',
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.language,
-            onPressed: () {},
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
             text: 'Change language',
           ),
           ProfileListItem(
-            icon: LineAwesomeIcons.moon,
             onPressed: () {},
-            text: 'Dark mode',
+            icon: themeNotifier.isDarkMode
+                ? LineAwesomeIcons.moon
+                : LineAwesomeIcons.sun,
+            hasNavigation: false,
+            text: themeNotifier.isDarkMode ? 'Dark mode' : 'Light mode',
+            child: Switch(
+              activeColor: Colors.white,
+              inactiveThumbColor: Colors.white,
+              activeTrackColor: Colors.greenAccent,
+              inactiveTrackColor: Colors.red,
+              onChanged: (_) => themeNotifier.toggleTheme(),
+              value: themeNotifier.isDarkMode || false,
+            ),
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.user_shield,
-            onPressed: () {},
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
             text: 'Contact us',
           ),
-          Image.asset('images/png/profile.png'),
         ],
       ),
     );
@@ -110,21 +143,29 @@ class SettingsPage extends StatelessWidget {
                         Icons.logout,
                         size: 23,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 buildItems(context),
-                ListTile(
-                  trailing: AnyLogo.tech.jordyHers.image(height: 25),
-                  title: JHDisplayText(
-                    text: 'Copyright© Jordyhers',
-                    style:
-                        TextStyle(color: CustomColors.indigoDark, fontSize: 12),
+                const Center(
+                  child: JHDisplayText(
+                    text: 'Copyright© JordyHers-org',
+                    fontSize: 8,
+                    maxFontSize: 12,
+                    style: TextStyle(color: Colors.grey),
                   ),
-                )
+                ),
+                Center(
+                  child: JHDisplayText(
+                    text: 'v${appInfoService?.appInfo.version ?? ''}',
+                    fontSize: 8,
+                    maxFontSize: 12,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ),
               ],
             ),
-          ).vP36
+          ).vP16.vP16,
         ],
       ),
     );
@@ -137,17 +178,21 @@ class ProfileListItem extends StatelessWidget {
     Key? key,
     this.icon,
     this.text,
+    this.child,
     this.hasNavigation = true,
   }) : super(key: key);
   final IconData? icon;
   final String? text;
   final bool hasNavigation;
-  final Function onPressed;
+  final VoidCallback onPressed;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onPressed,
+      overlayColor:
+          MaterialStateColor.resolveWith((states) => Colors.transparent),
+      onTap: onPressed,
       child: Container(
         height: 55,
         margin: const EdgeInsets.symmetric(
@@ -170,11 +215,11 @@ class ProfileListItem extends StatelessWidget {
               style: TextStyles.body,
             ),
             const Spacer(),
+            if (child != null) child!,
             if (hasNavigation)
-              Icon(
+              const Icon(
                 Icons.chevron_right,
                 size: 25,
-                color: CustomColors.indigoDark,
               ),
           ],
         ),

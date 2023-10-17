@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/app/bloc/child_side_bloc.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/app/landing_page.dart';
 import 'package:times_up_flutter/app/pages/set_child_page.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
@@ -17,6 +18,7 @@ import 'package:times_up_flutter/models/notification_model/notification_model.da
 import 'package:times_up_flutter/services/app_usage_service.dart';
 import 'package:times_up_flutter/services/database.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class ChildPage extends StatefulWidget {
   const ChildPage({
@@ -82,57 +84,57 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
       onRefresh: () => _refresh(widget.child, context, widget.database!),
       child: Scaffold(
         drawer: Drawer(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (widget.child != null)
                 Container(
                   height: 300,
-                  color: Colors.indigo,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   child: DrawerHeader(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 6),
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(widget.child!.image!),
-                            radius: 45,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 6),
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(widget.child!.image!),
+                          radius: 45,
+                        ),
+                        const SizedBox(height: 6),
+                        JHDisplayText(
+                          text: '${widget.child!.name} ',
+                          style: const TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey,
                           ),
-                          const SizedBox(height: 6),
-                          JHDisplayText(
-                            text: '${widget.child!.name} ',
-                            style: const TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 32),
-                          Row(
-                            children: [
-                              JHDisplayText(
-                                text: '${widget.child!.email} ',
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                        ),
+                        const SizedBox(height: 32),
+                        Row(
+                          children: [
+                            JHDisplayText(
+                              text: '${widget.child!.email} ',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey,
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 6),
-                          JHDisplayText(
-                            text: '${widget.child!.id} ',
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
                             ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        JHDisplayText(
+                          text: '${widget.child!.id} ',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.indigo,
                           ),
-                          const SizedBox(height: 7),
-                        ],
-                      ),
-                    ),
+                        ),
+                        const SizedBox(height: 7),
+                      ],
+                    ).hP8,
                   ),
                 )
               else
@@ -167,7 +169,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute<SetChildPage>(
-                    builder: (context) => const SetChildPage(),
+                    builder: (context) => const LandingPage(),
                   ),
                 );
               },
@@ -175,7 +177,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
                 Icons.exit_to_app,
                 color: Colors.indigo,
               ),
-            )
+            ),
           ],
           backgroundColor: Colors.white,
           title: const JHDisplayText(
@@ -245,27 +247,24 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
             itemBuilder: (context, index) {
               return Card(
                 color: Colors.indigo,
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: ListTile(
-                    title: JHDisplayText(
-                      text: data[index].title ?? 'No title available',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                    trailing: JHDisplayText(
-                      text: data[index].message ?? 'No message available',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
+                child: ListTile(
+                  title: JHDisplayText(
+                    text: data[index].title ?? 'No title available',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 16,
                     ),
                   ),
-                ),
+                  trailing: JHDisplayText(
+                    text: data[index].message ?? 'No message available',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ).p8,
               );
             },
           );

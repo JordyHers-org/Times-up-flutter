@@ -20,7 +20,7 @@ class ChildModel with _$ChildModel {
     final String? batteryLevel,
     @Default(<AppUsageInfo>[])
     @AppUsageInfoConverter()
-        List<AppUsageInfo> appsUsageModel,
+    List<AppUsageInfo> appsUsageModel,
     @GeoPointConverter() final GeoPoint? position,
   }) = _ChildModel;
 

@@ -15,7 +15,9 @@ class SplashScreen extends StatefulWidget {
   final BuildContext? context;
 
   static Widget create(BuildContext context) {
-    return SplashScreen(context: context);
+    return SplashScreen(
+      context: context,
+    );
   }
 
   @override
@@ -73,6 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     onPress: () {
                       SharedPreference().setVisitingFlag();
                       SharedPreference().setChildDevice();
+
                       Navigator.of(context).pushReplacement(
                         CupertinoPageRoute<LandingPage>(
                           builder: (context) => const LandingPage(),

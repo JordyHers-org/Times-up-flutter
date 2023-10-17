@@ -103,7 +103,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
                   },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

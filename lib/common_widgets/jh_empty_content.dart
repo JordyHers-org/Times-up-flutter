@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 
 class JHEmptyContent extends StatelessWidget {
@@ -31,16 +30,16 @@ class JHEmptyContent extends StatelessWidget {
               text: title!,
               style: TextStyle(
                 fontSize: fontSizeTitle,
-                color: Colors.black54,
+                color: Colors.grey.shade400,
               ),
             ),
           JHDisplayText(
-           text: message,
+            text: message,
             style: TextStyle(
               fontSize: fontSizeMessage,
-              color: Colors.black54,
+              color: Colors.grey.shade400,
             ),
-          )
+          ),
         ],
       ),
     );
