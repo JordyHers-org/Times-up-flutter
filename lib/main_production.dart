@@ -28,7 +28,8 @@ Future<void> main() async {
     () => MultiProvider(
       providers: [
         Provider<AuthBase>(create: (context) => Auth()),
-        Provider<AppUsageService>(create: (context) => AppUsageService()),
+        Provider<AppUsageService>(
+            create: (context) => AppUsageService()..getAppUsageService()),
         Provider<GeoLocatorService>(
           create: (context) => GeoLocatorService()..getInitialLocation(),
         ),

@@ -49,7 +49,7 @@ class _ScreensControllerState extends State<ScreensController> {
           else if (_hasVisited!)
             const LandingPage()
           else
-            const SplashScreen(),
+            SplashScreen.create(context),
           Consumer<InternetConnectivityService>(
             builder: (_, value, __) {
               return Container(

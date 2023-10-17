@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/app/bloc/child_side_bloc.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/app/landing_page.dart';
 import 'package:times_up_flutter/app/pages/set_child_page.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
@@ -83,13 +84,14 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
       onRefresh: () => _refresh(widget.child, context, widget.database!),
       child: Scaffold(
         drawer: Drawer(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (widget.child != null)
                 Container(
                   height: 300,
-                  color: Colors.indigo,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   child: DrawerHeader(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +107,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
                           style: const TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: Colors.grey,
                           ),
                         ),
                         const SizedBox(height: 32),
@@ -116,6 +118,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
+                                color: Colors.grey,
                               ),
                             ),
                           ],
@@ -126,6 +129,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w800,
+                            color: Colors.indigo,
                           ),
                         ),
                         const SizedBox(height: 7),
@@ -165,7 +169,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute<SetChildPage>(
-                    builder: (context) => const SetChildPage(),
+                    builder: (context) => const LandingPage(),
                   ),
                 );
               },
