@@ -60,7 +60,7 @@ dependencies:
   mockito: ^5.0.0
 
   # Share Packages:
-  share_plus: ^6.3.0
+  share_plus: ^7.2.1
 
   # Code Formatting Packages:
   pedantic: ^1.9.2
