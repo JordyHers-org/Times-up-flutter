@@ -96,7 +96,8 @@ settled for user, and doesn't collect data for third parties companies.
    ```
 
 4. **Request Firebase Options File**
-   > Request the Firebase options file from the Project Owner and place it in the appropriate location.
+   > Request the Firebase options file from the Project Owner and place it in the appropriate location. From discord server
+Jordyhers [Discord- JordyHers](https://discord.gg/e4ppDx9Zcy)
 
 5. **Extra**
    > For child's pictures feel free to use any of the pictures available.
