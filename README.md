@@ -3,7 +3,7 @@
 <img width="1023" alt="Screenshot 2023-06-06 at 08 22 55" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fb33eb58-8fad-4f75-a2c5-9c892525c294">
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ![coverage](./coverage_badge.svg)
 
@@ -126,6 +126,7 @@ To contribute to the project join the discord server:
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/siddesh3101"><img src="https://avatars.githubusercontent.com/u/84890369?v=4?s=70" width="70px;" alt="Siddesh Shetty"/><br /><sub><b>Siddesh Shetty</b></sub></a><br /><a href="https://github.com/JordyHers-org/Times-up-flutter/commits?author=siddesh3101" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://jordyhers.com/#/"><img src="https://avatars.githubusercontent.com/u/49708438?v=4?s=70" width="70px;" alt="Jordy Hershel Igondjo"/><br /><sub><b>Jordy Hershel Igondjo</b></sub></a><br /><a href="https://github.com/JordyHers-org/Times-up-flutter/commits?author=JordyHers" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://zakareyaalatoli.github.io/"><img src="https://avatars.githubusercontent.com/u/68600115?v=4?s=70" width="70px;" alt="Zakareya Alatoli"/><br /><sub><b>Zakareya Alatoli</b></sub></a><br /><a href="https://github.com/JordyHers-org/Times-up-flutter/commits?author=ZakareyaAlatoli" title="Code">💻</a></td>
     </tr>
   </tbody>
   <tfoot>
