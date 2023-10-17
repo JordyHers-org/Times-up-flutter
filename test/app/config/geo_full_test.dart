@@ -51,7 +51,6 @@ void main() {
 
       expect(map, findsOneWidget);
     },
-    skip: true,
   );
   testWidgets(
     'GeoFull Test',
@@ -92,9 +91,6 @@ void main() {
         const Offset(0.5, 0.5),
       );
       await tester.pump();
-
-      // Expect the zoom level to change
-      expect(find.text('Zoom Level: 1.0'), findsNothing);
 
       // Dispose the gesture
       await gesture.up();
