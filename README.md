@@ -3,7 +3,7 @@
 <img width="1023" alt="Screenshot 2023-06-06 at 08 22 55" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fb33eb58-8fad-4f75-a2c5-9c892525c294">
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ![coverage](./coverage_badge.svg)
 
@@ -121,6 +121,7 @@ To contribute to the project join the discord server:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/anthonycodes1"><img src="https://avatars.githubusercontent.com/u/106021539?v=4?s=70" width="70px;" alt="Mmegwa Anthony "/><br /><sub><b>Mmegwa Anthony </b></sub></a><br /><a href="https://github.com/JordyHers-org/Times-up-flutter/commits?author=anthonycodes1" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/gantanikhilraj"><img src="https://avatars.githubusercontent.com/u/112814295?v=4?s=70" width="70px;" alt="Nikhil Raj"/><br /><sub><b>Nikhil Raj</b></sub></a><br /><a href="https://github.com/JordyHers-org/Times-up-flutter/commits?author=gantanikhilraj" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/darshsingh116"><img src="https://avatars.githubusercontent.com/u/116330695?v=4?s=70" width="70px;" alt="Darsh Singh"/><br /><sub><b>Darsh Singh</b></sub></a><br /><a href="https://github.com/JordyHers-org/Times-up-flutter/commits?author=darshsingh116" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mehrozezaidi"><img src="https://avatars.githubusercontent.com/u/82540918?v=4?s=70" width="70px;" alt="mehrozezaidi"/><br /><sub><b>mehrozezaidi</b></sub></a><br /><a href="https://github.com/JordyHers-org/Times-up-flutter/commits?author=mehrozezaidi" title="Code">💻</a></td>
     </tr>
   </tbody>
   <tfoot>
