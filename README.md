@@ -1,4 +1,7 @@
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 <img width="1023" alt="Screenshot 2023-06-06 at 08 22 55" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fb33eb58-8fad-4f75-a2c5-9c892525c294">
 
 ## NEW FEATURES 🚀 v2.0.0
@@ -103,9 +106,14 @@ settled for user, and doesn't collect data for third parties companies.
 ## Contributors
 To have access to firebase and all necessary credentials and 
 To contribute to the project join the discord server:
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 Jordyhers [Discord- JordyHers](https://discord.gg/e4ppDx9Zcy)
 
-<img width="429" alt="Screenshot 2023-10-06 at 10 57 07" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/f3623f25-0cb7-49f0-8e5c-d6008b56d248">
 
 
 
