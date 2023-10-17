@@ -56,7 +56,12 @@ class _LandingPageState extends State<LandingPage> {
               return _buildParentSide(user, geoService, auth);
             case AppSide.child:
               return _buildChildSide(
-                  auth, user, geoService, appsService, context);
+                auth,
+                user,
+                geoService,
+                appsService,
+                context,
+              );
           }
         }
         return const Scaffold(

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls, unnecessary_statements
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/common_widgets/jh_animated_green_dot.dart';
 import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
 import 'package:times_up_flutter/common_widgets/jh_header_widget.dart';
 import 'package:times_up_flutter/common_widgets/jh_pin_marker.dart';
@@ -15,8 +18,6 @@ import 'package:times_up_flutter/services/geo_locator_service.dart';
 import 'package:times_up_flutter/services/marker_generator_service.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/utils/constants.dart';
-
-import '../../common_widgets/jh_animated_green_dot.dart';
 
 class GeoFull extends StatefulWidget {
   const GeoFull(
@@ -162,7 +163,7 @@ class _GeoFullState extends State<GeoFull> with SingleTickerProviderStateMixin {
                             fontWeight: FontWeight.w500,
                           ),
                         ).hP16,
-                        AnimatedGreenDot()
+                        const AnimatedGreenDot()
                       ],
                     ).hP8,
                     Row(

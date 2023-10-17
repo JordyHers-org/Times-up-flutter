@@ -231,7 +231,8 @@ class _ParentPageState extends State<ParentPage>
                             HeaderWidget(
                               title: 'My Children',
                               subtitle:
-                                  'Choose child to get more info - scroll right ',
+                                  'Choose child to get more info - scroll '
+                                  'right',
                               trailing: IconButton(
                                 icon: const Icon(Icons.info_outline),
                                 onPressed: _startShowCase,
@@ -325,9 +326,10 @@ class _ParentPageState extends State<ParentPage>
                     JHDisplayText(
                       text: 'Something went wrong ',
                       style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey,
+                      ),
                     ),
                     Icon(LineAwesomeIcons.info_circle),
                   ],

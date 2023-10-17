@@ -1,7 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 
 class AnimatedGreenDot extends StatefulWidget {
+  const AnimatedGreenDot({Key? key}) : super(key: key);
+
   @override
   _AnimatedGreenDotState createState() => _AnimatedGreenDotState();
 }
@@ -49,14 +53,15 @@ class _AnimatedGreenDotState extends State<AnimatedGreenDot>
           width: 10,
           height: 10,
           decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: CustomColors.greenPrimary,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  spreadRadius: 5,
-                  color: _colorAnimation.value!,
-                ),
-              ]),
+            shape: BoxShape.circle,
+            color: CustomColors.greenPrimary,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                spreadRadius: 5,
+                color: _colorAnimation.value!,
+              ),
+            ],
+          ),
         );
       },
     );
