@@ -5,9 +5,11 @@
 <br/>
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-blue.svg?style=flat-square)](#contributors-) ![coverage](./coverage_badge.svg)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-blue.svg?style=flat)](#contributors-) ![coverage](./coverage_badge.svg)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
-
+[![Deploy Dev](https://github.com/JordyHers/Times-up-flutter/actions/workflows/deploy-dev.yml/badge.svg)](https://github.com/JordyHers/Times-up-flutter/actions/workflows/deploy-dev.yml)
+[![Deploy Master](https://github.com/JordyHers/Times-up-flutter/actions/workflows/deploy-master.yml/badge.svg)](https://github.com/JordyHers/Times-up-flutter/actions/workflows/deploy-master.yml)
+[![PR Review](https://github.com/JordyHers/Times-up-flutter/actions/workflows/review.yml/badge.svg)](https://github.com/JordyHers/Times-up-flutter/actions/workflows/review.yml)
 
 ## NEW FEATURES 🚀 v2.0.0
 
