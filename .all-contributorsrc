@@ -12,13 +12,22 @@
   "commitConvention": "atom",
   "contributors": [
     {
+        "login": "JordyHers",
+        "name": "Jordy Hershel Igondjo",
+        "avatar_url": "https://avatars.githubusercontent.com/u/49708438?v=4",
+        "profile": "https://jordyhers.com/#/",
+        "contributions": [
+          "code"
+        ]
+      },
+    {
       "login": "i-am-ijaz",
       "name": "Muhammad Ijaz",
       "avatar_url": "https://avatars.githubusercontent.com/u/25157495?v=4",
       "profile": "https://github.com/i-am-ijaz",
       "contributions": [
-        "code",
-        "review"
+        "code"
+
       ]
     },
     {
@@ -84,15 +93,7 @@
         "code"
       ]
     },
-    {
-      "login": "JordyHers",
-      "name": "Jordy Hershel Igondjo",
-      "avatar_url": "https://avatars.githubusercontent.com/u/49708438?v=4",
-      "profile": "https://jordyhers.com/#/",
-      "contributions": [
-        "code"
-      ]
-    },
+
     {
       "login": "ZakareyaAlatoli",
       "name": "Zakareya Alatoli",
