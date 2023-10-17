@@ -6,10 +6,21 @@
   "files": [
     "README.md"
   ],
+  "emoji": "✨",
   "imageSize": 70,
   "commit": true,
   "commitConvention": "atom",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "i-am-ijaz",
+      "name": "Muhammad Ijaz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25157495?v=4",
+      "profile": "https://github.com/i-am-ijaz",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
   "linkToUsage": true
 }
