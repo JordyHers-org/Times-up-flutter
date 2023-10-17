@@ -1,11 +1,13 @@
 
 
-<img width="1023" alt="Screenshot 2023-06-06 at 08 22 55" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fb33eb58-8fad-4f75-a2c5-9c892525c294">
+<img width="1023" alt="Screenshot 2023-06-06 at 08 22 55" src="https://github.com/JordyHers-org/Times-up-flutter/assets/49708438/fb33eb58-8fad-4f75-a2c5-9c892525c294"><br/>
+
+<br/>
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-![coverage](./coverage_badge.svg)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-blue.svg?style=flat-square)](#contributors-) ![coverage](./coverage_badge.svg)
+<!-- ALL-CONTRIBUTORS-BADGE:END --> 
+
 
 ## NEW FEATURES 🚀 v2.0.0
 
