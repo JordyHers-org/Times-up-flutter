@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 extension ParseResult on String {
   String t() {

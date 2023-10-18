@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/models/email_model.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
@@ -154,7 +154,7 @@ class FireStoreDatabase implements Database {
     AppUsageService apps,
   ) async {
     await apps.getAppUsageService();
-    // TODO(jordy): UNCOMMENT THIS TO UPDATE LOCATION
+
     //var point = await geo.getInitialLocation();
     //var currentLocation = GeoPoint(point.latitude, point.longitude);
 

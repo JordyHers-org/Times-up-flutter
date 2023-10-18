@@ -17,6 +17,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart'
 import 'package:geolocator/geolocator.dart' as _i4;
 import 'package:installed_apps/app_info.dart' as _i21;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:times_up_flutter/app/features/sign_in/email_sign_in_bloc.dart'
+    as _i17;
+import 'package:times_up_flutter/app/features/sign_in/email_sign_in_model.dart'
+    as _i18;
 import 'package:times_up_flutter/models/child_model/child_model.dart' as _i3;
 import 'package:times_up_flutter/models/email_model.dart' as _i13;
 import 'package:times_up_flutter/models/notification_model/notification_model.dart'
@@ -27,8 +31,6 @@ import 'package:times_up_flutter/services/auth.dart' as _i5;
 import 'package:times_up_flutter/services/database.dart' as _i10;
 import 'package:times_up_flutter/services/geo_locator_service.dart' as _i6;
 import 'package:times_up_flutter/services/notification_service.dart' as _i20;
-import 'package:times_up_flutter/sign_in/email_sign_in_bloc.dart' as _i17;
-import 'package:times_up_flutter/sign_in/email_sign_in_model.dart' as _i18;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
