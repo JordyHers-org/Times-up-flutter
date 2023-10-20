@@ -104,46 +104,66 @@ class JHLineChart extends StatelessWidget {
       );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    );
     Widget text;
+
+    if (model.appsUsageModel.isEmpty) {
+      text = Text('0');
+    }
     switch (value.toInt()) {
       case 2:
-        text = Image.memory(
-          model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
-              .appIcon!,
-          height: 25,
-        );
+        if (model.appsUsageModel.isEmpty) {
+          text = Text('0');
+        } else {
+          text = Image.memory(
+            model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
+                .appIcon!,
+            height: 25,
+          );
+        }
         break;
       case 4:
-        text = Image.memory(
-          model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
-              .appIcon!,
-          height: 25,
-        );
+        if (model.appsUsageModel.isEmpty) {
+          text = Text('0');
+        } else {
+          text = Image.memory(
+            model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
+                .appIcon!,
+            height: 25,
+          );
+        }
         break;
       case 6:
-        text = Image.memory(
-          model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
-              .appIcon!,
-          height: 25,
-        );
+        if (model.appsUsageModel.isEmpty) {
+          text = Text('0');
+        } else {
+          text = Image.memory(
+            model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
+                .appIcon!,
+            height: 25,
+          );
+        }
         break;
       case 8:
-        text = Image.memory(
-          model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
-              .appIcon!,
-          height: 25,
-        );
+        if (model.appsUsageModel.isEmpty) {
+          text = Text('0');
+        } else {
+          text = Image.memory(
+            model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
+                .appIcon!,
+            height: 25,
+          );
+        }
         break;
       case 10:
-        text = Image.memory(
-          model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
-              .appIcon!,
-          height: 25,
-        );
+        if (model.appsUsageModel.isEmpty) {
+          text = Text('0');
+        } else {
+          text = Image.memory(
+            model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
+                .appIcon!,
+            height: 25,
+          );
+        }
         break;
       default:
         text = const Text('');

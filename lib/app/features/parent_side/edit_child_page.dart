@@ -162,6 +162,7 @@ class _EditChildPageState extends State<EditChildPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: JHCustomRaisedButton(
         width: MediaQuery.of(context).size.width * 0.80,
