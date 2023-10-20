@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/utils/data.dart';
 import 'package:times_up_flutter/widgets/jh_display_text.dart';
 import 'package:times_up_flutter/widgets/jh_info_bottom_sheet.dart';
 import 'package:times_up_flutter/widgets/jh_info_box.dart';
 import 'package:times_up_flutter/widgets/show_bottom_sheet.dart';
-import 'package:times_up_flutter/theme/theme.dart';
-import 'package:times_up_flutter/utils/data.dart';
 
 class JHInfoRow extends StatelessWidget {
   const JHInfoRow({
@@ -39,6 +39,7 @@ class JHInfoRow extends StatelessWidget {
             child: JHDisplayText(
               text: dataOne.title,
               fontSize: 12,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.grey.shade500,
               ),

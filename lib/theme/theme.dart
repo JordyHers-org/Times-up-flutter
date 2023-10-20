@@ -41,6 +41,7 @@ class AppTheme {
   );
 
   static ThemeData darkTheme = ThemeData(
+    //textTheme: GoogleFonts.interTextTheme(),
     primarySwatch: buildMaterialColor(CustomColors.indigoDark),
     primaryColor: CustomColors.indigoDark,
     scaffoldBackgroundColor: CustomColors.indigoDarker,

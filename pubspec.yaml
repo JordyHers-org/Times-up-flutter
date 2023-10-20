@@ -40,6 +40,7 @@ dependencies:
   # Notification Packages:
   firebase_messaging: ^14.4.0
   flutter_local_notifications: ^14.0.0-dev.2
+  background_fetch: ^1.2.1
 
   # Utility Packages:
   intl: any
@@ -54,6 +55,7 @@ dependencies:
   # UI Component Packages:
   line_awesome_flutter: ^2.0.0
   showcaseview: ^2.0.3
+  shimmer: ^2.0.0
 
 
   # Testing Packages:

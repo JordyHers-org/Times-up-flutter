@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:times_up_flutter/widgets/jh_display_text.dart';
 import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/widgets/jh_display_text.dart';
 
 class JHAppUsageChart extends StatefulWidget {
   const JHAppUsageChart({
@@ -11,14 +9,7 @@ class JHAppUsageChart extends StatefulWidget {
     required this.name,
     Key? key,
   }) : super(key: key);
-  List<Color> get availableColors => const [
-        Colors.purpleAccent,
-        Colors.yellow,
-        Colors.lightBlue,
-        Colors.orange,
-        Colors.pink,
-        Colors.redAccent,
-      ];
+
   final bool isEmpty;
   final String name;
 
@@ -30,8 +21,6 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
   final Duration animDuration = const Duration(milliseconds: 250);
 
   int touchedIndex = -1;
-
-  bool isPlaying = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +62,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: BarChart(
-                        isPlaying ? randomData() : mainBarData(),
+                        mainBarData(),
                         swapAnimationDuration: animDuration,
                       ),
                     ),
@@ -82,26 +71,6 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
                     height: 6,
                   ),
                 ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(
-                    isPlaying ? Icons.pause : Icons.play_arrow,
-                    color: Colors.pinkAccent,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isPlaying = !isPlaying;
-                      if (isPlaying) {
-                        refreshState();
-                      }
-                    });
-                  },
-                ),
               ),
             ),
           ],
@@ -349,72 +318,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
       borderData: FlBorderData(
         show: false,
       ),
-      barGroups: List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeGroupData(
-              0,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
-          case 1:
-            return makeGroupData(
-              1,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
-          case 2:
-            return makeGroupData(
-              2,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
-          case 3:
-            return makeGroupData(
-              3,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
-          case 4:
-            return makeGroupData(
-              4,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
-          case 5:
-            return makeGroupData(
-              5,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
-          case 6:
-            return makeGroupData(
-              6,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-                  Random().nextInt(widget.availableColors.length)],
-            );
-          default:
-            return throw Error();
-        }
-      }),
       gridData: FlGridData(show: false),
     );
-  }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-      animDuration + const Duration(milliseconds: 50),
-    );
-    if (isPlaying) {
-      await refreshState();
-    }
   }
 }

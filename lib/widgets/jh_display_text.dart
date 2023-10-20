@@ -9,9 +9,11 @@ class JHDisplayText extends StatelessWidget {
     this.fontSize,
     this.maxFontSize,
     this.maxLines,
+    this.textAlign,
   }) : super(key: key);
   final String text;
   final TextStyle style;
+  final TextAlign? textAlign;
   final double? fontSize;
   final double? maxFontSize;
   final int? maxLines;
@@ -23,6 +25,7 @@ class JHDisplayText extends StatelessWidget {
       style: style,
       maxLines: maxLines ?? 10,
       textScaleFactor: 1,
+      textAlign: textAlign ?? TextAlign.start,
       minFontSize: fontSize ?? 13,
       maxFontSize: maxFontSize ?? 35,
     );

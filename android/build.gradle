@@ -16,6 +16,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url "${project(':background_fetch').projectDir}/libs"
+        }
     }
 }
 

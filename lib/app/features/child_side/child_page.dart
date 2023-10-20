@@ -19,6 +19,7 @@ import 'package:times_up_flutter/services/geo_locator_service.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/widgets/jh_display_text.dart';
 import 'package:times_up_flutter/widgets/jh_empty_content.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 class ChildPage extends StatefulWidget {
   const ChildPage({
@@ -67,10 +68,23 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    Timer.periodic(const Duration(minutes: 5), (timer) {
-      widget.database
-          ?.liveUpdateChild(widget.child!, timer.tick, widget.appUsage);
+    Timer.periodic(const Duration(seconds: 5), (timer) async {
+      await widget.database?.liveUpdateChild(widget.child!, widget.appUsage);
+      JHLogger.$.d('${timer.tick} - $state');
     });
     super.didChangeAppLifecycleState(state);
   }

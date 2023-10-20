@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/widgets/jh_custom_raised_button.dart';
 import 'package:times_up_flutter/widgets/jh_display_text.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 
 class JHNoImplementationWidget extends StatelessWidget {
   const JHNoImplementationWidget({
@@ -29,19 +28,38 @@ class JHNoImplementationWidget extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const Icon(LineAwesomeIcons.info),
-              JHDisplayText(
-                text: title ?? 'Oops :( ',
-                style: const TextStyle(fontWeight: FontWeight.w500),
+              Row(
+                children: [
+                  const Spacer(),
+                  JHDisplayText(
+                    text: title ?? 'Oops  ',
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  const Icon(Icons.error),
+                  const Spacer(),
+                ],
               ),
               const SizedBox(height: 8),
               JHDisplayText(
+                text: content ?? 'Not implemented yet.',
+                fontSize: 17,
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : CustomColors.indigoDark,
+                  fontWeight: FontWeight.w700,
+                ),
+              ).vP16,
+              JHDisplayText(
                 text: content ??
-                    'Not implemented yet. We are actively working to'
+                    'We are actively working to'
                         ' implement '
                         ' that we will let you know soon.',
-                style: const TextStyle(
-                  color: Colors.grey,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : CustomColors.indigoDark,
                   fontWeight: FontWeight.w400,
                 ),
               ).vP16,

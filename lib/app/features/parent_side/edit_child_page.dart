@@ -6,14 +6,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/widgets/jh_custom_raised_button.dart';
 import 'package:times_up_flutter/widgets/jh_display_text.dart';
 import 'package:times_up_flutter/widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/widgets/show_exeption_alert.dart';
 import 'package:times_up_flutter/widgets/show_logger.dart';
-import 'package:times_up_flutter/models/child_model/child_model.dart';
-import 'package:times_up_flutter/services/database.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 import 'package:uuid/uuid.dart';
 
 enum AppState { loading, complete }
@@ -128,7 +128,7 @@ class _EditChildPageState extends State<EditChildPage> {
             await showAlertDialog(
               context,
               title: ' Name already used',
-              content: 'Please choose a different job name',
+              content: 'Please choose a different child name',
               defaultActionText: 'OK',
             );
           }
@@ -162,6 +162,19 @@ class _EditChildPageState extends State<EditChildPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: JHCustomRaisedButton(
+        width: MediaQuery.of(context).size.width * 0.80,
+        onPressed: () async => _submit(_imageFile),
+        color: CustomColors.indigoDark,
+        child: JHDisplayText(
+          text: 'Save',
+          style: TextStyle(
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
+        ),
+      ).vP16,
       backgroundColor:
           Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
       appBar: AppBar(
@@ -183,15 +196,14 @@ class _EditChildPageState extends State<EditChildPage> {
 
   Widget _buildContents() {
     return !isSavedPressed
-        ? SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: _buildForm(),
-                ),
-              ),
+        ? SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildForm().p(32),
+                const Spacer(),
+              ],
             ),
           )
         : const Center(child: CircularProgressIndicator());
@@ -236,7 +248,7 @@ class _EditChildPageState extends State<EditChildPage> {
                 ),
                 onPressed: _getLocalImage,
                 child: const JHDisplayText(
-                  text: 'Upload',
+                  text: 'Import ',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -258,15 +270,6 @@ class _EditChildPageState extends State<EditChildPage> {
         enabled: appState == AppState.complete || false,
         onSaved: (value) => _email = value,
       ),
-      JHCustomRaisedButton(
-        width: 200,
-        onPressed: () async => _submit(_imageFile),
-        color: Colors.indigo,
-        child: const JHDisplayText(
-          text: 'Save',
-          style: TextStyle(color: Colors.white),
-        ),
-      ).vTopP(24)
     ];
   }
 
