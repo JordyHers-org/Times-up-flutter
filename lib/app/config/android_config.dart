@@ -30,7 +30,7 @@ Future<void> configureBackgroundFetch() async {
     backgroundFetchHeadlessTask,
   ).then((int status) {
     JHLogger.$.e('[BackgroundFetch] Headless task timed-out- $status');
-  }).catchError((e) {
-    JHLogger.$.d("[BackgroundFetch] configure ERROR: $e");
+  }).catchError((Object e) {
+    JHLogger.$.d('[BackgroundFetch] configure ERROR: $e');
   });
 }

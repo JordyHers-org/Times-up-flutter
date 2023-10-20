@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:times_up_flutter/widgets/show_logger.dart';
 
 class JHAppLifecycleObserver extends StatefulWidget {
+  const JHAppLifecycleObserver({required this.child, Key? key})
+      : super(key: key);
   final Widget child;
 
-  const JHAppLifecycleObserver({required this.child});
-
   @override
+  // ignore: library_private_types_in_public_api
   _JHAppLifecycleObserverState createState() => _JHAppLifecycleObserverState();
 }
 

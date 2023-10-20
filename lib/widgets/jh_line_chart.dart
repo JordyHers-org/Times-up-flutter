@@ -107,12 +107,12 @@ class JHLineChart extends StatelessWidget {
     Widget text;
 
     if (model.appsUsageModel.isEmpty) {
-      text = Text('0');
+      text = const Text('0');
     }
     switch (value.toInt()) {
       case 2:
         if (model.appsUsageModel.isEmpty) {
-          text = Text('0');
+          text = const Text('0');
         } else {
           text = Image.memory(
             model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
@@ -123,7 +123,7 @@ class JHLineChart extends StatelessWidget {
         break;
       case 4:
         if (model.appsUsageModel.isEmpty) {
-          text = Text('0');
+          text = const Text('0');
         } else {
           text = Image.memory(
             model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
@@ -134,7 +134,7 @@ class JHLineChart extends StatelessWidget {
         break;
       case 6:
         if (model.appsUsageModel.isEmpty) {
-          text = Text('0');
+          text = const Text('0');
         } else {
           text = Image.memory(
             model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
@@ -145,7 +145,7 @@ class JHLineChart extends StatelessWidget {
         break;
       case 8:
         if (model.appsUsageModel.isEmpty) {
-          text = Text('0');
+          text = const Text('0');
         } else {
           text = Image.memory(
             model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
@@ -156,7 +156,7 @@ class JHLineChart extends StatelessWidget {
         break;
       case 10:
         if (model.appsUsageModel.isEmpty) {
-          text = Text('0');
+          text = const Text('0');
         } else {
           text = Image.memory(
             model.appsUsageModel[getRandom(model.appsUsageModel.length - 1)]
@@ -190,7 +190,7 @@ class JHLineChart extends StatelessWidget {
         show: true,
         border: Border(
           bottom: BorderSide(
-              color: CustomColors.indigoDark.withOpacity(0.2), width: 4),
+              color: CustomColors.indigoDark.withOpacity(0.2), width: 4,),
           left: const BorderSide(color: Colors.transparent),
           right: const BorderSide(color: Colors.transparent),
           top: const BorderSide(color: Colors.transparent),

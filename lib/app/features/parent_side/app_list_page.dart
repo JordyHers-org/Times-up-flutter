@@ -48,7 +48,8 @@ class AppListPage extends StatelessWidget {
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(
-            decelerationRate: ScrollDecelerationRate.fast),
+          decelerationRate: ScrollDecelerationRate.fast,
+        ),
         itemCount: childModel.appsUsageModel.length,
         itemBuilder: (context, index) {
           return Column(

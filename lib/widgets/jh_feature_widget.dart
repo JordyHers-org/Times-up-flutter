@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:times_up_flutter/widgets/jh_display_text.dart';
 import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/widgets/jh_display_text.dart';
 
 class JHFeatureWidget extends StatelessWidget {
   const JHFeatureWidget({
