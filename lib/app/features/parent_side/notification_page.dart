@@ -16,6 +16,7 @@ import 'package:times_up_flutter/widgets/show_exeption_alert.dart';
 
 enum AppState { loaded, empty }
 
+//
 class NotificationPage extends StatefulWidget {
   const NotificationPage({
     required this.auth,
