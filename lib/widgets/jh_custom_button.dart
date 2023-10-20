@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/widgets/jh_display_text.dart';
 import 'package:times_up_flutter/widgets/jh_size_config.dart';
-import 'package:times_up_flutter/theme/theme.dart';
 
 class JHCustomButton extends StatelessWidget {
   const JHCustomButton({
@@ -11,12 +11,14 @@ class JHCustomButton extends StatelessWidget {
     Key? key,
     this.borderColor = Colors.transparent,
     this.textColor = Colors.white,
+    this.size,
   }) : super(key: key);
   final Color backgroundColor;
   final Color borderColor;
   final Color textColor;
-  final void Function() onPress;
+  final Size? size;
   final String title;
+  final void Function() onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +28,11 @@ class JHCustomButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: backgroundColor,
           side: BorderSide(width: 1.5, color: borderColor),
-          minimumSize: Size(
-            MediaQuery.of(context).size.width * 0.95,
-            JHSizeConfig.screenHeight! * 0.07,
-          ),
+          minimumSize: size ??
+              Size(
+                MediaQuery.of(context).size.width * 0.95,
+                JHSizeConfig.screenHeight! * 0.07,
+              ),
         ),
         onPressed: onPress,
         child: JHDisplayText(

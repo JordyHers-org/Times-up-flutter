@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/app/app.dart';
+import 'package:times_up_flutter/app/config/android_config.dart';
 import 'package:times_up_flutter/bootstrap.dart';
 import 'package:times_up_flutter/firebase_options_dev.dart';
 import 'package:times_up_flutter/services/app_info_service.dart';
@@ -17,11 +18,12 @@ import 'package:times_up_flutter/theme/theme_notifier.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  final packageInfo = await PackageInfo.fromPlatform();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).whenComplete(() async {
     await _notificationServiceListener();
+    await _backgroundListener();
   });
 
   await bootstrap(
@@ -49,6 +51,10 @@ Future<void> main() async {
       child: const TimesUpApp(),
     ),
   );
+}
+
+Future<void> _backgroundListener() async {
+  await configureBackgroundFetch();
 }
 
 Future<void> _notificationServiceListener() async {

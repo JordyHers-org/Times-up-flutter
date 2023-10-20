@@ -9,23 +9,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:times_up_flutter/app/features/parent_side/app_list_page.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
-import 'package:times_up_flutter/widgets/jh_bar_chart.dart';
-import 'package:times_up_flutter/widgets/jh_battery_widget.dart';
-import 'package:times_up_flutter/widgets/jh_custom_button.dart';
-import 'package:times_up_flutter/widgets/jh_display_text.dart';
-import 'package:times_up_flutter/widgets/jh_empty_content.dart';
-import 'package:times_up_flutter/widgets/jh_feature_widget.dart';
-import 'package:times_up_flutter/widgets/jh_header_widget.dart';
-import 'package:times_up_flutter/widgets/show_alert_dialog.dart';
-import 'package:times_up_flutter/widgets/show_bottom_sheet.dart';
-import 'package:times_up_flutter/widgets/show_exeption_alert.dart';
-import 'package:times_up_flutter/widgets/show_logger.dart';
 import 'package:times_up_flutter/l10n/l10n.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/database.dart';
 import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/widgets/jh_battery_widget.dart';
+import 'package:times_up_flutter/widgets/jh_custom_button.dart';
+import 'package:times_up_flutter/widgets/jh_display_text.dart';
+import 'package:times_up_flutter/widgets/jh_empty_content.dart';
+import 'package:times_up_flutter/widgets/jh_header_widget.dart';
+import 'package:times_up_flutter/widgets/jh_line_chart.dart';
+import 'package:times_up_flutter/widgets/show_alert_dialog.dart';
+import 'package:times_up_flutter/widgets/show_bottom_sheet.dart';
+import 'package:times_up_flutter/widgets/show_exeption_alert.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 class ChildDetailsPage extends StatefulWidget {
   const ChildDetailsPage({
@@ -39,10 +39,25 @@ class ChildDetailsPage extends StatefulWidget {
 
   static Future<void> show(BuildContext context, ChildModel model) async {
     final database = Provider.of<Database>(context, listen: false);
+
     await Navigator.of(context).push(
-      MaterialPageRoute<ChildDetailsPage>(
-        builder: (context) =>
-            ChildDetailsPage(database: database, childModel: model),
+      PageRouteBuilder<Widget>(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return ChildDetailsPage(database: database, childModel: model);
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1, 0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+          final tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          final offsetAnimation = animation.drive(tween);
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400),
       ),
     );
   }
@@ -116,9 +131,46 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
                 if (model.image != null)
                   Row(
                     children: [
-                      ClipOval(
-                        child: Image.network(model.image!),
-                      ).p4,
+                      GestureDetector(
+                        onTap: () => showCustomBottomSheet(
+                          context,
+                          animationController: _animationController,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: themeData.scaffoldBackgroundColor,
+                            ),
+                            height: 200,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Spacer(),
+                                JHCustomButton(
+                                  title: ' Bed Time',
+                                  backgroundColor: Colors.indigo,
+                                  onPress: () async => _sendNotification(
+                                    context,
+                                    model,
+                                    'Hey Go to bed Now',
+                                  ),
+                                ),
+                                JHCustomButton(
+                                  title: 'Homework Time',
+                                  backgroundColor: CustomColors.indigoLight,
+                                  onPress: () async => _sendNotification(
+                                    context,
+                                    model,
+                                    'Homework Time',
+                                  ),
+                                ),
+                                const Spacer(),
+                              ],
+                            ),
+                          ),
+                        ),
+                        child: ClipOval(
+                          child: Image.network(model.image!),
+                        ).p4,
+                      ),
                     ],
                   )
                 else
@@ -136,13 +188,6 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
               iconTheme: const IconThemeData(color: Colors.red),
               backgroundColor: themeData.scaffoldBackgroundColor,
               expandedHeight: 50,
-              shape: ContinuousRectangleBorder(
-                side: BorderSide(
-                  color: !value
-                      ? themeData.scaffoldBackgroundColor
-                      : CustomColors.indigoLight.withOpacity(0.5),
-                ),
-              ),
               pinned: true,
               floating: true,
             ),
@@ -214,77 +259,19 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
                         margin: const EdgeInsets.symmetric(horizontal: 8),
                         height: 205,
                         width: double.infinity,
-                        child: model.appsUsageModel.isNotEmpty
-                            ? JHAppUsageChart(
-                                isEmpty: false,
-                                name: model.name,
-                              )
-                            : JHAppUsageChart(
-                                isEmpty: true,
-                                name: model.name,
-                              ),
+                        child: JHLineChart(model: model),
                       ),
                     ],
                   ).vTopP(20),
-                  HeaderWidget(
-                    title: AppLocalizations.of(context)
-                        .sendNotificationToYourChildDevice,
-                    subtitle: 'Push the button ',
-                  ),
-                  GestureDetector(
-                    onTap: () => showCustomBottomSheet(
-                      context,
-                      animationController: _animationController,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: themeData.scaffoldBackgroundColor,
-                        ),
-                        height: 200,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Spacer(),
-                            JHCustomButton(
-                              title: ' Bed Time',
-                              backgroundColor: Colors.indigo,
-                              onPress: () async => _sendNotification(
-                                context,
-                                model,
-                                'Hey Go to bed Now',
-                              ),
-                            ),
-                            JHCustomButton(
-                              title: 'Homework Time',
-                              backgroundColor: CustomColors.indigoLight,
-                              onPress: () async => _sendNotification(
-                                context,
-                                model,
-                                'Homework Time',
-                              ),
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
-                      ),
-                    ),
-                    child: const JHFeatureWidget(
-                      title: 'Send Notification',
-                      icon: Icons.wifi_tethering_error_sharp,
-                    ),
-                  ),
-                  _AppUsedList(
-                    model: model,
-                  ),
+                  _AppUsedList(model: model).vP16,
                   JHCustomButton(
                     title: 'Delete Child',
-                    backgroundColor: Colors.transparent,
-                    borderColor: Colors.red,
-                    textColor: Colors.red,
+                    backgroundColor: Colors.red,
                     onPress: () async => _confirmDelete(
                       context,
                       widget.childModel,
                     ),
-                  ).vTopP(50),
+                  ).vTopP(70),
                 ]),
               ),
             ],
@@ -327,9 +314,11 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
           title: ' Hey ${model.name}',
           body: 'Here is a new message',
           message: content,
+          timeStamp: DateTime.now(),
         ),
         model,
       );
+      Navigator.of(context).pop();
       if (!mounted) return;
       await showAlertDialog(
         context,
@@ -358,65 +347,80 @@ class _AppUsedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    return SingleChildScrollView(
-      child: ScrollConfiguration(
-        behavior: const ScrollBehavior().copyWith(overscroll: false),
-        child: Column(
-          children: [
-            if (model.appsUsageModel.isNotEmpty)
-              const HeaderWidget(
-                title: 'Summary of used apps',
-                subtitle: 'Click for more details',
-              )
-            else
-              const SizedBox.shrink().vP16,
-            if (model.appsUsageModel.isNotEmpty)
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: model.appsUsageModel.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(
-                        leading: model.appsUsageModel[index].appIcon != null
-                            ? Image.memory(
-                                model.appsUsageModel[index].appIcon!,
-                                height: 35,
-                              )
-                            : const Icon(Icons.android),
-                        title: Text(
-                          model.appsUsageModel[index].appName,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: themeData.dividerColor,
-                          ),
-                        ),
-                        trailing: Text(
-                          model.appsUsageModel[index].usage.toString().t(),
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: themeData.dividerColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              )
-            else
-              const JHEmptyContent(
-                message: 'Seems like you have not set up the child device \n',
-                title: 'Set up the child device',
-                fontSizeMessage: 8,
-                fontSizeTitle: 12,
+    return Column(
+      children: [
+        if (model.appsUsageModel.isNotEmpty)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(
+                width: 300,
+                child: HeaderWidget(
+                  title: 'Summary of used apps',
+                  subtitle: 'Click for more details',
+                ),
               ),
-          ],
-        ),
-      ),
+              TextButton(
+                child: Text(
+                  'See all',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: CustomColors.indigoLight,
+                    fontSize: 13,
+                  ),
+                ),
+                onPressed: () => AppListPage.show(context, model),
+              ),
+            ],
+          )
+        else
+          const SizedBox.shrink().vP16,
+        if (model.appsUsageModel.isNotEmpty)
+          ListView.builder(
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: (model.appsUsageModel.length * 0.20).toInt(),
+            itemBuilder: (context, index) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    leading: model.appsUsageModel[index].appIcon != null
+                        ? Image.memory(
+                            model.appsUsageModel[index].appIcon!,
+                            height: 35,
+                          )
+                        : const Icon(Icons.android),
+                    title: Text(
+                      model.appsUsageModel[index].appName,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: themeData.dividerColor,
+                      ),
+                    ),
+                    trailing: Text(
+                      model.appsUsageModel[index].usage.toString().t(),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: themeData.dividerColor,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          )
+        else
+          const JHEmptyContent(
+            message: 'Seems like you have not set up the child device \n',
+            title: 'Set up the child device',
+            fontSizeMessage: 8,
+            fontSizeTitle: 12,
+          ),
+      ],
     );
   }
 }

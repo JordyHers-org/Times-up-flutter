@@ -4,14 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:times_up_flutter/widgets/jh_display_text.dart';
-import 'package:times_up_flutter/widgets/jh_loading_widget.dart';
-import 'package:times_up_flutter/widgets/show_exeption_alert.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/database.dart';
 import 'package:times_up_flutter/services/notification_service.dart';
 import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/widgets/jh_display_text.dart';
+import 'package:times_up_flutter/widgets/jh_loading_widget.dart';
+import 'package:times_up_flutter/widgets/show_exeption_alert.dart';
 
 enum AppState { loaded, empty }
 
@@ -63,34 +64,22 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     super.initState();
     widget.auth.setToken();
-    widget.notification?.configureFirebaseMessaging();
   }
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : CustomColors.indigoDark;
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, value) {
         return [
           SliverAppBar(
             elevation: 0.5,
             shadowColor: CustomColors.indigoLight,
-            title: const JHDisplayText(
-              text: 'Notifications',
-              style: TextStyle(
-                color: Colors.indigo,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
             iconTheme: const IconThemeData(color: Colors.red),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             expandedHeight: 50,
-            shape: ContinuousRectangleBorder(
-              side: BorderSide(
-                color: !value
-                    ? Theme.of(context).scaffoldBackgroundColor
-                    : CustomColors.indigoLight.withOpacity(0.5),
-              ),
-            ),
             pinned: true,
             floating: true,
           )
@@ -100,6 +89,28 @@ class _NotificationPageState extends State<NotificationPage> {
         behavior: const ScrollBehavior().copyWith(overscroll: false),
         child: CustomScrollView(
           slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: JHDisplayText(
+                text: 'Notifications',
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.w700,
+                ),
+                fontSize: 32,
+                maxFontSize: 34,
+              ).hP16,
+            ),
+            SliverToBoxAdapter(
+              child: JHDisplayText(
+                text: 'slide from right to left to dismiss',
+                style: TextStyle(
+                  color: Colors.grey.withOpacity(0.5),
+                  fontWeight: FontWeight.w400,
+                ),
+                fontSize: 12,
+                maxFontSize: 14,
+              ).hP16,
+            ),
             SliverList(
               delegate: SliverChildListDelegate([
                 SingleChildScrollView(
@@ -114,9 +125,15 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   Widget _buildStreamNotification(BuildContext context) {
+    final color = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : CustomColors.indigoDark;
     return StreamBuilder<List<NotificationModel>>(
       stream: widget.database?.notificationStream(),
       builder: (BuildContext context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox.shrink();
+        }
         if (snapshot.hasData) {
           final data = snapshot.data;
 
@@ -152,28 +169,34 @@ class _NotificationPageState extends State<NotificationPage> {
                         });
                       },
                       direction: DismissDirection.endToStart,
-                      child: Card(
-                        color: CustomColors.indigoLight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: ListTile(
-                            title: JHDisplayText(
-                              text: data[index].title ?? 'No title available',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                            trailing: JHDisplayText(
-                              text:
-                                  data[index].message ?? 'No message available',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
+                      child: ListTile(
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                        subtitle: JHDisplayText(
+                          textAlign: TextAlign.start,
+                          text: convertToFormattedString(
+                            data[index].timeStamp.toString(),
+                          ),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey,
+                            fontSize: 14,
+                          ),
+                        ),
+                        title: JHDisplayText(
+                          text: data[index].title ?? 'No title available',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: color,
+                            fontSize: 16,
+                          ),
+                        ),
+                        trailing: JHDisplayText(
+                          text: data[index].message ?? 'No message available',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: color,
+                            fontSize: 16,
                           ),
                         ),
                       ),

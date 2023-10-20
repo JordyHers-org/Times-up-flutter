@@ -3,14 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:times_up_flutter/widgets/jh_display_text.dart';
-import 'package:times_up_flutter/widgets/jh_no_implementation.dart';
-import 'package:times_up_flutter/widgets/show_alert_dialog.dart';
-import 'package:times_up_flutter/widgets/show_logger.dart';
 import 'package:times_up_flutter/services/app_info_service.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/theme/theme_notifier.dart';
+import 'package:times_up_flutter/widgets/jh_custom_button.dart';
+import 'package:times_up_flutter/widgets/jh_display_text.dart';
+import 'package:times_up_flutter/widgets/jh_no_implementation.dart';
+import 'package:times_up_flutter/widgets/show_alert_dialog.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -73,6 +74,17 @@ class SettingsPage extends StatelessWidget {
       child: ListView(
         physics: const BouncingScrollPhysics(),
         children: <Widget>[
+          JHDisplayText(
+            text: 'Profile',
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : CustomColors.indigoDark,
+              fontWeight: FontWeight.w700,
+            ),
+            fontSize: 27,
+            maxFontSize: 34,
+          ).hP16,
           ProfileListItem(
             icon: LineAwesomeIcons.history,
             onPressed: () => showDialog<Widget>(
@@ -80,7 +92,7 @@ class SettingsPage extends StatelessWidget {
               builder: (_) => const JHNoImplementationWidget(),
             ),
             text: 'Update profile',
-          ),
+          ).vTopP(12),
           ProfileListItem(
             icon: LineAwesomeIcons.language,
             onPressed: () => showDialog<Widget>(
@@ -88,6 +100,14 @@ class SettingsPage extends StatelessWidget {
               builder: (_) => const JHNoImplementationWidget(),
             ),
             text: 'Change language',
+          ),
+          ProfileListItem(
+            icon: LineAwesomeIcons.bell,
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
+            text: 'Notification ',
           ),
           ProfileListItem(
             onPressed: () {},
@@ -105,14 +125,110 @@ class SettingsPage extends StatelessWidget {
               value: themeNotifier.isDarkMode || false,
             ),
           ),
+          JHDisplayText(
+            text: 'Privacy',
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : CustomColors.indigoDark,
+              fontWeight: FontWeight.w700,
+            ),
+            fontSize: 27,
+            maxFontSize: 34,
+          ).hP16.vP16,
           ProfileListItem(
-            icon: LineAwesomeIcons.user_shield,
+            icon: Icons.privacy_tip,
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
+            text: 'Privacy policy',
+          ),
+          ProfileListItem(
+            icon: Icons.file_copy,
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
+            text: 'Impressum',
+          ),
+          ProfileListItem(
+            icon: Icons.contact_page_outlined,
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
+            text: 'Terms and conditions',
+            isUnderLine: TextDecoration.underline,
+          ),
+          JHDisplayText(
+            text: 'Get us',
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : CustomColors.indigoDark,
+              fontWeight: FontWeight.w700,
+            ),
+            fontSize: 27,
+            maxFontSize: 34,
+          ).hP16.vP16,
+          ProfileListItem(
+            icon: Icons.rate_review,
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
+            text: 'Rate us',
+          ),
+          ProfileListItem(
+            icon: LineAwesomeIcons.bug,
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
+            text: 'Report Bug',
+          ),
+          ProfileListItem(
+            icon: Icons.contact_support_rounded,
             onPressed: () => showDialog<Widget>(
               context: context,
               builder: (_) => const JHNoImplementationWidget(),
             ),
             text: 'Contact us',
           ),
+          ProfileListItem(
+            icon: Icons.recommend,
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
+            text: 'Recommend App',
+          ),
+          ProfileListItem(
+            icon: Icons.question_answer,
+            onPressed: () => showDialog<Widget>(
+              context: context,
+              builder: (_) => const JHNoImplementationWidget(),
+            ),
+            text: 'FAQ',
+          ),
+          const Center(
+            child: JHDisplayText(
+              text: 'Copyright© JordyHers-org',
+              fontSize: 8,
+              maxFontSize: 12,
+              style: TextStyle(color: Colors.grey),
+            ),
+          ).vTopP(25),
+          Center(
+            child: JHDisplayText(
+              text: 'v${appInfoService?.appInfo.version ?? ''}',
+              fontSize: 8,
+              maxFontSize: 12,
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ),
+          const SizedBox(height: 32)
         ],
       ),
     );
@@ -121,51 +237,34 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            Icons.close_outlined,
+            size: 23,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : CustomColors.indigoDark,
+          ),
+        ),
+      ),
       body: Stack(
         children: <Widget>[
-          Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
-                        Icons.chevron_left,
-                        size: 33,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => confirmSignOut(context, auth),
-                      icon: const Icon(
-                        Icons.logout,
-                        size: 23,
-                      ),
-                    ),
-                  ],
-                ),
-                buildItems(context),
-                const Center(
-                  child: JHDisplayText(
-                    text: 'Copyright© JordyHers-org',
-                    fontSize: 8,
-                    maxFontSize: 12,
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-                Center(
-                  child: JHDisplayText(
-                    text: 'v${appInfoService?.appInfo.version ?? ''}',
-                    fontSize: 8,
-                    maxFontSize: 12,
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                ),
-              ],
-            ),
-          ).vP16.vP16,
+          Column(
+            children: <Widget>[
+              buildItems(context),
+              JHCustomButton(
+                title: 'Log out',
+                backgroundColor: Colors.red,
+                borderColor: Colors.red,
+                size: const Size(270, 50),
+                onPress: () async => confirmSignOut(context, auth),
+              ),
+            ],
+          ).vP8,
         ],
       ),
     );
@@ -179,11 +278,13 @@ class ProfileListItem extends StatelessWidget {
     this.icon,
     this.text,
     this.child,
+    this.isUnderLine = TextDecoration.none,
     this.hasNavigation = true,
   }) : super(key: key);
   final IconData? icon;
   final String? text;
   final bool hasNavigation;
+  final TextDecoration? isUnderLine;
   final VoidCallback onPressed;
   final Widget? child;
 
@@ -194,11 +295,11 @@ class ProfileListItem extends StatelessWidget {
           MaterialStateColor.resolveWith((states) => Colors.transparent),
       onTap: onPressed,
       child: Container(
-        height: 55,
+        height: 45,
         margin: const EdgeInsets.symmetric(
           horizontal: 10,
         ).copyWith(
-          bottom: 20,
+          bottom: 10,
         ),
         padding: const EdgeInsets.symmetric(
           horizontal: 20,

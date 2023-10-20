@@ -26,12 +26,22 @@ class FireStoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    JHLogger.$.d('$path: $data');
+    JHLogger.$.e('$path: $data');
 
     await reference.update(data);
   }
 
   Future<void> setNotificationFunction({
+    required String path,
+    required Map<String, dynamic> data,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection(path).doc();
+    JHLogger.$.d('$path: $data');
+
+    await reference.set(data);
+  }
+
+  Future<void> setTokenFunction({
     required String path,
     required Map<String, dynamic> data,
   }) async {

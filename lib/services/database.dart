@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:times_up_flutter/widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/models/email_model.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
@@ -9,13 +8,13 @@ import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/firestore_service.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
 import 'package:times_up_flutter/utils/constants.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 abstract class Database {
   Future<void> setChild(ChildModel model);
 
   Future<void> liveUpdateChild(
     ChildModel model,
-    int tick,
     AppUsageService apps,
   );
 
@@ -69,8 +68,6 @@ class FireStoreDatabase implements Database {
   final AuthBase auth;
   ChildModel? _child;
 
-  ChildModel get currentChild => _child!;
-
   final _service = FireStoreService.instance;
 
   GeoLocatorService geo = GeoLocatorService();
@@ -107,7 +104,7 @@ class FireStoreDatabase implements Database {
   }
 
   Future<void> setTokenOnFireStore(Map<String, dynamic> token) async {
-    await _service.setNotificationFunction(
+    await _service.setTokenFunction(
       path: APIPath.deviceToken(),
       data: token,
     );
@@ -150,20 +147,19 @@ class FireStoreDatabase implements Database {
   @override
   Future<void> liveUpdateChild(
     ChildModel model,
-    int value,
     AppUsageService apps,
   ) async {
     await apps.getAppUsageService();
 
-    //var point = await geo.getInitialLocation();
-    //var currentLocation = GeoPoint(point.latitude, point.longitude);
+    final point = await geo.getInitialLocation();
+    final currentLocation = GeoPoint(point.latitude, point.longitude);
 
     _child = ChildModel(
       id: model.id,
       name: model.name,
       email: model.email,
       token: model.token,
-      position: model.position,
+      position: currentLocation,
       appsUsageModel: apps.info,
       image: model.image,
       batteryLevel: model.batteryLevel,

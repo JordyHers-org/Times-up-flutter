@@ -17,6 +17,6 @@ void main() {
     // Replace with your ChildModel instance
     const tick = 5; // Replace with your tick value
 
-    await database.liveUpdateChild(Dummy.childModel, tick, usage);
+    await database.liveUpdateChild(Dummy.childModel, usage);
   });
 }
