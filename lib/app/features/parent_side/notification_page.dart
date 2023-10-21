@@ -51,7 +51,8 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Future<void> _delete(BuildContext context, NotificationModel model) async {
     try {
-      await widget.database?.deleteNotification(model.id!);
+      await widget.database
+          ?.deleteNotification(model.timeStamp!.toIso8601String());
     } on FirebaseException catch (e) {
       await showExceptionAlertDialog(
         context,

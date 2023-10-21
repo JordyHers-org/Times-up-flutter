@@ -22,7 +22,7 @@ abstract class Database {
 
   Future<void> deleteChild(ChildModel model);
 
-  Future<void> deleteNotification(String id);
+  Future<void> deleteNotification(String timestamp);
 
   Stream<List<ChildModel>> childrenStream();
 
@@ -119,8 +119,8 @@ class FireStoreDatabase implements Database {
   }
 
   @override
-  Future<void> deleteNotification(String id) async {
-    await _service.deleteData(path: APIPath.notifications(uid, id));
+  Future<void> deleteNotification(String timestamp) async {
+    await _service.deleteData(path: APIPath.notifications(uid, timestamp));
   }
 
   @override

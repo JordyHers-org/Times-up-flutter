@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:times_up_flutter/widgets/show_logger.dart';
 
 typedef QueryBuilder<T> = T Function(Map<String, dynamic> data);
@@ -35,7 +34,9 @@ class FireStoreService {
     required String path,
     required Map<String, dynamic> data,
   }) async {
-    final reference = FirebaseFirestore.instance.collection(path).doc();
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .doc(data['timeStamp'] as String);
     JHLogger.$.d('$path: $data');
 
     await reference.set(data);
@@ -78,8 +79,11 @@ class FireStoreService {
       await reference.delete();
     }
 
-    debugPrint('delete: $path');
-    await reference.delete();
+    try {
+      await reference.delete();
+    } catch (e) {
+      JHLogger.$.e(e);
+    }
   }
 
   Stream<List<T>> collectionStream<T>({
