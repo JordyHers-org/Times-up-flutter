@@ -201,8 +201,9 @@ class _$_ChildModel implements _ChildModel {
       this.token,
       this.batteryLevel,
       @AppUsageInfoConverter()
-      final List<AppUsageInfo> appsUsageModel = const <AppUsageInfo>[],
-      @GeoPointConverter() this.position})
+          final List<AppUsageInfo> appsUsageModel = const <AppUsageInfo>[],
+      @GeoPointConverter()
+          this.position})
       : _appsUsageModel = appsUsageModel;
 
   factory _$_ChildModel.fromJson(Map<String, dynamic> json) =>

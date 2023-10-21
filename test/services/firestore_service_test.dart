@@ -7,16 +7,13 @@ import '../mocks.dart';
 void main() {
   test('setChild', () async {
     final database = MockDatabase();
-    // Replace with your ChildModel instance
     await database.setChild(Dummy.childModel);
   });
 
   test('liveUpdateChild', () async {
     final database = MockDatabase();
     final usage = AppUsageService();
-    // Replace with your ChildModel instance
-    const tick = 5; // Replace with your tick value
 
-    await database.liveUpdateChild(Dummy.childModel, tick, usage);
+    await database.liveUpdateChild(Dummy.childModel, usage);
   });
 }

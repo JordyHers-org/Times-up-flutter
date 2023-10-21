@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 abstract class AuthBase {
   User? get currentUser;
