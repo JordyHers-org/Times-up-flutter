@@ -128,53 +128,52 @@ class _ChildDetailsPageState extends State<ChildDetailsPage>
           return [
             SliverAppBar(
               actions: [
-                if (model.image != null)
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => showCustomBottomSheet(
-                          context,
-                          animationController: _animationController,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: themeData.scaffoldBackgroundColor,
-                            ),
-                            height: 200,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Spacer(),
-                                JHCustomButton(
-                                  title: ' Bed Time',
-                                  backgroundColor: Colors.indigo,
-                                  onPress: () async => _sendNotification(
-                                    context,
-                                    model,
-                                    'Hey Go to bed Now',
-                                  ),
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => showCustomBottomSheet(
+                        context,
+                        animationController: _animationController,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: themeData.scaffoldBackgroundColor,
+                          ),
+                          height: 200,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Spacer(),
+                              JHCustomButton(
+                                title: ' Bed Time',
+                                backgroundColor: Colors.indigo,
+                                onPress: () async => _sendNotification(
+                                  context,
+                                  model,
+                                  'Hey Go to bed Now',
                                 ),
-                                JHCustomButton(
-                                  title: 'Homework Time',
-                                  backgroundColor: CustomColors.indigoLight,
-                                  onPress: () async => _sendNotification(
-                                    context,
-                                    model,
-                                    'Homework Time',
-                                  ),
+                              ),
+                              JHCustomButton(
+                                title: 'Homework Time',
+                                backgroundColor: CustomColors.indigoLight,
+                                onPress: () async => _sendNotification(
+                                  context,
+                                  model,
+                                  'Homework Time',
                                 ),
-                                const Spacer(),
-                              ],
-                            ),
+                              ),
+                              const Spacer(),
+                            ],
                           ),
                         ),
-                        child: ClipOval(
-                          child: Image.network(model.image!),
-                        ).p4,
                       ),
-                    ],
-                  )
-                else
-                  const SizedBox.shrink(),
+                      child: ClipOval(
+                        child: model.image != null
+                            ? Image.network(model.image!)
+                            : const Icon(Icons.person),
+                      ).p4,
+                    ),
+                  ],
+                ),
               ],
               elevation: 0.5,
               shadowColor: CustomColors.indigoLight,
