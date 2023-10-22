@@ -148,8 +148,8 @@ int getRandom(int maxValue) {
   return minRange + random.nextInt(maxRange - minRange + 1);
 }
 
-String convertToFormattedString(String input) {
-  final dateTime = DateTime.parse(input);
-  final formattedDate = DateFormat('MMMM d y HH:mma').format(dateTime);
+String convertToFormattedString(DateTime? dateTime) {
+  final formattedDate =
+      dateTime != null ? DateFormat('MMMM d y hh:mm a').format(dateTime) : '';
   return formattedDate;
 }
