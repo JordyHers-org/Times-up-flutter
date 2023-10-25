@@ -13,16 +13,13 @@ import 'package:times_up_flutter/widgets/show_logger.dart';
 abstract class Database {
   Future<void> setChild(ChildModel model);
 
-  Future<void> liveUpdateChild(
-    ChildModel model,
-    AppUsageService apps,
-  );
-
   Future<void> updateChild(ChildModel model);
 
   Future<void> deleteChild(ChildModel model);
 
   Future<void> deleteNotification(String timestamp);
+
+  Future<void> sendEmail({required EmailModel email});
 
   Stream<List<ChildModel>> childrenStream();
 
@@ -35,7 +32,10 @@ abstract class Database {
     ChildModel model,
   );
 
-  Future<void> sendEmail({required EmailModel email});
+  Future<void> liveUpdateChild(
+    ChildModel model,
+    AppUsageService apps,
+  );
 
   Future<ChildModel> getUserCurrentChild(
     String key,
@@ -67,7 +67,6 @@ class FireStoreDatabase implements Database {
   final String uid;
   final AuthBase auth;
   ChildModel? _child;
-
   final _service = FireStoreService.instance;
 
   GeoLocatorService geo = GeoLocatorService();
