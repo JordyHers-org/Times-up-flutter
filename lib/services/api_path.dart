@@ -11,5 +11,6 @@ class APIPath {
       'users/$uid/notifications/';
 
   static String mail() => 'mail/';
+
   static String deviceToken() => 'DeviceTokens/';
 }

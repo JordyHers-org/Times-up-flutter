@@ -70,7 +70,6 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addObserver(this);
   }
 

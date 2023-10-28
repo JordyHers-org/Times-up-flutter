@@ -56,26 +56,27 @@ class _SetChildPageState extends State<SetChildPage> {
   }
 
   Future<void> _submit(String name, String key, BuildContext context) async {
-    final database = Provider.of<Database>(context, listen: false);
+    final databaseStore = Provider.of<Database>(context, listen: false);
     final geo = Provider.of<GeoLocatorService>(context, listen: false);
-    final apps = Provider.of<AppUsageService>(context, listen: false);
+    final appUsage = Provider.of<AppUsageService>(context, listen: false);
     final position = await geo.getInitialLocation();
     final battery = await Battery().batteryLevel;
+
     try {
-      final response = await database.getUserCurrentChild(
+      final response = await databaseStore.getUserCurrentChild(
         key,
-        apps,
+        appUsage,
         GeoPoint(position.latitude, position.longitude),
         battery: battery.toString(),
       );
-      JHLogger.$.d('RESPONSE : $response');
+
       try {
         if (mounted) {
           await Navigator.of(context).pushReplacement(
             MaterialPageRoute<ChildPage>(
               fullscreenDialog: true,
               builder: (context) =>
-                  ChildPage.create(context, database, response),
+                  ChildPage.create(context, databaseStore, response),
             ),
           );
         }

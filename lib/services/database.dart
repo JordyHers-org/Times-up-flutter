@@ -11,6 +11,8 @@ import 'package:times_up_flutter/utils/constants.dart';
 import 'package:times_up_flutter/widgets/show_logger.dart';
 
 abstract class Database {
+  ChildModel? get currentChild;
+
   Future<void> setChild(ChildModel model);
 
   Future<void> updateChild(ChildModel model);
@@ -46,10 +48,11 @@ abstract class Database {
 }
 
 class FireStoreDatabase implements Database {
-  FireStoreDatabase({
-    required this.uid,
-    required this.auth,
-  }) {
+  factory FireStoreDatabase({required String uid, required AuthBase auth}) {
+    return _singleton ??= FireStoreDatabase._internal(uid, auth);
+  }
+
+  FireStoreDatabase._internal(this.uid, this.auth) {
     if (auth.isFirstLogin) {
       sendEmail(
         email: EmailModel(
@@ -57,19 +60,20 @@ class FireStoreDatabase implements Database {
           subject: EmailConstants.subject,
           text: EmailConstants.text,
           html: EmailConstants.html(
-            auth.currentUser!.displayName ?? auth.currentUser!.email!,
-          ),
+              auth.currentUser!.displayName ?? auth.currentUser!.email!),
         ),
       ).then((value) => auth.setFirstLogin(isFirstLogin: false));
     }
   }
-
+  static FireStoreDatabase? _singleton;
+  GeoLocatorService geo = GeoLocatorService();
   final String uid;
   final AuthBase auth;
   ChildModel? _child;
   final _service = FireStoreService.instance;
 
-  GeoLocatorService geo = GeoLocatorService();
+  @override
+  ChildModel? get currentChild => _child;
 
   @override
   Future<void> setChild(ChildModel model) => _service.setData(
@@ -150,7 +154,7 @@ class FireStoreDatabase implements Database {
   ) async {
     await apps.getAppUsageService();
 
-    final point = await geo.getInitialLocation();
+    final point = await geo.getCurrentLocation.last;
     final currentLocation = GeoPoint(point.latitude, point.longitude);
 
     _child = ChildModel(
@@ -165,6 +169,7 @@ class FireStoreDatabase implements Database {
     );
 
     await updateChild(_child!);
+    JHLogger.$.e('Child Updated : $_child');
   }
 
   @override

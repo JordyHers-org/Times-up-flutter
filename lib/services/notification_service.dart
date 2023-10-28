@@ -1,17 +1,58 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:times_up_flutter/widgets/show_logger.dart';
 
+const notificationChannelId = 'high_importance_channel';
+const notificationChannelTitle = 'High Importance Notifications';
+const notificationId = 800;
+
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
+  notificationChannelId,
+  notificationChannelTitle,
   description: 'This channel is used for important notifications.',
-  // description
   importance: Importance.max,
 );
+
+@pragma('vm:entry-point')
+Future<void> onStart(ServiceInstance service) async {
+  DartPluginRegistrant.ensureInitialized();
+  service.on('stopService').listen((event) {
+    service.stopSelf();
+  });
+  Timer.periodic(const Duration(minutes: 15), (timer) async {
+    // TODO(JORDY): IMPLEMENT DATA UPDATE HERE
+    // final databaseStore = Provider.of<Database>(context!, listen: false);
+    // final appUsage = Provider.of<AppUsageService>(context, listen: false);
+    // JHLogger.$.e(' NOT READy ');
+    // if (databaseStore.currentChild != null) {
+    //   await databaseStore.liveUpdateChild(
+    //     databaseStore.currentChild!,
+    //     appUsage,
+    //   );
+    // }
+    await NotificationService.flutterLocalNotificationsPlugin.show(
+      notificationId,
+      'Times Up - Monitoring',
+      'Tracking App Usage and live location',
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          notificationChannelId,
+          notificationChannelTitle,
+          icon: 'parental_launch',
+          ongoing: true,
+          importance: Importance.max,
+        ),
+      ),
+    );
+  });
+}
 
 class NotificationService {
   factory NotificationService() {
@@ -22,21 +63,38 @@ class NotificationService {
   static final NotificationService _singleton = NotificationService._internal();
 
   // Here the set up for cloud Messaging Android is being configured
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  // The LocalPlugin method configures the android channel
-  Future<void> localPlugin() async => await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
   Future<void> initialize() async {
-    await flutterLocalNotificationsPlugin.initialize(
-      const InitializationSettings(
-        android: AndroidInitializationSettings('@drawable/parental_launch'),
-      ),
-    );
+    try {
+      final service = FlutterBackgroundService();
+      await flutterLocalNotificationsPlugin
+          .initialize(
+        const InitializationSettings(
+          android: AndroidInitializationSettings('@drawable/parental_launch'),
+        ),
+      )
+          .then((value) async {
+        await flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>()
+            ?.createNotificationChannel(channel);
+
+        await service.configure(
+          iosConfiguration: IosConfiguration(),
+          androidConfiguration: AndroidConfiguration(
+            onStart: onStart,
+            isForegroundMode: true,
+            initialNotificationTitle: 'Times Up Flutter Launched',
+            initialNotificationContent: 'The app is tracking metadata',
+            foregroundServiceNotificationId: notificationId,
+          ),
+        );
+      });
+    } catch (e) {
+      JHLogger.$.e(e);
+    }
   }
 
 // Create a new instance of Firebase Messaging
@@ -46,7 +104,6 @@ class NotificationService {
     final androidImplementation =
         flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>();
-
     await androidImplementation?.requestPermission();
   }
 
