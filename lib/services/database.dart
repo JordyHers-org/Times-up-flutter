@@ -60,7 +60,8 @@ class FireStoreDatabase implements Database {
           subject: EmailConstants.subject,
           text: EmailConstants.text,
           html: EmailConstants.html(
-              auth.currentUser!.displayName ?? auth.currentUser!.email!),
+            auth.currentUser!.displayName ?? auth.currentUser!.email!,
+          ),
         ),
       ).then((value) => auth.setFirstLogin(isFirstLogin: false));
     }
