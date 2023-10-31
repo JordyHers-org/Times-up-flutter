@@ -15,6 +15,7 @@ class GeoLocatorService {
 
   Future<Position> getInitialLocation() async {
     permission = await Geolocator.requestPermission();
+
     if (permission == LocationPermission.denied) {
       return Future.error('Location permissions are denied');
     }

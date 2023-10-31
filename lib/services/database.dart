@@ -11,18 +11,17 @@ import 'package:times_up_flutter/utils/constants.dart';
 import 'package:times_up_flutter/widgets/show_logger.dart';
 
 abstract class Database {
-  Future<void> setChild(ChildModel model);
+  ChildModel? get currentChild;
 
-  Future<void> liveUpdateChild(
-    ChildModel model,
-    AppUsageService apps,
-  );
+  Future<void> setChild(ChildModel model);
 
   Future<void> updateChild(ChildModel model);
 
   Future<void> deleteChild(ChildModel model);
 
-  Future<void> deleteNotification(String id);
+  Future<void> deleteNotification(String timestamp);
+
+  Future<void> sendEmail({required EmailModel email});
 
   Stream<List<ChildModel>> childrenStream();
 
@@ -35,7 +34,10 @@ abstract class Database {
     ChildModel model,
   );
 
-  Future<void> sendEmail({required EmailModel email});
+  Future<void> liveUpdateChild(
+    ChildModel model,
+    AppUsageService apps,
+  );
 
   Future<ChildModel> getUserCurrentChild(
     String key,
@@ -46,10 +48,11 @@ abstract class Database {
 }
 
 class FireStoreDatabase implements Database {
-  FireStoreDatabase({
-    required this.uid,
-    required this.auth,
-  }) {
+  factory FireStoreDatabase({required String uid, required AuthBase auth}) {
+    return _singleton ??= FireStoreDatabase._internal(uid, auth);
+  }
+
+  FireStoreDatabase._internal(this.uid, this.auth) {
     if (auth.isFirstLogin) {
       sendEmail(
         email: EmailModel(
@@ -63,14 +66,15 @@ class FireStoreDatabase implements Database {
       ).then((value) => auth.setFirstLogin(isFirstLogin: false));
     }
   }
-
+  static FireStoreDatabase? _singleton;
+  GeoLocatorService geo = GeoLocatorService();
   final String uid;
   final AuthBase auth;
   ChildModel? _child;
-
   final _service = FireStoreService.instance;
 
-  GeoLocatorService geo = GeoLocatorService();
+  @override
+  ChildModel? get currentChild => _child;
 
   @override
   Future<void> setChild(ChildModel model) => _service.setData(
@@ -119,8 +123,8 @@ class FireStoreDatabase implements Database {
   }
 
   @override
-  Future<void> deleteNotification(String id) async {
-    await _service.deleteData(path: APIPath.notifications(uid, id));
+  Future<void> deleteNotification(String timestamp) async {
+    await _service.deleteData(path: APIPath.notifications(uid, timestamp));
   }
 
   @override
@@ -151,7 +155,7 @@ class FireStoreDatabase implements Database {
   ) async {
     await apps.getAppUsageService();
 
-    final point = await geo.getInitialLocation();
+    final point = await geo.getCurrentLocation.last;
     final currentLocation = GeoPoint(point.latitude, point.longitude);
 
     _child = ChildModel(
@@ -166,6 +170,7 @@ class FireStoreDatabase implements Database {
     );
 
     await updateChild(_child!);
+    JHLogger.$.e('Child Updated : $_child');
   }
 
   @override

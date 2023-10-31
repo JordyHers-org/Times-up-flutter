@@ -128,7 +128,7 @@ class _ParentPageState extends State<ParentPage>
 
   Widget _buildNotificationPage(AuthBase auth) {
     return Provider<NotificationService>(
-      create: (_) => NotificationService(),
+      create: (context) => NotificationService(),
       builder: (context, __) {
         return NotificationPage.create(context, auth);
       },
