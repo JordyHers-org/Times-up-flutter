@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
 
 class AppUsageException implements Exception {
   AppUsageException(this._cause);
@@ -29,6 +30,7 @@ class AppUsageInfo {
     _packageName = name;
     _appName = tokens.last;
     _usage = Duration(seconds: usageInSeconds.toInt());
+    JHLogger.$.e("$usage $_packageName $_usage");
     _appIcon = appIcon;
   }
 
@@ -76,7 +78,7 @@ class AppUsageInfo {
 
 class AppUsage {
   static const MethodChannel _methodChannel =
-      MethodChannel('app_usage.methodChannel');
+      MethodChannel('times_up/appUsage');
 
   static Future<List<AppUsageInfo>> getAppUsage(
     DateTime startDate,
@@ -85,10 +87,21 @@ class AppUsage {
   }) async {
     if (Platform.isAndroid || useMock) {
       final end = endDate.millisecondsSinceEpoch;
+
+      JHLogger.$.e(end);
       final start = startDate.millisecondsSinceEpoch;
-      final interval = <String, int>{'start': start, 'end': end};
-      final usage = await _methodChannel.invokeMethod('getUsage', interval)
+      final interval = <String, dynamic>{
+        'interval_start_time': start,
+        'interval_end_time': end,
+        'app_name': 'com.google.android.youtube',
+      };
+
+      // final result = await _methodChannel.invokeMethod('getAppUsageEventType', interval);
+      final usage = await _methodChannel.invokeMethod('getAppUsage', interval)
           as Map<dynamic, dynamic>;
+
+      // JHLogger.$.e(result);
+      JHLogger.$.e(usage);
       final appInfo = await InstalledApps.getInstalledApps(
         true,
         true,
@@ -98,26 +111,28 @@ class AppUsage {
       final listApps = <AppUsageInfo>[];
 
       for (final key in usage.keys) {
-        final temp = List<double>.from(usage[key] as Iterable<dynamic>);
+        final temp = List<num>.from(usage[key] as Iterable<dynamic>);
         if (temp[0] > 0) {
           result.add(
             AppUsageInfo(
               key.toString(),
-              temp[0],
-              DateTime.fromMillisecondsSinceEpoch(temp[1].round() * 1000),
-              DateTime.fromMillisecondsSinceEpoch(temp[2].round() * 1000),
+              double.parse((temp[0] / 1000).toString()),
+              DateTime.fromMillisecondsSinceEpoch(start),
+              DateTime.fromMillisecondsSinceEpoch(end),
             ),
           );
         }
       }
 
       for (final app in appInfo) {
+        // JHLogger.$.e(app.icon);
+
         for (final element in result) {
           if (element.packageName.contains(app.packageName!)) {
             listApps.add(
               AppUsageInfo(
                 app.name!,
-                element.usage.inMilliseconds.toDouble(),
+                element.usage.inSeconds * 1.0,
                 element.startDate,
                 element.endDate,
                 appIcon: app.icon,
