@@ -32,6 +32,10 @@ class EmailSignInModel with EmailAndPasswordValidators {
         !isLoading;
   }
 
+  bool get canResetPassword {
+    return emailValidator.isValid(email);
+  }
+
   bool get canSubmitRegister {
     return emailValidator.isValid(email) &&
         passwordValidator.isValid(password) &&

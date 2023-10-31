@@ -33,6 +33,8 @@ abstract class AuthBase {
     String name,
     String surname,
   );
+
+  Future<bool> forgotPassword(String email);
 }
 
 class Auth implements AuthBase {
@@ -185,5 +187,15 @@ class Auth implements AuthBase {
     }
     _isFirstLogin = false;
     await _firebaseAuth.signOut();
+  }
+
+  @override
+  Future<bool> forgotPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
