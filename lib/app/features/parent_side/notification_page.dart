@@ -177,7 +177,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         subtitle: JHDisplayText(
                           textAlign: TextAlign.start,
                           text: convertToFormattedString(
-                            data[index].timeStamp.toString(),
+                            data[index].timeStamp,
                           ),
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,

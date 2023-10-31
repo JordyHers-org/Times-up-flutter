@@ -215,7 +215,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
                     } else if (state is ChildSideFetching) {
                       return _buildLoading();
                     } else if (state is ChildSideNotification) {
-                      return _buildNotification();
+                      return _buildNotification(widget.child!);
                     } else if (state is ChildSideAppList) {
                       return _buildAppList(widget.appUsage);
                     } else {
@@ -249,9 +249,9 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
     );
   }
 
-  Widget _buildNotification() {
+  Widget _buildNotification(ChildModel child) {
     return StreamBuilder<List<NotificationModel>>(
-      stream: widget.database!.notificationStream(childId: ''),
+      stream: widget.database!.notificationStream(childId: child.id),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;

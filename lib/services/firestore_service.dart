@@ -2,6 +2,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:times_up_flutter/models/notification_model/notification_model.dart';
+
 import 'package:times_up_flutter/widgets/show_logger.dart';
 
 typedef QueryBuilder<T> = T Function(Map<String, dynamic> data);
@@ -114,6 +117,7 @@ class FireStoreService {
   Stream<List<T>> notificationStream<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentId) builder,
+    String? childId,
     Function(Query query)? queryBuilder,
     int Function(T lhs, T rhs)? sort,
   }) {
@@ -122,10 +126,15 @@ class FireStoreService {
       query = queryBuilder(query) as CollectionReference<Map<String, dynamic>>;
     }
     final snapshots = query.snapshots();
+
     return snapshots.map((snapshot) {
       final result = snapshot.docs
           .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .where((value) => value != null)
+          .where(
+            (value) =>
+                value != null &&
+                (childId == null || (value as NotificationModel).id == childId),
+          )
           .toList();
       if (sort != null) {
         result.sort(sort);

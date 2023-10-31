@@ -89,32 +89,33 @@ class _EditChildPageState extends State<EditChildPage> {
   Future<void> _submit(XFile? localFile) async {
     if (appState == AppState.loading) return;
     if (_validateAndSaveForm()) {
-      if (localFile == null) return;
       setState(() {
         appState = AppState.loading;
       });
 
       id = uuid.v4().substring(0, 8).toUpperCase();
-      try {
-        final fileExtension = path.extension(localFile.path);
-        JHLogger.$.d(fileExtension);
+      if(localFile!=null) {
+        try {
+          final fileExtension = path.extension(localFile.path);
+          JHLogger.$.d(fileExtension);
 
-        final firebaseStorageRef = FirebaseStorage.instance
-            .ref()
-            .child('Child/"$id"/$id$fileExtension');
+          final firebaseStorageRef = FirebaseStorage.instance
+              .ref()
+              .child('Child/"$id"/$id$fileExtension');
 
-        await firebaseStorageRef
-            .putFile(File(localFile.path))
-            .catchError((Function onError) {
-          JHLogger.$.e(onError);
-          // ignore: return_of_invalid_type_from_catch_error
-          return false;
-        });
-        final url = await firebaseStorageRef.getDownloadURL();
-        _imageURL = url;
-        JHLogger.$.d('download url: $url');
-      } catch (e) {
-        JHLogger.$.d('...skipping image upload');
+          await firebaseStorageRef
+              .putFile(File(localFile.path))
+              .catchError((Function onError) {
+            JHLogger.$.e(onError);
+            // ignore: return_of_invalid_type_from_catch_error
+            return false;
+          });
+          final url = await firebaseStorageRef.getDownloadURL();
+          _imageURL = url;
+          JHLogger.$.d('download url: $url');
+        } catch (e) {
+          JHLogger.$.d('...skipping image upload');
+        }
       }
 
       try {
