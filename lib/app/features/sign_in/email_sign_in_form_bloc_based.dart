@@ -8,6 +8,7 @@ import 'package:times_up_flutter/app/features/sign_in/email_sign_in_model.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/widgets/jh_form_submit_button.dart';
+import 'package:times_up_flutter/widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/widgets/show_exeption_alert.dart';
 
 class EmailSignInFormBlocBased extends StatefulWidget {
@@ -74,6 +75,37 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
     }
   }
 
+  Future<void>? _forgotPassword(EmailSignInModel model, String email) async {
+    try {
+      if (model.canResetPassword) {
+        final emailSent = await widget.bloc.forgotPassword(email);
+        if (emailSent) {
+          // ignore: use_build_context_synchronously
+          await showAlertDialog(
+            context,
+            title: 'Password reset email sent to $email',
+            content: 'Please check your email',
+            defaultActionText: 'OK',
+          );
+        } else {
+          // ignore: use_build_context_synchronously
+          await showAlertDialog(
+            context,
+            title: 'Password reset failed',
+            content: 'There was some issue',
+            defaultActionText: 'OK',
+          );
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      await showExceptionAlertDialog(
+        context,
+        title: model.signInFailedText,
+        exception: e,
+      );
+    }
+  }
+
   void _emailEditingComplete(EmailSignInModel model) {
     final newFocus = model.emailValidator.isValid(model.email)
         ? _passwordFocusNode
@@ -105,6 +137,8 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       _buildEmailTextField(model),
       const SizedBox(height: 8),
       _buildPasswordTextField(model),
+      const SizedBox(height: 8),
+      _buildForgotPassword(model),
       const SizedBox(height: 8),
       FormSubmitButton(
         onPressed: () => model.canSubmitRegister || model.canSubmitSignIn
@@ -200,6 +234,18 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       textInputAction: TextInputAction.done,
       onEditingComplete: () => _submit(model),
       onChanged: (password) => widget.bloc.updatePassword(password),
+    );
+  }
+
+  Widget _buildForgotPassword(EmailSignInModel model) {
+    return GestureDetector(
+      onTap: () => _forgotPassword(model, _emailController.text),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        width: double.infinity,
+        alignment: Alignment.centerRight,
+        child: const Text('Forgot Password?'),
+      ),
     );
   }
 

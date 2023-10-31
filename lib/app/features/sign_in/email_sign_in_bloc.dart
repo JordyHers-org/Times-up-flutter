@@ -42,6 +42,15 @@ class EmailSignInBloc {
     }
   }
 
+
+  Future<bool> forgotPassword(String email) async{
+    try {
+      return await auth.forgotPassword(email);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   void toggleFormType() {
     final formType = _model.formType == EmailSignInFormType.signIn
         ? EmailSignInFormType.register
