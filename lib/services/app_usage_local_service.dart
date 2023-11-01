@@ -5,12 +5,12 @@ import 'dart:io' show Platform;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';
-import 'package:parental_control/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
 
 class AppUsageException implements Exception {
-  final String _cause;
-
   AppUsageException(this._cause);
+  final String _cause;
 
   @override
   String toString() {
@@ -19,11 +19,6 @@ class AppUsageException implements Exception {
 }
 
 class AppUsageInfo {
-  late String _packageName, _appName;
-  late Uint8List? _appIcon;
-  late Duration _usage;
-  var _startDate, _endDate;
-
   AppUsageInfo(
     String name,
     double usageInSeconds,
@@ -31,20 +26,27 @@ class AppUsageInfo {
     this._endDate, {
     Uint8List? appIcon,
   }) {
-    var tokens = name.split('.');
+    final tokens = name.split('.');
     _packageName = name;
     _appName = tokens.last;
     _usage = Duration(seconds: usageInSeconds.toInt());
+    JHLogger.$.e("$usage $_packageName $_usage");
     _appIcon = appIcon;
   }
 
   factory AppUsageInfo.fromMap(Map<String, dynamic> data) => AppUsageInfo(
-        data['appName'],
+        data['appName'] as String,
         data['usage'].toString().p(),
         data['startDate'],
         data['endDate'],
-        appIcon: base64Decode(data['appIcon'] ?? ''),
+        appIcon: base64Decode(data['appIcon'] as String),
       );
+  late String _packageName;
+  late String _appName;
+  late Uint8List? _appIcon;
+  late Duration _usage;
+  dynamic _startDate;
+  dynamic _endDate;
 
   Map<String, dynamic> toMap() => {
         'appName': _appName,
@@ -60,9 +62,9 @@ class AppUsageInfo {
 
   Duration get usage => _usage;
 
-  DateTime get startDate => _startDate;
+  DateTime get startDate => _startDate as DateTime;
 
-  DateTime get endDate => _endDate;
+  DateTime get endDate => _endDate as DateTime;
 
   Uint8List? get appIcon => _appIcon;
 
@@ -76,7 +78,7 @@ class AppUsageInfo {
 
 class AppUsage {
   static const MethodChannel _methodChannel =
-      MethodChannel('app_usage.methodChannel');
+      MethodChannel('times_up/appUsage');
 
   static Future<List<AppUsageInfo>> getAppUsage(
     DateTime startDate,
@@ -84,42 +86,56 @@ class AppUsage {
     required bool useMock,
   }) async {
     if (Platform.isAndroid || useMock) {
-      var end = endDate.millisecondsSinceEpoch;
-      var start = startDate.millisecondsSinceEpoch;
-      var interval = <String, int>{'start': start, 'end': end};
-      var usage = await _methodChannel.invokeMethod('getUsage', interval);
-      var _appInfo = await InstalledApps.getInstalledApps(
+      final end = endDate.millisecondsSinceEpoch;
+
+      JHLogger.$.e(end);
+      final start = startDate.millisecondsSinceEpoch;
+      final interval = <String, dynamic>{
+        'interval_start_time': start,
+        'interval_end_time': end,
+        'app_name': 'com.google.android.youtube',
+      };
+
+      // final result = await _methodChannel.invokeMethod('getAppUsageEventType', interval);
+      final usage = await _methodChannel.invokeMethod('getAppUsage', interval)
+          as Map<dynamic, dynamic>;
+
+      // JHLogger.$.e(result);
+      JHLogger.$.e(usage);
+      final appInfo = await InstalledApps.getInstalledApps(
         true,
         true,
       );
 
-      var result = <AppUsageInfo>[];
-      var listApps = <AppUsageInfo>[];
+      final result = <AppUsageInfo>[];
+      final listApps = <AppUsageInfo>[];
 
-      for (String key in usage.keys) {
-        var temp = List<double>.from(usage[key]);
+      for (final key in usage.keys) {
+        final temp = List<num>.from(usage[key] as Iterable<dynamic>);
         if (temp[0] > 0) {
           result.add(
             AppUsageInfo(
-              key,
-              temp[0],
-              DateTime.fromMillisecondsSinceEpoch(temp[1].round() * 1000),
-              DateTime.fromMillisecondsSinceEpoch(temp[2].round() * 1000),
+              key.toString(),
+              double.parse((temp[0] / 1000).toString()),
+              DateTime.fromMillisecondsSinceEpoch(start),
+              DateTime.fromMillisecondsSinceEpoch(end),
             ),
           );
         }
       }
 
-      for (var app in _appInfo) {
-        for (var element in result) {
+      for (final app in appInfo) {
+        // JHLogger.$.e(app.icon);
+
+        for (final element in result) {
           if (element.packageName.contains(app.packageName!)) {
             listApps.add(
               AppUsageInfo(
                 app.name!,
-                element.usage.inMilliseconds.toDouble(),
+                element.usage.inSeconds * 1.0,
                 element.startDate,
                 element.endDate,
-                appIcon: app.icon!,
+                appIcon: app.icon,
               ),
             );
           }

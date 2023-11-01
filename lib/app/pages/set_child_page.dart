@@ -1,20 +1,25 @@
+// ignore_for_file: avoid_bool_literals_in_conditional_expressions, library_private_types_in_public_api, lines_longer_than_80_chars
+
+import 'package:battery_plus/battery_plus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/app/helpers/parsing_extension.dart';
-import 'package:parental_control/app/pages/child_page.dart';
-import 'package:parental_control/common_widgets/jh_form_submit_button.dart';
-import 'package:parental_control/common_widgets/show_alert_dialog.dart';
-import 'package:parental_control/common_widgets/show_logger.dart';
-import 'package:parental_control/models/child_model/child_model.dart';
-import 'package:parental_control/services/database.dart';
-import 'package:parental_control/services/geo_locator_service.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/app/pages/child_page.dart';
+import 'package:times_up_flutter/common_widgets/jh_form_submit_button.dart';
+import 'package:times_up_flutter/common_widgets/show_alert_dialog.dart';
+import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/services/geo_locator_service.dart';
 
 enum AppState { loading, complete }
 
 class SetChildPage extends StatefulWidget {
+  const SetChildPage({Key? key}) : super(key: key);
+
   static Widget create(BuildContext context) {
-    return SetChildPage();
+    return const SetChildPage();
   }
 
   @override
@@ -26,7 +31,7 @@ class _SetChildPageState extends State<SetChildPage> {
   final TextEditingController _key = TextEditingController();
   final FocusNode _nameFocusNode = FocusNode();
   final FocusNode _keyFocusNode = FocusNode();
-  var appState = AppState.complete;
+  AppState appState = AppState.complete;
 
   @override
   void dispose() {
@@ -37,46 +42,55 @@ class _SetChildPageState extends State<SetChildPage> {
     super.dispose();
   }
 
-  void _submit(String name, String key, BuildContext context) async {
+  Future<void> _submit(String name, String key, BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
     final geo = Provider.of<GeoLocatorService>(context, listen: false);
     final position = await geo.getInitialLocation();
+    final battery = await Battery().batteryLevel;
     try {
       final response = await database.getUserCurrentChild(
         name,
         key,
         GeoPoint(position.latitude, position.longitude),
+        battery: battery.toString(),
       );
-      JHLogger.$.d('RESPONSE : ${response}');
+      JHLogger.$.d('RESPONSE : $response');
       try {
-        await Navigator.of(context).pushReplacement(
-          MaterialPageRoute<void>(
-            fullscreenDialog: true,
-            builder: (context) => ChildPage.create(context, database, response),
-          ),
-        );
+        if (mounted) {
+          await Navigator.of(context).pushReplacement(
+            MaterialPageRoute<ChildPage>(
+              fullscreenDialog: true,
+              builder: (context) =>
+                  ChildPage.create(context, database, response),
+            ),
+          );
+        }
       } catch (e) {
         setState(() {
           appState = AppState.complete;
         });
-        await showAlertDialog(
-          context,
-          title: 'No Such file in Database',
-          content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
-          defaultActionText: 'OK',
-        );
+        if (mounted) {
+          await showAlertDialog(
+            context,
+            title: 'No Such file in Database',
+            content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
+            defaultActionText: 'OK',
+          );
+        }
         JHLogger.$.e('ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE');
       }
     } catch (e) {
       setState(() {
         appState = AppState.complete;
       });
-      await showAlertDialog(
-        context,
-        title: 'No Such file in Database',
-        content: 'ERROR OCCURRED COULD NOT MOVE TO THE NEXT PAGE',
-        defaultActionText: 'OK',
-      );
+      if (mounted) {
+        await showAlertDialog(
+          context,
+          title: 'Error ❌',
+          content: e.toString(),
+          defaultActionText: 'OK',
+        );
+      }
       JHLogger.$.e(e.toString());
     }
   }
@@ -89,11 +103,11 @@ class _SetChildPageState extends State<SetChildPage> {
         controller: _nameController,
         textInputAction: TextInputAction.next,
         onEditingComplete: () {
-          if (model?.name.isValid(model.name) == true) {
+          if (model?.name.isValid(model.name) ?? true) {
             FocusScope.of(context).requestFocus(_keyFocusNode);
           }
         },
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Name',
         ),
       ),
@@ -103,11 +117,11 @@ class _SetChildPageState extends State<SetChildPage> {
         focusNode: _keyFocusNode,
         controller: _key,
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Unique Key',
         ),
       ),
-      SizedBox(height: 16.0),
+      const SizedBox(height: 16),
       FormSubmitButton(
         text: appState == AppState.complete ? 'Submit' : 'Loading ...',
         onPressed: () {
@@ -117,7 +131,7 @@ class _SetChildPageState extends State<SetChildPage> {
           _submit(_nameController.text, _key.text, context);
         },
       ),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8),
     ];
   }
 
@@ -126,19 +140,18 @@ class _SetChildPageState extends State<SetChildPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text('Set up Child '),
-        elevation: 0.0,
+        title: const Text('Set up Child '),
+        elevation: 0,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Card(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
                 children: _buildChildren(context),
               ),
             ),

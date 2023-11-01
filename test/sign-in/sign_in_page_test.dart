@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:parental_control/services/auth.dart';
-import 'package:parental_control/sign_in/sign_in_button.dart';
-import 'package:parental_control/sign_in/sign_in_page.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/services/auth.dart';
+import 'package:times_up_flutter/sign_in/sign_in_button.dart';
+import 'package:times_up_flutter/sign_in/sign_in_page.dart';
 
 import '../helpers/test_helpers.mocks.dart';
 
@@ -27,7 +27,7 @@ void main() {
       Provider<AuthBase>(
         create: (_) => mockAuth,
         child: MaterialApp(
-          home: Builder(builder: (context) => SignInPage.create(context)),
+          home: const Builder(builder: SignInPage.create),
 
           //2. Pass is to the list of observers in MaterialApp
           navigatorObservers: [mockNavigatorObvserver],
@@ -42,7 +42,7 @@ void main() {
   testWidgets('email&password navigation', (WidgetTester tester) async {
     await pumpSignInPage(tester);
 
-    final emailSignInButton = find.byType(SignInButton, skipOffstage: true);
+    final emailSignInButton = find.byType(SignInButton);
     expect(emailSignInButton, findsNWidgets(1));
     //4. Write the test to trigger the tap
     await tester.tap(emailSignInButton);

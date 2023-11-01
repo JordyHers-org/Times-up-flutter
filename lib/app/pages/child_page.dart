@@ -1,34 +1,37 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parental_control/app/bloc/child_side_bloc.dart';
-import 'package:parental_control/app/helpers/parsing_extension.dart';
-import 'package:parental_control/app/pages/set_child_page.dart';
-import 'package:parental_control/common_widgets/jh_empty_content.dart';
-import 'package:parental_control/models/child_model/child_model.dart';
-import 'package:parental_control/models/notification_model/notification_model.dart';
-import 'package:parental_control/services/app_usage_service.dart';
-import 'package:parental_control/services/database.dart';
 import 'package:provider/provider.dart';
-
-import '../../common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/app/bloc/child_side_bloc.dart';
+import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/app/pages/set_child_page.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_empty_content.dart';
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/models/notification_model/notification_model.dart';
+import 'package:times_up_flutter/services/app_usage_service.dart';
+import 'package:times_up_flutter/services/database.dart';
 
 class ChildPage extends StatefulWidget {
+  const ChildPage({Key? key, this.database, this.child}) : super(key: key);
   final Database? database;
   final ChildModel? child;
 
-  const ChildPage({Key? key, this.database, this.child}) : super(key: key);
-
-  static Widget create(BuildContext context, database, ChildModel child) {
+  static Widget create(
+    BuildContext context,
+    Database database,
+    ChildModel child,
+  ) {
     final appUsage = Provider.of<AppUsageService>(context, listen: false);
 
     return BlocProvider(
       create: (_) => ChildSideBloc(),
       child: FutureBuilder(
         future: appUsage.getAppUsageService(),
-        builder: (_, AsyncSnapshot snapshot) =>
-            ChildPage(database: database, child: child),
+        builder: (_, snapshot) => ChildPage(database: database, child: child),
       ),
     );
   }
@@ -39,14 +42,12 @@ class ChildPage extends StatefulWidget {
 
 class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
   void sendLocalToBloCNotification(BuildContext context) {
-    var childSideBloc = context.read<ChildSideBloc>();
-    childSideBloc.add(GetNotifications());
+    context.read<ChildSideBloc>().add(GetNotifications());
     Navigator.pop(context);
   }
 
   void sendLocalToBloCAppList(BuildContext context) {
-    var childSideBloc = context.read<ChildSideBloc>();
-    childSideBloc.add(GetAppList());
+    context.read<ChildSideBloc>().add(GetAppList());
     Navigator.pop(context);
   }
 
@@ -66,76 +67,76 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            widget.child != null
-                ? Container(
-                    height: 250,
-                    color: Colors.indigo,
-                    child: DrawerHeader(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+            if (widget.child != null)
+              Container(
+                height: 250,
+                color: Colors.indigo,
+                child: DrawerHeader(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 6),
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(widget.child!.image!),
+                          radius: 45,
+                        ),
+                        const SizedBox(height: 6),
+                        JHDisplayText(
+                          text: '${widget.child!.name} ',
+                          style: const TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
                           children: [
-                            SizedBox(height: 6),
-                            CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(widget.child!.image!),
-                              radius: 45,
-                            ),
-                            SizedBox(height: 6),
                             JHDisplayText(
-                              text: '${widget.child!.name} ',
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            SizedBox(height: 12),
-                            Row(
-                              children: [
-                                JHDisplayText(
-                                  text: '${widget.child!.email} ',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 6),
-                            JHDisplayText(
-                              text: '${widget.child!.id} ',
-                              style: TextStyle(
+                              text: '${widget.child!.email} ',
+                              style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            SizedBox(height: 7),
                           ],
                         ),
-                      ),
+                        const SizedBox(height: 6),
+                        JHDisplayText(
+                          text: '${widget.child!.id} ',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: 7),
+                      ],
                     ),
-                  )
-                : Container(),
-            Divider(
+                  ),
+                ),
+              )
+            else
+              Container(),
+            const Divider(
               height: 0.5,
               thickness: 0.2,
               color: Colors.grey,
             ),
-            SizedBox(height: 5 * 2),
+            const SizedBox(height: 5 * 2),
             ListTile(
-              leading: Icon(Icons.notifications),
-              title: Text('Notification'),
+              leading: const Icon(Icons.notifications),
+              title: const Text('Notification'),
               onTap: () => sendLocalToBloCNotification(context),
             ),
-            Divider(
+            const Divider(
               height: 0.5,
               thickness: 0.2,
               color: Colors.grey,
             ),
             ListTile(
-              leading: Icon(Icons.settings_applications),
-              title: Text('App usage'),
+              leading: const Icon(Icons.settings_applications),
+              title: const Text('App usage'),
               onTap: () => sendLocalToBloCAppList(context),
             ),
           ],
@@ -146,54 +147,54 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
           IconButton(
             onPressed: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => SetChildPage()),
+                MaterialPageRoute<SetChildPage>(
+                  builder: (context) => const SetChildPage(),
+                ),
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.exit_to_app,
               color: Colors.indigo,
             ),
           )
         ],
         backgroundColor: Colors.white,
-        title: JHDisplayText(
+        title: const JHDisplayText(
           text: 'Child',
           style: TextStyle(color: Colors.indigo),
         ),
-        iconTheme: IconThemeData(color: Colors.indigo),
+        iconTheme: const IconThemeData(color: Colors.indigo),
         centerTitle: true,
       ),
       //ignore: non_null
       body: appUsage.info.isEmpty
-          ? JHEmptyContent(
+          ? const JHEmptyContent(
               title: 'This is the child page',
               message: 'Nothing to show at the moment',
             )
-          : Container(
-              child: Center(
-                child: BlocConsumer<ChildSideBloc, ChildSideState>(
-                  listener: (context, state) {},
-                  builder: (context, state) {
-                    if (state is ChildSideInitial) {
-                      return _buildInitialInput(context);
-                    } else if (state is ChildSideFetching) {
-                      return _buildLoading();
-                    } else if (state is ChildSideNotification) {
-                      return _buildNotification();
-                    } else if (state is ChildSideAppList) {
-                      return _buildAppList(appUsage);
-                    } else {
-                      return _buildInitialInput(context);
-                    }
-                  },
-                ),
+          : Center(
+              child: BlocConsumer<ChildSideBloc, ChildSideState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  if (state is ChildSideInitial) {
+                    return _buildInitialInput(context);
+                  } else if (state is ChildSideFetching) {
+                    return _buildLoading();
+                  } else if (state is ChildSideNotification) {
+                    return _buildNotification();
+                  } else if (state is ChildSideAppList) {
+                    return _buildAppList(appUsage);
+                  } else {
+                    return _buildInitialInput(context);
+                  }
+                },
               ),
             ),
     );
   }
 
   Widget _buildInitialInput(BuildContext context) {
-    return Center(
+    return const Center(
       child: JHDisplayText(
         text: 'Child Page',
         style: TextStyle(
@@ -206,7 +207,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
   }
 
   Widget _buildLoading() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
       ),
@@ -225,11 +226,11 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
               return Card(
                 color: Colors.indigo,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8),
                   child: ListTile(
                     title: JHDisplayText(
                       text: data[index].title ?? 'No title available',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                         fontSize: 16,
@@ -237,7 +238,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
                     ),
                     trailing: JHDisplayText(
                       text: data[index].message ?? 'No message available',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                         fontSize: 16,
@@ -251,7 +252,7 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
         } else if (snapshot.hasData) {
           return ErrorWidget(snapshot.error!);
         }
-        return JHEmptyContent(
+        return const JHEmptyContent(
           message:
               'This side of the app will display the list of Notifications',
           title: 'Notification page',
@@ -262,19 +263,19 @@ class _ChildPageState extends State<ChildPage> with WidgetsBindingObserver {
     );
   }
 
-  Widget _buildAppList(appUsage) {
+  Widget _buildAppList(AppUsageService appUsage) {
     return ListView.builder(
       itemCount: appUsage.info.length,
       itemBuilder: (context, index) {
         return ListTile(
-          leading: Image.memory(appUsage.info[index].appIcon),
+          leading: Image.memory(appUsage.info[index].appIcon!),
           title: JHDisplayText(
             text: appUsage.info[index].appName,
-            style: TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 15),
           ),
           trailing: JHDisplayText(
             text: appUsage.info[index].usage.toString().t(),
-            style: TextStyle(fontSize: 14, color: Colors.indigo),
+            style: const TextStyle(fontSize: 14, color: Colors.indigo),
           ),
         );
       },

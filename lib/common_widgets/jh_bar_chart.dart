@@ -2,24 +2,25 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/theme/theme.dart';
-
-import 'jh_display_text.dart';
+import 'package:times_up_flutter/common_widgets/jh_display_text.dart';
+import 'package:times_up_flutter/theme/theme.dart';
 
 class JHAppUsageChart extends StatefulWidget {
-  final List<Color> availableColors = const [
-    Colors.purpleAccent,
-    Colors.yellow,
-    Colors.lightBlue,
-    Colors.orange,
-    Colors.pink,
-    Colors.redAccent,
-  ];
+  const JHAppUsageChart({
+    required this.isEmpty,
+    required this.name,
+    Key? key,
+  }) : super(key: key);
+  List<Color> get availableColors => const [
+        Colors.purpleAccent,
+        Colors.yellow,
+        Colors.lightBlue,
+        Colors.orange,
+        Colors.pink,
+        Colors.redAccent,
+      ];
   final bool isEmpty;
   final String name;
-
-  const JHAppUsageChart({Key? key, required this.isEmpty, required this.name})
-      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => JHAppUsageChartState();
@@ -45,10 +46,8 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  JHDisplayText(
+                  const JHDisplayText(
                     text: 'Week Report',
                     style: TextStyle(
                       color: Colors.white,
@@ -60,7 +59,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
                     height: 4,
                   ),
                   JHDisplayText(
-                    text:'App Usage Graph',
+                    text: 'App Usage Graph',
                     style: TextStyle(
                       color: CustomColors.indigoDark,
                       fontSize: 12,
@@ -72,7 +71,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: BarChart(
                         isPlaying ? randomData() : mainBarData(),
                         swapAnimationDuration: animDuration,
@@ -86,7 +85,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.all(4),
               child: Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
@@ -127,7 +126,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
           color: isTouched ? Colors.yellow : barColor,
           width: width,
           borderSide: isTouched
-              ? BorderSide(color: Colors.yellow.withOpacity(0.5), width: 1)
+              ? BorderSide(color: Colors.yellow.withOpacity(0.5))
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
@@ -195,7 +194,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
           tooltipBgColor: Colors.blueGrey,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
             String weekDay;
-            switch (group.x.toInt()) {
+            switch (group.x) {
               case 0:
                 weekDay = 'Monday';
                 break;
@@ -221,7 +220,7 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
                 throw Error();
             }
             return BarTooltipItem(
-              weekDay + '\n',
+              '$weekDay\n',
               const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -290,28 +289,28 @@ class JHAppUsageChartState extends State<JHAppUsageChart> {
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = JHDisplayText(text: 'M', style: style);
+        text = const JHDisplayText(text: 'M', style: style);
         break;
       case 1:
-        text = JHDisplayText(text: 'T', style: style);
+        text = const JHDisplayText(text: 'T', style: style);
         break;
       case 2:
-        text = JHDisplayText(text: 'W', style: style);
+        text = const JHDisplayText(text: 'W', style: style);
         break;
       case 3:
-        text = JHDisplayText(text: 'T', style: style);
+        text = const JHDisplayText(text: 'T', style: style);
         break;
       case 4:
-        text = JHDisplayText(text: 'F', style: style);
+        text = const JHDisplayText(text: 'F', style: style);
         break;
       case 5:
-        text = JHDisplayText(text: 'S', style: style);
+        text = const JHDisplayText(text: 'S', style: style);
         break;
       case 6:
-        text = JHDisplayText(text: 'S', style: style);
+        text = const JHDisplayText(text: 'S', style: style);
         break;
       default:
-        text =  JHDisplayText(text:'', style: style);
+        text = const JHDisplayText(text: '', style: style);
         break;
     }
     return Padding(padding: const EdgeInsets.only(top: 16), child: text);

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class JHCustomRaisedButton extends StatelessWidget {
-  JHCustomRaisedButton({
+  const JHCustomRaisedButton({
     required this.child,
     required this.onPressed,
     required this.color,
+    Key? key,
     this.width,
     this.borderRadius = 4.0,
     this.height = 55.0,
-  });
+  }) : super(key: key);
 
   final Widget child;
   final Color color;
@@ -23,7 +24,6 @@ class JHCustomRaisedButton extends StatelessWidget {
       height: height,
       width: width,
       child: ElevatedButton(
-        child: child,
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.indigo,
           backgroundColor: color,
@@ -33,6 +33,7 @@ class JHCustomRaisedButton extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
+        child: child,
       ),
     );
   }

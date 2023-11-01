@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:parental_control/sign_in/validators.dart';
+import 'package:times_up_flutter/sign_in/validators.dart';
 
 void main() {
   test('non empty string ', () {

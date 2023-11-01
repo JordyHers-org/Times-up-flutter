@@ -1,11 +1,11 @@
 import 'package:logger/logger.dart';
 
 class JHLogger {
-  static var $ = Logger(
+  static Logger $ = Logger(
     printer: PrettyPrinter(),
   );
 
-  static var loggerNoStack = Logger(
+  static Logger loggerNoStack = Logger(
     printer: PrettyPrinter(methodCount: 0),
   );
 }

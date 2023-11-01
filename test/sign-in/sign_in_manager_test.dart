@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:parental_control/sign_in/sign_in_manager.dart';
+import 'package:times_up_flutter/sign_in/sign_in_manager.dart';
 
 import '../helpers/test_helpers.mocks.dart';
 

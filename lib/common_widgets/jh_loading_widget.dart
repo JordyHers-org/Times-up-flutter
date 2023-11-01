@@ -8,7 +8,7 @@ class LoadingWidget extends StatelessWidget {
     return Center(
       child: Transform.scale(
         scale: 1.5,
-        child: CircularProgressIndicator(
+        child: const CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
         ),
       ),

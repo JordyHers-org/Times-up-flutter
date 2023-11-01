@@ -1,8 +1,8 @@
-// ignore_for_file: require_trailing_commas
+// ignore_for_file: require_trailing_commas, avoid_final_parameters
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:parental_control/services/app_usage_local_service.dart';
+import 'package:times_up_flutter/services/app_usage_local_service.dart';
 
 part 'child_model.freezed.dart';
 part 'child_model.g.dart';
@@ -17,6 +17,7 @@ class ChildModel with _$ChildModel {
     required final String email,
     required final String? image,
     final String? token,
+    final String? batteryLevel,
     @Default(<AppUsageInfo>[])
     @AppUsageInfoConverter()
         List<AppUsageInfo> appsUsageModel,

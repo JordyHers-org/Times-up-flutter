@@ -1,17 +1,18 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parental_control/app/landing_page.dart';
-import 'package:parental_control/app/splash/splash_content.dart';
-import 'package:parental_control/common_widgets/jh_custom_button.dart';
-import 'package:parental_control/common_widgets/jh_size_config.dart';
-import 'package:parental_control/services/shared_preferences.dart';
-import 'package:parental_control/theme/theme.dart';
-import 'package:parental_control/utils/data.dart';
+import 'package:times_up_flutter/app/landing_page.dart';
+import 'package:times_up_flutter/app/splash/splash_content.dart';
+import 'package:times_up_flutter/common_widgets/jh_custom_button.dart';
+import 'package:times_up_flutter/common_widgets/jh_size_config.dart';
+import 'package:times_up_flutter/services/shared_preferences.dart';
+import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/utils/data.dart';
 
 class SplashScreen extends StatefulWidget {
-  final BuildContext? context;
-
   const SplashScreen({Key? key, this.context}) : super(key: key);
+  final BuildContext? context;
 
   static Widget create(BuildContext context) {
     return SplashScreen(context: context);
@@ -34,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Expanded(
               flex: 3,
               child: PageView.builder(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 onPageChanged: (value) {
                   setState(() {
                     currentPage = value;
@@ -42,14 +43,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 },
                 itemCount: TabData.items.length,
                 itemBuilder: (context, index) => SplashContent(
-                  text: TabData.items[index]['text'],
-                  title: TabData.items[index]['title'],
-                  icon: TabData.items[index]['icon'],
+                  text: TabData.items[index]['text'] as String,
+                  title: TabData.items[index]['title'] as String,
+                  icon: TabData.items[index]['icon'] as IconData,
                 ),
               ),
             ),
             Expanded(
-              flex: 1,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -60,8 +60,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       SharedPreference().setVisitingFlag();
                       SharedPreference().setParentDevice();
                       Navigator.of(context).pushReplacement(
-                        CupertinoPageRoute(
-                          builder: (context) => LandingPage(),
+                        CupertinoPageRoute<LandingPage>(
+                          builder: (context) => const LandingPage(),
                         ),
                       );
                     },
@@ -74,13 +74,13 @@ class _SplashScreenState extends State<SplashScreen> {
                       SharedPreference().setVisitingFlag();
                       SharedPreference().setChildDevice();
                       Navigator.of(context).pushReplacement(
-                        CupertinoPageRoute(
-                          builder: (context) => LandingPage(),
+                        CupertinoPageRoute<LandingPage>(
+                          builder: (context) => const LandingPage(),
                         ),
                       );
                     },
                   ),
-                  const Spacer(flex: 1),
+                  const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
@@ -107,7 +107,7 @@ class _SplashScreenState extends State<SplashScreen> {
       decoration: BoxDecoration(
         color: currentPage == index
             ? Theme.of(context).primaryColor
-            : Color(0xFFD8D8D8),
+            : const Color(0xFFD8D8D8),
         borderRadius: BorderRadius.circular(3),
       ),
     );
