@@ -1,23 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/models/email_model.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/api_path.dart';
 import 'package:times_up_flutter/services/app_usage_service.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/firestore_service.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
+import 'package:times_up_flutter/utils/constants.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 abstract class Database {
-  Future<void> setChild(ChildModel model);
+  ChildModel? get currentChild;
 
-  Future<void> liveUpdateChild(ChildModel model, int tick);
+  Future<void> setChild(ChildModel model);
 
   Future<void> updateChild(ChildModel model);
 
   Future<void> deleteChild(ChildModel model);
 
-  Future<void> deleteNotification(String id);
+  Future<void> deleteNotification(String timestamp);
+
+  Future<void> sendEmail({required EmailModel email});
 
   Stream<List<ChildModel>> childrenStream();
 
@@ -30,29 +34,47 @@ abstract class Database {
     ChildModel model,
   );
 
+  Future<void> liveUpdateChild(
+    ChildModel model,
+    AppUsageService apps,
+  );
+
   Future<ChildModel> getUserCurrentChild(
-    String name,
     String key,
+    AppUsageService apps,
     GeoPoint latLong, {
     String? battery,
   });
 }
 
 class FireStoreDatabase implements Database {
-  FireStoreDatabase({
-    required this.uid,
-    this.auth,
-  });
+  factory FireStoreDatabase({required String uid, required AuthBase auth}) {
+    return _singleton ??= FireStoreDatabase._internal(uid, auth);
+  }
 
-  final String uid;
-  final AuthBase? auth;
-  ChildModel? _child;
-
-  ChildModel get currentChild => _child!;
-
-  final _service = FireStoreService.instance;
-  AppUsageService apps = AppUsageService();
+  FireStoreDatabase._internal(this.uid, this.auth) {
+    if (auth.isFirstLogin) {
+      sendEmail(
+        email: EmailModel(
+          emailIds: [auth.currentUser!.email!],
+          subject: EmailConstants.subject,
+          text: EmailConstants.text,
+          html: EmailConstants.html(
+            auth.currentUser!.displayName ?? auth.currentUser!.email!,
+          ),
+        ),
+      ).then((value) => auth.setFirstLogin(isFirstLogin: false));
+    }
+  }
+  static FireStoreDatabase? _singleton;
   GeoLocatorService geo = GeoLocatorService();
+  final String uid;
+  final AuthBase auth;
+  ChildModel? _child;
+  final _service = FireStoreService.instance;
+
+  @override
+  ChildModel? get currentChild => _child;
 
   @override
   Future<void> setChild(ChildModel model) => _service.setData(
@@ -77,8 +99,16 @@ class FireStoreDatabase implements Database {
     );
   }
 
+  @override
+  Future<void> sendEmail({required EmailModel email}) async {
+    await _service.sendEmail(
+      path: APIPath.mail(),
+      data: email.toJson(),
+    );
+  }
+
   Future<void> setTokenOnFireStore(Map<String, dynamic> token) async {
-    await _service.setNotificationFunction(
+    await _service.setTokenFunction(
       path: APIPath.deviceToken(),
       data: token,
     );
@@ -93,8 +123,8 @@ class FireStoreDatabase implements Database {
   }
 
   @override
-  Future<void> deleteNotification(String id) async {
-    await _service.deleteData(path: APIPath.notifications(uid, id));
+  Future<void> deleteNotification(String timestamp) async {
+    await _service.deleteData(path: APIPath.notifications(uid, timestamp));
   }
 
   @override
@@ -119,37 +149,43 @@ class FireStoreDatabase implements Database {
       );
 
   @override
-  Future<void> liveUpdateChild(ChildModel model, int value) async {
+  Future<void> liveUpdateChild(
+    ChildModel model,
+    AppUsageService apps,
+  ) async {
     await apps.getAppUsageService();
-    // TODO(jordy): UNCOMMENT THIS TO UPDATE LOCATION
-    //var point = await geo.getInitialLocation();
-    //var currentLocation = GeoPoint(point.latitude, point.longitude);
+
+    final point = await geo.getCurrentLocation.last;
+    final currentLocation = GeoPoint(point.latitude, point.longitude);
 
     _child = ChildModel(
       id: model.id,
       name: model.name,
       email: model.email,
       token: model.token,
-      position: model.position,
+      position: currentLocation,
       appsUsageModel: apps.info,
       image: model.image,
       batteryLevel: model.batteryLevel,
     );
 
     await updateChild(_child!);
+    JHLogger.$.e('Child Updated : $_child');
   }
 
   @override
   Future<ChildModel> getUserCurrentChild(
-    String name,
     String key,
+    AppUsageService apps,
     GeoPoint latLong, {
     String? battery,
   }) async {
-    final user = auth?.currentUser?.uid;
-    final token = await auth?.setToken();
+    final user = auth.currentUser?.uid;
+    final token = await auth.setToken();
     await apps.getAppUsageService();
-    await setTokenOnFireStore({'childId': key, 'device_token': '$token'});
+    await setTokenOnFireStore(
+      {'id': user, 'childId': key, 'device_token': token},
+    );
 
     String currentChild;
     String email;

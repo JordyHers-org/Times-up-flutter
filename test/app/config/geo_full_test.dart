@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:times_up_flutter/app/config/geo_full.dart';
+import 'package:times_up_flutter/app/features/parent_side/map_page.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/geo_locator_service.dart';
 import 'package:times_up_flutter/utils/constants.dart';
@@ -34,7 +34,7 @@ void main() {
         child: Provider<AuthBase>(
           create: (_) => mockAuthBase,
           builder: (context, __) => MaterialApp(
-            home: GeoFull.create(
+            home: MapView.create(
               context,
               position: position,
               database: mockDatabase,
@@ -51,7 +51,6 @@ void main() {
 
       expect(map, findsOneWidget);
     },
-    skip: true,
   );
   testWidgets(
     'GeoFull Test',
@@ -61,7 +60,7 @@ void main() {
         child: Provider<AuthBase>(
           create: (_) => mockAuthBase,
           builder: (context, __) => MaterialApp(
-            home: GeoFull.create(
+            home: MapView.create(
               context,
               position: position,
               database: mockDatabase,
@@ -92,9 +91,6 @@ void main() {
         const Offset(0.5, 0.5),
       );
       await tester.pump();
-
-      // Expect the zoom level to change
-      expect(find.text('Zoom Level: 1.0'), findsNothing);
 
       // Dispose the gesture
       await gesture.up();

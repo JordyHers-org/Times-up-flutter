@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 extension ParseResult on String {
   String t() {
@@ -76,6 +79,8 @@ Duration sumDurations(List<Duration> durations) {
 }
 
 Duration getMedian(List<Duration> durations) {
+  if (durations.isEmpty) return const Duration(milliseconds: 1000);
+
   durations.sort();
   final length = durations.length;
 
@@ -102,6 +107,7 @@ Duration calculateAverage(List<Duration> durations) {
 double calculatePercentage(Duration duration) {
   final value = duration.toString().replaceAll('.000000', '');
   final parts = value.split(':');
+
   final days = int.parse(parts[0]);
   final hours = int.parse(parts[1]);
   final minutes = int.parse(parts[2]);
@@ -112,7 +118,10 @@ double calculatePercentage(Duration duration) {
   );
   var totalDuration = const Duration(days: 3, hours: 10);
 
-  if (parsedDuration.inDays > 60) {
+  if (parsedDuration.inDays > 1000 && parsedDuration.inDays < 150000) {
+    totalDuration = const Duration(days: 13000, hours: 2);
+  }
+  if (parsedDuration.inDays > 60 && parsedDuration.inDays < 100) {
     totalDuration = const Duration(days: 340, hours: 2);
   }
   if (parsedDuration.inDays > 30 && parsedDuration.inDays < 60) {
@@ -127,6 +136,20 @@ double calculatePercentage(Duration duration) {
   final totalMilliseconds = totalDuration.inMilliseconds;
 
   final res = (milliseconds / totalMilliseconds) * 100;
-
+  JHLogger.$.d(parsedDuration);
   return res;
+}
+
+int getRandom(int maxValue) {
+  const minRange = 1;
+  final maxRange = maxValue;
+  final random = Random();
+
+  return minRange + random.nextInt(maxRange - minRange + 1);
+}
+
+String convertToFormattedString(DateTime? dateTime) {
+  final formattedDate =
+      dateTime != null ? DateFormat('MMMM d y hh:mm a').format(dateTime) : '';
+  return formattedDate;
 }

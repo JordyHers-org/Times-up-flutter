@@ -14,6 +14,7 @@ class NotificationModel with _$NotificationModel {
     required final String? body,
     required final String? message,
     required final String? id,
+    final DateTime? timeStamp,
   }) = _NotificationModel;
 
   factory NotificationModel.fromJson(Map<String, Object?> json) =>

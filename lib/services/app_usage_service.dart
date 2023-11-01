@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:installed_apps/app_info.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
 import 'package:times_up_flutter/models/child_model/child_model.dart';
 import 'package:times_up_flutter/services/app_usage_local_service.dart';
 import 'package:times_up_flutter/services/database.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 abstract class AppService {
   Future<void> getAppUsageService();
