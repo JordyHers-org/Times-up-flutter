@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 class AppUsageException implements Exception {
   AppUsageException(this._cause);
@@ -87,20 +87,17 @@ class AppUsage {
   }) async {
     if (Platform.isAndroid || useMock) {
       final end = endDate.millisecondsSinceEpoch;
-
-      JHLogger.$.e(end);
       final start = startDate.millisecondsSinceEpoch;
       final interval = <String, dynamic>{
         'interval_start_time': start,
         'interval_end_time': end,
-        'app_name': 'com.google.android.youtube',
       };
 
-      // final result = await _methodChannel.invokeMethod('getAppUsageEventType', interval);
+      // final result = await _methodChannel.invokeMethod('getAppUsageEventType',
+      // interval);
       final usage = await _methodChannel.invokeMethod('getAppUsage', interval)
           as Map<dynamic, dynamic>;
 
-      // JHLogger.$.e(result);
       JHLogger.$.e(usage);
       final appInfo = await InstalledApps.getInstalledApps(
         true,

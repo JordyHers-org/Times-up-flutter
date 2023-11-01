@@ -27,7 +27,7 @@ class AppUsageService implements AppService {
   Future<void> getAppUsageService() async {
     try {
       final endDate = DateTime.now();
-      final startDate = endDate.subtract(const Duration(hours: 1));
+      final startDate = endDate.subtract(const Duration(days: 1));
       final infoList =
           await AppUsage.getAppUsage(startDate, endDate, useMock: false);
       _info = infoList;

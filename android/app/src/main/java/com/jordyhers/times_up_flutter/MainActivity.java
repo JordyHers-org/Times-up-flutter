@@ -6,7 +6,8 @@ import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
-
+import android.content.Intent;
+import android.provider.Settings;
 import android.util.Log;
 import android.app.usage.UsageStatsManager;
 import android.app.usage.UsageEvents;
@@ -14,12 +15,22 @@ import android.app.usage.UsageEvents.Event;
 import android.app.usage.UsageStats;
 import android.content.Context;
 import android.widget.Toast;
+import android.app.usage.UsageStatsManager;
+import android.app.AppOpsManager;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.plugin.common.MethodChannel;
+import android.app.AppOpsManager;
+import android.os.Build;
+
 
 public class MainActivity extends FlutterActivity {
 
     private static final String methodChannelAppUsage = "times_up/appUsage";
 
-    private HashMap<String, List<Long>> getEvents(Long interval_start_time, Long interval_end_time, String app_name){
+    private HashMap<String, List<Long>> getEvents(Long interval_start_time, Long interval_end_time){
         List<HashMap<Integer, String>> listOfEventTypes = new ArrayList<>();
         List<UsageEvents.Event> allEvents = new ArrayList<>();
         
@@ -113,7 +124,22 @@ public class MainActivity extends FlutterActivity {
 
         return result;
     }
-       
+    private void handlePermissions() {
+        // Check if the "Usage Access" permission has already been granted
+        if (hasUsageAccessPermission()) {
+            Log.i(MainActivity.class.getSimpleName(), "Usage Access permission is already granted.");
+        } else {
+            // Permission hasn't been granted, so open the permission screen
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
+    }
+
+    private boolean hasUsageAccessPermission() {
+        AppOpsManager appOps = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+        int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), getPackageName());
+        return mode == AppOpsManager.MODE_ALLOWED;
+    }
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         super.configureFlutterEngine(flutterEngine);
@@ -121,11 +147,11 @@ public class MainActivity extends FlutterActivity {
                 .setMethodCallHandler(
                         (call, result) -> {
                             if (call.method.equals("getAppUsage")) {
-                                
+                                handlePermissions();
+                                Log.d("Started ----> ", " The app usage method started");
                                 Long interval_start_time = call.argument("interval_start_time");
                                 Long interval_end_time = call.argument("interval_end_time");
-                                String app_name = call.argument("app_name");
-                                result.success(getEvents(interval_start_time, interval_end_time, app_name));
+                                result.success(getEvents(interval_start_time, interval_end_time));
 
                             }else {
                                 result.notImplemented();
