@@ -7,6 +7,7 @@ import 'package:times_up_flutter/app/features/sign_in/email_sign_in_bloc.dart';
 import 'package:times_up_flutter/app/features/sign_in/email_sign_in_model.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/theme/theme.dart';
+import 'package:times_up_flutter/widgets/jh_display_text.dart';
 import 'package:times_up_flutter/widgets/jh_form_submit_button.dart';
 import 'package:times_up_flutter/widgets/show_alert_dialog.dart';
 import 'package:times_up_flutter/widgets/show_exeption_alert.dart';
@@ -137,8 +138,9 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       _buildEmailTextField(model),
       const SizedBox(height: 8),
       _buildPasswordTextField(model),
-      const SizedBox(height: 8),
-      _buildForgotPassword(model),
+      const SizedBox(height: 16),
+      if (model.formType == EmailSignInFormType.signIn)
+        _buildForgotPassword(model),
       const SizedBox(height: 8),
       FormSubmitButton(
         onPressed: () => model.canSubmitRegister || model.canSubmitSignIn
@@ -244,7 +246,10 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         margin: const EdgeInsets.symmetric(vertical: 8),
         width: double.infinity,
         alignment: Alignment.centerRight,
-        child: const Text('Forgot Password?'),
+        child: JHDisplayText(
+          text: 'Forgot Password ?',
+          style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 10),
+        ),
       ),
     );
   }
