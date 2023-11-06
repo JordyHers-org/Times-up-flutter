@@ -1,24 +1,21 @@
-name: parental_control
+name: times_up_flutter
 description: Times up help parent monitor the time their kids spend on screen.
-
-# The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-
-version: 1.0.0+1
+version: 2.0.0+1
+publish_to: none
 
 environment:
   sdk: ">=2.16.0 <3.5.0"
 
 dependencies:
+  # UI Packages:
+  auto_size_text: ^3.0.0
+  fl_chart: ^0.61.0
   flutter:
     sdk: flutter
-
-  # UI Packages:
+  flutter_localizations:
+    sdk: flutter
   flutter_svg: ^2.0.4
-  fl_chart: ^0.61.0
-  auto_size_text: ^3.0.0
+  geocoding: ^2.1.1
 
   # Authentication Packages:
   firebase_auth: ^4.2.2
@@ -29,10 +26,12 @@ dependencies:
   provider: ^6.0.2
   cloud_firestore: ^4.5.0
   shared_preferences: ^2.0.15
+  installed_apps: ^1.3.1
+  battery_plus: ^4.0.1
+  device_info_plus: ^8.2.2
   firebase_storage: ^11.1.0
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
-
 
   # Location Packages:
   geolocator: ^9.0.2
@@ -41,16 +40,23 @@ dependencies:
   # Notification Packages:
   firebase_messaging: ^14.4.0
   flutter_local_notifications: ^14.0.0-dev.2
+  flutter_background_service: ^5.0.2
 
   # Utility Packages:
-  intl: ^0.18.0
+  intl: any
   uuid: ^3.0.6
   app_usage: ^2.0.0
+  google_fonts: ^4.0.3
   image_picker: ^0.8.5+3
+
+  rename: ^2.1.1
+  package_info_plus: ^3.0.0
 
   # UI Component Packages:
   line_awesome_flutter: ^2.0.0
   showcaseview: ^2.0.3
+  shimmer: ^2.0.0
+
 
   # Testing Packages:
   mockito: ^5.0.0
@@ -65,31 +71,30 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
+  cupertino_icons: ^1.0.6
+  freezed_annotation: ^2.2.0
+  json_annotation: ^4.8.1
 
+  #logger
+  logger: ^1.4.0
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
+  bloc_test: ^9.1.1
+  build_runner: ^2.3.3
   flutter_test:
     sdk: flutter
-  build_runner: ^2.2.0
+  freezed: ^2.3.5
   json_serializable: ^6.6.2
+  mocktail: ^0.3.0
+  very_good_analysis: ^4.0.0
 
-
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
+  generate: true
   assets:
     - images/facebook-logo.png
     - images/google-logo.png
     - images/splash_svg/
     - images/png/
+    - assets/map_theme/

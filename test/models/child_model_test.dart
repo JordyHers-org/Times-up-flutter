@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:parental_control/models/child_model.dart';
-import 'package:parental_control/services/app_usage_local_service.dart';
+import 'package:times_up_flutter/models/child_model/child_model.dart';
+import 'package:times_up_flutter/services/app_usage_local_service.dart';
 
 import '../mocks.dart';
 
@@ -11,9 +10,9 @@ void main() {
     const id = '0001';
     const name = 'John Doe';
     const email = 'john.doe@example.com';
-    const String? image = 'image.png';
-    const String? token = 'token123';
-    final GeoPoint? position = Dummy.geoPoint;
+    const image = 'image.png';
+    const token = 'token123';
+    final position = Dummy.geoPoint;
     final appsUsageModel = <AppUsageInfo>[
       AppUsageInfo(
         'App 1',

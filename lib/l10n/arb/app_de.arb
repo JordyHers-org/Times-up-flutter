@@ -1,0 +1,12 @@
+{
+  "@@locale": "de",
+  "welcome": "Wilkommen",
+  "changeTheSettingsHere": "Ändern Sie hier die Einstellungen",
+  "addNewChildHere": "Fügen Sie hier ein neues Kind hinzu",
+  "operationFailed": "Operation failed",
+  "enterThisCode": "Enter this code on the child's device",
+  "longPressToCopyOrDoubleTapToShare": "Long press to copy or double tap to share",
+  "enterThisCodeOnChildDevice": "Enter this code on child's device: ",
+  "sendNotificationToYourChildDevice": "Send notifications to your Child's device",
+  "copyText" : "Code Copied!"
+}

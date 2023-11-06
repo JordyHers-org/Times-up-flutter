@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
 
-final LocationSettings locationSettings = LocationSettings(
+const LocationSettings locationSettings = LocationSettings(
   accuracy: LocationAccuracy.high,
   distanceFilter: 100,
 );
@@ -15,6 +15,7 @@ class GeoLocatorService {
 
   Future<Position> getInitialLocation() async {
     permission = await Geolocator.requestPermission();
+
     if (permission == LocationPermission.denied) {
       return Future.error('Location permissions are denied');
     }
@@ -29,7 +30,7 @@ class GeoLocatorService {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(
+    return Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
   }
