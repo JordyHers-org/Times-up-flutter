@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheService {
@@ -25,6 +27,12 @@ class CacheService {
     return darkMode;
   }
 
+  static Future<Locale> getLocale() async {
+    final preferences = await SharedPreferences.getInstance();
+    final status = preferences.getString('locale') ?? 'en';
+    return Locale(status);
+  }
+
   static Future<void> setVisitingFlag() async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setBool('alreadyVisited', true);
@@ -50,5 +58,11 @@ class CacheService {
     final preferences = await SharedPreferences.getInstance();
     final status = await preferences.setBool('isDarkMode', value);
     return status;
+  }
+
+  static Future<bool> setLocale({required Locale value}) async {
+    final preferences = await SharedPreferences.getInstance();
+    final locale = await preferences.setString('locale', value.languageCode);
+    return locale;
   }
 }
