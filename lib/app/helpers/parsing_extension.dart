@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:intl/intl.dart';
-import 'package:times_up_flutter/widgets/show_logger.dart';
 
 extension ParseResult on String {
   String t() {
@@ -136,7 +135,7 @@ double calculatePercentage(Duration duration) {
   final totalMilliseconds = totalDuration.inMilliseconds;
 
   final res = (milliseconds / totalMilliseconds) * 100;
-  JHLogger.$.d(parsedDuration);
+  //JHLogger.$.d(parsedDuration);
   return res;
 }
 

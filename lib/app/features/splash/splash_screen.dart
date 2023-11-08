@@ -59,8 +59,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     backgroundColor: Theme.of(context).primaryColor,
                     title: 'Parent device'.toUpperCase(),
                     onPress: () {
-                      SharedPreference().setVisitingFlag();
-                      SharedPreference().setParentDevice();
+                      CacheService.setVisitingFlag();
+                      CacheService.setParentDevice();
                       Navigator.of(context).pushReplacement(
                         CupertinoPageRoute<LandingPage>(
                           builder: (context) => const LandingPage(),
@@ -73,9 +73,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     backgroundColor: CustomColors.greenPrimary,
                     title: 'Child device'.toUpperCase(),
                     onPress: () {
-                      SharedPreference().setVisitingFlag();
-                      SharedPreference().setChildDevice();
-
+                      CacheService.setVisitingFlag();
+                      CacheService.setChildDevice();
                       Navigator.of(context).pushReplacement(
                         CupertinoPageRoute<LandingPage>(
                           builder: (context) => const LandingPage(),

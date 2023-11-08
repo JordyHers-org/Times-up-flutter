@@ -32,7 +32,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _setFlagParentOrChild() async {
-    final isParent = await SharedPreference().getParentOrChild();
+    final isParent = await CacheService.getParentOrChild();
     setState(() {
       isParent ? _side = AppSide.parent : _side = AppSide.child;
     });

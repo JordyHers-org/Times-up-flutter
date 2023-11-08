@@ -379,7 +379,9 @@ class _AppUsedList extends StatelessWidget {
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: (model.appsUsageModel.length * 0.20).toInt(),
+            itemCount: model.appsUsageModel.length > 5
+                ? 5
+                : (model.appsUsageModel.length * 0.20).toInt(),
             itemBuilder: (context, index) {
               return Column(
                 mainAxisSize: MainAxisSize.min,

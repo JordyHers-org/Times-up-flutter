@@ -25,7 +25,7 @@ class _ScreensControllerState extends State<ScreensController> {
   bool? _hasVisited;
 
   Future<void> _setFlagValue() async {
-    final isVisited = await SharedPreference().getVisitingFlag();
+    final isVisited = await CacheService.getVisitingFlag();
     setState(() {
       _hasVisited = isVisited;
     });

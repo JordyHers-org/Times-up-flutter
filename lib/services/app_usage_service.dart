@@ -51,7 +51,7 @@ class AppUsageService implements AppService {
           }
         }
         final averageDuration = getMedian(durations);
-        JHLogger.$.e(averageDuration);
+        // JHLogger.$.e(averageDuration);
         _averageDuration = averageDuration;
         return averageDuration;
       }

@@ -342,10 +342,10 @@ class _ParentPageState extends State<ParentPage>
   }
 
   Future<void> _setShowCaseView() async {
-    final isVisited = await SharedPreference().getDisplayShowCase();
+    final isVisited = await CacheService.getDisplayShowCase();
     setState(() {
       _isShowCaseActivated = isVisited;
-      SharedPreference().setDisplayShowCase();
+      CacheService.setDisplayShowCase();
     });
 
     if (!_isShowCaseActivated) {
