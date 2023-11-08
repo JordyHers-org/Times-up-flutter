@@ -2,6 +2,8 @@
     "@@locale": "en",
     "welcome": "Welcome",
     "hello": "Hello 👋",
+    "today": "Today",
+    "notificationSub": "slide from right to left to dismiss",
     "changeTheSettingsHere": "change the settings here",
     "addNewChildHere": "Add a new child here ",
     "operationFailed": "Operation failed",
@@ -9,5 +11,19 @@
     "longPressToCopyOrDoubleTapToShare": "Long press to copy or double tap to share",
     "enterThisCodeOnChildDevice": "Enter this code on child's device: ",
     "sendNotificationToYourChildDevice": "Send notifications to your Child's device",
-    "copyText" : "Code Copied!"
+    "copyText" : "Code Copied!",
+    "myChildren": "My Children",
+    "myChildrenSub": "Choose child to get more info - scroll right",
+    "getChildAppUsage": "Get to see our child live app usage",
+    "clickForFullReport": "Click on it to have the full report",
+    "informationSection": "Information Section",
+    "informationSectionSub": "Get tips on how to use the app.",
+    "dashboard": "Dashboard",
+    "location": "Location",
+    "notification": "Notification",
+    "infoMessageTitle": " Get to know how to send messages and notifications to your child device.",
+    "infoMessageText": "Aprenda cómo enviar mensajes y notificaciones al dispositivo de su hijo..",
+
+    "infoTitle": "Get to know how to read and interpret the graphs that is a summary of how your child uses his device",
+    "infoText": "'Get to know how to read and interpret the graphs that is a summary of how your child uses his device',\n    \n      Get to know how to read and interpret the graphs. These visual representations offer valuable insights into your child's device usage patterns. Here's a summary to help you understand and utilize these graphs effectively:\n\n  - Usage Trends: Monitor the trends in device usage over time. Look for patterns, spikes, or declines in usage that may indicate changing habits or activities.\n\n  - Peak Usage Times: Identify the times when device usage is at its peak. Is it during school hours, after school, or late at night? Understanding these patterns can guide discussions about appropriate device usage times.\n\n  - App Usage Breakdown: Analyze which apps your child uses the most. Are they educational apps, social media, games, or others? This breakdown can highlight their interests and help in managing app access.\n\n  - Duration of Use: Explore the duration of each device usage session. Excessive continuous usage might necessitate breaks to prevent eye strain and maintain a healthy balance.\n\n  - Screen Unlocks: Keep track of how often your child unlocks the device. Frequent unlocks may indicate distractions or interruptions in their activities.\n\n  To interpret the graphs effectively:\n\n  - Set Limits and Boundaries: Based on the insights gained, set appropriate usage limits and boundaries for your child's device usage.\n\n  - Encourage Productive Use: Encourage the use of educational apps or creative activities during peak usage times to ensure productive screen time.\n\n  - Engage in Dialogue: Use the data as a conversation starter. Discuss the graphs with your child, allowing them to express their perspective and jointly establish healthy device usage habits.\n\n  - Adjust and Adapt: Periodically review the graphs and adjust your approach accordingly. As your child grows and their needs change, adapt the usage guidelines to suit their evolving routine.\n\n  Understanding these usage graphs empowers you to make informed decisions, promoting a balanced approach to technology and fostering a healthy digital lifestyle for your child.\n      "
 }

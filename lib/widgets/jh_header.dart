@@ -19,7 +19,7 @@ class JHHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         JHDisplayText(
-          text: AppLocalizations.of(context).hello,
+          text: context.l10n.hello,
           fontSize: fontSize,
           maxFontSize: maxFontSize,
           style: TextStyle(
@@ -28,7 +28,7 @@ class JHHeader extends StatelessWidget {
           ),
         ),
         JHDisplayText(
-          text: AppLocalizations.of(context).welcome,
+          text: context.l10n.welcome,
           fontSize: fontSize,
           maxFontSize: maxFontSize,
           style: TextStyle(

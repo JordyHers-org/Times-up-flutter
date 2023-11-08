@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:times_up_flutter/l10n/l10n.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 
 class TabData {
@@ -32,94 +33,34 @@ class TabData {
 }
 
 class BottomNavigationData {
-  static Map<int, BottomNavigationBarItem> items = {
-    0: const BottomNavigationBarItem(
-      label: 'Dashboard',
-      icon: Icon(
-        Icons.dashboard_customize_outlined,
-      ),
-    ),
-    1: const BottomNavigationBarItem(
-      label: 'Notification',
-      icon: Icon(
-        Icons.notifications_on_outlined,
-      ),
-    ),
-    2: const BottomNavigationBarItem(
-      label: 'Location',
-      icon: Icon(
-        Icons.location_history,
-      ),
-    ),
-  };
+  static Map<int, BottomNavigationBarItem> items(BuildContext context) => {
+        0: BottomNavigationBarItem(
+          label: AppLocalizations.of(context).dashboard,
+          icon: const Icon(
+            Icons.dashboard_customize_outlined,
+          ),
+        ),
+        1: BottomNavigationBarItem(
+          label: AppLocalizations.of(context).notification,
+          icon: const Icon(
+            Icons.notifications_on_outlined,
+          ),
+        ),
+        2: BottomNavigationBarItem(
+          label: AppLocalizations.of(context).location,
+          icon: const Icon(
+            Icons.location_history,
+          ),
+        ),
+      };
 }
 
 class MockData {
-  static InfoData text_1 = InfoData(
-      'Get to know how to read and interpret the graphs '
-          'that is a summary of how your child uses his device',
-      '''
-  
-      Get to know how to read and interpret the graphs. These visual representations offer valuable insights into your child's device usage patterns. Here's a summary to help you understand and utilize these graphs effectively:
+  static InfoData text_1(BuildContext context) =>
+      InfoData(context.l10n.infoTitle, context.l10n.infoText);
 
-  - Usage Trends: Monitor the trends in device usage over time. Look for patterns, spikes, or declines in usage that may indicate changing habits or activities.
-
-  - Peak Usage Times: Identify the times when device usage is at its peak. Is it during school hours, after school, or late at night? Understanding these patterns can guide discussions about appropriate device usage times.
-
-  - App Usage Breakdown: Analyze which apps your child uses the most. Are they educational apps, social media, games, or others? This breakdown can highlight their interests and help in managing app access.
-
-  - Duration of Use: Explore the duration of each device usage session. Excessive continuous usage might necessitate breaks to prevent eye strain and maintain a healthy balance.
-
-  - Screen Unlocks: Keep track of how often your child unlocks the device. Frequent unlocks may indicate distractions or interruptions in their activities.
-
-  To interpret the graphs effectively:
-
-  - Set Limits and Boundaries: Based on the insights gained, set appropriate usage limits and boundaries for your child's device usage.
-
-  - Encourage Productive Use: Encourage the use of educational apps or creative activities during peak usage times to ensure productive screen time.
-
-  - Engage in Dialogue: Use the data as a conversation starter. Discuss the graphs with your child, allowing them to express their perspective and jointly establish healthy device usage habits.
-
-  - Adjust and Adapt: Periodically review the graphs and adjust your approach accordingly. As your child grows and their needs change, adapt the usage guidelines to suit their evolving routine.
-
-  Understanding these usage graphs empowers you to make informed decisions, promoting a balanced approach to technology and fostering a healthy digital lifestyle for your child.
-      1
-''');
-
-  static InfoData text_2 = InfoData(
-      'Get to know how to send messages and notifications '
-          'to your child device',
-      '''
-   Get to know how to send messages and notifications to your child's device. 
-  Effectively communicating with your child through messages and notifications 
-  is essential for staying connected and ensuring their safety and well-being. 
-  
-  
-  Here's a guide to help you navigate this process and maintain a healthy 
-  line of communication:
-
-  - Choose the Right Medium: Decide on the appropriate platform for sending messages and notifications to your child. It could be a secure messaging app, the device's built-in messaging system, or a family communication app designed for parental controls.
-
-  - Establish Guidelines and Expectations: Set clear guidelines for communication. Discuss when it's appropriate to send messages, the type of information to convey, and the expected response time. This helps in managing expectations and maintaining a respectful communication flow.
-
-  - Prioritize Important Information: Use messages and notifications primarily for important updates, reminders, or urgent communication. Avoid excessive or unnecessary messages that can be distracting or overwhelming for your child.
-
-  - Use Clear and Concise Language: When composing messages, ensure that the language is clear and easy for your child to understand. Avoid using jargon or complex terms that might cause confusion.
-
-  - Respect Privacy and Boundaries: Be mindful of your child's privacy. Avoid invasive or overly controlling messages. Respect their space and communicate in a way that shows trust and understanding.
-
-  To send effective messages and notifications:
-
-  - Be Encouraging and Supportive: Use messages to provide encouragement, praise, or motivation. Share positive feedback to boost their confidence and acknowledge their achievements.
-
-  - Utilize Scheduled Messages: Consider scheduling messages for important events, reminders for tasks, or words of encouragement. Scheduled messages can be a helpful tool for maintaining consistent communication.
-
-  - Emergency Notifications: Ensure you have a clear system in place for emergency notifications. In case of urgent matters, both you and your child should be aware of how to communicate and respond promptly.
-
-  - Feedback and Open Dialogue: Encourage your child to provide feedback on the way you communicate. Keep the lines of communication open, allowing them to express their thoughts and preferences regarding messaging and notifications.
-
-  Communicating effectively with your child through messages and notifications is crucial for maintaining a strong and healthy parent-child relationship. Following these guidelines and strategies will help foster a positive and respectful channel of communication. 2
-''');
+  static InfoData text_2(BuildContext context) =>
+      InfoData(context.l10n.infoMessageTitle, context.l10n.infoMessageText);
 
   static InfoData text_3 =
       InfoData('Get to know all the tips and tricks to monitor your child', '''

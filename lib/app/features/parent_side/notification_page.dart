@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/app/helpers/parsing_extension.dart';
+import 'package:times_up_flutter/l10n/l10n.dart';
 import 'package:times_up_flutter/models/notification_model/notification_model.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/services/database.dart';
@@ -93,7 +94,7 @@ class _NotificationPageState extends State<NotificationPage> {
           slivers: <Widget>[
             SliverToBoxAdapter(
               child: JHDisplayText(
-                text: 'Notifications',
+                text: context.l10n.notification,
                 style: TextStyle(
                   color: color,
                   fontWeight: FontWeight.w700,
@@ -104,7 +105,7 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
             SliverToBoxAdapter(
               child: JHDisplayText(
-                text: 'slide from right to left to dismiss',
+                text: context.l10n.notificationSub,
                 style: TextStyle(
                   color: Colors.grey.withOpacity(0.5),
                   fontWeight: FontWeight.w400,

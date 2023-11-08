@@ -76,7 +76,7 @@ class SettingsPage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         children: <Widget>[
           JHDisplayText(
-            text: 'Profile',
+            text: 'Settings',
             style: TextStyle(
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white
@@ -95,7 +95,7 @@ class SettingsPage extends StatelessWidget {
             text: 'Update profile',
           ).vTopP(12),
           ProfileListItem(
-            icon: LineAwesomeIcons.language,
+            icon: LineAwesomeIcons.globe,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (context) => LanguagePage.create(context, auth),

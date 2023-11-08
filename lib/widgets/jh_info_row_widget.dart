@@ -38,6 +38,7 @@ class JHInfoRow extends StatelessWidget {
             iconColor: CustomColors.indigoDark,
             child: JHDisplayText(
               text: dataOne.title,
+              maxLines: 5,
               fontSize: 12,
               textAlign: TextAlign.center,
               style: TextStyle(

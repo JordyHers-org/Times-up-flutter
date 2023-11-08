@@ -68,9 +68,9 @@ extension TimeStringParsing on String {
   }
 }
 
-String formatDateTime(DateTime dateTime) {
+String formatDateTime(DateTime dateTime, String today) {
   final formatter = DateFormat('MMMM d');
-  return ' Today, ${formatter.format(dateTime)}';
+  return ' $today, ${formatter.format(dateTime)}';
 }
 
 Duration sumDurations(List<Duration> durations) {

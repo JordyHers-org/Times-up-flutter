@@ -107,7 +107,7 @@ class _ParentPageState extends State<ParentPage>
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         currentIndex: currentIndex,
         onTap: _setIndex,
-        items: BottomNavigationData.items.values.toList(),
+        items: BottomNavigationData.items(context).values.toList(),
       ),
       body: _buildParentPageContent(context, widget.auth, widget.database),
     );
@@ -156,7 +156,7 @@ class _ParentPageState extends State<ParentPage>
                   const SizedBox.shrink()
                 else
                   JHDisplayText(
-                    text: AppLocalizations.of(context).welcome,
+                    text: context.l10n.welcome,
                     style: const TextStyle(
                       color: Colors.indigo,
                       fontWeight: FontWeight.w900,
@@ -165,8 +165,7 @@ class _ParentPageState extends State<ParentPage>
                 Showcase(
                   key: _settingsKey,
                   textColor: Colors.indigo,
-                  description:
-                      AppLocalizations.of(context).changeTheSettingsHere,
+                  description: context.l10n.changeTheSettingsHere,
                   child: IconButton.outlined(
                     onPressed: () => SettingsPage.show(context, auth),
                     icon: const Icon(Icons.settings),
@@ -195,7 +194,7 @@ class _ParentPageState extends State<ParentPage>
           floatingActionButton: Showcase(
             key: _addKey,
             textColor: Colors.indigo,
-            description: AppLocalizations.of(context).addNewChildHere,
+            description: context.l10n.addNewChildHere,
             child: FloatingActionButton(
               onPressed: () => EditChildPage.show(
                 context,
@@ -212,35 +211,38 @@ class _ParentPageState extends State<ParentPage>
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
+                      const SizedBox().vTopP(20),
                       HeaderWidget(
-                        title: 'My Children',
-                        subtitle: 'Choose child to get more info - scroll '
-                            'right',
+                        title: context.l10n.myChildren,
+                        subtitle: context.l10n.myChildrenSub,
                         trailing: IconButton(
                           icon: const Icon(Icons.info_outline),
                           onPressed: _startShowCase,
                         ),
                       ).hP4,
                       _buildChildrenList(database),
-                      const HeaderWidget(
-                        title: 'Get to see our child live app usage',
-                        subtitle: 'Click on it to have the full report',
+                      HeaderWidget(
+                        title: context.l10n.getChildAppUsage,
+                        subtitle: context.l10n.clickForFullReport,
                       ).hP4,
                       JHSummaryTile(
-                        title: formatDateTime(DateTime.now()),
+                        title: formatDateTime(
+                          DateTime.now(),
+                          context.l10n.today,
+                        ),
                         time: _averageUsage.toString().t(),
                         progressValue: calculatePercentage(_averageUsage),
                       ).vP4,
-                      const HeaderWidget(
-                        title: 'Information Section',
-                        subtitle: 'Get tips on how to use the app.',
+                      HeaderWidget(
+                        title: context.l10n.informationSection,
+                        subtitle: context.l10n.informationSectionSub,
                       ).hP4,
                       JHInfoRow(
                         animationController: _animationController,
                         icon_1: Icons.auto_graph_outlined,
                         icon_2: Icons.message_outlined,
-                        dataOne: MockData.text_1,
-                        dataTwo: MockData.text_2,
+                        dataOne: MockData.text_1(context),
+                        dataTwo: MockData.text_2(context),
                       ).p8,
                       JHInfoRow(
                         animationController: _animationController,
@@ -371,7 +373,7 @@ class _ParentPageState extends State<ParentPage>
 
   void _setIndex(int value) {
     setState(() {
-      currentIndex = BottomNavigationData.items.keys.toList()[value];
+      currentIndex = BottomNavigationData.items(context).keys.toList()[value];
     });
   }
 

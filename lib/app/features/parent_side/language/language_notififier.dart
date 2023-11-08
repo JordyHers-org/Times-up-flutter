@@ -5,18 +5,24 @@ import 'package:flutter/services.dart';
 import 'package:times_up_flutter/services/shared_preferences.dart';
 
 class LanguageNotifier extends ChangeNotifier {
-  late String _selectedLanguage = '🇺🇸 English󠁢';
+  static const String english = '🇺🇸 English󠁢';
+  static const String french = '🇫🇷 Français󠁢󠁢';
+  static const String german = '🇩🇪 Deutsch';
+  static const String turkish = '🇹🇷 Turkish';
+  static const String spanish = '🇪🇸 Español󠁢';
+
+  late String _selectedLanguage = english;
   late Locale _locale = const Locale('en');
 
   String get selectedLanguage => _selectedLanguage;
   Locale get locale => _locale;
 
   List<String> languages = [
-    '🇺🇸 English󠁢',
-    '🇫🇷 Français󠁢',
-    '🇪🇸 Español',
-    '🇹🇷 Turkish',
-    '🇩🇪 Deutsch',
+    english,
+    french,
+    spanish,
+    turkish,
+    german,
   ];
 
   Future<void> initLocalization() async {
@@ -41,37 +47,37 @@ class LanguageNotifier extends ChangeNotifier {
   void _setLanguageString() {
     switch (_locale.languageCode) {
       case 'en':
-        _selectedLanguage = '🇺🇸 English󠁢';
+        _selectedLanguage = english;
         break;
       case 'fr':
-        _selectedLanguage = '🇫🇷 Français󠁢';
+        _selectedLanguage = french;
         break;
       case 'es':
-        _selectedLanguage = '🇪🇸 Español';
+        _selectedLanguage = spanish;
         break;
       case 'de':
-        _selectedLanguage = '🇩🇪 Deutsch';
+        _selectedLanguage = german;
         break;
       case 'tr':
-        _selectedLanguage = '🇹🇷 Turkish󠁢';
+        _selectedLanguage = turkish;
         break;
     }
   }
 
   Locale setLocale(String selectedLanguage) {
     switch (selectedLanguage) {
-      case '🇫🇷 Français󠁢':
+      case french:
         return const Locale('fr');
-      case '🇺🇸 English󠁢':
+      case english:
         return const Locale('en');
-      case '🇪🇸 Español':
+      case spanish:
         return const Locale('es');
-      case '🇹🇷 Turkish':
+      case turkish:
         return const Locale('tr');
-      case '🇩🇪 Deutsch󠁢':
+      case german:
         return const Locale('de');
       default:
-        return const Locale('en');
+        return _locale;
     }
   }
 }
