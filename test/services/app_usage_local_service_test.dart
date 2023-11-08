@@ -19,7 +19,7 @@ void main() {
           'com.messenger.app1': [1800.0, 1640887200.0, 1640890800.0],
         };
 
-        TestDefaultBinaryMessengerBinding.instance?.defaultBinaryMessenger
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
             .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
           if (methodCall.method == 'getUsage') {
             return fakeUsage;

@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:times_up_flutter/app/pages/child_page.dart';
-import 'package:times_up_flutter/app/pages/parent_page.dart';
-import 'package:times_up_flutter/sign_in/sign_in_page.dart';
+import 'package:times_up_flutter/app/features/child_side/child_page.dart';
+import 'package:times_up_flutter/app/features/parent_side/parent_page.dart';
+import 'package:times_up_flutter/app/features/sign_in/sign_in_page.dart';
 
 import '../helpers/test_helpers.dart';
 import '../helpers/test_helpers.mocks.dart';

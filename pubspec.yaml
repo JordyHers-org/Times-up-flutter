@@ -1,8 +1,7 @@
 name: times_up_flutter
 description: Times up help parent monitor the time their kids spend on screen.
-version: 1.0.0+1
+version: 2.0.0+1
 publish_to: none
-
 
 environment:
   sdk: ">=2.16.0 <3.5.0"
@@ -14,9 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
-      sdk: flutter
+    sdk: flutter
   flutter_svg: ^2.0.4
-
+  geocoding: ^2.1.1
 
   # Authentication Packages:
   firebase_auth: ^4.2.2
@@ -34,7 +33,6 @@ dependencies:
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
 
-
   # Location Packages:
   geolocator: ^9.0.2
   google_maps_flutter: ^2.1.5
@@ -42,6 +40,7 @@ dependencies:
   # Notification Packages:
   firebase_messaging: ^14.4.0
   flutter_local_notifications: ^14.0.0-dev.2
+  flutter_background_service: ^5.0.2
 
   # Utility Packages:
   intl: any
@@ -49,13 +48,15 @@ dependencies:
   app_usage: ^2.0.0
   google_fonts: ^4.0.3
   image_picker: ^0.8.5+3
-  after_layout: ^1.2.0
+
   rename: ^2.1.1
+  package_info_plus: ^3.0.0
 
   # UI Component Packages:
   line_awesome_flutter: ^2.0.0
   showcaseview: ^2.0.3
-  flutter_any_logo: ^1.0.5
+  shimmer: ^2.0.0
+
 
   # Testing Packages:
   mockito: ^5.0.0
@@ -70,12 +71,13 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
+  cupertino_icons: ^1.0.6
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.1
 
   #logger
   logger: ^1.4.0
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
   bloc_test: ^9.1.1
@@ -91,8 +93,8 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-      - images/facebook-logo.png
-      - images/google-logo.png
-      - images/splash_svg/
-      - images/png/
-
+    - images/facebook-logo.png
+    - images/google-logo.png
+    - images/splash_svg/
+    - images/png/
+    - assets/map_theme/

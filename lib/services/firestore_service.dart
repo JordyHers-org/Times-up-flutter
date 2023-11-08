@@ -2,8 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/models/notification_model/notification_model.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 typedef QueryBuilder<T> = T Function(Map<String, dynamic> data);
 
@@ -26,7 +26,7 @@ class FireStoreService {
     required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    JHLogger.$.d('$path: $data');
+    JHLogger.$.e('$path: $data');
 
     await reference.update(data);
   }
@@ -35,11 +35,31 @@ class FireStoreService {
     required String path,
     required Map<String, dynamic> data,
   }) async {
+    final reference = FirebaseFirestore.instance
+        .collection(path)
+        .doc(data['timeStamp'] as String);
+    JHLogger.$.d('$path: $data');
+
+    await reference.set(data);
+  }
+
+  Future<void> setTokenFunction({
+    required String path,
+    required Map<String, dynamic> data,
+  }) async {
     final reference =
         FirebaseFirestore.instance.collection(path).doc(data['id'] as String?);
     JHLogger.$.d('$path: $data');
 
     await reference.set(data);
+  }
+
+  Future<void> sendEmail({
+    required String path,
+    required Map<String, dynamic> data,
+  }) async {
+    await FirebaseFirestore.instance.collection(path).doc().set(data);
+    JHLogger.$.d('Welcome email sent to ${data['to']}');
   }
 
   Future<void> saveToken({
@@ -60,8 +80,11 @@ class FireStoreService {
       await reference.delete();
     }
 
-    debugPrint('delete: $path');
-    await reference.delete();
+    try {
+      await reference.delete();
+    } catch (e) {
+      JHLogger.$.e(e);
+    }
   }
 
   Stream<List<T>> collectionStream<T>({
@@ -92,6 +115,7 @@ class FireStoreService {
   Stream<List<T>> notificationStream<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentId) builder,
+    String? childId,
     Function(Query query)? queryBuilder,
     int Function(T lhs, T rhs)? sort,
   }) {
@@ -100,10 +124,15 @@ class FireStoreService {
       query = queryBuilder(query) as CollectionReference<Map<String, dynamic>>;
     }
     final snapshots = query.snapshots();
+
     return snapshots.map((snapshot) {
       final result = snapshot.docs
           .map((snapshot) => builder(snapshot.data(), snapshot.id))
-          .where((value) => value != null)
+          .where(
+            (value) =>
+                value != null &&
+                (childId == null || (value as NotificationModel).id == childId),
+          )
           .toList();
       if (sort != null) {
         result.sort(sort);
