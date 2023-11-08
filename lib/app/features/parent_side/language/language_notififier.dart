@@ -21,6 +21,24 @@ class LanguageNotifier extends ChangeNotifier {
 
   Future<void> initLocalization() async {
     _locale = await CacheService.getLocale();
+    _setLanguageString();
+    languages
+      ..insert(languages.indexOf(_selectedLanguage), _selectedLanguage)
+      ..removeWhere((element) => element == _selectedLanguage);
+    notifyListeners();
+  }
+
+  void selectLanguage(String language) {
+    languages.insert(languages.indexOf(language), _selectedLanguage);
+    _selectedLanguage = language;
+    languages.removeWhere((element) => element == _selectedLanguage);
+    _locale = setLocale(_selectedLanguage);
+    CacheService.setLocale(value: _locale);
+    HapticFeedback.heavyImpact();
+    notifyListeners();
+  }
+
+  void _setLanguageString() {
     switch (_locale.languageCode) {
       case 'en':
         _selectedLanguage = '🇺🇸 English󠁢';
@@ -38,21 +56,6 @@ class LanguageNotifier extends ChangeNotifier {
         _selectedLanguage = '🇹🇷 Turkish󠁢';
         break;
     }
-
-    languages
-      ..insert(languages.indexOf(_selectedLanguage), _selectedLanguage)
-      ..removeWhere((element) => element == _selectedLanguage);
-    notifyListeners();
-  }
-
-  void selectLanguage(String language) {
-    languages.insert(languages.indexOf(language), _selectedLanguage);
-    _selectedLanguage = language;
-    languages.removeWhere((element) => element == _selectedLanguage);
-    _locale = setLocale(_selectedLanguage);
-    CacheService.setLocale(value: _locale);
-    HapticFeedback.heavyImpact();
-    notifyListeners();
   }
 
   Locale setLocale(String selectedLanguage) {
