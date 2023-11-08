@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:times_up_flutter/app/app.dart';
+import 'package:times_up_flutter/app/features/parent_side/language/language_notififier.dart';
 import 'package:times_up_flutter/bootstrap.dart';
 import 'package:times_up_flutter/firebase_options_dev.dart';
 import 'package:times_up_flutter/services/app_info_service.dart';
@@ -44,6 +45,8 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider<ThemeNotifier>(
             create: (context) => ThemeNotifier()..initThemeMode()),
+        ChangeNotifierProvider<LanguageNotifier>(
+            create: (context) => LanguageNotifier()),
         ChangeNotifierProvider<AppInfoService>(
             create: (context) => AppInfoService(packageInfo)),
       ],

@@ -43,7 +43,9 @@ Future<void> main() async {
             ..getInitialConnectionStatus(),
         ),
         ChangeNotifierProvider<ThemeNotifier>(
-            create: (context) => ThemeNotifier()..toggleTheme()),
+            create: (context) => ThemeNotifier()..initThemeMode()),
+        ChangeNotifierProvider<LanguageNotifier>(
+            create: (context) => LanguageNotifier()),
         ChangeNotifierProvider<AppInfoService>(
             create: (context) => AppInfoService(packageInfo)),
       ],

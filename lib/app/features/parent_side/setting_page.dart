@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:times_up_flutter/app/features/parent_side/language/language_page.dart';
 import 'package:times_up_flutter/services/app_info_service.dart';
 import 'package:times_up_flutter/services/auth.dart';
 import 'package:times_up_flutter/theme/theme.dart';
@@ -95,10 +96,9 @@ class SettingsPage extends StatelessWidget {
           ).vTopP(12),
           ProfileListItem(
             icon: LineAwesomeIcons.language,
-            onPressed: () => showDialog<Widget>(
-              context: context,
-              builder: (_) => const JHNoImplementationWidget(),
-            ),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (context) => LanguagePage.create(context, auth),
+            )),
             text: 'Change language',
           ),
           ProfileListItem(
