@@ -96,7 +96,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 delegate: SliverChildListDelegate([
                   SingleChildScrollView(
                     child: SizedBox(
-                      height: 2000,
+                      height: 1000,
                       child: ListView.separated(
                         itemCount: 4,
                         itemBuilder: (builder, index) => GestureDetector(

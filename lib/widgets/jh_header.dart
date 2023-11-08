@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:times_up_flutter/l10n/l10n.dart';
 import 'package:times_up_flutter/theme/theme.dart';
 import 'package:times_up_flutter/widgets/jh_display_text.dart';
 
@@ -18,7 +19,7 @@ class JHHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         JHDisplayText(
-          text: 'Hello 👋',
+          text: AppLocalizations.of(context).hello,
           fontSize: fontSize,
           maxFontSize: maxFontSize,
           style: TextStyle(
@@ -27,7 +28,7 @@ class JHHeader extends StatelessWidget {
           ),
         ),
         JHDisplayText(
-          text: 'Welcome',
+          text: AppLocalizations.of(context).welcome,
           fontSize: fontSize,
           maxFontSize: maxFontSize,
           style: TextStyle(

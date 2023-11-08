@@ -1,6 +1,7 @@
 {
   "@@locale": "fr",
   "welcome": "Bienvenue",
+  "hello": "Salut 👋",
   "changeTheSettingsHere": "Modifier les paramètres ici",
   "addNewChildHere": "Ajoute un enfant ici",
   "operationFailed": "Operation failed",

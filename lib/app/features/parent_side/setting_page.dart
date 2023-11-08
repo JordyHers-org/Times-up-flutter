@@ -96,9 +96,11 @@ class SettingsPage extends StatelessWidget {
           ).vTopP(12),
           ProfileListItem(
             icon: LineAwesomeIcons.language,
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(
-              builder: (context) => LanguagePage.create(context, auth),
-            )),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => LanguagePage.create(context, auth),
+              ),
+            ),
             text: 'Change language',
           ),
           ProfileListItem(

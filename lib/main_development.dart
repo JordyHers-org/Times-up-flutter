@@ -46,7 +46,7 @@ Future<void> main() async {
         ChangeNotifierProvider<ThemeNotifier>(
             create: (context) => ThemeNotifier()..initThemeMode()),
         ChangeNotifierProvider<LanguageNotifier>(
-            create: (context) => LanguageNotifier()),
+            create: (context) => LanguageNotifier()..initLocalization(),),
         ChangeNotifierProvider<AppInfoService>(
             create: (context) => AppInfoService(packageInfo)),
       ],
