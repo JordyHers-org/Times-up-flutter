@@ -1,6 +1,7 @@
 {
   "@@locale": "tr",
   "welcome": "Hoş Geldiniz",
+  "hello": "Selam 👋",
   "changeTheSettingsHere": "Buradaki ayarları değiştir",
   "addNewChildHere": "Buraya yeni bir çocuk ekleyin",
   "operationFailed": "Operation failed",

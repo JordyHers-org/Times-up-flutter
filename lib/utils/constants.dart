@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:times_up_flutter/utils/app_strings.dart';
 
 class Keys {

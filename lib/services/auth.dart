@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
+import 'package:times_up_flutter/widgets/show_logger.dart';
 
 abstract class AuthBase {
   User? get currentUser;
@@ -33,6 +33,8 @@ abstract class AuthBase {
     String name,
     String surname,
   );
+
+  Future<bool> forgotPassword(String email);
 }
 
 class Auth implements AuthBase {
@@ -185,5 +187,15 @@ class Auth implements AuthBase {
     }
     _isFirstLogin = false;
     await _firebaseAuth.signOut();
+  }
+
+  @override
+  Future<bool> forgotPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

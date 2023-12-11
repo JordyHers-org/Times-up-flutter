@@ -1,5 +1,6 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
-import 'package:times_up_flutter/common_widgets/show_logger.dart';
 
 extension ParseResult on String {
   String t() {
@@ -134,6 +135,20 @@ double calculatePercentage(Duration duration) {
   final totalMilliseconds = totalDuration.inMilliseconds;
 
   final res = (milliseconds / totalMilliseconds) * 100;
-  JHLogger.$.d(parsedDuration);
+  //JHLogger.$.d(parsedDuration);
   return res;
+}
+
+int getRandom(int maxValue) {
+  const minRange = 1;
+  final maxRange = maxValue;
+  final random = Random();
+
+  return minRange + random.nextInt(maxRange - minRange + 1);
+}
+
+String convertToFormattedString(DateTime? dateTime) {
+  final formattedDate =
+      dateTime != null ? DateFormat('MMMM d y hh:mm a').format(dateTime) : '';
+  return formattedDate;
 }

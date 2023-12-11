@@ -41,6 +41,7 @@ class AppTheme {
   );
 
   static ThemeData darkTheme = ThemeData(
+    //textTheme: GoogleFonts.interTextTheme(),
     primarySwatch: buildMaterialColor(CustomColors.indigoDark),
     primaryColor: CustomColors.indigoDark,
     scaffoldBackgroundColor: CustomColors.indigoDarker,
@@ -49,6 +50,10 @@ class AppTheme {
     cardTheme: CardTheme(color: CustomColors.indigoDarker),
     iconTheme: IconThemeData(color: CustomColors.indigoLight),
     dividerColor: CustomColors.indigoLight,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: CustomColors.greenPrimary,
+      unselectedItemColor: CustomColors.indigoLight,
+    ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: CustomColors.indigoLight,
       foregroundColor: CustomColors.indigoDark,

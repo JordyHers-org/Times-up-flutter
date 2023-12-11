@@ -17,10 +17,11 @@ import 'package:times_up_flutter/theme/theme_notifier.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  late final packageInfo;
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).whenComplete(() async {
+    packageInfo = await PackageInfo.fromPlatform();
     await _notificationServiceListener();
   });
 
@@ -42,7 +43,9 @@ Future<void> main() async {
             ..getInitialConnectionStatus(),
         ),
         ChangeNotifierProvider<ThemeNotifier>(
-            create: (context) => ThemeNotifier()..toggleTheme()),
+            create: (context) => ThemeNotifier()..initThemeMode()),
+        ChangeNotifierProvider<LanguageNotifier>(
+            create: (context) => LanguageNotifier()),
         ChangeNotifierProvider<AppInfoService>(
             create: (context) => AppInfoService(packageInfo)),
       ],

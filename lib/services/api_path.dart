@@ -4,12 +4,13 @@ class APIPath {
 
   static String children(String uid) => 'users/$uid/child/';
 
-  static String notifications(String uid, String childId) =>
-      'users/$uid/notifications/$childId';
+  static String notifications(String uid, String timestamp) =>
+      'users/$uid/notifications/$timestamp';
 
   static String notificationsStream(String uid, String childId) =>
       'users/$uid/notifications/';
 
   static String mail() => 'mail/';
+
   static String deviceToken() => 'DeviceTokens/';
 }

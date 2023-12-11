@@ -40,6 +40,7 @@ dependencies:
   # Notification Packages:
   firebase_messaging: ^14.4.0
   flutter_local_notifications: ^14.0.0-dev.2
+  flutter_background_service: ^5.0.2
 
   # Utility Packages:
   intl: any
@@ -54,6 +55,7 @@ dependencies:
   # UI Component Packages:
   line_awesome_flutter: ^2.0.0
   showcaseview: ^2.0.3
+  shimmer: ^2.0.0
 
 
   # Testing Packages:
@@ -69,7 +71,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
+  cupertino_icons: ^1.0.6
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.1
 
