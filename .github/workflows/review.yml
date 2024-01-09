@@ -30,14 +30,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Check branch naming
         run: |
           branch_name="${{ github.event.pull_request.head.ref }}"
           regex="^(feature|bugfix|hotfix|chore|merge|MERGE)\/[a-zA-Z0-9\-]+$"
           
-          if [[ ! $branch_name =~ $regex && "$branch_name" != "master" && "$branch_name" != "dev" ]]; then
+          if [[ ! $branch_name =~ $regex && "$branch_name" != "master" && "$branch_name" != "dev" && ! "$branch_name" =~ ^dependabot/ ]]; then
             echo "error: Branch name does not follow naming convention"
             echo "Please follow the correct format: <category>/<description-in-kebab-case>"
             echo "Example: feature/sc-3000-create-new-button-component or chore/my-feature"
@@ -53,7 +53,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - uses: subosito/flutter-action@v2
         with:
