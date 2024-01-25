@@ -34,7 +34,7 @@ dependencies:
   flutter_bloc: ^8.0.1
 
   # Location Packages:
-  geolocator: ^9.0.2
+  geolocator: ^10.1.0
   google_maps_flutter: ^2.1.5
 
   # Notification Packages:
