@@ -39,7 +39,7 @@ dependencies:
 
   # Notification Packages:
   firebase_messaging: ^14.4.0
-  flutter_local_notifications: ^14.0.0-dev.2
+  flutter_local_notifications: ^16.3.0
   flutter_background_service: ^5.0.2
 
   # Utility Packages:
