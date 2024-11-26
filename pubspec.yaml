@@ -30,7 +30,7 @@ dependencies:
   battery_plus: ^4.0.1
   device_info_plus: ^8.2.2
   firebase_storage: ^11.1.0
-  bloc: ^8.0.3
+  bloc: ^8.1.2
   flutter_bloc: ^8.0.1
 
   # Location Packages:
